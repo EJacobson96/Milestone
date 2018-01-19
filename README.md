@@ -9,6 +9,7 @@ Milestone is a web application that enables young adults and their service provi
 * Support request creation by participants, and responding by case managers
 
 ## Core Technologies
+* React.js via create-react-app (see Testing)
 
 ## Contributors
 
@@ -27,3 +28,11 @@ Milestone is a web application that enables young adults and their service provi
   a quick fix for it, do not fix it in your current commit. Create a new commit for fixing this bug
   instead.
 * Capitalize the first letter in your commit message.
+
+## Front-end Testing
+* Milestone’s front-end is built with react.js, specifically create-react-app.
+	* Basic commands for testing (run via terminal in /MilestoneFrontend/:
+		* npm start : Starts the development server.
+		* npm run build : Bundles the app into static files for production
+		* npm test : Starts the test runner.
+		* npm run eject : Removes this tool and copies build dependencies, configuration files and scripts into the app directory. If you do this, you can’t go back!
