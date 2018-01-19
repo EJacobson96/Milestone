@@ -1,6 +1,6 @@
 # Milestone
 
-##Overview
+## Overview
 
 Milestone is a web application that enables young adults and their service providers co-create goal plans that will lead to stability. The application contains the following features:
 * Messaging between case managers and participants (youth)
@@ -8,9 +8,9 @@ Milestone is a web application that enables young adults and their service provi
 * Appointment scheduling and tracking between case managers and participants
 * Support request creation by participants, and responding by case managers
 
-##Core Technologies
+## Core Technologies
 
-##Contributors
+## Contributors
 
 * Iean Drew
 * Eric Jacobson
