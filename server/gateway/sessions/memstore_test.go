@@ -2,26 +2,21 @@ package sessions
 
 import (
 	"encoding/json"
-	"os"
 	"reflect"
 	"testing"
 	"time"
-
-	"github.com/go-redis/redis"
 )
 
 /*
-TestRedisStore tests the RedisStore object
-Because the redis.Client is a struct and not an interface,
-this is really more of an integration than a unit test.
-It tests the basic CRUD cycle, ensuring that session state
-saved to redis can be retrieved again.
+TestMemStore tests the MemStore object
 
-By default, the test will try to use a local instance of
-redis running on its default port (6379). If you want to
-use a different address, set the REDISADDR environment variable.
+Since a Store is like a database, you can't really test methods like Get()
+or Delete() without also calling (and therefore testing) methods like Save(),
+so instead of testing individual methods in isolation, this test runs through
+a full CRUD cycle, ensuring the correct behavior occurs at each point in that
+cycle. You should use a similar approach when testing your RedisStore implementation.
 */
-func TestRedisStore(t *testing.T) {
+func TestMemStore(t *testing.T) {
 	type sessionState struct {
 		Sval string
 		Ival int
@@ -38,16 +33,7 @@ func TestRedisStore(t *testing.T) {
 		t.Fatalf("error generating new SessionID: %v", err)
 	}
 
-	redisaddr := os.Getenv("REDISADDR")
-	if len(redisaddr) == 0 {
-		redisaddr = "localhost:6379"
-	}
-
-	client := redis.NewClient(&redis.Options{
-		Addr: redisaddr,
-	})
-
-	store := NewRedisStore(client, time.Hour)
+	store := NewMemStore(time.Hour, time.Minute)
 
 	if err := store.Get(sid, stateRet); err != ErrStateNotFound {
 		t.Errorf("incorrect error when getting state that was never stored: expected %v but got %v", ErrStateNotFound, err)
@@ -55,12 +41,6 @@ func TestRedisStore(t *testing.T) {
 
 	if err := store.Save(sid, &state); err != nil {
 		t.Fatalf("error saving state: %v", err)
-	}
-
-	//verify that trying to save an unmarshalable session state
-	//generates an error (function values can't be encoded in JSON)
-	if err := store.Save(sid, func() {}); err == nil {
-		t.Error("expected erorr when attempting to save an unmarshalable session state")
 	}
 
 	if err := store.Get(sid, &stateRet); err != nil {
@@ -78,5 +58,20 @@ func TestRedisStore(t *testing.T) {
 
 	if err := store.Get(sid, &stateRet); err != ErrStateNotFound {
 		t.Fatalf("incorrect error when getting state that was deleted: expected %v but got %v", ErrStateNotFound, err)
+	}
+}
+
+func TestMemStoreSaveUnmarshalble(t *testing.T) {
+	//verify that saving an umarshalalbe session state
+	//generates an error
+	state := func() {} //function values can't be marshaled into JSON
+
+	sid, err := NewSessionID("test key")
+	if err != nil {
+		t.Fatalf("error generating new SessionID: %v", err)
+	}
+	store := NewMemStore(time.Hour, time.Minute)
+	if err := store.Save(sid, state); err == nil {
+		t.Error("expected error when attempting to save a session state with an unmarshalable field")
 	}
 }

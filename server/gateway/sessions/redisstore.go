@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
+	"github.com/patrickmn/go-cache"
 )
 
 //RedisStore represents a session.Store backed by redis.
@@ -37,11 +38,7 @@ func (rs *RedisStore) Save(sid SessionID, sessionState interface{}) error {
 	if err != nil {
 		return fmt.Errorf("could not marshal to json: %v", err)
 	}
-	err = rs.Client.Set(string(key), session, cache.DefaultExpiration)
-	if err != nil {
-		return fmt.Errorf("could not set expiration: %v", err)
-	}
-	return nil
+	return rs.Client.Set(string(key), session, cache.DefaultExpiration).Err()
 }
 
 //Get populates `sessionState` with the data previously saved
@@ -51,14 +48,13 @@ func (rs *RedisStore) Get(sid SessionID, sessionState interface{}) error {
 	sessionData := rs.Client.Get(string(key))
 	sessionDataBytes, err := sessionData.Bytes()
 	if err != nil {
-		return fmt.Errorf("could not convert to Bytes: %v", err)
+		return ErrStateNotFound
 	}
 	err = json.Unmarshal(sessionDataBytes, sessionState)
 	if err != nil {
 		return fmt.Errorf("could not unmarshal data: %v", err)
 	}
 	return rs.Client.Expire(string(key), 0).Err()
-
 	//could use the Pipeline feature of the redis
 	//package to do both the get and the reset of the expiry time
 	//in just one network round trip
