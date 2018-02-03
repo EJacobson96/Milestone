@@ -7,6 +7,7 @@ import (
 	"net/mail"
 	"strings"
 
+	"github.com/EJacobson96/Milestone/server/gateway/models/status"
 	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -17,13 +18,26 @@ var bcryptCost = 13
 
 //User represents a user account in the database
 type User struct {
-	ID        bson.ObjectId `json:"id" bson:"_id"`
-	Email     string        `json:"email"`
-	PassHash  []byte        `json:"-"` //stored, but not encoded to clients
-	UserName  string        `json:"userName"`
-	FirstName string        `json:"firstName"`
-	LastName  string        `json:"lastName"`
-	PhotoURL  string        `json:"photoURL"`
+	ID             bson.ObjectId `json:"id" bson:"_id"`
+	Email          string        `json:"email"`
+	PassHash       []byte        `json:"-"` //stored, but not encoded to clients
+	UserName       string        `json:"userName"`
+	FirstName      string        `json:"firstName"`
+	LastName       string        `json:"lastName"`
+	PhotoURL       string        `json:"photoURL"`
+	Race_Ethnicity string
+	Gender         string
+	DOB            string
+	Phone          []string
+	Facebook       string
+	Organization   string
+	Program        string
+	Availability   []*Availability
+	//AreasOfExpertise 	[]*
+	Connections []*User
+	AccountType string
+	UserStatus  *status.Status
+	Address     *Address
 }
 
 //Credentials represents user sign-in credentials
@@ -34,12 +48,25 @@ type Credentials struct {
 
 //NewUser represents a new user signing up for an account
 type NewUser struct {
-	Email        string `json:"email"`
-	Password     string `json:"password"`
-	PasswordConf string `json:"passwordConf"`
-	UserName     string `json:"userName"`
-	FirstName    string `json:"firstName"`
-	LastName     string `json:"lastName"`
+	Email          string `json:"email"`
+	Password       string `json:"password"`
+	PasswordConf   string `json:"passwordConf"`
+	UserName       string `json:"userName"`
+	FirstName      string `json:"firstName"`
+	LastName       string `json:"lastName"`
+	Race_Ethnicity string
+	Gender         string
+	DOB            string
+	Phone          []string
+	Facebook       string
+	Organization   string
+	Program        string
+	Availability   []*Availability
+	//AreasOfExpertise 	[]*
+	Connections []*User
+	AccountType string
+	UserStatus  *status.Status
+	Address     *Address
 }
 
 //Updates represents allowed updates to a user profile

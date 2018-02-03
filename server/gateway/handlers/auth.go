@@ -19,32 +19,31 @@ func (c *HandlerContext) UsersHandler(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(newUser)
 	if err != nil {
-		http.Error(w, "error decoding user", http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("error decoding user: %v", err), http.StatusInternalServerError)
 		return
 	}
-	defer r.Body.Close()
 
 	err = newUser.Validate()
 	if err != nil {
-		http.Error(w, "error validating user", http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("error validating user: %v", err), http.StatusBadRequest)
 		return
 	}
 
 	checkUser, err := c.UsersStore.GetByEmail(newUser.Email)
 	if checkUser != nil {
-		http.Error(w, "user already exists", http.StatusBadRequest)
+		http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
 		return
 	}
 
 	checkUser, err = c.UsersStore.GetByUserName(newUser.UserName)
 	if checkUser != nil {
-		http.Error(w, "user already exists", http.StatusBadRequest)
+		http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
 		return
 	}
 
 	user, err := c.UsersStore.Insert(newUser)
 	if err != nil {
-		http.Error(w, "error inserting into database", http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("error inserting into database: %v", err), http.StatusInternalServerError)
 		return
 	}
 	session := &SessionState{
@@ -53,15 +52,15 @@ func (c *HandlerContext) UsersHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	_, err = sessions.BeginSession(c.SigningKey, c.SessionsStore, session, w)
 	if err != nil {
-		http.Error(w, "error starting session", http.StatusInternalServerError)
-		return
-	}
-	err = json.NewEncoder(w).Encode(user)
-	if err != nil {
-		http.Error(w, "error encoding user", http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("error starting session: %v", err), http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
+	err = json.NewEncoder(w).Encode(user)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
+		return
+	}
 }
 
 func (c *HandlerContext) UsersMeHandler(w http.ResponseWriter, r *http.Request) {
@@ -74,13 +73,12 @@ func (c *HandlerContext) UsersMeHandler(w http.ResponseWriter, r *http.Request) 
 	if r.Method == "GET" {
 		err = c.SessionsStore.Save(sessionID, sessionState)
 		if err != nil {
-			http.Error(w, "error saving session state", http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
 			return
 		}
-
 		err = json.NewEncoder(w).Encode(sessionState.User)
 		if err != nil {
-			http.Error(w, "error encoding user", http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error encoding user: %v", err), http.StatusInternalServerError)
 			return
 		}
 	} else if r.Method == "PATCH" {
@@ -88,26 +86,23 @@ func (c *HandlerContext) UsersMeHandler(w http.ResponseWriter, r *http.Request) 
 		decoder := json.NewDecoder(r.Body)
 		err := decoder.Decode(updates)
 		if err != nil {
-			http.Error(w, "error decoding updates", http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error decoding updates: %v", err), http.StatusInternalServerError)
 			return
 		}
-		defer r.Body.Close()
-
 		err = c.UsersStore.Update(sessionState.User.ID, updates)
 		if err != nil {
-			http.Error(w, "error applying updates", http.StatusBadRequest)
+			http.Error(w, fmt.Sprintf("error applying updates: %v", err), http.StatusBadRequest)
 			return
 		}
 
 		err = sessionState.User.ApplyUpdates(updates)
 		if err != nil {
-			http.Error(w, "error applying updates to cache", http.StatusBadRequest)
+			http.Error(w, fmt.Sprintf("error applying updates to cache: %v", err), http.StatusBadRequest)
 			return
 		}
-
 		err = json.NewEncoder(w).Encode(sessionState.User)
 		if err != nil {
-			http.Error(w, "error encoding user", http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
 	} else {
@@ -125,20 +120,19 @@ func (c *HandlerContext) SessionsHandler(w http.ResponseWriter, r *http.Request)
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(credentials)
 	if err != nil {
-		http.Error(w, "error decoding credentials", http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("error decoding credentials: %v", err), http.StatusInternalServerError)
 		return
 	}
-	defer r.Body.Close()
-
 	user, err := c.UsersStore.GetByEmail(credentials.Email)
 	if user == nil {
+		user.Authenticate(credentials.Password)
 		http.Error(w, "invalid credentials", http.StatusUnauthorized)
 		return
 	}
 
 	err = user.Authenticate(credentials.Password)
 	if err != nil {
-		http.Error(w, fmt.Sprintf("invalid credentials: %v", err), http.StatusUnauthorized)
+		http.Error(w, "invalid credentials", http.StatusUnauthorized)
 		return
 	}
 
@@ -148,31 +142,25 @@ func (c *HandlerContext) SessionsHandler(w http.ResponseWriter, r *http.Request)
 	}
 	_, err = sessions.BeginSession(c.SigningKey, c.SessionsStore, session, w)
 	if err != nil {
-		http.Error(w, "error starting session", http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("error starting session: %v", err), http.StatusInternalServerError)
 		return
 	}
 	err = json.NewEncoder(w).Encode(user)
 	if err != nil {
-		http.Error(w, "error encoding user", http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 		return
 	}
 }
 
 func (c *HandlerContext) SessionsMineHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "DELETE" {
-		sessionState := &SessionState{}
-		_, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-		if err != nil {
-			http.Error(w, "error getting state", http.StatusUnauthorized)
-			return
-		}
 		_, err = sessions.EndSession(r, c.SigningKey, c.SessionsStore)
 		if err != nil {
 			http.Error(w, "error ending session", http.StatusInternalServerError)
 			return
 		}
 
-		err = json.NewEncoder(w).Encode("signed out")
+		w.Write([]byte("signed out")
 		if err != nil {
 			http.Error(w, "error signing out", http.StatusInternalServerError)
 			return

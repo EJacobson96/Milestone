@@ -3,6 +3,7 @@ package users
 import (
 	"bytes"
 	"crypto/md5"
+	"encoding/hex"
 	"testing"
 
 	"golang.org/x/crypto/bcrypt"
@@ -60,7 +61,7 @@ func TestToUser(t *testing.T) {
 	if err != nil {
 		t.Errorf("error returning user information: %v", err)
 	}
-	if nu.PhotoURL != gravatarBasePhotoURL+string(hashResult) {
+	if nu.PhotoURL != gravatarBasePhotoURL+hex.EncodeToString(hashResult) {
 		t.Errorf("error setting gravatar")
 	}
 	hash, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), 13)
