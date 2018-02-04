@@ -57,7 +57,7 @@ func (c *HandlerContext) UsersHandler(w http.ResponseWriter, r *http.Request) {
 	// }
 	// w.WriteHeader(http.StatusCreated)
 
-	if newUser.email != "helloworld@test.com" || newUser.Password != "password" {
+	if newUser.Email != "helloworld@test.com" || newUser.Password != "password" {
 		http.Error(w, fmt.Sprintf("error finding user"), http.StatusBadRequest)
 		return
 	}
@@ -160,13 +160,13 @@ func (c *HandlerContext) SessionsHandler(w http.ResponseWriter, r *http.Request)
 
 func (c *HandlerContext) SessionsMineHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "DELETE" {
-		_, err = sessions.EndSession(r, c.SigningKey, c.SessionsStore)
+		_, err := sessions.EndSession(r, c.SigningKey, c.SessionsStore)
 		if err != nil {
 			http.Error(w, "error ending session", http.StatusInternalServerError)
 			return
 		}
 
-		w.Write([]byte("signed out")
+		w.Write([]byte("signed out"))
 		if err != nil {
 			http.Error(w, "error signing out", http.StatusInternalServerError)
 			return

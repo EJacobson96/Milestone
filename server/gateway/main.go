@@ -12,7 +12,7 @@ import (
 	"github.com/EJacobson96/Milestone/server/gateway/models/users"
 
 	"github.com/EJacobson96/Milestone/server/gateway/sessions"
-	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2"
 
 	"github.com/go-redis/redis"
 )
@@ -47,6 +47,7 @@ func main() {
 	client := redis.NewClient(&redis.Options{
 		Addr:     reddisADDR,
 		Password: "",
+		DB:       0,
 	})
 
 	redisStore := sessions.NewRedisStore(client, time.Duration(30)*time.Minute)
@@ -63,10 +64,10 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/v1/users", context.UsersHandler)
-	mux.HandleFunc("/v1/users/me", context.UsersMeHandler)
-	mux.HandleFunc("/v1/sessions", context.SessionsHandler)
-	mux.HandleFunc("/v1/sessions/mine", context.SessionsMineHandler)
+	mux.HandleFunc("/users", context.UsersHandler)
+	mux.HandleFunc("/users/me", context.UsersMeHandler)
+	mux.HandleFunc("/sessions", context.SessionsHandler)
+	mux.HandleFunc("/sessions/mine", context.SessionsMineHandler)
 
 	corsMux := handlers.NewCORSHandler(mux)
 

@@ -18,7 +18,6 @@ func NewCORSHandler(handlerToWrap http.Handler) *CORSHandler {
 // ServeHTTP is a method of CORSHandler.
 // Now our CORSHandler is a http.Handler.
 func (ch *CORSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
 	w.Header().Add(headerAccessControlAllowOrigin, "*")
 	w.Header().Add(headerAccessControlAllowMethods, "GET, PUT, POST, PATCH, DELETE")
 	w.Header().Add(headerAccessControlAllowHeaders, "Content-Type, Authorization")
