@@ -9,7 +9,13 @@ Milestone is a web application that enables young adults and their service provi
 * Support request creation by participants, and responding by case managers
 
 ## Core Technologies
-* React.js via create-react-app (see Testing)
+* Front-end:
+	* React.js via create-react-app (see Testing)
+	* react-bootstrap
+* Back-end:
+	* Go
+	* MongoDB
+	* Docker
 
 ## Contributors
 
