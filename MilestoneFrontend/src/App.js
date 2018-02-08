@@ -1,39 +1,43 @@
+/// Pre-baked Components
+/////////////////////////////////////////
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import logo from './img/logo.png';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 
+/// Standard Components
+/////////////////////////////////////////
+import NavBar from './components/NavBar';
 import LoginForm from './components/LoginForm';
 
-import './App.css';
+/// Images & Styles
+/////////////////////////////////////////
+import './css/App.css';
+import logo from './img/logo.png';
+
+
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
+	render() {
+		return (
+			<div className="App">
+				<NavBar />
 
-        <Navbar>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#home"><img src= { logo } className="logo" /></a>
-            </Navbar.Brand>
-          </Navbar.Header>
-          {/* <Navbar.Collapse>
-            <Nav pullRight>
-              <NavItem eventKey={1} href="#">
-                Link Right
-              </NavItem>
-              <NavItem eventKey={2} href="#">
-                Link Right
-              </NavItem>
-            </Nav>
-          </Navbar.Collapse> */}
-        </Navbar>
+				<div className="main">
+					<LoginForm />
+				</div>
 
-        <LoginForm />
-
-      </div>
-    );
-  }
+				<DropdownButton
+				>
+					<MenuItem eventKey="1">Action</MenuItem>
+					<MenuItem eventKey="2">Another action</MenuItem>
+					<MenuItem eventKey="3" active>
+						Active Item
+					</MenuItem>
+					<MenuItem divider />
+					<MenuItem eventKey="4">Separated link</MenuItem>
+				</DropdownButton>
+			</div>
+		);
+	}
 }
 
 export default App;
