@@ -1,13 +1,11 @@
-/*  Links  */
+/*  Body (everything)  */
 
-a.navbar-brand {
-    padding: 5px 15px;
+body {
+    background-color: #EBECED;
 }
 
-a > img.logo {
-    height: 40px;    
-}
+/*  Main (content under the navbar)  */
 
 .main {
-    margin-top: 30px; /* Add a top margin to avoid content overlay */
+    margin-top: 50px; /* Add a top margin to avoid content overlay */
 }

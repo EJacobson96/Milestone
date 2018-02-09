@@ -1,0 +1,10 @@
+.page-mask {
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	position: absolute;
+	background-color: black;
+	opacity: 0.433;
+	
+}

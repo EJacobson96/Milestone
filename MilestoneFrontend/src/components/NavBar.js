@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { Glyphicon } from 'react-bootstrap';
+
 
 import '../css/NavBar.css';
 
@@ -7,20 +8,29 @@ class NavBar extends React.Component {
     constructor(props) {
         super(props);
     
-        // this.handleChange = this.handleChange.bind(this);
+        this.openSideBar = this.openSideBar.bind(this);
     
         this.state = {
             value: ''
         };
     }
 
+    openSideBar(e) {
+        e.preventDefault();
+        
+        this.props.openSideBar();
+    }
+
     render() {
         return (
-            <div class="ms-navbar">
-
-                <a href="#home">Home</a>
-                <a href="#news">News</a>
-                <a href="#contact">Contact</a>
+            <div className="ms-navbar">
+                <a className="" onClick={(e) => this.openSideBar(e)}>
+                    <Glyphicon glyph="menu-hamburger" />
+                </a>
+                <a href="#home">M</a>
+                <a className="user-link pull-right" href="#profile">
+                    <Glyphicon glyph="user" />                
+                </a>
             </div>
         );
     }

@@ -1,0 +1,48 @@
+.ms-login-header {
+	color: #4F66B8;
+	font-weight: 800;
+	padding-top: 20px;
+	text-align: center;
+}
+
+.ms-login-wrapper {
+	background-color: #8C96A0;
+	height: 65vh;
+	width: 75%;
+	margin-top: 10px;
+}
+
+.ms-login-title {
+	color: white;
+	padding-bottom: 30px;
+	font-size: 22pt;	
+	font-weight: 400;
+	text-align: center;
+}
+
+.ms-login-label {
+	color: white;
+	font-size: 14pt;
+	font-weight: 100;
+}
+
+.ms-login-input {
+	border-radius: 0;
+	border: none;
+}
+
+.ms-login-btn-wrapper {
+	float: right;
+}
+
+.ms-login-btn {
+	color: white;
+	background-color: transparent;
+	border: none;
+}
+
+.ms-login-btn:active {
+	color: #C1C3C8;
+	background-color: #737B88;
+	border: none;
+}
