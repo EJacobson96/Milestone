@@ -26,7 +26,6 @@ class LoginForm extends React.Component {
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.attemptLogIn = this.attemptLogIn.bind(this);
-        this.logIn = this.logIn.bind(this);
     
         this.state = {
             userEmail: '',
