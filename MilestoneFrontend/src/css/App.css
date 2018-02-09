@@ -1,0 +1,11 @@
+/*  Body (everything)  */
+
+body {
+    background-color: #EBECED;
+}
+
+/*  Main (content under the navbar)  */
+
+.main {
+    margin-top: 50px; /* Add a top margin to avoid content overlay */
+}
