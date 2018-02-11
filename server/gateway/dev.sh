@@ -24,8 +24,8 @@ export DBADDR=$localhost:27017
 export SESSIONKEY=dev
 
 # remove any existing containers
-# docker rm -f devredis
-# docker rm -f devmongo
+docker rm -f devredis
+docker rm -f devmongo
 
 docker run --name devredis -d -p 6379:6379 redis
 

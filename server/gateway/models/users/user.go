@@ -105,6 +105,8 @@ func (nu *NewUser) ToUser() (*User, error) {
 	user.FirstName = nu.FirstName
 	user.LastName = nu.LastName
 	user.UserName = nu.UserName
+	user.AccountType = nu.AccountType
+	fmt.Printf("user: %v", user.AccountType)
 	user.Email = nu.Email
 	hash := strings.TrimSpace(nu.Email)
 	hash = strings.ToLower(hash)

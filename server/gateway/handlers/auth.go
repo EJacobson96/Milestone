@@ -46,6 +46,11 @@ func (c *HandlerContext) UsersHandler(w http.ResponseWriter, r *http.Request) {
 	// 	http.Error(w, fmt.Sprintf("error inserting into database: %v", err), http.StatusInternalServerError)
 	// 	return
 	// }
+	user, err := c.UsersStore.Insert(newUser)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error inserting into database: %v", err), http.StatusInternalServerError)
+		return
+	}
 	// session := &SessionState{
 	// 	Time: time.Now(),
 	// 	User: user,
@@ -57,12 +62,12 @@ func (c *HandlerContext) UsersHandler(w http.ResponseWriter, r *http.Request) {
 	// }
 	// w.WriteHeader(http.StatusCreated)
 
-	if newUser.Email != "helloworld@test.com" || newUser.Password != "password" {
-		http.Error(w, fmt.Sprintf("error finding user"), http.StatusBadRequest)
-		return
-	}
+	// if newUser.Email != "helloworld@test.com" || newUser.Password != "password" {
+	// 	http.Error(w, fmt.Sprintf("error finding user"), http.StatusBadRequest)
+	// 	return
+	// }
 
-	err = json.NewEncoder(w).Encode(newUser)
+	err = json.NewEncoder(w).Encode(user)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 		return
