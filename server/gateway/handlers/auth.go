@@ -23,44 +23,44 @@ func (c *HandlerContext) UsersHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// err = newUser.Validate()
-	// if err != nil {
-	// 	http.Error(w, fmt.Sprintf("error validating user: %v", err), http.StatusBadRequest)
-	// 	return
-	// }
+	err = newUser.Validate()
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error validating user: %v", err), http.StatusBadRequest)
+		return
+	}
 
-	// checkUser, err := c.UsersStore.GetByEmail(newUser.Email)
-	// if checkUser != nil {
-	// 	http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
-	// 	return
-	// }
+	checkUser, err := c.UsersStore.GetByEmail(newUser.Email)
+	if checkUser != nil {
+		http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
+		return
+	}
 
-	// checkUser, err = c.UsersStore.GetByUserName(newUser.UserName)
-	// if checkUser != nil {
-	// 	http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
-	// 	return
-	// }
+	checkUser, err = c.UsersStore.GetByUserName(newUser.UserName)
+	if checkUser != nil {
+		http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
+		return
+	}
 
-	// user, err := c.UsersStore.Insert(newUser)
-	// if err != nil {
-	// 	http.Error(w, fmt.Sprintf("error inserting into database: %v", err), http.StatusInternalServerError)
-	// 	return
-	// }
 	user, err := c.UsersStore.Insert(newUser)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("error inserting into database: %v", err), http.StatusInternalServerError)
 		return
 	}
-	// session := &SessionState{
-	// 	Time: time.Now(),
-	// 	User: user,
-	// }
-	// _, err = sessions.BeginSession(c.SigningKey, c.SessionsStore, session, w)
-	// if err != nil {
-	// 	http.Error(w, fmt.Sprintf("error starting session: %v", err), http.StatusInternalServerError)
-	// 	return
-	// }
-	// w.WriteHeader(http.StatusCreated)
+	user, err = c.UsersStore.Insert(newUser)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error inserting into database: %v", err), http.StatusInternalServerError)
+		return
+	}
+	session := &SessionState{
+		Time: time.Now(),
+		User: user,
+	}
+	_, err = sessions.BeginSession(c.SigningKey, c.SessionsStore, session, w)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error starting session: %v", err), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
 
 	// if newUser.Email != "helloworld@test.com" || newUser.Password != "password" {
 	// 	http.Error(w, fmt.Sprintf("error finding user"), http.StatusBadRequest)

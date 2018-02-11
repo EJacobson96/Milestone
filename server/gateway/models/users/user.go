@@ -21,9 +21,9 @@ type User struct {
 	ID            bson.ObjectId   `json:"id" bson:"_id"`
 	Email         string          `json:"email"`
 	PassHash      []byte          `json:"-"` //stored, but not encoded to clients
-	UserName      string          `json:"userName"`
-	FirstName     string          `json:"firstName"`
-	LastName      string          `json:"lastName"`
+	UserName      string          `json:"user_name"`
+	FirstName     string          `json:"first_name"`
+	LastName      string          `json:"last_name"`
 	PhotoURL      string          `json:"photoURL"`
 	RaceEthnicity string          `json:"race_ethnicity"`
 	Gender        string          `json:"gender"`
@@ -50,10 +50,10 @@ type Credentials struct {
 type NewUser struct {
 	Email         string          `json:"email"`
 	Password      string          `json:"password"`
-	PasswordConf  string          `json:"passwordConf"`
-	UserName      string          `json:"userName"`
-	FirstName     string          `json:"firstName"`
-	LastName      string          `json:"lastName"`
+	PasswordConf  string          `json:"password_conf"`
+	UserName      string          `json:"user_name"`
+	FirstName     string          `json:"first_name"`
+	LastName      string          `json:"last_name"`
 	RaceEthnicity string          `json:"race_ethnicity"`
 	Gender        string          `json:"gender"`
 	DOB           string          `json:"dob"`
@@ -106,7 +106,17 @@ func (nu *NewUser) ToUser() (*User, error) {
 	user.LastName = nu.LastName
 	user.UserName = nu.UserName
 	user.AccountType = nu.AccountType
-	fmt.Printf("user: %v", user.AccountType)
+	user.RaceEthnicity = nu.RaceEthnicity
+	user.Gender = nu.Gender
+	user.DOB = nu.DOB
+	user.Phone = nu.Phone
+	user.Facebook = nu.Facebook
+	user.Organization = nu.Organization
+	user.Program = nu.Program
+	user.Availability = nu.Availability
+	user.Connections = nu.Connections
+	user.UserStatus = nu.UserStatus
+	user.Address = nu.Address
 	user.Email = nu.Email
 	hash := strings.TrimSpace(nu.Email)
 	hash = strings.ToLower(hash)
