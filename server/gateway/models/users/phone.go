@@ -1,6 +1,6 @@
 package users
 
 type Phone struct {
-	MobileNumber string `json:"mobile_number"`
-	WorkNumber   string `json:"work_number"`
+	MobileNumber string `json:"mobileNumber"`
+	WorkNumber   string `json:"workNumber"`
 }

@@ -22,10 +22,10 @@ type User struct {
 	Email         string          `json:"email"`
 	PassHash      []byte          `json:"-"` //stored, but not encoded to clients
 	UserName      string          `json:"user_name"`
-	FirstName     string          `json:"first_name"`
-	LastName      string          `json:"last_name"`
+	FirstName     string          `json:"firstName"`
+	LastName      string          `json:"lastName"`
 	PhotoURL      string          `json:"photoURL"`
-	RaceEthnicity string          `json:"race_ethnicity"`
+	RaceEthnicity string          `json:"raceEthnicity"`
 	Gender        string          `json:"gender"`
 	DOB           string          `json:"dob"`
 	Phone         []string        `json:"phone"`
@@ -35,8 +35,8 @@ type User struct {
 	Availability  []*Availability `json:"availability"`
 	//AreasOfExpertise 	[]*
 	Connections []*User        `json:"connections"`
-	AccountType string         `json:"account_type"`
-	UserStatus  *status.Status `json:"user_status"`
+	AccountType string         `json:"accountType"`
+	UserStatus  *status.Status `json:"userStatus"`
 	Address     *Address       `json:"address"`
 }
 
@@ -50,11 +50,11 @@ type Credentials struct {
 type NewUser struct {
 	Email         string          `json:"email"`
 	Password      string          `json:"password"`
-	PasswordConf  string          `json:"password_conf"`
-	UserName      string          `json:"user_name"`
-	FirstName     string          `json:"first_name"`
-	LastName      string          `json:"last_name"`
-	RaceEthnicity string          `json:"race_ethnicity"`
+	PasswordConf  string          `json:"passwordConf"`
+	UserName      string          `json:"userName"`
+	FirstName     string          `json:"firstName"`
+	LastName      string          `json:"lastName"`
+	RaceEthnicity string          `json:"raceEthnicity"`
 	Gender        string          `json:"gender"`
 	DOB           string          `json:"dob"`
 	Phone         []string        `json:"phone"`
@@ -64,8 +64,8 @@ type NewUser struct {
 	Availability  []*Availability `json:"availability"`
 	//AreasOfExpertise 	[]*
 	Connections []*User        `json:"connections"`
-	AccountType string         `json:"account_type"`
-	UserStatus  *status.Status `json:"user_status"`
+	AccountType string         `json:"accountType"`
+	UserStatus  *status.Status `json:"userStatus"`
 	Address     *Address       `json:"address"`
 }
 

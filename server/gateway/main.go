@@ -71,6 +71,7 @@ func main() {
 	mux.HandleFunc("/participants", context.ParticipantHandler)
 	mux.HandleFunc("/serviceproviders", context.ServiceProviderHandler)
 	mux.HandleFunc("/connections", context.UserConnectionsHandler)
+	mux.HandleFunc("/connect", context.AddConnectionHandler)
 
 	corsMux := handlers.NewCORSHandler(mux)
 

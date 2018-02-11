@@ -79,3 +79,46 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 		return
 	}
 }
+
+func (c *HandlerContext) AddConnectionHandler(w http.ResponseWriter, r *http.Request) {
+	sessionState := &SessionState{}
+	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+		return
+	}
+	if r.Method == "POST" {
+		err = c.SessionsStore.Save(sessionID, sessionState)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
+			return
+		}
+		user := &users.User{}
+		email := ""
+		checkUser, err := c.UsersStore.GetByEmail(user.Email)
+		if checkUser != nil {
+			http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
+			return
+		}
+		decoder := json.NewDecoder(r.Body)
+		err = decoder.Decode(email)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding user: %v", err), http.StatusInternalServerError)
+			return
+		}
+		user, err = c.UsersStore.GetByEmail(user.Email)
+		if user != nil {
+			http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
+			return
+		}
+		sessionState.User.Connections = append(sessionState.User.Connections, user)
+		err = json.NewEncoder(w).Encode(sessionState.User.Connections)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+	} else {
+		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+		return
+	}
+}
