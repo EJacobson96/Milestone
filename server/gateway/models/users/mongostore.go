@@ -26,6 +26,18 @@ func NewMongoStore(sess *mgo.Session, dbName string, collectionName string) *Mon
 	}
 }
 
+//Get every single user
+func (s *MongoStore) GetAllUsers() ([]*User, error) {
+	users := []*User{}
+	user := &User{}
+	col := s.session.DB(s.dbname).C(s.colname)
+	iter := col.Find(nil).Iter()
+	for iter.Next(user) {
+		users = append(users, user)
+	}
+	return users, nil
+}
+
 //GetByID returns the User with the given ID
 func (s *MongoStore) GetByID(id bson.ObjectId) (*User, error) {
 	user := &User{}

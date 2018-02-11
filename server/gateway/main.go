@@ -68,6 +68,10 @@ func main() {
 	mux.HandleFunc("/users/me", context.UsersMeHandler)
 	mux.HandleFunc("/sessions", context.SessionsHandler)
 	mux.HandleFunc("/sessions/mine", context.SessionsMineHandler)
+	mux.HandleFunc("/participants", context.ParticipantHandler)
+	mux.HandleFunc("/serviceproviders", context.ServiceProviderHandler)
+	mux.HandleFunc("/connections", context.UserConnectionsHandler)
+	mux.HandleFunc("/connect", context.AddConnectionHandler)
 
 	corsMux := handlers.NewCORSHandler(mux)
 

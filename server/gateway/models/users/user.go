@@ -18,26 +18,26 @@ var bcryptCost = 13
 
 //User represents a user account in the database
 type User struct {
-	ID             bson.ObjectId `json:"id" bson:"_id"`
-	Email          string        `json:"email"`
-	PassHash       []byte        `json:"-"` //stored, but not encoded to clients
-	UserName       string        `json:"userName"`
-	FirstName      string        `json:"firstName"`
-	LastName       string        `json:"lastName"`
-	PhotoURL       string        `json:"photoURL"`
-	Race_Ethnicity string
-	Gender         string
-	DOB            string
-	Phone          []string
-	Facebook       string
-	Organization   string
-	Program        string
-	Availability   []*Availability
+	ID            bson.ObjectId   `json:"id" bson:"_id"`
+	Email         string          `json:"email"`
+	PassHash      []byte          `json:"-"` //stored, but not encoded to clients
+	UserName      string          `json:"user_name"`
+	FirstName     string          `json:"firstName"`
+	LastName      string          `json:"lastName"`
+	PhotoURL      string          `json:"photoURL"`
+	RaceEthnicity string          `json:"raceEthnicity"`
+	Gender        string          `json:"gender"`
+	DOB           string          `json:"dob"`
+	Phone         []string        `json:"phone"`
+	Facebook      string          `json:"facebook"`
+	Organization  string          `json:"organization"`
+	Program       string          `json:"program"`
+	Availability  []*Availability `json:"availability"`
 	//AreasOfExpertise 	[]*
-	Connections []*User
-	AccountType string
-	UserStatus  *status.Status
-	Address     *Address
+	Connections []*User        `json:"connections"`
+	AccountType string         `json:"accountType"`
+	UserStatus  *status.Status `json:"userStatus"`
+	Address     *Address       `json:"address"`
 }
 
 //Credentials represents user sign-in credentials
@@ -48,25 +48,25 @@ type Credentials struct {
 
 //NewUser represents a new user signing up for an account
 type NewUser struct {
-	Email          string `json:"email"`
-	Password       string `json:"password"`
-	PasswordConf   string `json:"passwordConf"`
-	UserName       string `json:"userName"`
-	FirstName      string `json:"firstName"`
-	LastName       string `json:"lastName"`
-	Race_Ethnicity string
-	Gender         string
-	DOB            string
-	Phone          []string
-	Facebook       string
-	Organization   string
-	Program        string
-	Availability   []*Availability
+	Email         string          `json:"email"`
+	Password      string          `json:"password"`
+	PasswordConf  string          `json:"passwordConf"`
+	UserName      string          `json:"userName"`
+	FirstName     string          `json:"firstName"`
+	LastName      string          `json:"lastName"`
+	RaceEthnicity string          `json:"raceEthnicity"`
+	Gender        string          `json:"gender"`
+	DOB           string          `json:"dob"`
+	Phone         []string        `json:"phone"`
+	Facebook      string          `json:"facebook"`
+	Organization  string          `json:"organization"`
+	Program       string          `json:"program"`
+	Availability  []*Availability `json:"availability"`
 	//AreasOfExpertise 	[]*
-	Connections []*User
-	AccountType string
-	UserStatus  *status.Status
-	Address     *Address
+	Connections []*User        `json:"connections"`
+	AccountType string         `json:"accountType"`
+	UserStatus  *status.Status `json:"userStatus"`
+	Address     *Address       `json:"address"`
 }
 
 //Updates represents allowed updates to a user profile
@@ -105,6 +105,18 @@ func (nu *NewUser) ToUser() (*User, error) {
 	user.FirstName = nu.FirstName
 	user.LastName = nu.LastName
 	user.UserName = nu.UserName
+	user.AccountType = nu.AccountType
+	user.RaceEthnicity = nu.RaceEthnicity
+	user.Gender = nu.Gender
+	user.DOB = nu.DOB
+	user.Phone = nu.Phone
+	user.Facebook = nu.Facebook
+	user.Organization = nu.Organization
+	user.Program = nu.Program
+	user.Availability = nu.Availability
+	user.Connections = nu.Connections
+	user.UserStatus = nu.UserStatus
+	user.Address = nu.Address
 	user.Email = nu.Email
 	hash := strings.TrimSpace(nu.Email)
 	hash = strings.ToLower(hash)
