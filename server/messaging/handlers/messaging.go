@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"net/http"
 
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/EJacobson96/Milestone/server/messaging/models/messages"
 )
 
 //handles grabbing conversations for a user and creation of a new conversation
-func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r http.Request) {
+func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r *http.Request) {
 	authUser := r.Header.Get("X-User")
 	if r.Method == "GET" {
 		conversations, err := c.MessagesStore.GetConversations(authUser)
@@ -52,7 +54,7 @@ func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request)
 			http.Error(w, fmt.Sprintf("error decoding user: %v", err), http.StatusInternalServerError)
 			return
 		}
-		conversationID := r.URL.Query().Get("objectId")
+		conversationID := bson.ObjectId(r.URL.Query().Get("objectId"))
 		messages, err := c.MessagesStore.InsertMessage(conversationID, newMessage)
 		err = json.NewEncoder(w).Encode(messages)
 		if err != nil {
@@ -66,7 +68,7 @@ func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request)
 }
 
 //handles searching through conversations based on user input
-func (c *HandlerContext) SearchConversationsHandler(w http.ResponseWriter, r http.Request) {
+func (c *HandlerContext) SearchConversationsHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		authUser := r.Header.Get("X-User")
 		conversations, err := c.MessagesStore.GetConversations(authUser)
