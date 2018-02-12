@@ -80,7 +80,7 @@ func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
 	}
 	col := s.session.DB(s.dbname).C(s.colname)
 	if err := col.Insert(user); err != nil {
-		return nil, fmt.Errorf("error inserting task: %v", err)
+		return nil, fmt.Errorf("error inserting new user: %v", err)
 	}
 	return user, nil
 }
