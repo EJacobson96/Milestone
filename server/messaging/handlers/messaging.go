@@ -53,8 +53,8 @@ func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request)
 			return
 		}
 		conversationID := r.URL.Query().Get("objectId")
-		conversation, err := c.MessagesStore.InsertMessage(conversationID, newMessage)
-		err = json.NewEncoder(w).Encode(conversation)
+		messages, err := c.MessagesStore.InsertMessage(conversationID, newMessage)
+		err = json.NewEncoder(w).Encode(messages)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding conversation to JSON: %v", err), http.StatusInternalServerError)
 			return
