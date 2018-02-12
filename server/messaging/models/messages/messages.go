@@ -7,6 +7,7 @@ import (
 )
 
 type Message struct {
+	ID             bson.ObjectId
 	ConversationID bson.ObjectId
 	TextBody       string
 	Author         string

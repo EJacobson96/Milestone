@@ -10,6 +10,7 @@ import (
 	"github.com/EJacobson96/Milestone/server/gateway/sessions"
 )
 
+//handles searching for a participant
 func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		allUsers, err := c.UsersStore.GetAllUsers()
@@ -33,6 +34,7 @@ func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Reque
 	}
 }
 
+//handles finding all connectiong for a given user
 func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.Request) {
 	sessionState := &SessionState{}
 	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
@@ -57,6 +59,7 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 	}
 }
 
+//handles searching for a service provider
 func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		allUsers, err := c.UsersStore.GetAllUsers()
@@ -80,6 +83,7 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 	}
 }
 
+//handles connecting with a user
 func (c *HandlerContext) AddConnectionHandler(w http.ResponseWriter, r *http.Request) {
 	sessionState := &SessionState{}
 	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)

@@ -69,12 +69,17 @@ func (s *MongoStore) GetFilteredConversations(email string, input string) ([]*Co
 }
 
 //InsertMessage insert a new message into the database and returns it
-func (s *MongoStore) InsertMessage(newMessage *Message) (*Message, error) {
+func (s *MongoStore) InsertMessage(conversationID bson.ObjectId, newMessage *Message) (*Conversation, error) {
+	conversation := &Conversation{}
 	col := s.session.DB(s.dbname).C(s.colname)
-	if err := col.Insert(newMessage); err != nil {
+	if err := col.FindId(conversationID).One(conversation); err != nil {
+		return nil, fmt.Errorf("error finding conversation: %v", err)
+	}
+	conversation.Messages = append(conversation.Messages, newMessage)
+	if err := col.UpdateId(conversationID, conversation); err != nil {
 		return nil, fmt.Errorf("error inserting new message: %v", err)
 	}
-	return newMessage, nil
+	return conversation, nil
 }
 
 //InsertConversation inserts a new conversation into the database and returns it
