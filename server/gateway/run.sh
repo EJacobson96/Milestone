@@ -9,8 +9,8 @@ docker rm -f messagingService
 docker run --name milestone-redis -d --network milestonenetwork redis
 docker run --name milestone-mongo -d --network milestonenetwork mongo
 
-docker pull ejacobson96/messagingService
-docker run -d --name messagingService --network milestonenetwork -e DBADDR=mongodemo:27017 ejacobson96/messagingService
+docker pull ejacobson96/messaging
+docker run -d --name messagingService --network milestonenetwork -e DBADDR=milestone-mongo:27017 ejacobson96/messaging
 
 #allows access to the host's etc/letsencrypt files
 docker run -d -p 443:443 --name milestoneapi --network milestonenetwork -v /etc/letsencrypt:/etc/letsencrypt:ro \

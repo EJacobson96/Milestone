@@ -12,7 +12,8 @@ import (
 
 //handles searching for a participant
 func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
+	switch r.Method {
+	case "GET":
 		allUsers, err := c.UsersStore.GetAllUsers()
 		participants := []*users.User{}
 		if err != nil {
@@ -28,7 +29,7 @@ func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Reque
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
 		}
-	} else {
+	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
 		return
 	}
@@ -42,7 +43,8 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
 		return
 	}
-	if r.Method == "GET" {
+	switch r.Method {
+	case "GET":
 		err = c.SessionsStore.Save(sessionID, sessionState)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
@@ -53,7 +55,7 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
 		}
-	} else {
+	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
 		return
 	}
@@ -61,7 +63,8 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 
 //handles searching for a service provider
 func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
+	switch r.Method {
+	case "GET":
 		allUsers, err := c.UsersStore.GetAllUsers()
 		serviceProviders := []*users.User{}
 		if err != nil {
@@ -77,7 +80,7 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
 		}
-	} else {
+	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
 		return
 	}
@@ -91,7 +94,8 @@ func (c *HandlerContext) AddConnectionHandler(w http.ResponseWriter, r *http.Req
 		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
 		return
 	}
-	if r.Method == "POST" {
+	switch r.Method {
+	case "POST":
 		err = c.SessionsStore.Save(sessionID, sessionState)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
@@ -121,7 +125,7 @@ func (c *HandlerContext) AddConnectionHandler(w http.ResponseWriter, r *http.Req
 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
-	} else {
+	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
 		return
 	}

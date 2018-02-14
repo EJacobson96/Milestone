@@ -1,6 +1,7 @@
 package messages
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -69,26 +70,55 @@ func (s *MongoStore) GetFilteredConversations(email string, input string) ([]*Co
 }
 
 //InsertMessage insert a new message into the database and returns it
-func (s *MongoStore) InsertMessage(conversationID bson.ObjectId, newMessage *Message) ([]*Message, error) {
+func (s *MongoStore) InsertMessage(newMessage *NewMessage, userEmail string) ([]*Message, error) {
 	conversation := &Conversation{}
+	message, err := newMessage.ToMessage(userEmail)
+	if err != nil {
+		return nil, fmt.Errorf("error converting new message: %v", err)
+	}
 	col := s.session.DB(s.dbname).C(s.colname)
-	if err := col.FindId(conversationID).One(conversation); err != nil {
+	if err := col.FindId(message.ConversationID).One(conversation); err != nil {
 		return nil, fmt.Errorf("error finding conversation: %v", err)
 	}
-	conversation.Messages = append(conversation.Messages, newMessage)
-	if err := col.UpdateId(conversationID, conversation); err != nil {
+	checkMember := false
+	for _, member := range conversation.Members {
+		if member == userEmail {
+			checkMember = true
+		}
+	}
+	if !checkMember {
+		return nil, errors.New("unauthorized to create message")
+	}
+	message.ID = bson.NewObjectId()
+	conversation.Messages = append(conversation.Messages, message)
+	if err := col.UpdateId(conversation.ID, conversation); err != nil {
 		return nil, fmt.Errorf("error inserting new message: %v", err)
 	}
 	return conversation.Messages, nil
 }
 
 //InsertConversation inserts a new conversation into the database and returns it
-func (s *MongoStore) InsertConversation(newConversation *Conversation) (*Conversation, error) {
-	col := s.session.DB(s.dbname).C(s.colname)
-	if err := col.Insert(newConversation); err != nil {
-		return nil, fmt.Errorf("error inserting new conversation : %v", err)
+func (s *MongoStore) InsertConversation(newConversation *NewConversation, userEmail string) (*Conversation, error) {
+	err := newConversation.Validate()
+	if err != nil {
+		return nil, fmt.Errorf("error validating messaging: %v", err)
 	}
-	return newConversation, nil
+	message, err := newConversation.Message.ToMessage(userEmail)
+	if err != nil {
+		return nil, fmt.Errorf("error converting message: %v", err)
+	}
+	conversation, err := newConversation.ToConversation(userEmail)
+	if err != nil {
+		return nil, fmt.Errorf("error converting new conversation: %v", err)
+	}
+	message.ID = bson.NewObjectId()
+	conversation.ID = bson.NewObjectId()
+	conversation.Messages = append(conversation.Messages, message)
+	col := s.session.DB(s.dbname).C(s.colname)
+	if err := col.Insert(conversation); err != nil {
+		return nil, fmt.Errorf("error inserting conversation : %v", err)
+	}
+	return conversation, nil
 }
 
 //Delete deletes message from database
