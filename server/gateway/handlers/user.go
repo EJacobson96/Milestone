@@ -14,7 +14,14 @@ import (
 func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		allUsers, err := c.UsersStore.GetAllUsers()
+		var input string
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(input)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding user input: %v", err), http.StatusInternalServerError)
+			return
+		}
+		allUsers, err := c.UsersStore.GetAllUsers(input)
 		participants := []*users.User{}
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error grabbing users from database: %v", err), http.StatusInternalServerError)
@@ -35,7 +42,7 @@ func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-//handles finding all connectiong for a given user
+//handles finding all connections for a given user
 func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.Request) {
 	sessionState := &SessionState{}
 	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
@@ -50,8 +57,15 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
 			return
 		}
-		userConnections := sessionState.User.Connections
-		err = json.NewEncoder(w).Encode(userConnections)
+		connection := &users.User{}
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(connection)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding connection: %v", err), http.StatusInternalServerError)
+			return
+		}
+		connections, err := c.UsersStore.AddConnection(sessionState.User.ID, connection)
+		err = json.NewEncoder(w).Encode(connections)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
 		}
@@ -65,7 +79,14 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		allUsers, err := c.UsersStore.GetAllUsers()
+		var input string
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(input)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding user input: %v", err), http.StatusInternalServerError)
+			return
+		}
+		allUsers, err := c.UsersStore.GetAllUsers(input)
 		serviceProviders := []*users.User{}
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error grabbing users from database: %v", err), http.StatusInternalServerError)
@@ -102,7 +123,7 @@ func (c *HandlerContext) AddConnectionHandler(w http.ResponseWriter, r *http.Req
 			return
 		}
 		user := &users.User{}
-		email := ""
+		var email string
 		checkUser, err := c.UsersStore.GetByEmail(user.Email)
 		if checkUser != nil {
 			http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)

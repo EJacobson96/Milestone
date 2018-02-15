@@ -2,6 +2,7 @@ package users
 
 import (
 	"fmt"
+	"strings"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -27,13 +28,15 @@ func NewMongoStore(sess *mgo.Session, dbName string, collectionName string) *Mon
 }
 
 //Get every single user
-func (s *MongoStore) GetAllUsers() ([]*User, error) {
+func (s *MongoStore) GetAllUsers(input string) ([]*User, error) {
 	users := []*User{}
 	user := &User{}
 	col := s.session.DB(s.dbname).C(s.colname)
 	iter := col.Find(nil).Iter()
 	for iter.Next(user) {
-		users = append(users, user)
+		if strings.HasPrefix(user.FullName(), input) {
+			users = append(users, user)
+		}
 	}
 	return users, nil
 }
@@ -69,6 +72,20 @@ func (s *MongoStore) GetByUserName(username string) (*User, error) {
 		return nil, fmt.Errorf("error finding user: %v", err)
 	}
 	return user, nil
+}
+
+func (s *MongoStore) AddConnection(userID bson.ObjectId, connection *User) ([]*User, error) {
+	user := &User{}
+	col := s.session.DB(s.dbname).C(s.colname)
+	err := col.FindId(userID).One(user)
+	if err != nil {
+		return nil, fmt.Errorf("error finding user: %v", err)
+	}
+	user.Connections = append(user.Connections, connection)
+	if err := col.UpdateId(userID, user); err != nil {
+		return nil, fmt.Errorf("error inserting new message: %v", err)
+	}
+	return user.Connections, nil
 }
 
 //Insert converts the NewUser to a User, inserts
