@@ -1,8 +1,18 @@
-import React, { Component } from 'react';
-import {Glyphicon} from 'react-bootstrap';
+/////////////////////////////////////////
+/// Pre-baked Components
+import React from 'react';
+import { Glyphicon } from 'react-bootstrap';
+
+/////////////////////////////////////////
+/// Standard Components
 import PageMask from '../components/PageMask';
 
+/////////////////////////////////////////
+/// Images & Styles
 import '../css/SideBar.css';
+
+/////////////////////////////////////////
+/// Code
 
 class SideBar extends React.Component {
     constructor(props) {

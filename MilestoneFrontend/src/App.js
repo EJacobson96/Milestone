@@ -1,20 +1,38 @@
+/////////////////////////////////////////
 /// Pre-baked Components & Packages
-/////////////////////////////////////////
 import React, { Component } from 'react';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { Route, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
+/////////////////////////////////////////
 /// Standard Components
-/////////////////////////////////////////
 import NavBar from './components/NavBar';
-import LoginForm from './components/LoginForm';
 import SideBar from './components/SideBar';
-import PageMask from './components/PageMask';
+import LoginForm from './components/LoginForm';
+import Main from './components/Main';
 
-/// Images & Styles
 /////////////////////////////////////////
+/// Images & Styles
 import './css/App.css';
-import logo from './img/logo.png';
 
+/////////////////////////////////////////
+/// Code
+
+// const PrivateRoute = ({ component: Component, isAuthenticated, ...rest}) => (
+// 	<Route
+// 		{...rest}
+// 		render={props => (
+// 			isAuthenticated
+// 			? (
+// 				<Component {...props} />
+// 			)
+// 			: (
+// 				<Redirect to={{ pathname: '/login'}} />
+// 			)
+// 		)}
+// 	/>
+// );
 
 class App extends Component {
 	constructor(props) {
@@ -42,14 +60,26 @@ class App extends Component {
 		}
 	}
 	
+	toggleSideBar(e) {
+		let toggle = !this.state.menuOpen;
+		this.setState({
+			menuOpen: toggle
+		})
+		console.log(this.state);
+	}
+	
+	componentDidMount() {
+		console.log(this.state);
+	}
+	
 	render() {
 		const displaySideBar = this.state.menuOpen;
-		const displayNavBar = this.state.userLoggedIn;
+		const isLoggedIn = this.state.userLoggedIn;
 
 		return (
 			<div className="App">
 
-				{displayNavBar &&
+				{isLoggedIn &&
 					<NavBar 
 						openSideBar={(e) => this.toggleSideBar(e)}
 					/>
@@ -62,27 +92,22 @@ class App extends Component {
 				}
 
 				<div className="main">
-				{
-					this.state.userLoggedIn ? (
-						<h1>Under Construction!</h1>
-					) : (
-						<LoginForm
-							logIn={(e) => this.logIn(e)}
-						/>
-					)
-				}
+					<Switch>
+						<Route path ='/login' render={() => (
+							<LoginForm
+								logIn={(e) => this.logIn(e)}
+								userLoggedIn = { this.state.userLoggedIn }
+							/>
+						)} />
+						<Route path ='/' render={(props) => (
+							<Main 
+								userLoggedIn = { this.state.userLoggedIn }
+							/>
+						)} />
+					</Switch>
 				</div>
-
 			</div>
 		);
-	}
-
-	toggleSideBar(e) {
-		let toggle = !this.state.menuOpen;
-		this.setState({
-			menuOpen: toggle
-		})
-		console.log(this.state);
 	}
 }
 

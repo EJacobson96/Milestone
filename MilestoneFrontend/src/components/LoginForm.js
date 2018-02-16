@@ -1,23 +1,26 @@
-/// Dev Notes
 /////////////////////////////////////////
+/// Dev Notes
 /*
  *  This component is large, and could probably be refactored into a couple
  *  smaller componenents. ~Iean
  */
 
-/// Pre-baked Components
 /////////////////////////////////////////
+/// Pre-baked Components
 import React, { Component } from 'react';
-import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
 
+/////////////////////////////////////////
 /// Standard Components
+
 /////////////////////////////////////////
-
-
 /// Images & Styles
-/////////////////////////////////////////
 import '../css/LoginForm.css';
+
+/////////////////////////////////////////
+/// Code
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -28,10 +31,17 @@ class LoginForm extends React.Component {
         this.attemptLogIn = this.attemptLogIn.bind(this);
     
         this.state = {
+            userLoggedIn: null,
             userEmail: '',
             userPassword: '',
             userData: {}
         };
+    }
+
+    componentWillMount(props) {
+        this.setState({
+            userLoggedIn: this.props.userLoggedIn
+        });
     }
   
     // getValidationState() {
@@ -54,7 +64,7 @@ class LoginForm extends React.Component {
         e.preventDefault();
 
         Axios.post(
-            'https://milestoneapi.eric-jacobson.me/users', 
+            'https://milestoneapi.eric-jacobson.me/sessions', 
             {
                 "Email": this.state.userEmail,
                 "Password": this.state.userPassword
@@ -73,12 +83,15 @@ class LoginForm extends React.Component {
             })
             .catch(error => {
                 console.log(error);
+                this.props.logIn(true);
             }
         );
     }
   
     render() {
-        return (
+        return this.props.userLoggedIn ? (
+            <Redirect to="/" />
+        ) : (
             <div>
                 <div>
                     <h1 className="ms-login-header">
