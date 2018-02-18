@@ -16,7 +16,7 @@ type Store interface {
 	AddConnection(userID bson.ObjectId, connection *User) ([]*User, error)
 
 	//GetAllUsers returns every single user
-	GetAllUsers(input string) ([]*User, error)
+	GetAllUsers() ([]*User, error)
 
 	//GetByID returns the User with the given ID
 	GetByID(id bson.ObjectId) (*User, error)

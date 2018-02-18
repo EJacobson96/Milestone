@@ -8,15 +8,21 @@ import (
 )
 
 type Conversation struct {
-	ID        bson.ObjectId
-	Messages  []*Message
-	Members   []string
-	CreatedAt time.Time
+	ID          bson.ObjectId `json:"id" bson:"_id"`
+	Messages    []*Message    `json:"messages"`
+	Members     []*Member
+	CreatedAt   time.Time `json:"createdAt"`
+	LastMessage time.Time `json:"lastMessage"`
 }
 
 type NewConversation struct {
-	Message *NewMessage
-	Members []string
+	Message *NewMessage `json:"message"`
+	Members []*Member   `json:"members"`
+}
+
+type Member struct {
+	ID       bson.ObjectId `json:"id" bson:"_id"`
+	FullName string        `json:"fullName"`
 }
 
 //validates a new conversation
@@ -30,10 +36,11 @@ func (nc *NewConversation) Validate() error {
 	return nil
 }
 
-func (nc *NewConversation) ToConversation(email string) (*Conversation, error) {
+func (nc *NewConversation) ToConversation() (*Conversation, error) {
 	conversation := &Conversation{
-		Members:   nc.Members,
-		CreatedAt: time.Now(),
+		Members:     nc.Members,
+		CreatedAt:   time.Now(),
+		LastMessage: time.Now(),
 	}
 	return conversation, nil
 }

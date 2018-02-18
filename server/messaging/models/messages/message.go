@@ -8,16 +8,16 @@ import (
 )
 
 type Message struct {
-	ID             bson.ObjectId
-	ConversationID bson.ObjectId
-	Creator        string
-	TextBody       string
-	CreatedAt      time.Time
+	ID             bson.ObjectId `json:"id" bson:"_id"`
+	ConversationID bson.ObjectId `json:"conversationID"`
+	Creator        bson.ObjectId `json:"creator"`
+	TextBody       string        `json:"textBody"`
+	CreatedAt      time.Time     `json:"createdAt"`
 }
 
 type NewMessage struct {
-	ConversationID bson.ObjectId
-	TextBody       string
+	ConversationID bson.ObjectId `json:"id" bson:"_id"`
+	TextBody       string        `json:"textBody"`
 }
 
 func (nm *NewMessage) Validate() error {
@@ -30,10 +30,10 @@ func (nm *NewMessage) Validate() error {
 	return nil
 }
 
-func (nm *NewMessage) ToMessage(userEmail string) (*Message, error) {
+func (nm *NewMessage) ToMessage(userID bson.ObjectId) (*Message, error) {
 	return &Message{
 		ConversationID: nm.ConversationID,
-		Creator:        userEmail,
+		Creator:        userID,
 		TextBody:       nm.TextBody,
 		CreatedAt:      time.Now(),
 	}, nil

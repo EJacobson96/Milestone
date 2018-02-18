@@ -4,20 +4,24 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
+
+	"gopkg.in/mgo.v2/bson"
 
 	"github.com/EJacobson96/Milestone/server/messaging/models/messages"
 )
 
 //handles grabbing conversations for a user and creation of a new conversation
 func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r *http.Request) {
-	authUser := r.Header.Get("X-User")
+	// authUser := r.Header.Get("X-User")
 	// if len(authUser) == 0 {
 	// 	http.Error(w, errors.New("unauthorized").Error(), http.StatusUnauthorized)
 	// 	return
 	// }
 	switch r.Method {
 	case "GET":
-		conversations, err := c.MessagesStore.GetConversations(authUser)
+		userID := r.URL.Query().Get("id")
+		conversations, err := c.MessagesStore.GetConversations(bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting conversations from database: %v", err), http.StatusBadRequest)
 			return
@@ -29,18 +33,14 @@ func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r *http.Requ
 		}
 	case "POST":
 		newConversation := &messages.NewConversation{}
+		userID := r.URL.Query().Get("id")
 		decoder := json.NewDecoder(r.Body)
 		err := decoder.Decode(newConversation)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error decoding user: %v", err), http.StatusInternalServerError)
 			return
 		}
-		err = newConversation.Validate()
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error validating conversation: %v", err), http.StatusBadRequest)
-			return
-		}
-		conversation, err := c.MessagesStore.InsertConversation(newConversation, authUser)
+		conversation, err := c.MessagesStore.InsertConversation(newConversation, bson.ObjectIdHex(userID))
 		err = json.NewEncoder(w).Encode(conversation)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding conversation to JSON: %v", err), http.StatusInternalServerError)
@@ -54,13 +54,14 @@ func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r *http.Requ
 
 //handles posting a new message to a conversation
 func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request) {
-	authUser := r.Header.Get("X-User")
+	// authUser := r.Header.Get("X-User")
 	// if len(authUser) == 0 {
 	// 	http.Error(w, errors.New("unauthorized").Error(), http.StatusUnauthorized)
 	// 	return
 	// }
 	switch r.Method {
 	case "POST":
+		userID := r.URL.Query().Get("id")
 		newMessage := &messages.NewMessage{}
 		decoder := json.NewDecoder(r.Body)
 		err := decoder.Decode(newMessage)
@@ -68,12 +69,7 @@ func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request)
 			http.Error(w, fmt.Sprintf("error decoding user: %v", err), http.StatusInternalServerError)
 			return
 		}
-		err = newMessage.Validate()
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error validating new message: %v", err), http.StatusBadRequest)
-			return
-		}
-		messages, err := c.MessagesStore.InsertMessage(newMessage, authUser)
+		messages, err := c.MessagesStore.InsertMessage(newMessage, bson.ObjectIdHex(userID))
 		err = json.NewEncoder(w).Encode(messages)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding conversation to JSON: %v", err), http.StatusInternalServerError)
@@ -87,19 +83,75 @@ func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request)
 
 //handles searching through conversations based on user input
 func (c *HandlerContext) SearchConversationsHandler(w http.ResponseWriter, r *http.Request) {
-	authUser := r.Header.Get("X-User")
+	// authUser := r.Header.Get("X-User")
 	// if len(authUser) == 0 {
 	// 	http.Error(w, errors.New("unauthorized").Error(), http.StatusUnauthorized)
 	// 	return
 	// }
 	switch r.Method {
 	case "GET":
-		conversations, err := c.MessagesStore.GetConversations(authUser)
+		query := r.URL.Query().Get("q")
+		userID := r.URL.Query().Get("id")
+		filteredConversations := []*messages.Conversation{}
+		conversations, err := c.MessagesStore.GetConversations(bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting conversations from database: %v", err), http.StatusBadRequest)
 			return
 		}
+		//check if user's full name contains query
+		for _, conversation := range conversations {
+			found := false
+			for i := 0; i < len(conversation.Messages); i++ {
+				message := conversation.Messages[i]
+				if strings.Contains(message.TextBody, query) {
+					found = true
+					i++
+				}
+			}
+			if !found {
+				for i := 0; i < len(conversation.Members); i++ {
+					if strings.Contains(conversation.Members[i].FullName, query) {
+						found = true
+						i++
+					}
+				}
+			} else {
+				filteredConversations = append(filteredConversations, conversation)
+			}
+		}
 		err = json.NewEncoder(w).Encode(conversations)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+	default:
+		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+		return
+	}
+}
+
+func (c *HandlerContext) MembersHandler(w http.ResponseWriter, r *http.Request) {
+	// authUser := r.Header.Get("X-User")
+	// if len(authUser) == 0 {
+	// 	http.Error(w, errors.New("unauthorized").Error(), http.StatusUnauthorized)
+	// 	return
+	// }
+	switch r.Method {
+	case "POST":
+		conversationID := r.URL.Query().Get("id")
+		newMember := &messages.Member{}
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(newMember)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding user: %v", err), http.StatusInternalServerError)
+			return
+		}
+		members, err := c.MessagesStore.InsertMemberToConversation(newMember, bson.ObjectIdHex(conversationID))
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error getting conversations from database: %v", err), http.StatusBadRequest)
+			return
+		}
+		err = json.NewEncoder(w).Encode(members)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 			return

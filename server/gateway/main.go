@@ -105,9 +105,9 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/users", context.UsersHandler)
+	mux.HandleFunc("/users", context.UsersHandler) //handles creating a new user
 	mux.HandleFunc("/users/me", context.UsersMeHandler)
-	mux.HandleFunc("/sessions", context.SessionsHandler)
+	mux.HandleFunc("/sessions", context.SessionsHandler) //handles authenticating a new user logging in
 	mux.HandleFunc("/sessions/mine", context.SessionsMineHandler)
 	mux.HandleFunc("/participants", context.ParticipantHandler)                          //handles searching for a participant
 	mux.HandleFunc("/serviceproviders", context.ServiceProviderHandler)                  //handles searching for a service provider
@@ -116,6 +116,7 @@ func main() {
 	mux.Handle("/conversations", NewServiceProxy(splitMessagesSvcAddrs, context))        //handles returning all conversations for a user and creating new conversation
 	mux.Handle("/conversations/", NewServiceProxy(splitMessagesSvcAddrs, context))       //handles inserting new message into a conversation
 	mux.Handle("/search/conversations", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles searching through conversations
+	mux.Handle("/member", NewServiceProxy(splitMessagesSvcAddrs, context))
 
 	corsMux := handlers.NewCORSHandler(mux)
 

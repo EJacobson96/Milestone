@@ -33,22 +33,12 @@ func (c *HandlerContext) UsersHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		checkUser, err = c.UsersStore.GetByUserName(newUser.UserName)
-		if checkUser != nil {
-			http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
-			return
-		}
-
 		user, err := c.UsersStore.Insert(newUser)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error inserting into database: %v", err), http.StatusInternalServerError)
 			return
 		}
-		user, err = c.UsersStore.Insert(newUser)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error inserting into database: %v", err), http.StatusInternalServerError)
-			return
-		}
+
 		session := &SessionState{
 			Time: time.Now(),
 			User: user,

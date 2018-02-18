@@ -1,20 +1,21 @@
 package messages
 
+import (
+	"gopkg.in/mgo.v2/bson"
+)
+
 //Store represents a store for messages
 type Store interface {
 
 	//GetAllUsers returns every single user
-	GetConversations(email string) ([]*Conversation, error)
+	GetConversations(userID bson.ObjectId) ([]*Conversation, error)
 
-	//GetByID returns the User with the given ID
-	GetFilteredConversations(email string, input string) ([]*Conversation, error)
+	//InsertMessage inserts new message into the database, and returns it
+	InsertMessage(newMessage *NewMessage, userID bson.ObjectId) ([]*Message, error)
 
-	//inserts new message into the database, and returns it
-	InsertMessage(newMessage *NewMessage, userEmail string) ([]*Message, error)
+	//InsertMemberToConversation inserts a new member in a conversation
+	InsertMemberToConversation(newMember *Member, coversationID bson.ObjectId) ([]*Member, error)
 
 	//Update applies UserUpdates to the given user ID
-	InsertConversation(newConversation *NewConversation, userEmail string) (*Conversation, error)
-
-	//Delete deletes the user with the given ID
-	// Delete(userID bson.ObjectId) error
+	InsertConversation(newConversation *NewConversation, userID bson.ObjectId) (*Conversation, error)
 }

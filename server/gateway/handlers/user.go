@@ -4,31 +4,26 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sort"
 	"strings"
 
 	"github.com/EJacobson96/Milestone/server/gateway/models/users"
 	"github.com/EJacobson96/Milestone/server/gateway/sessions"
 )
 
-//handles searching for a participant
+//handles searching for a participant based on user input
 func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		var input string
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(input)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error decoding user input: %v", err), http.StatusInternalServerError)
-			return
-		}
-		allUsers, err := c.UsersStore.GetAllUsers(input)
 		participants := []*users.User{}
+		query := r.URL.Query().Get("q")
+		allUsers, err := c.UsersStore.GetAllUsers()
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error grabbing users from database: %v", err), http.StatusInternalServerError)
 			return
 		}
 		for _, user := range allUsers {
-			if strings.ToLower(user.AccountType) == "participant" {
+			if strings.ToLower(user.AccountType) == "participant" && strings.HasPrefix(user.GetFullName(), query) {
 				participants = append(participants, user)
 			}
 		}
@@ -42,7 +37,7 @@ func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-//handles finding all connections for a given user
+//handles finding all connections for a given user and sorts them alphebetically based on fullname
 func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.Request) {
 	sessionState := &SessionState{}
 	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
@@ -57,14 +52,23 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
 			return
 		}
-		connection := &users.User{}
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(connection)
+		connections := []*users.User{}
+		query := r.URL.Query().Get("q")
+		user, err := c.UsersStore.GetByID(sessionState.User.ID)
 		if err != nil {
-			http.Error(w, fmt.Sprintf("error decoding connection: %v", err), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
 			return
 		}
-		connections, err := c.UsersStore.AddConnection(sessionState.User.ID, connection)
+		//filters out users based on user input
+		for _, user := range user.Connections {
+			if strings.HasPrefix(user.GetFullName(), query) {
+				connections = append(connections, user)
+			}
+		}
+		//sorts slice based on fullname
+		sort.Slice(connections, func(i, j int) bool {
+			return connections[i].FullName < connections[j].FullName
+		})
 		err = json.NewEncoder(w).Encode(connections)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
@@ -75,25 +79,20 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 	}
 }
 
-//handles searching for a service provider
+//handles searching for a service provider based on user input
 func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		var input string
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(input)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error decoding user input: %v", err), http.StatusInternalServerError)
-			return
-		}
-		allUsers, err := c.UsersStore.GetAllUsers(input)
+		query := r.URL.Query().Get("q")
+		allUsers, err := c.UsersStore.GetAllUsers()
 		serviceProviders := []*users.User{}
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error grabbing users from database: %v", err), http.StatusInternalServerError)
 			return
 		}
+		//filters out users based on account type and user input
 		for _, user := range allUsers {
-			if strings.ToLower(user.AccountType) == "service provider" {
+			if strings.ToLower(user.AccountType) == "service provider" && strings.HasPrefix(user.GetFullName(), query) {
 				serviceProviders = append(serviceProviders, user)
 			}
 		}
@@ -107,7 +106,7 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 	}
 }
 
-//handles connecting with a user
+//handles adding a new connection for the current user
 func (c *HandlerContext) AddConnectionHandler(w http.ResponseWriter, r *http.Request) {
 	sessionState := &SessionState{}
 	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
@@ -122,26 +121,19 @@ func (c *HandlerContext) AddConnectionHandler(w http.ResponseWriter, r *http.Req
 			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
 			return
 		}
-		user := &users.User{}
-		var email string
-		checkUser, err := c.UsersStore.GetByEmail(user.Email)
-		if checkUser != nil {
-			http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
-			return
-		}
+		connection := &users.User{}
 		decoder := json.NewDecoder(r.Body)
-		err = decoder.Decode(email)
+		err := decoder.Decode(connection)
 		if err != nil {
-			http.Error(w, fmt.Sprintf("error decoding user: %v", err), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error decoding connection: %v", err), http.StatusInternalServerError)
 			return
 		}
-		user, err = c.UsersStore.GetByEmail(user.Email)
-		if user != nil {
-			http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
+		connections, err := c.UsersStore.AddConnection(sessionState.User.ID, connection)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error adding connection: %v", err), http.StatusInternalServerError)
 			return
 		}
-		sessionState.User.Connections = append(sessionState.User.Connections, user)
-		err = json.NewEncoder(w).Encode(sessionState.User.Connections)
+		err = json.NewEncoder(w).Encode(connections)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 			return
