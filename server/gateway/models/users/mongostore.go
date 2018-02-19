@@ -1,6 +1,7 @@
 package users
 
 import (
+	"errors"
 	"fmt"
 
 	"gopkg.in/mgo.v2"
@@ -29,11 +30,10 @@ func NewMongoStore(sess *mgo.Session, dbName string, collectionName string) *Mon
 //Get every single user
 func (s *MongoStore) GetAllUsers() ([]*User, error) {
 	users := []*User{}
-	user := &User{}
 	col := s.session.DB(s.dbname).C(s.colname)
-	iter := col.Find(nil).Iter()
-	for iter.Next(user) {
-		users = append(users, user)
+	err := col.Find(nil).Sort("fullName").Limit(50).All(&users)
+	if err != nil {
+		return nil, fmt.Errorf("error getting users: %v", err)
 	}
 	return users, nil
 }
@@ -42,7 +42,7 @@ func (s *MongoStore) GetAllUsers() ([]*User, error) {
 func (s *MongoStore) GetByID(id bson.ObjectId) (*User, error) {
 	user := &User{}
 	col := s.session.DB(s.dbname).C(s.colname)
-	err := col.FindId(id).One(user)
+	err := col.FindId(id).One(&user)
 	if err != nil {
 		return nil, fmt.Errorf("error finding user: %v", err)
 	}
@@ -53,7 +53,7 @@ func (s *MongoStore) GetByID(id bson.ObjectId) (*User, error) {
 func (s *MongoStore) GetByEmail(email string) (*User, error) {
 	user := &User{}
 	col := s.session.DB(s.dbname).C(s.colname)
-	err := col.Find(bson.M{"email": email}).One(user)
+	err := col.Find(bson.M{"email": email}).One(&user)
 	if err != nil {
 		return nil, fmt.Errorf("error finding user: %v", err)
 	}
@@ -64,11 +64,31 @@ func (s *MongoStore) GetByEmail(email string) (*User, error) {
 func (s *MongoStore) GetByUserName(username string) (*User, error) {
 	user := &User{}
 	col := s.session.DB(s.dbname).C(s.colname)
-	err := col.Find(bson.M{"username": username}).One(user)
+	err := col.Find(bson.M{"username": username}).One(&user)
 	if err != nil {
 		return nil, fmt.Errorf("error finding user: %v", err)
 	}
 	return user, nil
+}
+
+func (s *MongoStore) AddConnection(userID bson.ObjectId, newConnection *User) ([]*User, error) {
+	user := &User{}
+	col := s.session.DB(s.dbname).C(s.colname)
+	err := col.FindId(userID).One(&user)
+	if err != nil {
+		return nil, fmt.Errorf("error finding user: %v", err)
+	}
+	for _, connection := range user.Connections {
+		if connection == newConnection {
+			return nil, errors.New("connection already exists")
+		}
+	}
+	user.Connections = append(user.Connections, newConnection)
+	_, err = col.UpsertId(userID, bson.M{"$addToSet": bson.M{"connections": newConnection}})
+	if err != nil {
+		return nil, fmt.Errorf("error inserting new connection: %v", err)
+	}
+	return user.Connections, nil
 }
 
 //Insert converts the NewUser to a User, inserts
@@ -80,7 +100,7 @@ func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
 	}
 	col := s.session.DB(s.dbname).C(s.colname)
 	if err := col.Insert(user); err != nil {
-		return nil, fmt.Errorf("error inserting task: %v", err)
+		return nil, fmt.Errorf("error inserting new user: %v", err)
 	}
 	return user, nil
 }

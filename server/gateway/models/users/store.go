@@ -12,6 +12,9 @@ var ErrUserNotFound = errors.New("user not found")
 //Store represents a store for Users
 type Store interface {
 
+	//AddConnection adds a connection for a user and returns the connection list
+	AddConnection(userID bson.ObjectId, connection *User) ([]*User, error)
+
 	//GetAllUsers returns every single user
 	GetAllUsers() ([]*User, error)
 

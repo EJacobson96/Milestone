@@ -18,12 +18,12 @@ var bcryptCost = 13
 
 //User represents a user account in the database
 type User struct {
-	ID            bson.ObjectId   `json:"id" bson:"_id"`
-	Email         string          `json:"email"`
-	PassHash      []byte          `json:"-"` //stored, but not encoded to clients
-	UserName      string          `json:"user_name"`
-	FirstName     string          `json:"firstName"`
-	LastName      string          `json:"lastName"`
+	ID            bson.ObjectId `json:"id" bson:"_id"`
+	Email         string        `json:"email"`
+	PassHash      []byte        `json:"-"` //stored, but not encoded to clients
+	FirstName     string        `json:"firstName"`
+	LastName      string        `json:"lastName"`
+	FullName      string
 	PhotoURL      string          `json:"photoURL"`
 	RaceEthnicity string          `json:"raceEthnicity"`
 	Gender        string          `json:"gender"`
@@ -48,12 +48,12 @@ type Credentials struct {
 
 //NewUser represents a new user signing up for an account
 type NewUser struct {
-	Email         string          `json:"email"`
-	Password      string          `json:"password"`
-	PasswordConf  string          `json:"passwordConf"`
-	UserName      string          `json:"userName"`
-	FirstName     string          `json:"firstName"`
-	LastName      string          `json:"lastName"`
+	Email         string `json:"email"`
+	Password      string `json:"password"`
+	PasswordConf  string `json:"passwordConf"`
+	FirstName     string `json:"firstName"`
+	LastName      string `json:"lastName"`
+	FullName      string
 	RaceEthnicity string          `json:"raceEthnicity"`
 	Gender        string          `json:"gender"`
 	DOB           string          `json:"dob"`
@@ -88,9 +88,6 @@ func (nu *NewUser) Validate() error {
 	if nu.Password != nu.PasswordConf {
 		return fmt.Errorf("password and passwordconf must match")
 	}
-	if len(nu.UserName) == 0 {
-		return fmt.Errorf("username must be non-zero length")
-	}
 	return nil
 }
 
@@ -104,7 +101,6 @@ func (nu *NewUser) ToUser() (*User, error) {
 	user := &User{}
 	user.FirstName = nu.FirstName
 	user.LastName = nu.LastName
-	user.UserName = nu.UserName
 	user.AccountType = nu.AccountType
 	user.RaceEthnicity = nu.RaceEthnicity
 	user.Gender = nu.Gender
@@ -129,7 +125,7 @@ func (nu *NewUser) ToUser() (*User, error) {
 	user.PhotoURL = gravatarBasePhotoURL + hex.EncodeToString(hashResult)
 
 	user.ID = bson.NewObjectId()
-
+	user.FullName = user.GetFullName()
 	user.SetPassword(nu.Password)
 	return user, nil
 }
@@ -138,7 +134,7 @@ func (nu *NewUser) ToUser() (*User, error) {
 // "<FirstName> <LastName>"
 //If either first or last name is an empty string, no
 //space is put betweeen the names
-func (u *User) FullName() string {
+func (u *User) GetFullName() string {
 	return strings.TrimSpace(u.FirstName + " " + u.LastName)
 
 }
