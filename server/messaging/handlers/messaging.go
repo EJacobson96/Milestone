@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"gopkg.in/mgo.v2/bson"
 
@@ -21,7 +20,8 @@ func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r *http.Requ
 	switch r.Method {
 	case "GET":
 		userID := r.URL.Query().Get("id")
-		conversations, err := c.MessagesStore.GetConversations(bson.ObjectIdHex(userID))
+		userFullName := r.URL.Query().Get("name")
+		conversations, err := c.MessagesStore.GetConversations(userFullName, bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting conversations from database: %v", err), http.StatusBadRequest)
 			return
@@ -92,34 +92,15 @@ func (c *HandlerContext) SearchConversationsHandler(w http.ResponseWriter, r *ht
 	case "GET":
 		query := r.URL.Query().Get("q")
 		userID := r.URL.Query().Get("id")
+		userFullName := r.URL.Query().Get("id")
 		filteredConversations := []*messages.Conversation{}
-		conversations, err := c.MessagesStore.GetConversations(bson.ObjectIdHex(userID))
+		conversations, err := c.MessagesStore.GetConversations(userFullName, bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting conversations from database: %v", err), http.StatusBadRequest)
 			return
 		}
-		//check if user's full name contains query
-		for _, conversation := range conversations {
-			found := false
-			for i := 0; i < len(conversation.Messages); i++ {
-				message := conversation.Messages[i]
-				if strings.Contains(message.TextBody, query) {
-					found = true
-					i++
-				}
-			}
-			if !found {
-				for i := 0; i < len(conversation.Members); i++ {
-					if strings.Contains(conversation.Members[i].FullName, query) {
-						found = true
-						i++
-					}
-				}
-			} else {
-				filteredConversations = append(filteredConversations, conversation)
-			}
-		}
-		err = json.NewEncoder(w).Encode(conversations)
+		filteredConversations = FilterConversations(conversations, query)
+		err = json.NewEncoder(w).Encode(filteredConversations)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 			return
@@ -137,16 +118,16 @@ func (c *HandlerContext) MembersHandler(w http.ResponseWriter, r *http.Request) 
 	// 	return
 	// }
 	switch r.Method {
-	case "POST":
+	case "DELETE":
 		conversationID := r.URL.Query().Get("id")
-		newMember := &messages.Member{}
+		removeMember := &messages.Member{}
 		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(newMember)
+		err := decoder.Decode(removeMember)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error decoding user: %v", err), http.StatusInternalServerError)
 			return
 		}
-		members, err := c.MessagesStore.InsertMemberToConversation(newMember, bson.ObjectIdHex(conversationID))
+		members, err := c.MessagesStore.RemoveMemberFromConversation(removeMember, bson.ObjectIdHex(conversationID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting conversations from database: %v", err), http.StatusBadRequest)
 			return

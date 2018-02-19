@@ -23,7 +23,8 @@ func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Reque
 			return
 		}
 		for _, user := range allUsers {
-			if strings.ToLower(user.AccountType) == "participant" && strings.HasPrefix(user.GetFullName(), query) {
+			if strings.ToLower(user.AccountType) == "participant" &&
+				strings.Contains(strings.ToLower(user.GetFullName()), strings.TrimSpace(strings.ToLower(query))) {
 				participants = append(participants, user)
 			}
 		}
@@ -61,7 +62,7 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 		}
 		//filters out users based on user input
 		for _, user := range user.Connections {
-			if strings.HasPrefix(user.GetFullName(), query) {
+			if strings.Contains(strings.ToLower(user.GetFullName()), strings.TrimSpace(strings.ToLower(query))) {
 				connections = append(connections, user)
 			}
 		}
@@ -92,7 +93,8 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 		}
 		//filters out users based on account type and user input
 		for _, user := range allUsers {
-			if strings.ToLower(user.AccountType) == "service provider" && strings.HasPrefix(user.GetFullName(), query) {
+			if strings.ToLower(user.AccountType) == "service provider" &&
+				strings.Contains(strings.ToLower(user.GetFullName()), strings.TrimSpace(strings.ToLower(query))) {
 				serviceProviders = append(serviceProviders, user)
 			}
 		}
