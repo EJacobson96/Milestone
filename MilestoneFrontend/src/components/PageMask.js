@@ -1,6 +1,13 @@
-import React, { Component } from 'react';
+/////////////////////////////////////////
+/// Pre-baked Components
+import React from 'react';
 
+/////////////////////////////////////////
+/// Images & Styles
 import '../css/PageMask.css';
+
+/////////////////////////////////////////
+/// Code
 
 class PageMask extends React.Component {
     constructor(props) {
