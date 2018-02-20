@@ -19,32 +19,17 @@ import './css/App.css';
 /////////////////////////////////////////
 /// Code
 
-// const PrivateRoute = ({ component: Component, isAuthenticated, ...rest}) => (
-// 	<Route
-// 		{...rest}
-// 		render={props => (
-// 			isAuthenticated
-// 			? (
-// 				<Component {...props} />
-// 			)
-// 			: (
-// 				<Redirect to={{ pathname: '/login'}} />
-// 			)
-// 		)}
-// 	/>
-// );
-
 class App extends Component {
 	constructor(props) {
         super(props);
-    
-        this.toggleSideBar = this.toggleSideBar.bind(this);
     
         this.state = {
 			userLoggedIn: false,
 			sideBarOpen: false,
 			navBarDisplay: false
-        };
+		};
+		
+		this.toggleSideBar = this.toggleSideBar.bind(this);
 	}
 
 	logIn(success) {
