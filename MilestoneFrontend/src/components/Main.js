@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
-import Placeholder from './Placeholder';
+import Network from './Network';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -32,7 +32,7 @@ class Main extends React.Component {
     render() {
         let isLoggedIn = this.props.userLoggedIn;
         return isLoggedIn ? (
-			<Placeholder />
+			<Network />
         ) : (
             <Redirect to="/login" />
         );

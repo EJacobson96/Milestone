@@ -1,7 +1,7 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
-import { Glyphicon } from 'react-bootstrap';
+import { Glyphicon, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -31,16 +31,16 @@ class NavBar extends React.Component {
     render() {
         return (
             <div className="ms-navbar">
-                <a className="" onClick={(e) => this.openSideBar(e)}>
+                <Button bsSize="lg" onClick={(e) => this.openSideBar(e)}>
                     <Glyphicon glyph="menu-hamburger" />
-                </a>
+                </Button>
                 {/* <a href="#home">M</a> */}
                 <div className="ms-navbar-logo-wrapper">
                     <img src={ logo } className="ms-navbar-logo"/>
                 </div>
-                <a className="user-link pull-right" href="#profile">
+                <Button bsSize="lg" className="user-link pull-right">
                     <Glyphicon glyph="user" />                
-                </a>
+                </Button>
             </div>
         );
     }

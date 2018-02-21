@@ -70,6 +70,11 @@ class LoginForm extends React.Component {
                 "Password": this.state.userPassword
             })
             .then(response => {
+                console.log(response.headers);
+                localStorage.setItem('Authorization', response.headers.authorization);
+                // if (response.status < 300) {
+                //     localStorage.setItem('Authorization', response.headers("Authorization"));
+                // }
                 console.log(response);
                 return response.data;
             })
