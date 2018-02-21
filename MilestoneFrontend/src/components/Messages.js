@@ -10,18 +10,19 @@ import '../css/Contacts.css';
 /////////////////////////////////////////
 /// Code
 
-class Contacts extends React.Component {
+class Messages extends React.Component {
     constructor(props) {
         super(props);
     
         this.state = {
+            value: ''
         };
     }
 
     render() {
-        var connections;
+        var messages;
         if (this.props.content) {
-            connections = this.props.content.map((connection) => {
+            messages = this.props.content.map((connection) => {
                 return (
                     <div className=".col-xs- connectionCard" key={connection.id}>
                         <img className="avatar img-rounded img-responsive" src={fakeuser} alt="Responsive image"/>
@@ -30,16 +31,16 @@ class Contacts extends React.Component {
                 );
             });
         } else {
-            connections = <p>No connections yet.</p>;
+            messages = <p>No messages found.</p>;
         }
         return (
             <div className="connections .container-fluid"> 
                 <div className="">
-                    {connections}
+                    {messages}
                 </div>
             </div>
         );
     }
 }
 
-export default Contacts;
+export default Messages;
