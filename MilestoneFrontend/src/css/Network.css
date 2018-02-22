@@ -35,17 +35,24 @@
 
 .networkContent {
 	margin-top: .8em;
-	white-space: nowrap;
 }
 
 .networkContent form {
-	padding-bottom: .8em;
-	display: inline-block;
-	width: 80%;
+	display: flex;
+	margin-bottom: 1em;
+	margin-left: .7em;
 }
 
-.networkContent input {
-	display: inline-block;
+.networkContent input{
+	flex: 1;
+}
+
+.networkContent button {
+	flex-basis: 40px;
+}
+
+.plus {
+	margin: 0 .7em;
 }
 
 

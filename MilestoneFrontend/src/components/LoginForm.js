@@ -75,12 +75,12 @@ class LoginForm extends React.Component {
                 // if (response.status < 300) {
                 //     localStorage.setItem('Authorization', response.headers("Authorization"));
                 // }
-                console.log(response);
+                // console.log(response);
                 return response.data;
             })
             .then(data => {
-                console.log(data);
-                console.log(typeof(data));
+                // console.log(data);
+                // console.log(typeof(data));
                 this.setState({
                     userData: data
                 });
@@ -94,7 +94,11 @@ class LoginForm extends React.Component {
   
     render() {
         return this.props.userLoggedIn ? (
-            <Redirect to="/" />
+            // <Redirect to="/"/>
+            <Redirect to={{
+                pathname: '/'
+                // state: { user: this.state.userData }
+              }}/>
         ) : (
             <div>
                 <div>

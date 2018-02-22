@@ -23,14 +23,22 @@ class Contacts extends React.Component {
         if (this.props.content) {
             connections = this.props.content.map((connection) => {
                 return (
-                    <div className=".col-xs- connectionCard" key={connection.id}>
-                        <img className="avatar img-rounded img-responsive" src={fakeuser} alt="Responsive image"/>
-                        <h4>{connection.FullName}</h4>
+                    // <div className=".col-xs- connectionCard" key={connection.id}>
+                    //     <img className="avatar img-rounded img-responsive" src={fakeuser} alt="Responsive image"/>
+                    //     <h4>{connection.FullName}</h4>
+                    // </div>
+                    <div className="contactCard" key={connection.id} >
+                        <div className="userImage">
+                        <img src={fakeuser} alt="Responsive image"/>
+                        </div>
+                        <div className="contactDetails">
+                            <h4>{connection.FullName}</h4>
+                        </div>
                     </div>
                 );
             });
         } else {
-            connections = <p>No connections yet.</p>;
+            connections = <p></p>;
         }
         return (
             <div className="connections .container-fluid"> 

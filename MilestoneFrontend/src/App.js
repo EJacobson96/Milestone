@@ -24,8 +24,8 @@ class App extends Component {
         super(props);
     
         this.state = {
-			// userLoggedIn: false,
-			userLoggedIn: true,
+			userLoggedIn: false,
+			// userLoggedIn: true,
 			sideBarOpen: false,
 			navBarDisplay: false
 		};
@@ -61,7 +61,6 @@ class App extends Component {
 	render() {
 		const displaySideBar = this.state.menuOpen;
 		const isLoggedIn = this.state.userLoggedIn;
-
 		return (
 			<div className="App">
 				<div>

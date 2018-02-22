@@ -1,0 +1,86 @@
+.container-fluid {
+    padding-top: .2em;
+}
+
+.conversations {
+    background-color: white;
+    /* border-top: 1px solid #9C9B9B; */
+
+}
+
+.conversations .avatar, .conversations h4 {
+    display: inline-block;
+}
+
+.conversations .conversationCard {
+    border-bottom: 1px solid #9C9B9B;
+    padding: 1em 0 1em 0;
+    display: flex;
+}
+
+.conversations .conversationCard:first-child {
+    border-top: 1px solid #9C9B9B;
+}
+
+.userImage {
+    max-width: 200px;
+    margin-left: .6em;
+    flex-basis: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userImage img {
+    width: 75%;
+    border-radius: 50%;
+}
+
+.messageDetails {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1em;
+}
+
+.nameDate {
+    display: flex;
+    align-items: baseline;
+}
+
+.nameDate span {
+    margin-left: auto;
+}
+
+.conversations h4 {
+    font-family: Arial;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    /* white-space: nowrap; */
+    flex-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    overflow-wrap: nowrap;
+    width: 50%;
+}
+
+.conversations p {
+    font-size: .8em;
+    margin-top: .3em;
+    padding: 0;
+}
+
+.conversationCard .messageTime {
+    float: right;
+    clear: both;
+    padding-right: 1em;
+    font-size: 16px;
+}
+
+.conversationCard .show-grid {
+    margin: 0;
+}
+
+.conversationCard .messageContent {
+    text-overflow: ellipsis;
+}

@@ -92,7 +92,7 @@ func (c *HandlerContext) SearchConversationsHandler(w http.ResponseWriter, r *ht
 	case "GET":
 		query := r.URL.Query().Get("q")
 		userID := r.URL.Query().Get("id")
-		userFullName := r.URL.Query().Get("id")
+		userFullName := r.URL.Query().Get("name")
 		filteredConversations := []*messages.Conversation{}
 		conversations, err := c.MessagesStore.GetConversations(userFullName, bson.ObjectIdHex(userID))
 		if err != nil {

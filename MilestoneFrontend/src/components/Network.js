@@ -25,16 +25,19 @@ class Network extends React.Component {
         this.state = {
             contentType: 'messages',
             search: '',
-            content: this.getMessages('')
+            userID: this.props.user.id,
+            userFullName: this.props.user.FullName,
         };
         this.handleSearch = this.handleSearch.bind(this);
+        this.getMessages = this.getMessages.bind(this);
+        this.getMessages();  
     }
 
     renderMessages(e) {
         this.toggleLinks(e);
         this.setState({
             contentType: 'messages',
-            content: this.getMessages('') 
+            content: this.getMessages()
         })
     }
 
@@ -71,13 +74,13 @@ class Network extends React.Component {
         }
     }
 
-    getMessages(search) {
+    getMessages() {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/conversations' + '?q=' + search, 
+            'https://milestoneapi.eric-jacobson.me/conversations' + '?id=' + this.state.userID + '&name=' + this.state.userFullName, 
             {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
+                // headers: {
+                //     'Authorization' : localStorage.getItem('Authorization')
+                // }    
             })
             .then(response => {
                 return response.data;
@@ -134,6 +137,9 @@ class Network extends React.Component {
                             <input id="networkSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
                             <Button className="btn btn-outline-success my-2 my-sm-0" onClick={(e) => this.handleSearch(e)}>
                                 <Glyphicon glyph="search" /> 
+                            </Button>
+                            <Button className="btn btn-outline-success my-2 my-sm-0 plus">
+                                <Glyphicon glyph="plus" /> 
                             </Button>
                         </form>
                     </div>

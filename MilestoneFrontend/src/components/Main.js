@@ -8,6 +8,7 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React, { Component } from 'react';
+import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
 /////////////////////////////////////////
@@ -27,15 +28,46 @@ class Main extends React.Component {
         this.state = {
             userLoggedIn: this.props.isLoggedIn
         };
+        this.getCurrentUser = this.getCurrentUser.bind(this);
+        this.getCurrentUser();
+    }
+
+    getCurrentUser() {
+        Axios.get(
+            'https://milestoneapi.eric-jacobson.me/users/me', 
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                }    
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                console.log(data);
+                this.setState({
+                    userData: data
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
     }
 
     render() {
         let isLoggedIn = this.props.userLoggedIn;
-        return isLoggedIn ? (
-			<Network />
-        ) : (
-            <Redirect to="/login" />
-        );
+        if (this.state.userData) {
+            return isLoggedIn ? (
+                <Network user={this.state.userData} />
+            ) : (
+                <Redirect to="/login" />
+            );
+        } else {
+            return <h1></h1>
+        }
+
+
     }
 }
   

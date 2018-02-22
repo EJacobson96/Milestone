@@ -4,29 +4,45 @@
 
 .connections {
     background-color: white;
-    border-top: 1px solid #9C9B9B;
-
 }
 
-.connections .avatar, .connections h4 {
+/* .connections .avatar, .connections h4 {
     display: inline-block;
-}
+} */
 
-.connections .connectionCard {
+/* .connections .connectionCard {
     border-bottom: 1px solid #9C9B9B;
     border-bottom: 1px solid #9C9B9B;
     padding: .2em 0 .2em 0;
-}
+} */
 
-.connections .avatar {
+/* .connections .avatar {
     width: 15%;
     height: 15%;
     margin: 0 2em 0 1em;
     border-radius: 50%;
-}
+} */
 
 .connections h4 {
     font-family: Arial;
-    padding-top: 1em;
+    padding-left: 1em;
 }
 
+.contactCard {
+    display: flex;
+    border-bottom: 1px solid #9C9B9B;
+    align-items: center;
+    padding: 1em 0 1em 0;
+}
+
+.contactCard:first-child {
+    border-top: 1px solid #9C9B9B;
+}
+
+.contactCard .userImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .6em;
+    flex-basis: 18%;
+}
