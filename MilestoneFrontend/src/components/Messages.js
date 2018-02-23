@@ -27,11 +27,13 @@ class Messages extends React.Component {
         if (this.props.content) {
             conversations = this.props.content.map((conversation) => {
                 var members = "";
-                for (var i = 0; i < conversation.Members.length; i++) {
-                    if (i == conversation.Members.length - 1) {
-                        members += conversation.Members[i].fullName;
-                    } else {
-                        members += conversation.Members[i].fullName + " & ";
+                for (let i = 0; i < conversation.members.length; i++) {
+                    let memberLength = conversation.members.length;
+                    if (this.props.currUser != conversation.members[i].id && memberLength == 2) {
+                        members += conversation.members[i].fullName;
+                        i = memberLength;
+                    } else if (this.props.currUser != conversation.members[i].id) {
+                        members += conversation.members[i].fullName + " & " + (memberLength - 1) + " others";;
                     }
                 }
                 // time = moment(conversation.messages[0].createdAt).calendar(null,{

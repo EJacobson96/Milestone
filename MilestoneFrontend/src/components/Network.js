@@ -26,18 +26,17 @@ class Network extends React.Component {
             contentType: 'messages',
             search: '',
             userID: this.props.user.id,
-            userFullName: this.props.user.FullName,
         };
         this.handleSearch = this.handleSearch.bind(this);
         this.getMessages = this.getMessages.bind(this);
-        this.getMessages();  
+        this.getMessages('');  
     }
 
     renderMessages(e) {
         this.toggleLinks(e);
         this.setState({
             contentType: 'messages',
-            content: this.getMessages()
+            content: this.getMessages('')
         })
     }
 
@@ -58,7 +57,7 @@ class Network extends React.Component {
             this.getUserConnections(search);
         } else {
             input.value = '';
-            this.getUserConnections(search);
+            this.getMessages(search);
         }
     }
 
@@ -74,9 +73,9 @@ class Network extends React.Component {
         }
     }
 
-    getMessages() {
+    getMessages(search) {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/conversations' + '?id=' + this.state.userID + '&name=' + this.state.userFullName, 
+            'https://milestoneapi.eric-jacobson.me/conversations' + '?id=' + this.state.userID + '&q=' + search,  
             {
                 // headers: {
                 //     'Authorization' : localStorage.getItem('Authorization')
@@ -121,7 +120,7 @@ class Network extends React.Component {
     }
 
     render() {
-        var content = <Messages content={this.state.content} />
+        var content = <Messages currUser={this.props.user.id} content={this.state.content} />
         if (this.state.contentType == 'contacts') {
             content = <Contacts content={this.state.content} />
         }

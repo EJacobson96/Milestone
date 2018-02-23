@@ -30,9 +30,9 @@ func main() {
 		MessagesStore: mongostore,
 	}
 
-	http.HandleFunc("/conversations", context.ConversationHandler)               //handles returning all conversations for a user and creating new conversation
-	http.HandleFunc("/messages", context.MessagesHandler)                        //handles inserting new message into a conversation
-	http.HandleFunc("/search/conversations", context.SearchConversationsHandler) //handles searching through conversations
+	http.HandleFunc("/conversations", context.ConversationHandler) //handles returning all conversations for a user and creating new conversation
+	http.HandleFunc("/messages", context.MessagesHandler)          //handles inserting new message into a conversation
+	// http.HandleFunc("/search/conversations", context.SearchConversationsHandler) //handles searching through conversations
 	http.HandleFunc("/member", context.MembersHandler)
 	log.Printf("server is listening at http://%s...", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))

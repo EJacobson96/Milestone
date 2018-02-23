@@ -10,9 +10,9 @@ import (
 type Conversation struct {
 	ID          bson.ObjectId `json:"id" bson:"_id"`
 	Messages    []*Message    `json:"messages"`
-	Members     []*Member
-	CreatedAt   time.Time `json:"createdAt"`
-	LastMessage time.Time `json:"lastMessage"`
+	Members     []*Member     `json:"members"`
+	CreatedAt   time.Time     `json:"createdAt"`
+	LastMessage time.Time     `json:"lastMessage"`
 }
 
 type NewConversation struct {

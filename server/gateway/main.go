@@ -105,17 +105,17 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/users", context.UsersHandler)                                       //handles creating a new user
-	mux.HandleFunc("/users/me", context.UsersMeHandler)                                  //handles getting the current user
-	mux.HandleFunc("/sessions", context.SessionsHandler)                                 //handles beginning a new session
-	mux.HandleFunc("/sessions/mine", context.SessionsMineHandler)                        //handles ending a session
-	mux.HandleFunc("/participants", context.ParticipantHandler)                          //handles searching for a participant
-	mux.HandleFunc("/serviceproviders", context.ServiceProviderHandler)                  //handles searching for a service provider
-	mux.HandleFunc("/connections", context.UserConnectionsHandler)                       //handles getting list of conntections for a user
-	mux.HandleFunc("/connect", context.AddConnectionHandler)                             //handlers adding a new user to connection list
-	mux.Handle("/conversations", NewServiceProxy(splitMessagesSvcAddrs, context))        //handles returning all conversations for a user and creating new conversation
-	mux.Handle("/messages", NewServiceProxy(splitMessagesSvcAddrs, context))             //handles inserting new message into a conversation
-	mux.Handle("/search/conversations", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles searching through conversations
+	mux.HandleFunc("/users", context.UsersHandler)                                //handles creating a new user
+	mux.HandleFunc("/users/me", context.UsersMeHandler)                           //handles getting the current user
+	mux.HandleFunc("/sessions", context.SessionsHandler)                          //handles beginning a new session
+	mux.HandleFunc("/sessions/mine", context.SessionsMineHandler)                 //handles ending a session
+	mux.HandleFunc("/participants", context.ParticipantHandler)                   //handles searching for a participant
+	mux.HandleFunc("/serviceproviders", context.ServiceProviderHandler)           //handles searching for a service provider
+	mux.HandleFunc("/connections", context.UserConnectionsHandler)                //handles getting list of conntections for a user
+	mux.HandleFunc("/connect", context.AddConnectionHandler)                      //handlers adding a new user to connection list
+	mux.Handle("/conversations", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles returning all conversations for a user and creating new conversation
+	mux.Handle("/messages", NewServiceProxy(splitMessagesSvcAddrs, context))      //handles inserting new message into a conversation
+	// mux.Handle("/search/conversations", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles searching through conversations
 	mux.Handle("/member", NewServiceProxy(splitMessagesSvcAddrs, context))
 
 	corsMux := handlers.NewCORSHandler(mux)
