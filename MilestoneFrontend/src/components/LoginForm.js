@@ -9,6 +9,7 @@
 /// Pre-baked Components
 import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Form, Col, Button, Checkbox } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -106,15 +107,35 @@ class LoginForm extends React.Component {
                         Milestone
                     </h1>
                 </div>
-
                 <div className="container ms-login-wrapper">
-                    <h1 className="ms-login-title">
+                    {/* <h1 className="ms-login-title">
                         Login
-                    </h1>
-                    <form>
-                        <FormGroup
-                            // validationState={this.getValidationState()}
-                        >
+                    </h1> */}
+                    <Form horizontal>
+                        <FormGroup controlId="formHorizontalEmail">
+                            <Col componentClass={ControlLabel} sm={2}>
+                            Email
+                            </Col>
+                            <Col sm={10}>
+                            <FormControl type="email" value={this.state.userEmail} placeholder="Email" className="ms-login-input" onChange={(e) => this.handleEmail(e)} />
+                            </Col>
+                        </FormGroup>
+
+                        <FormGroup controlId="formHorizontalPassword">
+                            <Col componentClass={ControlLabel} sm={2}>
+                            Password
+                            </Col>
+                            <Col sm={10}>
+                            <FormControl type="password" value={this.state.userPassword} placeholder="Password" className="ms-login-input" onChange={(e) => this.handlePassword(e)} />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col smOffset={2} sm={10}>
+                            <Button className="ms-login-btn" type="submit" onClick={(e) => this.attemptLogIn(e)} >Sign in</Button>
+                            </Col>
+                        </FormGroup>
+                    </Form>
+                        {/* <FormGroup>
                             <ControlLabel className="ms-login-label">
                                 Username
                             </ControlLabel>
@@ -138,17 +159,14 @@ class LoginForm extends React.Component {
                             />
                             <FormControl.Feedback />
                         </FormGroup>
-
                         <div className="ms-login-btn-wrapper">
                             <button className="ms-login-btn">CANCEL</button>
                             <button className="ms-login-btn"
                                 onClick={(e) => this.attemptLogIn(e)}
                             >LOG IN</button>
                         </div>
-
-                    </form>        
+                    </form>         */}
                 </div>
-
             </div>
         );
     }
