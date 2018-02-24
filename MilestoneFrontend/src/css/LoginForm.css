@@ -2,16 +2,25 @@
 	color: #FD786D;
 	text-align: center;
 	padding-top: 1em;
+	margin-bottom: 1em;
+	flex: 0 0 100%;
 }
 
 .ms-login-wrapper {
-	background-color: #EBECED;
-	height: 65vh;
+	/* background-color: #EBECED; */
+	height: 60vh;
 	width: 75%;
+	display: flex;
+	align-items: center;
+}
+
+.ms-login-wrapper .loginContent {
+	width: 100%;
 }
 
 .ms-login-wrapper form {
-	margin-top: 2.2em;
+	width: 100%;
+	padding: 0;
 }
 
 .ms-login-title {

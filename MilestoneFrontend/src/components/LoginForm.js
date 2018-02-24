@@ -102,39 +102,44 @@ class LoginForm extends React.Component {
               }}/>
         ) : (
             <div>
-                <div>
+                {/* <div>
                     <h1 className="ms-login-header">
                         Milestone
                     </h1>
-                </div>
+                </div> */}
                 <div className="container ms-login-wrapper">
                     {/* <h1 className="ms-login-title">
                         Login
                     </h1> */}
-                    <Form horizontal>
-                        <FormGroup controlId="formHorizontalEmail">
-                            <Col componentClass={ControlLabel} sm={2}>
-                            Email
-                            </Col>
-                            <Col sm={10}>
-                            <FormControl type="email" value={this.state.userEmail} placeholder="Email" className="ms-login-input" onChange={(e) => this.handleEmail(e)} />
-                            </Col>
-                        </FormGroup>
+                    <div className="loginContent">
+                        <h1 className="ms-login-header">
+                            Milestone
+                        </h1>
+                        <Form horizontal>
+                            <FormGroup controlId="formHorizontalEmail">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                Email
+                                </Col>
+                                <Col sm={10}>
+                                <FormControl type="email" value={this.state.userEmail} placeholder="Email" className="ms-login-input" onChange={(e) => this.handleEmail(e)} />
+                                </Col>
+                            </FormGroup>
 
-                        <FormGroup controlId="formHorizontalPassword">
-                            <Col componentClass={ControlLabel} sm={2}>
-                            Password
-                            </Col>
-                            <Col sm={10}>
-                            <FormControl type="password" value={this.state.userPassword} placeholder="Password" className="ms-login-input" onChange={(e) => this.handlePassword(e)} />
-                            </Col>
-                        </FormGroup>
-                        <FormGroup>
-                            <Col smOffset={2} sm={10}>
-                            <Button className="ms-login-btn" type="submit" onClick={(e) => this.attemptLogIn(e)} >Sign in</Button>
-                            </Col>
-                        </FormGroup>
-                    </Form>
+                            <FormGroup controlId="formHorizontalPassword">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                Password
+                                </Col>
+                                <Col sm={10}>
+                                <FormControl type="password" value={this.state.userPassword} placeholder="Password" className="ms-login-input" onChange={(e) => this.handlePassword(e)} />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup>
+                                <Col smOffset={2} sm={10}>
+                                <Button className="ms-login-btn" type="submit" onClick={(e) => this.attemptLogIn(e)} >Sign in</Button>
+                                </Col>
+                            </FormGroup>
+                        </Form>
+                    </div>
                         {/* <FormGroup>
                             <ControlLabel className="ms-login-label">
                                 Username
