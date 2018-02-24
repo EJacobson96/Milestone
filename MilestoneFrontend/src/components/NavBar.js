@@ -38,7 +38,9 @@ class NavBar extends React.Component {
                 <div className="ms-navbar-logo-wrapper">
                     <img src={ logo } className="ms-navbar-logo"/>
                 </div>
-                <Button bsSize="lg" className="user-link pull-right">
+                <Button bsSize="lg" 
+                // className="user-link pull-right"
+                >
                     <Glyphicon glyph="user" />                
                 </Button>
             </div>

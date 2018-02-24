@@ -1,12 +1,9 @@
 /* The navbar itself */
 .ms-navbar {
-    /* overflow: hidden; */
     background-color: #FD786D;
-    /* position: fixed; */
-    height: 50px;
-    /* top: 0; */
     width: 100%;
     display: flex;
+    align-items: center;
 }
 
 /* Links inside the navbar */
@@ -28,21 +25,24 @@
 .ms-navbar-logo-wrapper {
     flex: 1;
     height: 100%;
+    
 }
 
 .ms-navbar-logo {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    max-width: 30px;
-    padding-top: 10px;
+    /* max-width: 30px; */
+    max-height: 6vh;
+    padding: .2em 0;
 }
 
 .ms-navbar Button {
     background: none;
     border: none;
-    text-align: center;
-    height: 100%;
+    font-size: 4vh;
+    display: flex;
+    align-items: center;
 }
 
 .ms-navbar Button:hover {
