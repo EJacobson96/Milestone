@@ -54,6 +54,31 @@ func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r *http.Requ
 	}
 }
 
+func (c *HandlerContext) SpecificConversationHandler(w http.ResponseWriter, r *http.Request) {
+	// authUser := r.Header.Get("X-User")
+	// if len(authUser) == 0 {
+	// 	http.Error(w, errors.New("unauthorized").Error(), http.StatusUnauthorized)
+	// 	return
+	// }
+	switch r.Method {
+	case "GET":
+		conversationID := r.URL.Query().Get("id")
+		conversation, err := c.MessagesStore.GetByID(bson.ObjectIdHex(conversationID))
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error getting conversation: %v", err), http.StatusInternalServerError)
+			return
+		}
+		err = json.NewEncoder(w).Encode(conversation)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+	default:
+		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+		return
+	}
+}
+
 //handles posting a new message to a conversation
 func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request) {
 	// authUser := r.Header.Get("X-User")
