@@ -7,6 +7,9 @@ import (
 //Store represents a store for messages
 type Store interface {
 
+	//GetByID returns the conversation with the given id
+	GetByID(id bson.ObjectId) (*Conversation, error)
+
 	//GetAllUsers returns every single user
 	GetConversations(userID bson.ObjectId) ([]*Conversation, error)
 

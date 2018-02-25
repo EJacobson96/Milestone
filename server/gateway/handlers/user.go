@@ -9,6 +9,7 @@ import (
 
 	"github.com/EJacobson96/Milestone/server/gateway/models/users"
 	"github.com/EJacobson96/Milestone/server/gateway/sessions"
+	"gopkg.in/mgo.v2/bson"
 )
 
 //handles searching for a participant based on user input
@@ -136,6 +137,37 @@ func (c *HandlerContext) AddConnectionHandler(w http.ResponseWriter, r *http.Req
 			return
 		}
 		err = json.NewEncoder(w).Encode(connections)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+	default:
+		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+		return
+	}
+}
+
+func (c *HandlerContext) SpecificContactHandler(w http.ResponseWriter, r *http.Request) {
+	sessionState := &SessionState{}
+	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+		return
+	}
+	switch r.Method {
+	case "GET":
+		err = c.SessionsStore.Save(sessionID, sessionState)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
+			return
+		}
+		contactID := r.URL.Query().Get("id")
+		contact, err := c.UsersStore.GetByID(bson.ObjectIdHex(contactID))
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error getting user: %v", err), http.StatusInternalServerError)
+			return
+		}
+		err = json.NewEncoder(w).Encode(contact)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 			return

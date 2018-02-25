@@ -2,12 +2,12 @@
 docker pull ejacobson96/milestoneapi
 #removes any existing instances running called milestoneapi
 docker rm -f milestoneapi
-docker rm -f milestone-redis
-docker rm -f milestone-mongo
+# docker rm -f milestone-redis
+# docker rm -f milestone-mongo
 docker rm -f messagingService
 
-docker run --name milestone-redis -d --network milestonenetwork redis
-docker run --name milestone-mongo -d --network milestonenetwork mongo
+# docker run --name milestone-redis -d --network milestonenetwork redis
+# docker run --name milestone-mongo -d --network milestonenetwork mongo
 
 docker pull ejacobson96/messaging
 docker run -d --name messagingService --network milestonenetwork -e DBADDR=milestone-mongo:27017 ejacobson96/messaging

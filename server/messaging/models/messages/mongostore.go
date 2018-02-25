@@ -28,6 +28,17 @@ func NewMongoStore(sess *mgo.Session, dbName string, collectionName string) *Mon
 	}
 }
 
+//GetByID returns the covnersation with the given ID
+func (s *MongoStore) GetByID(id bson.ObjectId) (*Conversation, error) {
+	conversation := &Conversation{}
+	col := s.session.DB(s.dbname).C(s.colname)
+	err := col.FindId(id).One(&conversation)
+	if err != nil {
+		return nil, fmt.Errorf("error finding conversation: %v", err)
+	}
+	return conversation, nil
+}
+
 //Get every single conversation for a user
 func (s *MongoStore) GetConversations(userID bson.ObjectId) ([]*Conversation, error) {
 	conversations := []*Conversation{}
