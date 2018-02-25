@@ -8,11 +8,12 @@
 /// Pre-baked Components
 import React, { Component } from 'react';
 import Axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Switch, Route } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
 import Network from './network/Network';
+import Placeholder from './Placeholder';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -27,7 +28,11 @@ class Main extends React.Component {
         this.state = {
             userLoggedIn: this.props.isLoggedIn
         };
+
         this.getCurrentUser = this.getCurrentUser.bind(this);
+    }
+    
+    componentDidMount() {
         this.getCurrentUser();
     }
 
@@ -56,17 +61,31 @@ class Main extends React.Component {
 
     render() {
         let isLoggedIn = this.props.userLoggedIn;
+
         if (this.state.userData) {
             return isLoggedIn ? (
-                <Network user={this.state.userData} />
+                <Switch>
+                    <Route path='/Network' render={(props) => (
+                        <Network 
+                            user={ this.state.userData }
+                        />
+                    )} />
+                    <Route path='/Calendar' render={(props) => (
+                        <Placeholder />
+                    )} />
+                    <Route path='/Progress' render={(props) => (
+                        <Placeholder />
+                    )} />
+                    <Route path='/Requests' render={(props) => (
+                        <Placeholder />
+                    )} />
+                </Switch>
             ) : (
                 <Redirect to="/login" />
             );
         } else {
             return <h1></h1>
         }
-
-
     }
 }
   

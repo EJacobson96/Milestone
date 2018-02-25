@@ -1,11 +1,3 @@
-/* .container-fluid {
-    padding-top: .2em;
-} */
-
-/* .l-conversations .avatar, .l-conversations h4 {
-    display: inline-block;
-} */
-
 .l-conversations {
     background-color: white;
     /* border-top: 1px solid #9C9B9B; */
@@ -15,9 +7,10 @@
     border-bottom: 1px solid #9C9B9B;
     padding: 1em 0 1em 0;
     display: flex;
+    white-space: nowrap;
 }
 
-.l-conversations .c-conversation-card:first-child {
+.c-conversation-card:first-child {
     border-top: 1px solid #9C9B9B;
 }
 
@@ -57,12 +50,6 @@
     width: 75%;
 }
 
-.c-no-conversations {
-    font-size: .8em;
-    margin-top: .3em;
-    padding: 0;
-}
-
 .c-conversation-card__details__date {
     float: right;
     clear: both;
@@ -70,12 +57,22 @@
     margin-left: auto;
 }
 
-.c-conversation-card {
-    white-space: nowrap;
+.c-no-conversations {
+    font-size: .8em;
+    margin-top: .3em;
+    padding: 0;
 }
 
 /* Currently Unused */
 
 /* .c-conversation-card .messageContent {
     text-overflow: ellipsis;
+} */
+
+/* .container-fluid {
+    padding-top: .2em;
+} */
+
+/* .l-conversations .avatar, .l-conversations h4 {
+    display: inline-block;
 } */

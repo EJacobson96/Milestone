@@ -71,7 +71,7 @@ class Network extends React.Component {
             if (links[i] == e.target) {
                 links[i].className = "c-network-nav__link--active-link";
             } else {
-                links[i].className = "c-network-nav__link--active-link";
+                links[i].className = "c-network-nav__link--non-active-link";
             }
         }
     }
@@ -130,8 +130,12 @@ class Network extends React.Component {
         return (
             <div>
                 <ul className="c-network-nav">
-                    <li role="presentation" className="c-network-nav__link"><Link to="" className="c-network-nav__link--active-link" onClick={(e) => this.renderMessages(e)}>Messages</Link></li>
-                    <li role="presentation" className="c-network-nav__link"><Link to="" className="c-network-nav__link--non-active-link" onClick={(e) => this.renderContacts(e)}>Contacts</Link></li>
+                    <li role="presentation" className="c-network-nav__link">
+                        <a href="#messages" className="c-network-nav__link--active-link" onClick={(e) => this.renderMessages(e)}>Messages</a>
+                    </li>
+                    <li role="presentation" className="c-network-nav__link">
+                        <a href="#contacts" className="c-network-nav__link--non-active-link" onClick={(e) => this.renderContacts(e)}>Contacts</a>
+                    </li>
                 </ul>
                 <div className="l-network-content">
                     <div className="">

@@ -1,10 +1,48 @@
+/**  Bootstrap Overrides  **/
+
 .container-fluid {
     padding-top: .2em;
 }
 
-.connections {
+/**  Layout  **/
+
+.l-contacts {
     background-color: white;
 }
+
+/**  Components  **/
+
+.c-contact-card {
+    display: flex;
+    border-bottom: 1px solid #9C9B9B;
+    align-items: center;
+    padding: 1em 0 1em 0;
+}
+
+.c-contact-card:first-child {
+    border-top: 1px solid #9C9B9B;
+}
+
+.c-contact-card__user-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .6em;
+    flex-basis: 18%;
+    max-width: 200px;
+}
+
+.c-contact-card__user-img img {
+    width: 75%;
+    border-radius: 50%;
+}
+
+.c-contact-card__details__full-name {
+    font-family: Arial;
+    padding-left: 1em;
+}
+
+/**  Currently Unused  **/
 
 /* .connections .avatar, .connections h4 {
     display: inline-block;
@@ -22,27 +60,3 @@
     margin: 0 2em 0 1em;
     border-radius: 50%;
 } */
-
-.connections h4 {
-    font-family: Arial;
-    padding-left: 1em;
-}
-
-.contactCard {
-    display: flex;
-    border-bottom: 1px solid #9C9B9B;
-    align-items: center;
-    padding: 1em 0 1em 0;
-}
-
-.contactCard:first-child {
-    border-top: 1px solid #9C9B9B;
-}
-
-.contactCard .userImage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: .6em;
-    flex-basis: 18%;
-}

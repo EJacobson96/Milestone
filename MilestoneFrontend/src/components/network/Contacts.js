@@ -27,12 +27,12 @@ class Contacts extends React.Component {
                     //     <img className="avatar img-rounded img-responsive" src={fakeuser} alt="Responsive image"/>
                     //     <h4>{connection.FullName}</h4>
                     // </div>
-                    <div className="contactCard" key={connection.id} >
-                        <div className="userImage">
-                        <img src={fakeuser} alt="Responsive image"/>
+                    <div className="c-contact-card" key={connection.id} >
+                        <div className="c-contact-card__user-img">
+                            <img src={fakeuser} alt="Responsive image"/>
                         </div>
-                        <div className="contactDetails">
-                            <h4>{connection.FullName}</h4>
+                        <div className="c-contact-card__details">
+                            <span className="c-contact-card__details__full-name">{connection.FullName}</span>
                         </div>
                     </div>
                 );
@@ -41,7 +41,7 @@ class Contacts extends React.Component {
             connections = <p></p>;
         }
         return (
-            <div className="connections .container-fluid"> 
+            <div className="[ .container-fluid ] l-contacts"> 
                 <div className="">
                     {connections}
                 </div>

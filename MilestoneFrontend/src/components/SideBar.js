@@ -2,6 +2,7 @@
 /// Pre-baked Components
 import React from 'react';
 import { Glyphicon } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -37,33 +38,39 @@ class SideBar extends React.Component {
 
 				<PageMask />
 
-				<div className="ms-sidebar">
+				<div className="c-sidebar">
 
-					<div className="ms-sidebar-top">
-						<a className="" onClick={(e) => this.closeSideBar(e)}>
+					<div className="c-sidebar__top">
+						<a onClick={(e) => this.closeSideBar(e)} className="c-sidebar__top__link">
 							<Glyphicon glyph="remove" />
 						</a>
 					</div>
 
-					<div className="ms-sidebar-links">
-						<ul>
+					<div>
+						<ul className="c-sidebar__links-wrapper">
 							<li>
-								<Glyphicon glyph="comment" className="ms-sidebar-glyph" />
-								<a className="ms-sidebar-link" href="#network">
+								<Glyphicon glyph="comment" className="c-sidebar__glyph" />
+								<Link to="/Network" className="c-sidebar__link">
 									Network
-								</a>
+								</Link>
 							</li>
 							<li>
-								<Glyphicon glyph="calendar" className="ms-sidebar-glyph" />
-								<a className="ms-sidebar-link" href="#calendar">Calendar</a>
+								<Glyphicon glyph="calendar" className="c-sidebar__glyph" />
+								<Link to="/Calendar" className="c-sidebar__link">
+									Calendar
+								</Link>
 							</li>
 							<li>
-								<Glyphicon glyph="flag" className="ms-sidebar-glyph" />
-								<a className="ms-sidebar-link" href="#progress">Progress</a>
+								<Glyphicon glyph="flag" className="c-sidebar__glyph" />
+								<Link to="/Progress" className="c-sidebar__link">
+									Progress
+								</Link>
 							</li>
 							<li>
-								<Glyphicon glyph="send" className="ms-sidebar-glyph" />
-								<a className="ms-sidebar-link" href="#requests">Requests</a>
+								<Glyphicon glyph="send" className="c-sidebar__glyph" />
+								<Link to="Requests" className="c-sidebar__link">
+									Requests
+								</Link>
 							</li>
 						</ul>
 					</div>

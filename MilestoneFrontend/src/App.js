@@ -71,15 +71,17 @@ class App extends Component {
 						/>
 					}
 
-					{displaySideBar &&
+					{
+						displaySideBar &&
 						<SideBar 
 							closeSideBar={(e) => this.toggleSideBar(e)}
 						/>
 					}
 				</div>
+
 				<div className="l-main">
 					<Switch>
-						<Route path ='/login' render={() => (
+						<Route path ='/login' render={(props) => (
 							<LoginForm
 								logIn={(e) => this.logIn(e)}
 								userLoggedIn = { this.state.userLoggedIn }
