@@ -9,7 +9,7 @@ import { Switch } from 'react-router-dom';
 /// Standard Components
 import NavBar from './components/NavBar';
 import SideBar from './components/SideBar';
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/login/LoginForm';
 import Main from './components/Main';
 
 /////////////////////////////////////////

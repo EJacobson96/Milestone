@@ -18,8 +18,8 @@ import Axios from 'axios';
 
 /////////////////////////////////////////
 /// Images & Styles
-import logo from '../img/logo.png';
-import '../css/LoginForm.css';
+import logo from '../../img/logo.png';
+import '../../css/LoginForm.css';
 
 /////////////////////////////////////////
 /// Code

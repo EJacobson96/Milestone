@@ -13,7 +13,7 @@ import Messages from './Messages';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../css/Network.css';
+import '../../css/Network.css';
 
 /////////////////////////////////////////
 /// Code

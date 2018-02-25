@@ -4,8 +4,8 @@ import React from 'react';
 
 /////////////////////////////////////////
 /// Images & Styles
-import fakeuser from '../img/fakeuser.png';
-import '../css/Contacts.css';
+import fakeuser from '../../img/fakeuser.png';
+import '../../css/Contacts.css';
 
 /////////////////////////////////////////
 /// Code

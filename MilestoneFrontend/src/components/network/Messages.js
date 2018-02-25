@@ -1,13 +1,13 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
-import { Grid, Col, Row} from 'react-bootstrap';
+import { Grid, Col, Row } from 'react-bootstrap';
 import moment from 'moment';
 
 /////////////////////////////////////////
 /// Images & Styles
-import fakeuser from '../img/fakeuser.png';
-import '../css/Messages.css';
+import fakeuser from '../../img/fakeuser.png';
+import '../../css/Messages.css';
 
 /////////////////////////////////////////
 /// Code
@@ -62,14 +62,14 @@ class Messages extends React.Component {
                     //         </Col>
                     //     </Row>
                     // </Grid>
-                    <div className="conversationCard" key={conversation.id} >
-                        <div className="userImage">
-                        <img src={fakeuser} alt="Responsive image"/>
+                    <div className="c-conversation-card" key={conversation.id} >
+                        <div className="c-conversation-card__user-img">
+                            <img src={fakeuser} alt="Responsive image"/>
                         </div>
-                        <div className="messageDetails">
-                            <div className="nameDate">
-                                <h4>{members}</h4>
-                                <span className="messageTime">{time}</span>
+                        <div className="c-conversation-card__details">
+                            <div className="c-conversation-card__details__name-and-date">
+                                <span className="c-conversation-card__details__name">{members}</span>
+                                <span className="c-conversation-card__details__date">{time}</span>
                             </div>
                             <p>{conversation.messages[0].textBody}</p>
                         </div>
@@ -77,11 +77,11 @@ class Messages extends React.Component {
                 );
             });
         } else {
-            conversations = <p></p>;
+            conversations = <p className="c-no-conversations"></p>;
         }
 
         return (
-            <div className="conversations"> 
+            <div className="l-conversations"> 
                 {conversations}
             </div>
         );

@@ -19,10 +19,6 @@
 	border-bottom: 2px solid #FD786D;
 }
 
-.c-network-nav .activeLink a {
-	color: #FD786D;
-} 
-
 .c-network-nav a {
 	padding: .8em 0 .8em 0;
 	text-decoration: none;

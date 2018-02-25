@@ -1,28 +1,27 @@
-.container-fluid {
+/* .container-fluid {
     padding-top: .2em;
-}
+} */
 
-.conversations {
+/* .l-conversations .avatar, .l-conversations h4 {
+    display: inline-block;
+} */
+
+.l-conversations {
     background-color: white;
     /* border-top: 1px solid #9C9B9B; */
-
 }
 
-.conversations .avatar, .conversations h4 {
-    display: inline-block;
-}
-
-.conversations .conversationCard {
+.c-conversation-card {
     border-bottom: 1px solid #9C9B9B;
     padding: 1em 0 1em 0;
     display: flex;
 }
 
-.conversations .conversationCard:first-child {
+.l-conversations .c-conversation-card:first-child {
     border-top: 1px solid #9C9B9B;
 }
 
-.userImage {
+.c-conversation-card__user-img {
     max-width: 200px;
     margin-left: .6em;
     flex-basis: 25%;
@@ -31,28 +30,24 @@
     justify-content: center;
 }
 
-.userImage img {
+.c-conversation-card__user-img img {
     width: 75%;
     border-radius: 50%;
 }
 
-.messageDetails {
+.c-conversation-card__details {
     display: flex;
     flex-direction: column;
     padding-left: 1em;
     width: 60%;
 }
 
-.nameDate {
+.c-conversation-card__details__name-and-date {
     display: flex;
     align-items: baseline;
 }
 
-.nameDate span {
-    margin-left: auto;
-}
-
-.conversations h4 {
+.c-conversation-card__details__name {
     font-family: Arial;
     margin: 0;
     padding: 0;
@@ -62,22 +57,25 @@
     width: 75%;
 }
 
-.conversations p {
+.c-no-conversations {
     font-size: .8em;
     margin-top: .3em;
     padding: 0;
 }
 
-.conversationCard .messageTime {
+.c-conversation-card__details__date {
     float: right;
     clear: both;
     font-size: 16px;
+    margin-left: auto;
 }
 
-.conversationCard {
+.c-conversation-card {
     white-space: nowrap;
 }
 
-.conversationCard .messageContent {
+/* Currently Unused */
+
+/* .c-conversation-card .messageContent {
     text-overflow: ellipsis;
-}
+} */

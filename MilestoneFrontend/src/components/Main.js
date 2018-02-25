@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
-import Network from './Network';
+import Network from './network/Network';
 
 /////////////////////////////////////////
 /// Images & Styles
