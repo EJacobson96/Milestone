@@ -29,7 +29,10 @@ class Network extends React.Component {
         };
         this.handleSearch = this.handleSearch.bind(this);
         this.getMessages = this.getMessages.bind(this);
-        this.getMessages('');  
+    }
+    
+    componentDidMount() {
+        this.getMessages('');          
     }
 
     renderMessages(e) {
@@ -62,13 +65,13 @@ class Network extends React.Component {
     }
 
     toggleLinks(e) {
-        var links = document.querySelectorAll(".mainNav a");
+        var links = document.querySelectorAll(".c-network-nav a");
         for (let i = 0; i < links.length; i++) {
             links[i].className = "";
             if (links[i] == e.target) {
-                links[i].className = "activeLink";
+                links[i].className = "c-network-nav__link--active-link";
             } else {
-                links[i].className = "nonActiveLink";
+                links[i].className = "c-network-nav__link--active-link";
             }
         }
     }
@@ -126,11 +129,11 @@ class Network extends React.Component {
         }
         return (
             <div>
-                <ul className="mainNav">
-                    <li role="presentation"><Link to="" className="activeLink" onClick={(e) => this.renderMessages(e)}>Messages</Link></li>
-                    <li role="presentation"><Link to="" className="nonActiveLink" onClick={(e) => this.renderContacts(e)}>Contacts</Link></li>
+                <ul className="c-network-nav">
+                    <li role="presentation" className="c-network-nav__link"><Link to="" className="c-network-nav__link--active-link" onClick={(e) => this.renderMessages(e)}>Messages</Link></li>
+                    <li role="presentation" className="c-network-nav__link"><Link to="" className="c-network-nav__link--non-active-link" onClick={(e) => this.renderContacts(e)}>Contacts</Link></li>
                 </ul>
-                <div className="networkContent">
+                <div className="l-network-content">
                     <div className="">
                         <form className="form-inline">
                             <input id="networkSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>

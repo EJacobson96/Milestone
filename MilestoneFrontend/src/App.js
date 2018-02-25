@@ -77,7 +77,7 @@ class App extends Component {
 						/>
 					}
 				</div>
-				<div className="main">
+				<div className="l-main">
 					<Switch>
 						<Route path ='/login' render={() => (
 							<LoginForm

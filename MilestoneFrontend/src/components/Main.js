@@ -1,8 +1,7 @@
 /////////////////////////////////////////
 /// Dev Notes
 /*
- *  This component is large, and could probably be refactored into a couple
- *  smaller componenents. ~Iean
+ *
  */
 
 /////////////////////////////////////////

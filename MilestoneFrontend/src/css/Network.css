@@ -1,29 +1,29 @@
-.mainNav {
+.c-network-nav {
 	list-style-type: none;
 	display: flex;
 	padding: 0;
 	margin: 0;
 }
 
-.mainNav li {
+.c-network-nav__link {
 	flex: 1;
 	text-align: center;
 }
 
-.mainNav .nonActiveLink {
+.c-network-nav__link--non-active-link {
 	border-bottom: 2px solid #808080;
 }
 
-.mainNav .activeLink {
+.c-network-nav__link--active-link {
 	color: #FD786D;
 	border-bottom: 2px solid #FD786D;
 }
 
-.mainNav .activeLink a {
+.c-network-nav .activeLink a {
 	color: #FD786D;
 } 
 
-.mainNav a {
+.c-network-nav a {
 	padding: .8em 0 .8em 0;
 	text-decoration: none;
 	width: 100%;
@@ -33,21 +33,21 @@
 	color: #808080;
 }
 
-.networkContent {
+.l-network-content {
 	margin-top: .8em;
 }
 
-.networkContent form {
+.l-network-content form {
 	display: flex;
 	margin-bottom: 1em;
 	margin-left: .7em;
 }
 
-.networkContent input{
+.l-network-content input{
 	flex: 1;
 }
 
-.networkContent button {
+.l-network-content button {
 	flex-basis: 40px;
 }
 
