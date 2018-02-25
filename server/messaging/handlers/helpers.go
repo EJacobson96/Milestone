@@ -13,19 +13,20 @@ func FilterConversations(conversations []*messages.Conversation, query string) [
 		found := false
 		for i := 0; i < len(conversation.Messages); i++ {
 			message := conversation.Messages[i]
-			if strings.Contains(message.TextBody, query) {
+			if strings.Contains(strings.ToLower(message.TextBody), strings.TrimSpace(strings.ToLower(query))) {
 				found = true
-				i++
+				i = len(conversation.Messages)
 			}
 		}
 		if !found {
 			for i := 0; i < len(conversation.Members); i++ {
-				if strings.Contains(conversation.Members[i].FullName, query) {
+				if strings.Contains(strings.ToLower(conversation.Members[i].FullName), strings.TrimSpace(strings.ToLower(query))) {
 					found = true
-					i++
+					i = len(conversation.Members)
 				}
 			}
-		} else {
+		}
+		if found {
 			filteredConversations = append(filteredConversations, conversation)
 		}
 	}

@@ -9,7 +9,8 @@
 /// Pre-baked Components
 import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
+import { Form, Col, Button, Checkbox } from 'react-bootstrap';
+import { Redirect, Link } from 'react-router-dom';
 import Axios from 'axios';
 
 /////////////////////////////////////////
@@ -17,6 +18,7 @@ import Axios from 'axios';
 
 /////////////////////////////////////////
 /// Images & Styles
+import logo from '../img/logo.png';
 import '../css/LoginForm.css';
 
 /////////////////////////////////////////
@@ -70,12 +72,17 @@ class LoginForm extends React.Component {
                 "Password": this.state.userPassword
             })
             .then(response => {
-                console.log(response);
+                console.log(response.headers);
+                localStorage.setItem('Authorization', response.headers.authorization);
+                // if (response.status < 300) {
+                //     localStorage.setItem('Authorization', response.headers("Authorization"));
+                // }
+                // console.log(response);
                 return response.data;
             })
             .then(data => {
-                console.log(data);
-                console.log(typeof(data));
+                // console.log(data);
+                // console.log(typeof(data));
                 this.setState({
                     userData: data
                 });
@@ -89,58 +96,78 @@ class LoginForm extends React.Component {
   
     render() {
         return this.props.userLoggedIn ? (
-            <Redirect to="/" />
+            // <Redirect to="/"/>
+            <Redirect to={{
+                pathname: '/'
+                // state: { user: this.state.userData }
+              }}/>
         ) : (
             <div>
-                <div>
-                    <h1 className="ms-login-header">
-                        Milestone
-                    </h1>
-                </div>
-
+            <h1 className="ms-login-header">
+                Milestone
+            </h1>
                 <div className="container ms-login-wrapper">
-                    <h1 className="ms-login-title">
-                        Login
-                    </h1>
-                    <form>
-                        <FormGroup
-                            // validationState={this.getValidationState()}
-                        >
-                            <ControlLabel className="ms-login-label">
-                                Username
-                            </ControlLabel>
-                            <FormControl
-                                type="email"
-                                value={this.state.userEmail}
-                                placeholder=""
-                                className="ms-login-input"
-                                onChange={(e) => this.handleEmail(e)}
-                            />
-                            <br />
-                            <ControlLabel className="ms-login-label">
-                                Password
-                            </ControlLabel>
-                            <FormControl
-                                type="password"
-                                value={this.state.userPassword}
-                                placeholder=""
-                                className="ms-login-input"
-                                onChange={(e) => this.handlePassword(e)}
-                            />
-                            <FormControl.Feedback />
-                        </FormGroup>
+                    <div className="loginContent">
+                        <Form horizontal>
+                            <FormGroup controlId="formHorizontalEmail">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                    Email
+                                </Col>
+                                <Col sm={10}>
+                                <FormControl type="email" value={this.state.userEmail} placeholder="Email" className="ms-login-input" onChange={(e) => this.handleEmail(e)} />
+                                </Col>
+                            </FormGroup>
 
-                        <div className="ms-login-btn-wrapper">
-                            <button className="ms-login-btn">CANCEL</button>
-                            <button className="ms-login-btn"
-                                onClick={(e) => this.attemptLogIn(e)}
-                            >LOG IN</button>
-                        </div>
-
-                    </form>        
+                            <FormGroup controlId="formHorizontalPassword">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                    Password
+                                </Col>
+                                <Col sm={10}>
+                                <FormControl type="password" value={this.state.userPassword} placeholder="Password" className="ms-login-input" onChange={(e) => this.handlePassword(e)} />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup>
+                                <Col smOffset={2} sm={10}>
+                                    <button className="ms-login-btn" type="submit" onClick={(e) => this.attemptLogIn(e)} >Sign in</button>
+                                </Col>
+                            </FormGroup>
+                            <Link to="" className="loginPassword">Forgot your password?</Link>
+                        </Form>
+                    </div>
                 </div>
-
+                <footer className="loginFooter"><img className="loginLogo" src={logo}/>Milestone &copy;2018</footer>
             </div>
+                    /* <FormGroup>
+                        <ControlLabel className="ms-login-label">
+                            Username
+                        </ControlLabel>
+                        <FormControl
+                            type="email"
+                            value={this.state.userEmail}
+                            placeholder=""
+                            className="ms-login-input"
+                            onChange={(e) => this.handleEmail(e)}
+                        />
+                        <br />
+                        <ControlLabel className="ms-login-label">
+                            Password
+                        </ControlLabel>
+                        <FormControl
+                            type="password"
+                            value={this.state.userPassword}
+                            placeholder=""
+                            className="ms-login-input"
+                            onChange={(e) => this.handlePassword(e)}
+                        />
+                        <FormControl.Feedback />
+                    </FormGroup>
+                    <div className="ms-login-btn-wrapper">
+                        <button className="ms-login-btn">CANCEL</button>
+                        <button className="ms-login-btn"
+                            onClick={(e) => this.attemptLogIn(e)}
+                        >LOG IN</button>
+                    </div>
+                </form>         */
         );
     }
 }

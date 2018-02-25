@@ -8,7 +8,7 @@ import (
 type Store interface {
 
 	//GetAllUsers returns every single user
-	GetConversations(name string, userID bson.ObjectId) ([]*Conversation, error)
+	GetConversations(userID bson.ObjectId) ([]*Conversation, error)
 
 	//InsertMessage inserts new message into the database, and returns it
 	InsertMessage(newMessage *NewMessage, userID bson.ObjectId) ([]*Message, error)

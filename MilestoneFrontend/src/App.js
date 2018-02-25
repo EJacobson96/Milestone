@@ -25,6 +25,7 @@ class App extends Component {
     
         this.state = {
 			userLoggedIn: false,
+			// userLoggedIn: true,
 			sideBarOpen: false,
 			navBarDisplay: false
 		};
@@ -60,22 +61,22 @@ class App extends Component {
 	render() {
 		const displaySideBar = this.state.menuOpen;
 		const isLoggedIn = this.state.userLoggedIn;
-
 		return (
 			<div className="App">
+				<div>
+					{
+						isLoggedIn &&
+						<NavBar 
+							openSideBar={(e) => this.toggleSideBar(e)}
+						/>
+					}
 
-				{isLoggedIn &&
-					<NavBar 
-						openSideBar={(e) => this.toggleSideBar(e)}
-					/>
-				}
-
-				{displaySideBar &&
-					<SideBar 
-						closeSideBar={(e) => this.toggleSideBar(e)}
-					/>
-				}
-
+					{displaySideBar &&
+						<SideBar 
+							closeSideBar={(e) => this.toggleSideBar(e)}
+						/>
+					}
+				</div>
 				<div className="main">
 					<Switch>
 						<Route path ='/login' render={() => (

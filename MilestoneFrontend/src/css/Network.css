@@ -1,0 +1,59 @@
+.mainNav {
+	list-style-type: none;
+	display: flex;
+	padding: 0;
+	margin: 0;
+}
+
+.mainNav li {
+	flex: 1;
+	text-align: center;
+}
+
+.mainNav .nonActiveLink {
+	border-bottom: 2px solid #808080;
+}
+
+.mainNav .activeLink {
+	color: #FD786D;
+	border-bottom: 2px solid #FD786D;
+}
+
+.mainNav .activeLink a {
+	color: #FD786D;
+} 
+
+.mainNav a {
+	padding: .8em 0 .8em 0;
+	text-decoration: none;
+	width: 100%;
+	display: inline-block;
+	font-family: Arial;
+	text-transform: uppercase;
+	color: #808080;
+}
+
+.networkContent {
+	margin-top: .8em;
+}
+
+.networkContent form {
+	display: flex;
+	margin-bottom: 1em;
+	margin-left: .7em;
+}
+
+.networkContent input{
+	flex: 1;
+}
+
+.networkContent button {
+	flex-basis: 40px;
+}
+
+.plus {
+	margin: 0 .7em;
+}
+
+
+

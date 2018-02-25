@@ -29,18 +29,24 @@ func NewMongoStore(sess *mgo.Session, dbName string, collectionName string) *Mon
 }
 
 //Get every single conversation for a user
-func (s *MongoStore) GetConversations(name string, userID bson.ObjectId) ([]*Conversation, error) {
+func (s *MongoStore) GetConversations(userID bson.ObjectId) ([]*Conversation, error) {
 	conversations := []*Conversation{}
-	member := &Member{
-		ID:       userID,
-		FullName: name,
-	}
+	filteredConversations := []*Conversation{}
 	col := s.session.DB(s.dbname).C(s.colname)
-	err := col.Find(bson.M{"members": bson.M{"$in": []*Member{member}}}).Sort("-lastMessage").Limit(50).All(&conversations)
+	err := col.Find(nil).Sort("-lastmessage").Limit(50).All(&conversations)
 	if err != nil {
 		return nil, fmt.Errorf("error finding conversations: %v", err)
 	}
-	return conversations, nil
+	for _, conversation := range conversations {
+		for i := 0; i < len(conversation.Members); i++ {
+			member := conversation.Members[i]
+			if member.ID == userID {
+				filteredConversations = append(filteredConversations, conversation)
+				i = len(conversation.Members)
+			}
+		}
+	}
+	return filteredConversations, nil
 }
 
 //InsertMessage insert a new message into the database and returns it

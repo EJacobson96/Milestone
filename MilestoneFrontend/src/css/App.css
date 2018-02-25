@@ -1,11 +1,17 @@
 /*  Body (everything)  */
 
-body {
+body, html {
     background-color: #EBECED;
+    height: 100%;
+}
+
+/* App (everything) */
+.App {
+    height: 100%;
 }
 
 /*  Main (content under the navbar)  */
 
 .main {
-    margin-top: 50px; /* Add a top margin to avoid content overlay */
+    height: 100%;
 }
