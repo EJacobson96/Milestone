@@ -9,7 +9,7 @@
 /// Pre-baked Components
 import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import { Form, Col, Button, Checkbox } from 'react-bootstrap';
+import { Form, Col } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -24,7 +24,7 @@ import '../../css/LoginForm.css';
 /////////////////////////////////////////
 /// Code
 
-class LoginForm extends React.Component {
+class LoginForm extends Component {
     constructor(props) {
         super(props);
     
@@ -148,7 +148,7 @@ class LoginForm extends React.Component {
                         </Form>
                     </div>
                 </div>
-                <footer className="c-login-form__footer"><img className="c-login-form__footer__logo" src={logo}/>Milestone &copy;2018</footer>
+                <footer className="c-login-form__footer"><img className="c-login-form__footer__logo" src={logo} alt="Milestone Logo"/>Milestone &copy;2018</footer>
             </div>
         );
     }

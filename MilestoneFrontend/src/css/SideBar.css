@@ -40,6 +40,11 @@
 	line-height: 2.33em;
 }
 
+.c-sidebar__links-wrapper a:hover, .c-sidebar__links-wrapper a:active {
+	text-decoration: none;
+	color: #545E6E;
+}
+
 .c-sidebar__glyph {
 	color: #545E6E;
 	padding-right: 20px;

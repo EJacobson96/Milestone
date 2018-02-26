@@ -1,9 +1,7 @@
 /////////////////////////////////////////
 /// Pre-baked Components & Packages
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
-import { Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components

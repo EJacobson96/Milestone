@@ -1,6 +1,7 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -23,25 +24,31 @@ class Contacts extends React.Component {
         if (this.props.content) {
             connections = this.props.content.map((connection) => {
                 return (
-                    // <div className=".col-xs- connectionCard" key={connection.id}>
-                    //     <img className="avatar img-rounded img-responsive" src={fakeuser} alt="Responsive image"/>
-                    //     <h4>{connection.FullName}</h4>
-                    // </div>
-                    <div className="c-contact-card" key={connection.id} >
-                        <div className="c-contact-card__user-img">
-                            <img src={fakeuser} alt="Responsive image"/>
+                    <Link 
+                        to={{
+                            pathname: "/Network/Contacts/:id" + connection.id
+                        }}
+                        className='c-contact-card-link-wrapper' 
+                        key={connection.id}
+                    >
+                        <div className="c-contact-card" key={connection.id} >
+                            <div className="c-contact-card__user-img">
+                                <img src={fakeuser} alt=''/>
+                            </div>
+                                <div className="c-contact-card__details">
+                                    <span className="c-contact-card__details__full-name">
+                                            {connection.FullName}
+                                    </span>
+                                </div>
                         </div>
-                        <div className="c-contact-card__details">
-                            <span className="c-contact-card__details__full-name">{connection.FullName}</span>
-                        </div>
-                    </div>
+                    </Link>
                 );
             });
         } else {
             connections = <p></p>;
         }
         return (
-            <div className="[ .container-fluid ] l-contacts"> 
+            <div className="l-contacts"> 
                 <div className="">
                     {connections}
                 </div>
@@ -50,4 +57,4 @@ class Contacts extends React.Component {
     }
 }
 
-export default Contacts;
+export default withRouter(Contacts);

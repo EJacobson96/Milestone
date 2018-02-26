@@ -3,12 +3,14 @@
 
 import React, { Component } from 'react';
 import Axios from 'axios';
-import { Link } from 'react-router-dom';
-import { Glyphicon, Button } from 'react-bootstrap';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
+import NetworkNav from './NetworkNav';
+import NetworkSearch from './NetworkSearch';
 import Contacts from './Contacts';
+import ContactCard from './ContactCard';
 import Messages from './Messages';
 
 /////////////////////////////////////////
@@ -18,7 +20,7 @@ import '../../css/Network.css';
 /////////////////////////////////////////
 /// Code
 
-class Network extends React.Component {
+class Network extends Component {
     constructor(props) {
         super(props);
     
@@ -51,15 +53,10 @@ class Network extends React.Component {
         })
     }
 
-    handleSearch(e) {
-        e.preventDefault();
-        let input = document.getElementById('networkSearch');
-        let search = input.value;
-        if (this.state.contentType == 'contacts') {
-            input.value = '';
+    handleSearch(search) {
+        if (this.state.contentType === 'contacts') {
             this.getUserConnections(search);
         } else {
-            input.value = '';
             this.getMessages(search);
         }
     }
@@ -68,7 +65,7 @@ class Network extends React.Component {
         var links = document.querySelectorAll(".c-network-nav a");
         for (let i = 0; i < links.length; i++) {
             links[i].className = "";
-            if (links[i] == e.target) {
+            if (links[i] === e.target) {
                 links[i].className = "c-network-nav__link--active-link";
             } else {
                 links[i].className = "c-network-nav__link--non-active-link";
@@ -78,7 +75,7 @@ class Network extends React.Component {
 
     getMessages(search) {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/conversations' + '?id=' + this.state.userID + '&q=' + search,  
+            'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.state.userID + '&q=' + search,  
             {
                 // headers: {
                 //     'Authorization' : localStorage.getItem('Authorization')
@@ -88,7 +85,7 @@ class Network extends React.Component {
                 return response.data;
             })
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 this.setState({
                     content: data
                 });
@@ -101,7 +98,7 @@ class Network extends React.Component {
 
     getUserConnections(search) {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/connections' + '?q=' + search, 
+            'https://milestoneapi.eric-jacobson.me/connections?q=' + search, 
             {
                 headers: {
                     'Authorization' : localStorage.getItem('Authorization')
@@ -111,7 +108,7 @@ class Network extends React.Component {
                 return response.data;
             })
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 this.setState({
                     content: data
                 });
@@ -123,37 +120,32 @@ class Network extends React.Component {
     }
 
     render() {
-        var content = <Messages currUser={this.props.user.id} content={this.state.content} />
-        if (this.state.contentType == 'contacts') {
-            content = <Contacts content={this.state.content} />
-        }
         return (
             <div>
-                <ul className="c-network-nav">
-                    <li role="presentation" className="c-network-nav__link">
-                        <a href="#messages" className="c-network-nav__link--active-link" onClick={(e) => this.renderMessages(e)}>Messages</a>
-                    </li>
-                    <li role="presentation" className="c-network-nav__link">
-                        <a href="#contacts" className="c-network-nav__link--non-active-link" onClick={(e) => this.renderContacts(e)}>Contacts</a>
-                    </li>
-                </ul>
+                <NetworkNav
+                    renderContacts={(e) => this.renderContacts(e)}
+                    renderMessages={(e) => this.renderMessages(e)}
+                />
                 <div className="l-network-content">
-                    <div className="">
-                        <form className="form-inline">
-                            <input id="networkSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
-                            <Button className="btn btn-outline-success my-2 my-sm-0" onClick={(e) => this.handleSearch(e)}>
-                                <Glyphicon glyph="search" /> 
-                            </Button>
-                            <Button className="btn btn-outline-success my-2 my-sm-0 plus">
-                                <Glyphicon glyph="plus" /> 
-                            </Button>
-                        </form>
-                    </div>
-                    {content}
+                    <NetworkSearch 
+                        handleSearch={(e) => this.handleSearch(e)}
+                    />
+                    <Switch>
+                        <Route path="/Network/Messages" render={(props) => (
+                            <Messages currUser={this.props.user.id} content={this.state.content} />
+                        )} />
+                        <Route exact path ='/Network/Contacts/:id' component={ContactCard} />
+                        <Route path="/Network/Contacts" render={(props) => (
+                            <Contacts content={this.state.content} />
+                        )} />
+                        <Route exact path="/Network" render={(props) => (
+                            <Redirect to="/Network/Messages" />
+                        )} />
+                    </Switch>
                 </div>
             </div>
         );
     }
 }
 
-export default Network;
+export default withRouter(Network);

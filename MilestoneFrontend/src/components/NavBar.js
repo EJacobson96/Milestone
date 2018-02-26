@@ -35,7 +35,7 @@ class NavBar extends React.Component {
                     <Glyphicon glyph="menu-hamburger" />
                 </Button>
                 <div className="c-navbar__logo-wrapper">
-                    <img src={ logo } className="c-navbar__logo-img"/>
+                    <img src={ logo } className="c-navbar__logo-img" alt="Milestone Logo" />
                 </div>
                 <Button bsSize="lg" className="c-navbar__btn">
                     <Glyphicon glyph="user" />                

@@ -1,7 +1,6 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
-import { Grid, Col, Row } from 'react-bootstrap';
 import moment from 'moment';
 
 /////////////////////////////////////////
@@ -29,10 +28,10 @@ class Messages extends React.Component {
                 var members = "";
                 for (let i = 0; i < conversation.members.length; i++) {
                     let memberLength = conversation.members.length;
-                    if (this.props.currUser != conversation.members[i].id && memberLength == 2) {
+                    if (this.props.currUser !== conversation.members[i].id && memberLength === 2) {
                         members += conversation.members[i].fullName;
                         i = memberLength;
-                    } else if (this.props.currUser != conversation.members[i].id) {
+                    } else if (this.props.currUser !== conversation.members[i].id) {
                         members += conversation.members[i].fullName + " & " + (memberLength - 1) + " others";;
                     }
                 }
@@ -64,7 +63,7 @@ class Messages extends React.Component {
                     // </Grid>
                     <div className="c-conversation-card" key={conversation.id} >
                         <div className="c-conversation-card__user-img">
-                            <img src={fakeuser} alt="Responsive image"/>
+                            <img src={fakeuser} alt="User Avatar"/>
                         </div>
                         <div className="c-conversation-card__details">
                             <div className="c-conversation-card__details__name-and-date">

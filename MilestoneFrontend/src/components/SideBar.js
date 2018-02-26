@@ -48,35 +48,43 @@ class SideBar extends React.Component {
 
 					<div>
 						<ul className="c-sidebar__links-wrapper">
-							<li>
-								<Glyphicon glyph="comment" className="c-sidebar__glyph" />
-								<Link to="/Network" className="c-sidebar__link">
-									Network
-								</Link>
-							</li>
-							<li>
-								<Glyphicon glyph="calendar" className="c-sidebar__glyph" />
-								<Link to="/Calendar" className="c-sidebar__link">
-									Calendar
-								</Link>
-							</li>
-							<li>
-								<Glyphicon glyph="flag" className="c-sidebar__glyph" />
-								<Link to="/Progress" className="c-sidebar__link">
-									Progress
-								</Link>
-							</li>
-							<li>
-								<Glyphicon glyph="send" className="c-sidebar__glyph" />
-								<Link to="Requests" className="c-sidebar__link">
-									Requests
-								</Link>
-							</li>
+							<Link to='/'>
+								<li>
+									<Glyphicon glyph="comment" className="c-sidebar__glyph" />
+									<span className="c-sidebar__link">
+										Network
+									</span>
+								</li>
+							</Link>
+							<Link to='/Calendar'>
+								<li>
+									<Glyphicon glyph="calendar" className="c-sidebar__glyph" />
+									<span className="c-sidebar__link">
+										Calendar
+									</span>
+								</li>
+							</Link>
+							<Link to='Progress>'>
+								<li>
+									<Glyphicon glyph="flag" className="c-sidebar__glyph" />
+									<span className="c-sidebar__link">
+										Progress
+									</span>
+								</li>
+							</Link>
+							<Link to='Requests'>
+								<li>
+									<Glyphicon glyph="send" className="c-sidebar__glyph" />
+									<span className="c-sidebar__link">
+										Requests
+									</span>
+								</li>
+							</Link>
 						</ul>
 					</div>
 
 				</div>
-				
+
 			</div>
         );
     }

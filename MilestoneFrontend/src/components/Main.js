@@ -22,7 +22,7 @@ import '../css/LoginForm.css';
 /////////////////////////////////////////
 /// Code
 
-class Main extends React.Component {
+class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -78,6 +78,9 @@ class Main extends React.Component {
                     )} />
                     <Route path='/Requests' render={(props) => (
                         <Placeholder />
+                    )} />
+                    <Route exact path="/" render={(props) => (
+                        <Redirect to="/Network" />
                     )} />
                 </Switch>
             ) : (
