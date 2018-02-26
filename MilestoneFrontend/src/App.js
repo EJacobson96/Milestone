@@ -11,6 +11,7 @@ import NavBar from './components/NavBar';
 import SideBar from './components/SideBar';
 import LoginForm from './components/LoginForm';
 import Main from './components/Main';
+import ContactCard from './components/ContactCard';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -79,17 +80,18 @@ class App extends Component {
 				</div>
 				<div className="main">
 					<Switch>
-						<Route path ='/login' render={() => (
+						<Route exact={true} path ='/login' render={() => (
 							<LoginForm
 								logIn={(e) => this.logIn(e)}
 								userLoggedIn = { this.state.userLoggedIn }
 							/>
 						)} />
-						<Route path ='/' render={(props) => (
+						<Route exact={true} path ='/' render={(props) => (
 							<Main 
 								userLoggedIn = { this.state.userLoggedIn }
 							/>
 						)} />
+						<Route exact={true} path ='/contacts/:id' component={ContactCard} />
 					</Switch>
 				</div>
 			</div>

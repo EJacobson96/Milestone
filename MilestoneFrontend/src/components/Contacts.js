@@ -1,6 +1,7 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -27,24 +28,24 @@ class Contacts extends React.Component {
                     //     <img className="avatar img-rounded img-responsive" src={fakeuser} alt="Responsive image"/>
                     //     <h4>{connection.FullName}</h4>
                     // </div>
-                    <div className="contactCard" key={connection.id} >
-                        <div className="userImage">
-                        <img src={fakeuser} alt="Responsive image"/>
+                    <Link className='contactCardLinks' to={'/contacts/:id' + connection.id} >
+                        <div className='contactCard' key={connection.id} >
+                            <div className='userImage'>
+                                <img src={fakeuser} alt='Responsive image'/>
+                            </div>
+                            <div className='contactDetails'>
+                                <h4>{connection.FullName}</h4>
+                            </div>
                         </div>
-                        <div className="contactDetails">
-                            <h4>{connection.FullName}</h4>
-                        </div>
-                    </div>
+                    </Link>
                 );
             });
         } else {
             connections = <p></p>;
         }
         return (
-            <div className="connections .container-fluid"> 
-                <div className="">
-                    {connections}
-                </div>
+            <div className='connections .container-fluid'> 
+                {connections}
             </div>
         );
     }

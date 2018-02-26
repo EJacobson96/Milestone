@@ -1,0 +1,45 @@
+.profilePage .profileImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profileImage img {
+    width: 40%;
+    border-radius: 50%;
+    margin: 2.5em 0 2em 0;
+}
+
+.profileContact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3em;
+}
+
+.profileContact .profilePhone {
+    text-align: right;
+    margin-right: .25em;
+}
+
+.profileContact .profileMessage {
+    margin-left: .25em;
+}
+
+.profileContact img {
+    border-radius: 50%;
+    width: 20%;
+}
+
+.profilePage .profileName {
+    text-align: center;
+    font-size: 4vh;
+    font-weight: 400;
+    border-bottom: 2px solid #808080;
+    margin: .5em 0 .5em 0;
+    padding: 0 0 .5em;
+}
+
+.profileInfo {
+    margin: 2em 3em;
+}
