@@ -64,7 +64,7 @@ class SideBar extends React.Component {
 									</span>
 								</li>
 							</Link>
-							<Link to='Progress>'>
+							<Link to='/Progress'>
 								<li>
 									<Glyphicon glyph="flag" className="c-sidebar__glyph" />
 									<span className="c-sidebar__link">
@@ -72,7 +72,7 @@ class SideBar extends React.Component {
 									</span>
 								</li>
 							</Link>
-							<Link to='Requests'>
+							<Link to='/Requests'>
 								<li>
 									<Glyphicon glyph="send" className="c-sidebar__glyph" />
 									<span className="c-sidebar__link">

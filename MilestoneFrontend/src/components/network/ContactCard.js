@@ -2,6 +2,8 @@
 /// Pre-baked Components
 import React from 'react';
 import Axios from 'axios';
+import { Button, Glyphicon } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -16,11 +18,12 @@ import '../../css/ContactCard.css';
 class ContactCard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.state = { };
     }
 
     componentDidMount() {
+        this.props.toggleSearchAndNav();
+
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         Axios.get(
             'https://milestoneapi.eric-jacobson.me/contact/?id=' + id, 
@@ -42,6 +45,10 @@ class ContactCard extends React.Component {
                 console.log(error);
             }
         );
+    }
+
+    componentWillUnmount() {
+        this.props.toggleSearchAndNav();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -75,27 +82,43 @@ class ContactCard extends React.Component {
         }
     }
 
+    buttonClicked() {
+        console.log('wut');
+        this.props.history.goBack();
+    }
+
     render() {
         var name;
+        var email;
         // var profileImage;
         if (this.state.contactInfo) {
-            name = <h3 className="profileName">{this.state.contactInfo.FullName}</h3>;
+            name = 
+                <div className="c-contact-profile__header__profile-name-wrapper">
+                    <h3 className="c-contact-profile__header__profile-name">{this.state.contactInfo.FullName}</h3>
+                </div>;
+            email = this.state.contactInfo.email;
         }
         return (
-            <div className='profilePage'>
-                {name}
-                <div className="profileImage">
+            <div className='c-contact-profile'>
+                <div className="c-contact-profile__header">
+                    <Button onClick={() => this.buttonClicked()} className="c-contact-profile__header__back-btn">
+                        <Glyphicon glyph="chevron-left" />
+                    </Button>
+                    {name}            
+                </div>
+                <div className="c-contact-profile__profile-img">
                     <img src={fakeuser} alt="User Avatar"/>
                 </div>
-                <div className='profileContact'>
-                    <div className='profilePhone'>
+                <div className='c-contact-profile__contact-icons'>
+                    <div className='c-contact-profile__contact-icons__phone'>
                         <a href="tel:5555555555"><img src={phone} alt="phone icon"/></a>
                     </div>
-                    <div className='profileMessage'> 
+                    <div className='c-contact-profile__contact-icons__msg'> 
                         <img src={message} alt="messaging icon"/>
                     </div>
                 </div>
-                <div className='profileInfo'>
+                <div className='c-contact-profile__profile-info'>
+                    <p className='c-contact-profile__field-label'><strong>Email: </strong>{ email }</p>
                     <h5>Description: </h5>
                     <p>
                         Dolore do eiusmod sit qui veniam cillum. Cupidatat qui excepteur magna ea laboris. 
@@ -109,4 +132,4 @@ class ContactCard extends React.Component {
     }
 }
 
-export default ContactCard;
+export default withRouter(ContactCard);

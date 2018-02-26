@@ -26,7 +26,8 @@ class Contacts extends React.Component {
                 return (
                     <Link 
                         to={{
-                            pathname: "/Network/Contacts/:id" + connection.id
+                            pathname: "/Network/Contacts/:id" + connection.id,
+                            state: {showSearch: false}
                         }}
                         className='c-contact-card-link-wrapper' 
                         key={connection.id}

@@ -9,7 +9,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/Network.css';
+import '../../css/NetworkNav.css';
 
 /////////////////////////////////////////
 /// Code

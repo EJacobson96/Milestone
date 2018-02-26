@@ -27,6 +27,7 @@ class Network extends Component {
         this.state = {
             contentType: 'messages',
             search: '',
+            showSearchAndNav: true,
             userID: this.props.user.id,
         };
         this.handleSearch = this.handleSearch.bind(this);
@@ -38,7 +39,6 @@ class Network extends Component {
     }
 
     renderMessages(e) {
-        this.toggleLinks(e);
         this.setState({
             contentType: 'messages',
             content: this.getMessages('')
@@ -46,7 +46,6 @@ class Network extends Component {
     }
 
     renderContacts(e) {
-        this.toggleLinks(e);
         this.setState({
             contentType: 'contacts',
             content: this.getUserConnections('')
@@ -61,16 +60,11 @@ class Network extends Component {
         }
     }
 
-    toggleLinks(e) {
-        var links = document.querySelectorAll(".c-network-nav a");
-        for (let i = 0; i < links.length; i++) {
-            links[i].className = "";
-            if (links[i] === e.target) {
-                links[i].className = "c-network-nav__link--active-link";
-            } else {
-                links[i].className = "c-network-nav__link--non-active-link";
-            }
-        }
+    toggleSearchAndNav(e) {
+        let toggle = !this.state.showSearchAndNav;
+        this.setState({
+            showSearchAndNav: toggle
+        })
     }
 
     getMessages(search) {
@@ -122,19 +116,29 @@ class Network extends Component {
     render() {
         return (
             <div>
-                <NetworkNav
-                    renderContacts={(e) => this.renderContacts(e)}
-                    renderMessages={(e) => this.renderMessages(e)}
-                />
-                <div className="l-network-content">
-                    <NetworkSearch 
-                        handleSearch={(e) => this.handleSearch(e)}
+                {
+                    this.state.showSearchAndNav &&
+                    <NetworkNav
+                        renderContacts={(e) => this.renderContacts(e)}
+                        renderMessages={(e) => this.renderMessages(e)}
                     />
+                }
+                <div className="l-network-content">
+                    {
+                        this.state.showSearchAndNav &&
+                        <NetworkSearch 
+                            handleSearch={(e) => this.handleSearch(e)}
+                        />                        
+                    }
                     <Switch>
                         <Route path="/Network/Messages" render={(props) => (
                             <Messages currUser={this.props.user.id} content={this.state.content} />
                         )} />
-                        <Route exact path ='/Network/Contacts/:id' component={ContactCard} />
+                        <Route exact path ='/Network/Contacts/:id' render={(props) => (
+                            <ContactCard
+                                toggleSearchAndNav={ (e) => this.toggleSearchAndNav(e) }
+                            />
+                        )} />
                         <Route path="/Network/Contacts" render={(props) => (
                             <Contacts content={this.state.content} />
                         )} />
