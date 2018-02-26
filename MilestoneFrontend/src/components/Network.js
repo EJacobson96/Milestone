@@ -62,13 +62,13 @@ class Network extends React.Component {
     }
 
     toggleLinks(e) {
-        var links = document.querySelectorAll(".mainNav a");
+        var links = document.querySelectorAll('.mainNav a');
         for (let i = 0; i < links.length; i++) {
-            links[i].className = "";
+            links[i].className = '';
             if (links[i] == e.target) {
-                links[i].className = "activeLink";
+                links[i].className = 'activeLink';
             } else {
-                links[i].className = "nonActiveLink";
+                links[i].className = 'nonActiveLink';
             }
         }
     }
@@ -126,19 +126,19 @@ class Network extends React.Component {
         }
         return (
             <div>
-                <ul className="mainNav">
-                    <li role="presentation"><Link to="" className="activeLink" onClick={(e) => this.renderMessages(e)}>Messages</Link></li>
-                    <li role="presentation"><Link to="" className="nonActiveLink" onClick={(e) => this.renderContacts(e)}>Contacts</Link></li>
+                <ul className='mainNav'>
+                    <li role='presentation'><Link to='' className='activeLink' onClick={(e) => this.renderMessages(e)}>Messages</Link></li>
+                    <li role='presentation'><Link to='' className='nonActiveLink' onClick={(e) => this.renderContacts(e)}>Contacts</Link></li>
                 </ul>
-                <div className="networkContent">
-                    <div className="">
-                        <form className="form-inline">
-                            <input id="networkSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
-                            <Button className="btn btn-outline-success my-2 my-sm-0" onClick={(e) => this.handleSearch(e)}>
-                                <Glyphicon glyph="search" /> 
+                <div className='networkContent'>
+                    <div className=''>
+                        <form className='form-inline'>
+                            <input id='networkSearch' className='form-control mr-sm-2' type='search' placeholder='Search...' aria-label='Search'/>
+                            <Button className='btn btn-outline-success my-2 my-sm-0' onClick={(e) => this.handleSearch(e)}>
+                                <Glyphicon glyph='search' /> 
                             </Button>
-                            <Button className="btn btn-outline-success my-2 my-sm-0 plus">
-                                <Glyphicon glyph="plus" /> 
+                            <Button className='btn btn-outline-success my-2 my-sm-0 plus'>
+                                <Glyphicon glyph='plus' /> 
                             </Button>
                         </form>
                     </div>

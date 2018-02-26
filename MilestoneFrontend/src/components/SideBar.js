@@ -2,6 +2,7 @@
 /// Pre-baked Components
 import React from 'react';
 import { Glyphicon } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -47,24 +48,32 @@ class SideBar extends React.Component {
 
 					<div className="ms-sidebar-links">
 						<ul>
-							<li>
-								<Glyphicon glyph="comment" className="ms-sidebar-glyph" />
-								<a className="ms-sidebar-link" href="#network">
-									Network
-								</a>
-							</li>
-							<li>
-								<Glyphicon glyph="calendar" className="ms-sidebar-glyph" />
-								<a className="ms-sidebar-link" href="#calendar">Calendar</a>
-							</li>
-							<li>
-								<Glyphicon glyph="flag" className="ms-sidebar-glyph" />
-								<a className="ms-sidebar-link" href="#progress">Progress</a>
-							</li>
-							<li>
-								<Glyphicon glyph="send" className="ms-sidebar-glyph" />
-								<a className="ms-sidebar-link" href="#requests">Requests</a>
-							</li>
+							<Link to='/'>
+								<li>
+									<Glyphicon glyph="comment" className="ms-sidebar-glyph" />
+									<a className="ms-sidebar-link" href="#network">
+										Network
+									</a>
+								</li>
+							</Link>
+							<Link to='/calendar'>
+								<li>
+									<Glyphicon glyph="calendar" className="ms-sidebar-glyph" />
+									<a className="ms-sidebar-link" href="#calendar">Calendar</a>
+								</li>
+							</Link>
+							<Link to='progress'>
+								<li>
+									<Glyphicon glyph="flag" className="ms-sidebar-glyph" />
+									<a className="ms-sidebar-link" href="#progress">Progress</a>
+								</li>
+							</Link>
+							<Link to='requests'>
+								<li>
+									<Glyphicon glyph="send" className="ms-sidebar-glyph" />
+									<a className="ms-sidebar-link" href="#requests">Requests</a>
+								</li>
+							</Link>
 						</ul>
 					</div>
 
