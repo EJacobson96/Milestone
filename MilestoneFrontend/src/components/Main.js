@@ -1,19 +1,19 @@
 /////////////////////////////////////////
 /// Dev Notes
 /*
- *  This component is large, and could probably be refactored into a couple
- *  smaller componenents. ~Iean
+ *
  */
 
 /////////////////////////////////////////
 /// Pre-baked Components
 import React, { Component } from 'react';
 import Axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Switch, Route } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
-import Network from './Network';
+import Network from './network/Network';
+import Placeholder from './Placeholder';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -22,13 +22,17 @@ import '../css/LoginForm.css';
 /////////////////////////////////////////
 /// Code
 
-class Main extends React.Component {
+class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userLoggedIn: this.props.isLoggedIn
         };
+
         this.getCurrentUser = this.getCurrentUser.bind(this);
+    }
+    
+    componentDidMount() {
         this.getCurrentUser();
     }
 
@@ -57,17 +61,34 @@ class Main extends React.Component {
 
     render() {
         let isLoggedIn = this.props.userLoggedIn;
+
         if (this.state.userData) {
             return isLoggedIn ? (
-                <Network user={this.state.userData} />
+                <Switch>
+                    <Route path='/Network' render={(props) => (
+                        <Network 
+                            user={ this.state.userData }
+                        />
+                    )} />
+                    <Route path='/Calendar' render={(props) => (
+                        <Placeholder />
+                    )} />
+                    <Route path='/Progress' render={(props) => (
+                        <Placeholder />
+                    )} />
+                    <Route path='/Requests' render={(props) => (
+                        <Placeholder />
+                    )} />
+                    <Route exact path="/" render={(props) => (
+                        <Redirect to="/Network" />
+                    )} />
+                </Switch>
             ) : (
                 <Redirect to="/login" />
             );
         } else {
             return <h1></h1>
         }
-
-
     }
 }
   

@@ -1,34 +1,19 @@
-/* The navbar itself */
-.ms-navbar {
+/**  The navbar itself  **/
+
+.c-navbar {
     background-color: #FD786D;
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-/* Links inside the navbar */
-.ms-navbar a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-/* Navbar links on mouse-over */
-.ms-navbar a:hover {
-    background: #ddd;
-    color: black;
-}
-
-.ms-navbar-logo-wrapper {
+.c-navbar__logo-wrapper {
     flex: 1;
     height: 100%;
     
 }
 
-.ms-navbar-logo {
+.c-navbar__logo-img {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -37,7 +22,7 @@
     padding: .2em 0;
 }
 
-.ms-navbar Button {
+.c-navbar__btn {
     background: none;
     border: none;
     font-size: 4vh;
@@ -45,11 +30,26 @@
     align-items: center;
 }
 
-.ms-navbar Button:hover {
+.c-navbar__btn:hover {
     background: none;
     border: none;
 }
 
-.ms-navbar {
-    background-color: #FD786D;
-}
+
+/**  Currently Unused  **/
+
+/* Links inside the navbar */
+/* .c-navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+} */
+
+/* Navbar links on mouse-over */
+/* .c-navbar a:hover {
+    background: #ddd;
+    color: black;
+}  */

@@ -1,15 +1,13 @@
 /////////////////////////////////////////
 /// Pre-baked Components & Packages
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
-import { Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
 import NavBar from './components/NavBar';
 import SideBar from './components/SideBar';
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/login/LoginForm';
 import Main from './components/Main';
 
 /////////////////////////////////////////
@@ -71,15 +69,17 @@ class App extends Component {
 						/>
 					}
 
-					{displaySideBar &&
+					{
+						displaySideBar &&
 						<SideBar 
 							closeSideBar={(e) => this.toggleSideBar(e)}
 						/>
 					}
 				</div>
-				<div className="main">
+
+				<div className="l-main">
 					<Switch>
-						<Route path ='/login' render={() => (
+						<Route path ='/login' render={(props) => (
 							<LoginForm
 								logIn={(e) => this.logIn(e)}
 								userLoggedIn = { this.state.userLoggedIn }

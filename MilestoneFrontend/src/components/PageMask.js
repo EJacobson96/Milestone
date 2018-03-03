@@ -20,7 +20,7 @@ class PageMask extends React.Component {
 
     render() {
         return (
-            <div className="page-mask">
+            <div className="c-page-mask">
                 
             </div>
         );

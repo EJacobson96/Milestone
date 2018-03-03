@@ -30,17 +30,14 @@ class NavBar extends React.Component {
 
     render() {
         return (
-            <div className="ms-navbar">
-                <Button bsSize="lg" onClick={(e) => this.openSideBar(e)}>
+            <div className="c-navbar">
+                <Button bsSize="lg" onClick={(e) => this.openSideBar(e)} className="c-navbar__btn">
                     <Glyphicon glyph="menu-hamburger" />
                 </Button>
-                {/* <a href="#home">M</a> */}
-                <div className="ms-navbar-logo-wrapper">
-                    <img src={ logo } className="ms-navbar-logo"/>
+                <div className="c-navbar__logo-wrapper">
+                    <img src={ logo } className="c-navbar__logo-img" alt="Milestone Logo" />
                 </div>
-                <Button bsSize="lg" 
-                // className="user-link pull-right"
-                >
+                <Button bsSize="lg" className="c-navbar__btn">
                     <Glyphicon glyph="user" />                
                 </Button>
             </div>

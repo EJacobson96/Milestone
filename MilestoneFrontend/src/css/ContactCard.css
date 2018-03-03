@@ -1,0 +1,74 @@
+.c-contact-profile {
+    margin-top: -0.8em;
+}
+
+.c-contact-profile__profile-img {
+    align-items: center;
+    justify-content: center;
+    clear: both;
+}
+
+.c-contact-profile__profile-img img {
+    display: block;
+    padding-top: 50px;
+    width: 40%;
+    border-radius: 50%;
+    margin: 2.5em auto 2em auto;
+}
+
+.c-contact-profile__contact-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3em;
+}
+
+.c-contact-profile__contact-icons__phone {
+    text-align: right;
+    margin-right: .25em;
+}
+
+.c-contact-profile__contact-icons__msg {
+    margin-left: .25em;
+}
+
+.c-contact-profile__contact-icons img {
+    border-radius: 50%;
+    width: 20%;
+}
+
+.c-contact-profile__profile-info {
+    margin: 1.5em 3em;
+}
+
+.c-contact-profile__header {
+    width: 100%;
+}
+
+.c-contact-profile__header__profile-name-wrapper {
+    position: absolute;
+    width: inherit;
+}
+
+.c-contact-profile__header__profile-name {
+    text-align: center;
+    font-size: 4vh;
+    font-weight: 400;
+    border-bottom: 2px solid #808080;
+    display: block;
+    margin: .5em 0 .5em 0;
+    padding: 0 0 .5em;
+
+}
+
+.c-contact-profile__header__back-btn {
+    position: relative;
+    float: left;
+    font-size: 3.5vh;
+    color: lightgray;
+    background-color: transparent;
+    border: none;
+    margin-top: 7px;
+    margin-left: 5px;
+    z-index: 1;
+}

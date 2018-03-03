@@ -1,6 +1,6 @@
 /* The sidebar itself */
 
-.ms-sidebar {
+.c-sidebar {
 	z-index: 2;
 	width: 80%;
 	height: 100%;
@@ -12,12 +12,12 @@
 
 /* The sidebar's top bar (matches navbar) */
 
-.ms-sidebar-top {
+.c-sidebar__top {
 	height: 50px;
 	background-color: #FD786D;
 }
 
-.ms-sidebar-top a {
+.c-sidebar__top__link {
 	float: left;
 	display: block;
 	color: #f2f2f2;
@@ -26,31 +26,33 @@
 	text-decoration: none;
 }
 
-.ms-sidebar-top a:active{
+.c-sidebar__top__link:active{
 	border: none;
 }
 
 /* Links within the sidebar */
 
-.ms-sidebar ul li {
+.c-sidebar__links-wrapper {
+	list-style: none;
+	padding-top: 20px;
+	padding-left: 30px;
 	font-size: 36px;
 	line-height: 2.33em;
 }
 
-.ms-sidebar-glyph {
+.c-sidebar__links-wrapper a:hover, .c-sidebar__links-wrapper a:active {
+	text-decoration: none;
+	color: #545E6E;
+}
+
+.c-sidebar__glyph {
 	color: #545E6E;
 	padding-right: 20px;
 	font-size: 48px;
 	vertical-align: middle;
 }
 
-.ms-sidebar-link {
+.c-sidebar__link {
 	color: #545E6E;
 	vertical-align: middle;
-}
-
-.ms-sidebar-links ul {
-	list-style: none;
-	padding-top: 20px;
-	padding-left: 30px;
 }

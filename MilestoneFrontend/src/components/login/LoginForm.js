@@ -9,7 +9,7 @@
 /// Pre-baked Components
 import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import { Form, Col, Button, Checkbox } from 'react-bootstrap';
+import { Form, Col } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -18,13 +18,13 @@ import Axios from 'axios';
 
 /////////////////////////////////////////
 /// Images & Styles
-import logo from '../img/logo.png';
-import '../css/LoginForm.css';
+import logo from '../../img/logo.png';
+import '../../css/LoginForm.css';
 
 /////////////////////////////////////////
 /// Code
 
-class LoginForm extends React.Component {
+class LoginForm extends Component {
     constructor(props) {
         super(props);
     
@@ -103,71 +103,53 @@ class LoginForm extends React.Component {
               }}/>
         ) : (
             <div>
-            <h1 className="ms-login-header">
-                Milestone
-            </h1>
-                <div className="container ms-login-wrapper">
-                    <div className="loginContent">
-                        <Form horizontal>
+                <h1 className="c-login-header">
+                    Milestone
+                </h1>
+                <div className="[ container ] l-login">
+                    <div className="l-login__content">
+                        <Form horizontal className="c-login-form">
                             <FormGroup controlId="formHorizontalEmail">
-                                <Col componentClass={ControlLabel} sm={2}>
+                                <Col componentClass={ControlLabel} sm={2} className="c-login-form__label">
                                     Email
                                 </Col>
                                 <Col sm={10}>
-                                <FormControl type="email" value={this.state.userEmail} placeholder="Email" className="ms-login-input" onChange={(e) => this.handleEmail(e)} />
+                                    <FormControl 
+                                        type="email" 
+                                        value={this.state.userEmail} 
+                                        placeholder="Email" 
+                                        onChange={(e) => this.handleEmail(e)} 
+                                        className="c-login-form__input" 
+                                    />
                                 </Col>
                             </FormGroup>
 
                             <FormGroup controlId="formHorizontalPassword">
-                                <Col componentClass={ControlLabel} sm={2}>
+                                <Col componentClass={ControlLabel} sm={2} className="c-login-form__label">
                                     Password
                                 </Col>
                                 <Col sm={10}>
-                                <FormControl type="password" value={this.state.userPassword} placeholder="Password" className="ms-login-input" onChange={(e) => this.handlePassword(e)} />
+                                    <FormControl 
+                                        type="password" 
+                                        value={this.state.userPassword} 
+                                        placeholder="Password" 
+                                        onChange={(e) => this.handlePassword(e)} 
+                                        className="c-login-form__input" 
+                                    />
                                 </Col>
                             </FormGroup>
+
                             <FormGroup>
                                 <Col smOffset={2} sm={10}>
-                                    <button className="ms-login-btn" type="submit" onClick={(e) => this.attemptLogIn(e)} >Sign in</button>
+                                    <button className="c-login-form__btn" type="submit" onClick={(e) => this.attemptLogIn(e)} >Sign in</button>
                                 </Col>
                             </FormGroup>
-                            <Link to="" className="loginPassword">Forgot your password?</Link>
+                            <Link to="#" className="c-login-form__forgot-password">Forgot your password?</Link>
                         </Form>
                     </div>
                 </div>
-                <footer className="loginFooter"><img className="loginLogo" src={logo}/>Milestone &copy;2018</footer>
+                <footer className="c-login-form__footer"><img className="c-login-form__footer__logo" src={logo} alt="Milestone Logo"/>Milestone &copy;2018</footer>
             </div>
-                    /* <FormGroup>
-                        <ControlLabel className="ms-login-label">
-                            Username
-                        </ControlLabel>
-                        <FormControl
-                            type="email"
-                            value={this.state.userEmail}
-                            placeholder=""
-                            className="ms-login-input"
-                            onChange={(e) => this.handleEmail(e)}
-                        />
-                        <br />
-                        <ControlLabel className="ms-login-label">
-                            Password
-                        </ControlLabel>
-                        <FormControl
-                            type="password"
-                            value={this.state.userPassword}
-                            placeholder=""
-                            className="ms-login-input"
-                            onChange={(e) => this.handlePassword(e)}
-                        />
-                        <FormControl.Feedback />
-                    </FormGroup>
-                    <div className="ms-login-btn-wrapper">
-                        <button className="ms-login-btn">CANCEL</button>
-                        <button className="ms-login-btn"
-                            onClick={(e) => this.attemptLogIn(e)}
-                        >LOG IN</button>
-                    </div>
-                </form>         */
         );
     }
 }
