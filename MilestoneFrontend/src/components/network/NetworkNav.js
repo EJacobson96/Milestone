@@ -26,25 +26,33 @@ class NetworkNav extends Component {
     }
     
     renderMessages(e) {
-        this.toggleLinks(e);
-		
 		this.props.renderMessages(e);
     }
 
     renderContacts(e) {
-        this.toggleLinks(e);
-		
 		this.props.renderContacts(e);
     }
 
-    toggleLinks(e) {
+    componentDidMount() {
         var links = document.querySelectorAll(".c-network-nav a");
-        for (let i = 0; i < links.length; i++) {
-            links[i].className = "";
-            if (links[i] === e.target) {
-                links[i].className = "c-network-nav__link--active-link";
+        if (this.props.location.pathname.endsWith("/Contacts")) {
+            links[1].className = "c-network-nav__link--active-link";
+            links[0].className = "c-network-nav__link--non-active-link";
+        } else {
+            links[0].className = "c-network-nav__link--active-link";
+            links[1].className = "c-network-nav__link--non-active-link";
+        }
+    }
+
+    componentWillReceiveProps(nextProp) {
+        if (nextProp.location.pathname != this.props.location.pathname) {
+            var links = document.querySelectorAll(".c-network-nav a");
+            if (nextProp.location.pathname.endsWith("/Contacts")) {
+                links[1].className = "c-network-nav__link--active-link";
+                links[0].className = "c-network-nav__link--non-active-link";
             } else {
-                links[i].className = "c-network-nav__link--non-active-link";
+                links[0].className = "c-network-nav__link--active-link";
+                links[1].className = "c-network-nav__link--non-active-link";
             }
         }
     }
@@ -53,10 +61,10 @@ class NetworkNav extends Component {
         return (
 			<ul className="c-network-nav">
 				<li role="presentation" className="c-network-nav__link">
-					<Link to="/Network/Messages" className="c-network-nav__link--active-link" onClick={(e) => this.renderMessages(e)}>Messages</Link>
+					<Link to="/Network/Messages" className="" onClick={(e) => this.renderMessages(e)}>Messages</Link>
 				</li>
 				<li role="presentation" className="c-network-nav__link">
-					<Link to="/Network/Contacts" className="c-network-nav__link--non-active-link" onClick={(e) => this.renderContacts(e)}>Contacts</Link>
+					<Link to="/Network/Contacts" className="" onClick={(e) => this.renderContacts(e)}>Contacts</Link>
 				</li>
 			</ul>
         );
