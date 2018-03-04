@@ -138,7 +138,7 @@ class Network extends Component {
                         <ContactCard />
                     )} />
                     <Route exact path="/Network/Contacts/Connect" render={(props) => (
-                        <NetworkConnect />
+                        <NetworkConnect accountType={this.props.user.accountType} />
                     )} />
                     <Route exact path="/Network/Contacts" render={(props) => (
                     <div>

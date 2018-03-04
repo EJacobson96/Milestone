@@ -11,7 +11,7 @@ import { Glyphicon, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/Network.css';
+import '../../css/NetworkSearch.css';
 
 /////////////////////////////////////////
 /// Code
@@ -37,8 +37,8 @@ class NetworkSearch extends Component {
 
     render() {
         return (
-			<div className="">
-				<form className="[ form-inline ]">
+			<div className="c-network-form">
+				<form className="[ form-inline ] c-network-search">
 					<input id="networkSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
 					<Button className="btn btn-outline-success my-2 my-sm-0" onClick={(e) => this.handleSearch(e)}>
 						<Glyphicon glyph="search" /> 

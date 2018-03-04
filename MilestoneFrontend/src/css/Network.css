@@ -2,14 +2,14 @@
 	margin-bottom: .8em;
 } */
 
-.l-network-content form {
+/* .l-network-content form {
 	display: flex;
 	margin-bottom: 1em;
 	margin-left: .7em;
 	margin-top: .8em;
-}
+} */
 
-.l-network-content input{
+.l-network-content input {
 	flex: 1;
 }
 
