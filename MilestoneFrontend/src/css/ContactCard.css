@@ -45,10 +45,10 @@
     width: 100%;
 }
 
-.c-contact-profile__header__profile-name-wrapper {
+/* .c-contact-profile__header__profile-name-wrapper {
     position: absolute;
     width: inherit;
-}
+} */
 
 .c-contact-profile__header__profile-name {
     text-align: center;
@@ -56,19 +56,19 @@
     font-weight: 400;
     border-bottom: 2px solid #808080;
     display: block;
-    margin: .5em 0 .5em 0;
-    padding: 0 0 .5em;
+    /* margin: .5em 0 .5em 0; */
+    padding: .5em 0;
 
 }
 
 .c-contact-profile__header__back-btn {
-    position: relative;
+    /* position: relative; */
     float: left;
     font-size: 3.5vh;
     color: lightgray;
     background-color: transparent;
     border: none;
-    margin-top: 7px;
-    margin-left: 5px;
-    z-index: 1;
+    /* margin-top: 7px;
+    margin-left: 5px; */
+    /* z-index: 1; */
 }

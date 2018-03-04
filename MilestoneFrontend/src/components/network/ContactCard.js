@@ -1,5 +1,5 @@
 /////////////////////////////////////////
-/// Pre-baked Components
+/// Pre-baked Component
 import React from 'react';
 import Axios from 'axios';
 import { Button, Glyphicon } from 'react-bootstrap';
@@ -22,8 +22,6 @@ class ContactCard extends React.Component {
     }
 
     componentDidMount() {
-        this.props.toggleSearchAndNav();
-
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         Axios.get(
             'https://milestoneapi.eric-jacobson.me/contact/?id=' + id, 
@@ -48,7 +46,6 @@ class ContactCard extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.toggleSearchAndNav();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -83,7 +80,6 @@ class ContactCard extends React.Component {
     }
 
     buttonClicked() {
-        console.log('wut');
         this.props.history.goBack();
     }
 
@@ -101,9 +97,9 @@ class ContactCard extends React.Component {
         return (
             <div className='c-contact-profile'>
                 <div className="c-contact-profile__header">
-                    <Button onClick={() => this.buttonClicked()} className="c-contact-profile__header__back-btn">
+                    {/* <Button onClick={() => this.buttonClicked()} className="c-contact-profile__header__back-btn">
                         <Glyphicon glyph="chevron-left" />
-                    </Button>
+                    </Button> */}
                     {name}            
                 </div>
                 <div className="c-contact-profile__profile-img">

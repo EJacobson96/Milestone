@@ -1,11 +1,12 @@
-.l-network-content {
-	margin-top: .8em;
-}
+/* .l-network-content {
+	margin-bottom: .8em;
+} */
 
 .l-network-content form {
 	display: flex;
 	margin-bottom: 1em;
 	margin-left: .7em;
+	margin-top: .8em;
 }
 
 .l-network-content input{
