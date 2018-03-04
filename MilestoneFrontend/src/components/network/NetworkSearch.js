@@ -2,7 +2,7 @@
 /// Dev Notes
 
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Glyphicon, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////
@@ -43,9 +43,11 @@ class NetworkSearch extends Component {
 					<Button className="btn btn-outline-success my-2 my-sm-0" onClick={(e) => this.handleSearch(e)}>
 						<Glyphicon glyph="search" /> 
 					</Button>
-					<Button className="btn btn-outline-success my-2 my-sm-0 plus">
-						<Glyphicon glyph="plus" /> 
-					</Button>
+					<Link to="/Network/Contacts/Connect">
+						<Button className="btn btn-outline-success my-2 my-sm-0 plus">
+							<Glyphicon glyph="plus" /> 
+						</Button>
+					</Link>
 				</form>
 			</div>
         );

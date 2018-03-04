@@ -12,6 +12,7 @@ import NetworkSearch from './NetworkSearch';
 import Contacts from './Contacts';
 import ContactCard from './ContactCard';
 import Messages from './Messages';
+import NetworkConnect from './NetworkConnect';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -134,12 +135,17 @@ class Network extends Component {
                         <Route path="/Network/Messages" render={(props) => (
                             <Messages currUser={this.props.user.id} content={this.state.content} />
                         )} />
-                        <Route exact path ='/Network/Contacts/:id' render={(props) => (
+                        <Route exact path ='/Network/Contacts/Profile/:id' render={(props) => (
                             <ContactCard
                                 toggleSearchAndNav={ (e) => this.toggleSearchAndNav(e) }
                             />
                         )} />
-                        <Route path="/Network/Contacts" render={(props) => (
+                        <Route exact path="/Network/Contacts/Connect" render={(props) => (
+                            <NetworkConnect 
+                                toggleSearchAndNav={ (e) => this.toggleSearchAndNav(e) }
+                            />
+                        )} />
+                        <Route exact path="/Network/Contacts" render={(props) => (
                             <Contacts content={this.state.content} />
                         )} />
                         <Route exact path="/Network" render={(props) => (
