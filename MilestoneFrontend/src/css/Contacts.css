@@ -24,6 +24,7 @@
 
 .c-contacts-count {
     margin-left: 1em;
+    font-size: 2.3vh;
 }
 
 .c-contact-card__user-img {
@@ -52,6 +53,8 @@
 .c-contact-card__details__full-name {
     font-family: Arial;
     padding-left: 1em;
+    font-weight: 500;
+    font-size: 2.5vh;
 }
 
 .c-contact-card-link-wrapper {

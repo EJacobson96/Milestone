@@ -7,7 +7,7 @@
     border-bottom: 1px solid #9C9B9B;
     padding: 1em 0 1em 0;
     display: flex;
-    white-space: nowrap;
+    /* white-space: nowrap; */
 }
 
 .c-conversation-card:first-child {
@@ -32,7 +32,14 @@
     display: flex;
     flex-direction: column;
     padding-left: 1em;
-    width: 60%;
+    width: 65%;
+}
+
+.c-conversation-card-body {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-top: .3em;
+    /* white-space: nowrap; */
 }
 
 .c-conversation-card__details__name-and-date {
@@ -47,7 +54,13 @@
     font-size: 16px;
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: nowrap;
     width: 75%;
+}
+
+.c-messages-count {
+    margin-left: 1em;
+    font-size: 2.3vh;
 }
 
 .c-conversation-card__details__date {
@@ -62,17 +75,3 @@
     margin-top: .3em;
     padding: 0;
 }
-
-/* Currently Unused */
-
-/* .c-conversation-card .messageContent {
-    text-overflow: ellipsis;
-} */
-
-/* .container-fluid {
-    padding-top: .2em;
-} */
-
-/* .l-conversations .avatar, .l-conversations h4 {
-    display: inline-block;
-} */

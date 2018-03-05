@@ -22,8 +22,13 @@ class Messages extends React.Component {
 
     render() {
         var conversations;
+        var displayConversations;
+        var messagesCount;
         var time;
         if (this.props.content) {
+            // if (!this.props.showContacts) { 
+                messagesCount = <h4 className="c-messages-count">Messages ({this.props.content.length})</h4>;
+            // }
             conversations = this.props.content.map((conversation) => {
                 var members = "";
                 for (let i = 0; i < conversation.members.length; i++) {
@@ -31,15 +36,14 @@ class Messages extends React.Component {
                     if (this.props.currUser !== conversation.members[i].id && memberLength === 2) {
                         members += conversation.members[i].fullName;
                         i = memberLength;
-                    } else if (this.props.currUser !== conversation.members[i].id) {
-                        members += conversation.members[i].fullName + " & " + (memberLength - 1) + " others";;
+                    } else if (this.props.currUser !== conversation.members[i].id && memberLength == 3) {
+                        members += conversation.members[i].fullName + " & " + (memberLength - 2) + " other";
+                        i = memberLength;
+                    } else if (this.props.currUser !== conversation.members[i].id && memberLength > 3) {
+                        members += conversation.members[i].fullName + " & " + (memberLength - 2) + " others";
+                        i = memberLength;
                     }
                 }
-                // time = moment(conversation.messages[0].createdAt).calendar(null,{
-                //     sameDay: 'HH:MM',
-                //     lastDay: 'Yesterday',
-                //     sameElse: 'DD/MM/YYYY'
-                // });
                 time = conversation.messages[0].createdAt;
                 if (moment(time).calendar().startsWith('Today')) {
                     time = moment(time).format('hh:mm');
@@ -49,18 +53,6 @@ class Messages extends React.Component {
                     time = moment(time).format('MM/DD/YYYY');
                 }
                 return (
-                    // <Grid className="conversationCard" key={conversation.id}>
-                    //     <Row className="show-grid">
-                    //         <Col xs={3} md={4}>
-                    //             <img className="avatar img-rounded img-responsive" src={fakeuser} alt="Responsive image"/>
-                    //         </Col>
-                    //         <Col className="messageContent" xs={9} md={8}>
-                    //             <h4>{members}</h4>
-                    //             <span className="messageTime">{time}</span>
-                    //             <p>{conversation.messages[0].textBody}</p>
-                    //         </Col>
-                    //     </Row>
-                    // </Grid>
                     <div className="c-conversation-card" key={conversation.id} >
                         <div className="c-conversation-card__user-img">
                             <img src={fakeuser} alt="User Avatar"/>
@@ -70,18 +62,20 @@ class Messages extends React.Component {
                                 <span className="c-conversation-card__details__name">{members}</span>
                                 <span className="c-conversation-card__details__date">{time}</span>
                             </div>
-                            <p>{conversation.messages[0].textBody}</p>
+                            <p className="c-conversation-card-body">{conversation.messages[0].textBody}</p>
                         </div>
                     </div>
                 );
             });
+            displayConversations = <div className="l-conversations">{conversations}</div>
         } else {
             conversations = <p className="c-no-conversations"></p>;
         }
 
         return (
-            <div className="l-conversations"> 
-                {conversations}
+            <div>
+                {messagesCount}
+                {displayConversations}
             </div>
         );
     }

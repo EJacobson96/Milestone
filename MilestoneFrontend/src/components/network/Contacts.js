@@ -25,7 +25,7 @@ class Contacts extends React.Component {
         var displayConnections;
         if (this.props.content) {
             if (!this.props.showContacts) { 
-                displayConnectionsCount = <h5 className="c-contacts-count">Contacts ({this.props.content.length})</h5>;
+                displayConnectionsCount = <h4 className="c-contacts-count">Contacts ({this.props.content.length})</h4>;
             }
             connections = this.props.content.map((connection) => {
                 return (
@@ -42,7 +42,7 @@ class Contacts extends React.Component {
                             </div>
                             <div className="c-contact-card__details">
                                 <span className="c-contact-card__details__full-name">
-                                        {connection.FullName}
+                                    {connection.FullName}
                                 </span>
                             </div>
                         </div>
