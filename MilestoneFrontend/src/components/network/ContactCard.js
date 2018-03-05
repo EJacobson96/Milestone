@@ -137,10 +137,10 @@ class ContactCard extends React.Component {
         return (
             <div className='c-contact-profile'>
                 <div className="c-contact-profile__header">
-                    {/* <Button onClick={() => this.buttonClicked()} className="c-contact-profile__header__back-btn">
+                    <Button onClick={() => this.buttonClicked()} className="c-contact-profile__header__back-btn">
                         <Glyphicon glyph="chevron-left" />
-                    </Button> */}
-                    {name}            
+                    </Button>
+                    {name}          
                 </div>
                 <div className="c-contact-profile__profile-img">
                     <img src={fakeuser} alt="User Avatar"/>

@@ -3,6 +3,7 @@
 import React from 'react';
 import { Button, Glyphicon } from 'react-bootstrap';
 import Axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import Contacts from './Contacts.js';
 
 /////////////////////////////////////////
@@ -28,6 +29,11 @@ class NetworkConnect extends React.Component {
     }
 
     componentWillUnmount() {
+    }
+
+    buttonClicked() {
+        console.log(this.props);
+        this.props.history.goBack();
     }
 
     handleSearch(event) {
@@ -71,7 +77,12 @@ class NetworkConnect extends React.Component {
         }
         return (
             <div>
-                <h3 className="c-connections-header">New Invitation</h3>
+                <div className="c-contact-connections-header">
+                    <Button onClick={() => this.buttonClicked()} className="c-contact-profile__header__back-btn">
+                        <Glyphicon glyph="chevron-left" />
+                    </Button>
+                    <h3 className="c-connections-header">New Invitation</h3>
+                </div>
                 <form onSubmit={this.handleSearch} className="[ form-inline ] c-connections-search">
 					<input id="networkConnectionSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
 					<Button className="btn btn-outline-success my-2 my-sm-0" onClick={(e) => this.handleSearch(e)}>
@@ -86,4 +97,4 @@ class NetworkConnect extends React.Component {
     }
 }
 
-export default NetworkConnect;
+export default withRouter(NetworkConnect);

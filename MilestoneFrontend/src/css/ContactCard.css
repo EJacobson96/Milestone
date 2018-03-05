@@ -1,6 +1,6 @@
-.c-contact-profile {
+/* .c-contact-profile {
     margin-top: -0.8em;
-}
+} */
 
 .c-contact-profile__profile-img {
     align-items: center;
@@ -42,6 +42,8 @@
 
 .c-contact-profile__header {
     width: 100%;
+    display: flex;
+    border-bottom: 2px solid #808080;
 }
 
 .c-contact-invite {
@@ -61,10 +63,10 @@
     text-align: center;
     font-size: 4vh;
     font-weight: 400;
-    border-bottom: 2px solid #808080;
     display: block;
-    padding: .5em 0;
-
+    margin: 0;
+    padding: .7em 0;
+    margin-left: 2.5em;
 }
 
 .c-contact-profile__header__back-btn {
