@@ -115,13 +115,16 @@ class Network extends Component {
     }
 
     render() {
-        console.log("here");
         var topNav = <div>
+                        <div className="c-network-header-container">
+                            <h5 className="c-network-header">MY NETWORK</h5>
+                        </div>
                         <NetworkNav
                             renderContacts={(e) => this.renderContacts(e)}
                             renderMessages={(e) => this.renderMessages(e)}
                         />
                         <NetworkSearch 
+                            contentType={this.state.contentType}
                             handleSearch={(e) => this.handleSearch(e)}
                         />
                     </div>;

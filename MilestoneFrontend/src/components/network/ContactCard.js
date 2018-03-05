@@ -34,9 +34,30 @@ class ContactCard extends React.Component {
                 return response.data;
             })
             .then(data => {
+                this.getCurrentUser(data);
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    }
+
+    getCurrentUser(contactInfo) {
+        Axios.get(
+            'https://milestoneapi.eric-jacobson.me/users/me', 
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                }    
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
                 console.log(data);
                 this.setState({
-                    contactInfo: data
+                    contactInfo: contactInfo,
+                    userData: data
                 });
             })
             .catch(error => {
@@ -49,12 +70,8 @@ class ContactCard extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(this.props);
-        console.log(nextProps);
         var currID = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         var nextID = nextProps.match.params.id.substring(3, nextProps.match.params.id.length)
-        console.log(currID);
-        console.log(nextID);
         if (currID !== nextID) {
             Axios.get(
                 'https://milestoneapi.eric-jacobson.me/contact/?id=' + nextID, 
@@ -79,6 +96,16 @@ class ContactCard extends React.Component {
         }
     }
 
+    isConnected(userId) {
+        var connections = this.state.userData.connections;
+        for (let i = 0; i < connections.length; i++) {
+            if (connections[i].id == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     buttonClicked() {
         this.props.history.goBack();
     }
@@ -86,14 +113,27 @@ class ContactCard extends React.Component {
     render() {
         var name;
         var email;
-        // var profileImage;
+        var contactUser;
         if (this.state.contactInfo) {
             name = 
                 <div className="c-contact-profile__header__profile-name-wrapper">
                     <h3 className="c-contact-profile__header__profile-name">{this.state.contactInfo.FullName}</h3>
                 </div>;
             email = this.state.contactInfo.email;
+            if (this.isConnected(this.state.contactInfo.id)) {
+                contactUser = <div className='c-contact-profile__contact-icons'>
+                                <div className='c-contact-profile__contact-icons__phone'>
+                                    <a href="tel:5555555555"><img src={phone} alt="phone icon"/></a>
+                                </div>
+                                <div className='c-contact-profile__contact-icons__msg'> 
+                                    <img src={message} alt="messaging icon"/>
+                                </div>
+                              </div>
+            } else {
+                contactUser = <Button className ="c-contact-invite-button" bsStyle="primary" bsSize="small">Send Invite</Button>
+            }
         }
+
         return (
             <div className='c-contact-profile'>
                 <div className="c-contact-profile__header">
@@ -105,13 +145,8 @@ class ContactCard extends React.Component {
                 <div className="c-contact-profile__profile-img">
                     <img src={fakeuser} alt="User Avatar"/>
                 </div>
-                <div className='c-contact-profile__contact-icons'>
-                    <div className='c-contact-profile__contact-icons__phone'>
-                        <a href="tel:5555555555"><img src={phone} alt="phone icon"/></a>
-                    </div>
-                    <div className='c-contact-profile__contact-icons__msg'> 
-                        <img src={message} alt="messaging icon"/>
-                    </div>
+                <div className="c-contact-invite">
+                    {contactUser}
                 </div>
                 <div className='c-contact-profile__profile-info'>
                     <p className='c-contact-profile__field-label'><strong>Email: </strong>{ email }</p>
