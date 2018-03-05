@@ -2,7 +2,7 @@
 /// Dev Notes
 
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Glyphicon, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////
@@ -11,7 +11,7 @@ import { Glyphicon, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/Network.css';
+import '../../css/NetworkSearch.css';
 
 /////////////////////////////////////////
 /// Code
@@ -37,15 +37,27 @@ class NetworkSearch extends Component {
 
     render() {
         return (
-			<div className="">
-				<form className="[ form-inline ]">
+			<div className="c-network-form">
+				<form className="[ form-inline ] c-network-search">
 					<input id="networkSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
-					<Button className="btn btn-outline-success my-2 my-sm-0" onClick={(e) => this.handleSearch(e)}>
+					<Button className="btn btn-outline-success my-2 my-sm-0 c-network-button" onClick={(e) => this.handleSearch(e)}>
 						<Glyphicon glyph="search" /> 
 					</Button>
-					<Button className="btn btn-outline-success my-2 my-sm-0 plus">
-						<Glyphicon glyph="plus" /> 
-					</Button>
+					
+					{
+						this.props.contentType == "contacts" && 
+						<Link to="/Network/Contacts/Connect">
+							<Button className="btn btn-outline-success my-2 my-sm-0 plus c-network-button">
+								<Glyphicon glyph="plus" /> 
+							</Button>
+						</Link>
+					}
+					{
+						this.props.contentType == "messages" && 
+						<Button className="btn btn-outline-success my-2 my-sm-0 plus c-network-button">
+							<Glyphicon glyph="plus" /> 
+						</Button>
+					}
 				</form>
 			</div>
         );

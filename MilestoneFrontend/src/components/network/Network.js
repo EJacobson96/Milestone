@@ -12,6 +12,7 @@ import NetworkSearch from './NetworkSearch';
 import Contacts from './Contacts';
 import ContactCard from './ContactCard';
 import Messages from './Messages';
+import NetworkConnect from './NetworkConnect';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -60,12 +61,12 @@ class Network extends Component {
         }
     }
 
-    toggleSearchAndNav(e) {
-        let toggle = !this.state.showSearchAndNav;
-        this.setState({
-            showSearchAndNav: toggle
-        })
-    }
+    // toggleSearchAndNav(e) {
+    //     let toggle = !this.state.showSearchAndNav;
+    //     this.setState({
+    //         showSearchAndNav: toggle
+    //     })
+    // }
 
     getMessages(search) {
         Axios.get(
@@ -114,39 +115,44 @@ class Network extends Component {
     }
 
     render() {
-        return (
-            <div>
-                {
-                    this.state.showSearchAndNav &&
-                    <NetworkNav
-                        renderContacts={(e) => this.renderContacts(e)}
-                        renderMessages={(e) => this.renderMessages(e)}
-                    />
-                }
-                <div className="l-network-content">
-                    {
-                        this.state.showSearchAndNav &&
+        var topNav = <div>
+                        <div className="c-network-header-container">
+                            <h5 className="c-network-header">MY NETWORK</h5>
+                        </div>
+                        <NetworkNav
+                            renderContacts={(e) => this.renderContacts(e)}
+                            renderMessages={(e) => this.renderMessages(e)}
+                        />
                         <NetworkSearch 
+                            contentType={this.state.contentType}
                             handleSearch={(e) => this.handleSearch(e)}
-                        />                        
-                    }
-                    <Switch>
-                        <Route path="/Network/Messages" render={(props) => (
+                        />
+                    </div>;
+        return (
+            <div className="l-network-content">
+                <Switch>
+                    <Route path="/Network/Messages" render={(props) => (
+                        <div>
+                            {topNav} 
                             <Messages currUser={this.props.user.id} content={this.state.content} />
-                        )} />
-                        <Route exact path ='/Network/Contacts/:id' render={(props) => (
-                            <ContactCard
-                                toggleSearchAndNav={ (e) => this.toggleSearchAndNav(e) }
-                            />
-                        )} />
-                        <Route path="/Network/Contacts" render={(props) => (
-                            <Contacts content={this.state.content} />
-                        )} />
-                        <Route exact path="/Network" render={(props) => (
-                            <Redirect to="/Network/Messages" />
-                        )} />
-                    </Switch>
-                </div>
+                        </div>
+                    )} />
+                    <Route exact path ='/Network/Contacts/Profile/:id' render={(props) => (
+                        <ContactCard />
+                    )} />
+                    <Route exact path="/Network/Contacts/Connect" render={(props) => (
+                        <NetworkConnect accountType={this.props.user.accountType} />
+                    )} />
+                    <Route exact path="/Network/Contacts" render={(props) => (
+                    <div>
+                        {topNav}
+                        <Contacts content={this.state.content} />
+                    </div>
+                    )} />
+                    <Route exact path="/Network" render={(props) => (
+                        <Redirect to="/Network/Messages" />
+                    )} />
+                </Switch>
             </div>
         );
     }

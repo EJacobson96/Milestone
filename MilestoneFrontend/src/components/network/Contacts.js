@@ -21,13 +21,17 @@ class Contacts extends React.Component {
 
     render() {
         var connections;
+        var displayConnectionsCount;
+        var displayConnections;
         if (this.props.content) {
+            if (!this.props.showContacts) { 
+                displayConnectionsCount = <h4 className="c-contacts-count">Contacts ({this.props.content.length})</h4>;
+            }
             connections = this.props.content.map((connection) => {
                 return (
                     <Link 
                         to={{
-                            pathname: "/Network/Contacts/:id" + connection.id,
-                            state: {showSearch: false}
+                            pathname: "/Network/Contacts/Profile/:id" + connection.id,
                         }}
                         className='c-contact-card-link-wrapper' 
                         key={connection.id}
@@ -36,23 +40,21 @@ class Contacts extends React.Component {
                             <div className="c-contact-card__user-img">
                                 <img src={fakeuser} alt=''/>
                             </div>
-                                <div className="c-contact-card__details">
-                                    <span className="c-contact-card__details__full-name">
-                                            {connection.FullName}
-                                    </span>
-                                </div>
+                            <div className="c-contact-card__details">
+                                <span className="c-contact-card__details__full-name">
+                                    {connection.FullName}
+                                </span>
+                            </div>
                         </div>
                     </Link>
                 );
             });
-        } else {
-            connections = <p></p>;
-        }
+            displayConnections = <div className="l-contacts">{connections}</div>
+        } 
         return (
-            <div className="l-contacts"> 
-                <div className="">
-                    {connections}
-                </div>
+            <div> 
+                {displayConnectionsCount}
+                {displayConnections}
             </div>
         );
     }

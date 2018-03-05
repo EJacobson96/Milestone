@@ -64,7 +64,7 @@ class NetworkNav extends Component {
 					<Link to="/Network/Messages" className="" onClick={(e) => this.renderMessages(e)}>Messages</Link>
 				</li>
 				<li role="presentation" className="c-network-nav__link">
-					<Link to="/Network/Contacts" className="" onClick={(e) => this.renderContacts(e)}>Contacts</Link>
+					<Link to="/Network/Contacts" className="" onClick={(e) => this.renderContacts(e)}>People</Link>
 				</li>
 			</ul>
         );

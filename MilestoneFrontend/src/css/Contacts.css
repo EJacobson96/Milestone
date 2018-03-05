@@ -11,6 +11,9 @@
 }
 
 /**  Components  **/
+.l-contacts:last-child{
+    border-top: 1px solid #9C9B9B;
+}
 
 .c-contact-card {
     display: flex;
@@ -19,8 +22,9 @@
     padding: 1em 0 1em 0;
 }
 
-.c-contact-card:first-child {
-    border-top: 1px solid #9C9B9B;
+.c-contacts-count {
+    margin-left: 1em;
+    font-size: 2.3vh;
 }
 
 .c-contact-card__user-img {
@@ -49,29 +53,12 @@
 .c-contact-card__details__full-name {
     font-family: Arial;
     padding-left: 1em;
+    font-weight: 500;
+    font-size: 2.5vh;
 }
-
-/**  Currently Unused  **/
-
-/* .connections .avatar, .connections h4 {
-    display: inline-block;
-} */
-
-/* .connections .connectionCard {
-    border-bottom: 1px solid #9C9B9B;
-    border-bottom: 1px solid #9C9B9B;
-    padding: .2em 0 .2em 0;
-} */
-
-/* .connections .avatar {
-    width: 15%;
-    height: 15%;
-    margin: 0 2em 0 1em;
-    border-radius: 50%;
-} */
 
 .c-contact-card-link-wrapper {
         text-decoration: none;
         color: black;
-    }
+}
     

@@ -1,6 +1,6 @@
-.c-contact-profile {
+/* .c-contact-profile {
     margin-top: -0.8em;
-}
+} */
 
 .c-contact-profile__profile-img {
     align-items: center;
@@ -10,8 +10,7 @@
 
 .c-contact-profile__profile-img img {
     display: block;
-    padding-top: 50px;
-    width: 40%;
+    width: 30%;
     border-radius: 50%;
     margin: 2.5em auto 2em auto;
 }
@@ -20,7 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 3em;
+    margin-bottom: 1.5em;
 }
 
 .c-contact-profile__contact-icons__phone {
@@ -34,41 +33,46 @@
 
 .c-contact-profile__contact-icons img {
     border-radius: 50%;
-    width: 20%;
+    width: 25%;
 }
 
 .c-contact-profile__profile-info {
-    margin: 1.5em 3em;
+    margin: 0 3em 1em 3em;
 }
 
 .c-contact-profile__header {
     width: 100%;
+    display: flex;
+    border-bottom: 2px solid #808080;
 }
 
-.c-contact-profile__header__profile-name-wrapper {
-    position: absolute;
-    width: inherit;
+.c-contact-invite {
+    display: flex;
+    justify-content: center;
+}
+
+.c-contact-invite-button {
+    border: none;
+    background-color: #73C9B1;
+    padding: .5em 1.5em;
+    margin-bottom: 1em;
+    font-size: 2.5vh;
 }
 
 .c-contact-profile__header__profile-name {
     text-align: center;
     font-size: 4vh;
     font-weight: 400;
-    border-bottom: 2px solid #808080;
     display: block;
-    margin: .5em 0 .5em 0;
-    padding: 0 0 .5em;
-
+    margin: 0;
+    padding: .7em 0;
+    margin-left: 2.5em;
 }
 
 .c-contact-profile__header__back-btn {
-    position: relative;
     float: left;
     font-size: 3.5vh;
     color: lightgray;
     background-color: transparent;
     border: none;
-    margin-top: 7px;
-    margin-left: 5px;
-    z-index: 1;
 }

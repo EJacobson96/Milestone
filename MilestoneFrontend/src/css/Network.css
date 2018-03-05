@@ -1,19 +1,17 @@
-.l-network-content {
-	margin-top: .8em;
-}
-
-.l-network-content form {
-	display: flex;
-	margin-bottom: 1em;
-	margin-left: .7em;
-}
-
-.l-network-content input{
+.l-network-content input {
 	flex: 1;
 }
 
-.l-network-content button {
+.l-network-content .c-network-button {
 	flex-basis: 40px;
+}
+
+.c-network-header {
+	padding: 1.5em 0;
+	font-size: 3vh;
+	text-align: center;
+	background-color: #FAFAFA;
+	margin: 0;
 }
 
 .plus {
