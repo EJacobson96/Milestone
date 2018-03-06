@@ -1,17 +1,15 @@
 .l-conversations {
     background-color: white;
-    /* border-top: 1px solid #9C9B9B; */
+}
+
+.l-conversations:last-child {
+    border-top: 1px solid #9C9B9B;
 }
 
 .c-conversation-card {
     border-bottom: 1px solid #9C9B9B;
     padding: 1em 0 1em 0;
     display: flex;
-    /* white-space: nowrap; */
-}
-
-.c-conversation-card:first-child {
-    border-top: 1px solid #9C9B9B;
 }
 
 .c-conversation-card__user-img {
@@ -24,14 +22,13 @@
 }
 
 .c-conversation-card__user-img img {
-    width: 75%;
+    width: 60%;
     border-radius: 50%;
 }
 
 .c-conversation-card__details {
     display: flex;
     flex-direction: column;
-    padding-left: 1em;
     width: 65%;
 }
 

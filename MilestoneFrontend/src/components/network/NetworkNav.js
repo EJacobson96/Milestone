@@ -45,7 +45,7 @@ class NetworkNav extends Component {
     }
 
     componentWillReceiveProps(nextProp) {
-        if (nextProp.location.pathname != this.props.location.pathname) {
+        if (nextProp.location.pathname !== this.props.location.pathname) {
             var links = document.querySelectorAll(".c-network-nav a");
             if (nextProp.location.pathname.endsWith("/Contacts")) {
                 links[1].className = "c-network-nav__link--active-link";

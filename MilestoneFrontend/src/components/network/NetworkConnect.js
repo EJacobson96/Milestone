@@ -31,20 +31,15 @@ class NetworkConnect extends React.Component {
     componentWillUnmount() {
     }
 
-    buttonClicked() {
-        console.log(this.props);
-        this.props.history.goBack();
-    }
-
     handleSearch(event) {
         var input = document.getElementById('networkConnectionSearch');
         var userType = 'participants';
         var searchQuery = input.value;
         input.value = '';
-        if (this.props.accountType == 'participant') {
+        if (this.props.accountType === 'participant') {
             userType = 'serviceproviders';
         }
-        if (searchQuery.trim() != "") {
+        if (searchQuery.trim() !== "") {
             Axios.get(
                 'https://milestoneapi.eric-jacobson.me/' + userType + '?q=' + searchQuery,  
                 {
@@ -72,17 +67,12 @@ class NetworkConnect extends React.Component {
                         <img className="c-connection-placeholder" src={users} />
                         <h3 className="c-connection-placeholder-text">Look for new connections!</h3>
                       </div>
-        if (this.state.users && this.state.users.length != 0) {
+        if (this.state.users && this.state.users.length !== 0) {
             content = <Contacts showContacts={true} content={this.state.users} />
         }
         return (
             <div>
-                <div className="c-contact-connections-header">
-                    <Button onClick={() => this.buttonClicked()} className="c-contact-profile__header__back-btn">
-                        <Glyphicon glyph="chevron-left" />
-                    </Button>
-                    <h3 className="c-connections-header">New Invitation</h3>
-                </div>
+                <h3 className="c-contact-connections-header">New Invitation</h3>
                 <form onSubmit={this.handleSearch} className="[ form-inline ] c-connections-search">
 					<input id="networkConnectionSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
 					<Button className="btn btn-outline-success my-2 my-sm-0" onClick={(e) => this.handleSearch(e)}>

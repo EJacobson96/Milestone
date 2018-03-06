@@ -2,17 +2,21 @@
 	flex: 1;
 }
 
+.l-network-content {
+	padding-top: 8vh;
+}
+
 .l-network-content .c-network-button {
 	flex-basis: 40px;
 }
-
+/* 
 .c-network-header {
 	padding: 1.5em 0;
 	font-size: 3vh;
 	text-align: center;
 	background-color: #FAFAFA;
 	margin: 0;
-}
+} */
 
 .plus {
 	margin: 0 .7em;

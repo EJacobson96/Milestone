@@ -14,6 +14,7 @@ import ContactCard from './ContactCard';
 import Messages from './Messages';
 import NewMessage from './NewMessage';
 import NetworkConnect from './NetworkConnect';
+import MessageScreen from './MessageScreen';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -117,9 +118,9 @@ class Network extends Component {
 
     render() {
         var topNav = <div>
-                        <div className="c-network-header-container">
+                        {/* <div className="c-network-header-container">
                             <h5 className="c-network-header">MY NETWORK</h5>
-                        </div>
+                        </div> */}
                         <NetworkNav
                             renderContacts={(e) => this.renderContacts(e)}
                             renderMessages={(e) => this.renderMessages(e)}
@@ -134,6 +135,9 @@ class Network extends Component {
                 <Switch>
                     <Route path='/Network/Messages/New' render={(props) => (
                         <NewMessage />
+                    )} />
+                    <Route exact path ='/Network/Messages/Conversation/:id' render={(props) => (
+                        <MessageScreen />
                     )} />
                     <Route path="/Network/Messages" render={(props) => (
                         <div>

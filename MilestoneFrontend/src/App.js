@@ -23,7 +23,7 @@ class App extends Component {
     
         this.state = {
 			userLoggedIn: false,
-			//userLoggedIn: true,
+			// userLoggedIn: true,
 			sideBarOpen: false,
 			navBarDisplay: false
 		};

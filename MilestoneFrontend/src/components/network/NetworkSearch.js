@@ -45,7 +45,7 @@ class NetworkSearch extends Component {
 					</Button>
 					
 					{
-						this.props.contentType == "contacts" && 
+						this.props.contentType === "contacts" && 
 						<Link to="/Network/Contacts/Connect">
 							<Button className="btn btn-outline-success my-2 my-sm-0 plus c-network-button">
 								<Glyphicon glyph="plus" /> 
@@ -53,12 +53,10 @@ class NetworkSearch extends Component {
 						</Link>
 					}
 					{
-						this.props.contentType == "messages" && 
-						<Link to='/Network/Messages/New'>
-							<Button className="btn btn-outline-success my-2 my-sm-0 plus c-network-button">
-								<Glyphicon glyph="plus" /> 
-							</Button>
-						</Link>
+						this.props.contentType === "messages" && 
+						<Button className="btn btn-outline-success my-2 my-sm-0 plus c-network-button">
+							<Glyphicon glyph="plus" /> 
+						</Button>
 					}
 				</form>
 			</div>
