@@ -10,13 +10,12 @@ import { Glyphicon, Button } from 'react-bootstrap';
 /// Standard Components
 
 import ContactThumbnail from './ContactThumbnail';
+import HeaderBar from '../ux/HeaderBar';
 
 /////////////////////////////////////////
 /// Images & Styles
 
 import '../../css/NewMessage.css';
-import '../../css/Contacts.css'
-// import fakeuser from '../../img/fakeuser.png';
 
 /////////////////////////////////////////
 /// Code
@@ -29,16 +28,17 @@ class NewMessage extends Component {
 			connections: null
         };
 		
-		this.getUserConnections = this.getUserConnections.bind(this);
+        this.getUserConnections = this.getUserConnections.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
 	}
 
 	componentDidMount() {
-		this.getUserConnections();
+		this.getUserConnections('');
 	}
 	
-	getUserConnections() {
+	getUserConnections(search) {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/connections?q=', 
+            'https://milestoneapi.eric-jacobson.me/connections?q=' + search, 
             {
                 headers: {
                     'Authorization' : localStorage.getItem('Authorization')
@@ -59,8 +59,11 @@ class NewMessage extends Component {
         );
     }
 
-    buttonClicked() {
-        this.props.history.goBack();
+    handleSearch(e) {
+        e.preventDefault();
+        let input = document.getElementById('newMessageSearch');
+		let search = input.value;
+        this.getUserConnections(search);
     }
 
     render() {
@@ -69,8 +72,9 @@ class NewMessage extends Component {
 			connections = this.state.connections.map((connection) => {
 				return (
 					<ContactThumbnail
-						path={ "/Network/Contacts/Profile/:id" + connection.id }
-						id={ connection.id }
+						path={ '/Network/Messages/Conversation/:id' + connection.id }
+                        id={ connection.id }
+                        key={ connection.id }
 						fullName={ connection.FullName }
 					/>
 				);
@@ -79,14 +83,19 @@ class NewMessage extends Component {
 		var displayConnections = <div className="l-contacts">{ connections }</div>
         return (
 			<div className="c-new-message">
-				<div className="c-contact-profile__header">
-                    <Button onClick={() => this.buttonClicked()} className="c-contact-profile__header__back-btn">
-                        <Glyphicon glyph="chevron-left" />
-                    </Button>
-					<div className="c-contact-profile__header__profile-name-wrapper">
-						<h3 className="c-contact-profile__header__profile-name">New Message</h3>
-					</div>
+                <HeaderBar
+                    text={ 'New Message' }
+                />
+                <div className="c-new-message__search-wrapper">
+                    <form className="[ form-inline ] c-new-message__search-form">
+                        <input id="newMessageSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
+                        <Button className="btn btn-outline-success my-2 my-sm-0 c-network-button" onClick={(e) => this.handleSearch(e)}>
+                            <Glyphicon glyph="search" /> 
+                        </Button>
+                    </form>
                 </div>
+                {/* <h4 className="c-messages-count">.</h4> */}
+
 				{ displayConnections }
 			</div>
         );

@@ -1,0 +1,14 @@
+.c-header-bar {
+    width: 100%;
+    display: block;
+    border-bottom: 1px solid #808080;
+}
+
+.c-header-bar__text {
+    text-align: center;
+    font-size: 4vh;
+    font-weight: 400;
+    display: block;
+    margin: 0;
+    padding: .7em 0;
+}
