@@ -2,6 +2,7 @@
 /// Pre-baked Components
 import React from 'react';
 import moment from 'moment';
+import { Link, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -31,40 +32,51 @@ class Messages extends React.Component {
             // }
             conversations = this.props.content.map((conversation) => {
                 var members = "";
-                for (let i = 0; i < conversation.members.length; i++) {
+                for (let i = 1; i < conversation.members.length; i++) {
                     let memberLength = conversation.members.length;
-                    if (this.props.currUser !== conversation.members[i].id && memberLength === 2) {
+                    if (i === memberLength - 1) {
                         members += conversation.members[i].fullName;
-                        i = memberLength;
-                    } else if (this.props.currUser !== conversation.members[i].id && memberLength == 3) {
-                        members += conversation.members[i].fullName + " & " + (memberLength - 2) + " other";
-                        i = memberLength;
-                    } else if (this.props.currUser !== conversation.members[i].id && memberLength > 3) {
-                        members += conversation.members[i].fullName + " & " + (memberLength - 2) + " others";
-                        i = memberLength;
+                    } else {
+                        members += conversation.members[i].fullName + ", ";
                     }
                 }
-                time = conversation.messages[0].createdAt;
+                time = conversation.lastMessage;
                 if (moment(time).calendar().startsWith('Today')) {
-                    time = moment(time).format('hh:mm');
+                    if (moment(time).format('hh:mm').startsWith('0')) {
+                        time = moment(time).format('h:mm');
+                    } else {
+                        time = moment(time).format('hh:mm');
+                    }
                 } else if (moment(time).calendar().startsWith('Yesterday')) {
                     time = 'Yesterday';
                 } else {
-                    time = moment(time).format('MM/DD/YYYY');
+                    if (moment(time).format('MM/DD/YYYY').startsWith('0')){
+                        time = moment(time).format('M/DD/YYYY');
+                    } else {
+                        time = moment(time).format('MM/DD/YYYY');
+                    }
                 }
                 return (
-                    <div className="c-conversation-card" key={conversation.id} >
-                        <div className="c-conversation-card__user-img">
-                            <img src={fakeuser} alt="User Avatar"/>
-                        </div>
-                        <div className="c-conversation-card__details">
-                            <div className="c-conversation-card__details__name-and-date">
-                                <span className="c-conversation-card__details__name">{members}</span>
-                                <span className="c-conversation-card__details__date">{time}</span>
+                    <Link 
+                        to={{
+                            pathname: "/Network/Messages/Conversation/:id" + conversation.id,
+                        }}
+                        className='c-contact-card-link-wrapper' 
+                        key={conversation.id}
+                    >
+                        <div className="c-conversation-card" key={conversation.id} >
+                            <div className="c-conversation-card__user-img">
+                                <img src={fakeuser} alt="User Avatar"/>
                             </div>
-                            <p className="c-conversation-card-body">{conversation.messages[0].textBody}</p>
+                            <div className="c-conversation-card__details">
+                                <div className="c-conversation-card__details__name-and-date">
+                                    <span className="c-conversation-card__details__name">{members}</span>
+                                    <span className="c-conversation-card__details__date">{time}</span>
+                                </div>
+                                <p className="c-conversation-card-body">{conversation.messages[0].textBody}</p>
+                            </div>
                         </div>
-                    </div>
+                    </Link>
                 );
             });
             displayConversations = <div className="l-conversations">{conversations}</div>
@@ -81,4 +93,4 @@ class Messages extends React.Component {
     }
 }
 
-export default Messages;
+export default withRouter(Messages);
