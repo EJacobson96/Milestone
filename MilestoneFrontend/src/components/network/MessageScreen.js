@@ -1,7 +1,7 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
-import { FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
+import { FormControl, FormGroup, Glyphicon } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import Axios from 'axios'
 
@@ -60,7 +60,6 @@ class MessageScreen extends React.Component {
                 return response.data;
             })
             .then(data => {
-                console.log(data);
                 this.setState({
                     currUser: data,
                     conversation: currConversation
@@ -75,7 +74,7 @@ class MessageScreen extends React.Component {
     componentWillReceiveProps(nextProps) {
         var currID = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         var nextID = nextProps.match.params.id.substring(3, nextProps.match.params.id.length)
-        if (currID != nextID) {
+        if (currID !== nextID) {
             Axios.get(
                 'https://milestoneapi.eric-jacobson.me/conversations/?id=' + nextID, 
                 {
@@ -103,7 +102,8 @@ class MessageScreen extends React.Component {
         this.messagesEnd.scrollIntoView({ behavior: "smooth" });
       }
 
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault();
         console.log("hello");
     }
 
@@ -117,7 +117,7 @@ class MessageScreen extends React.Component {
             conversation = this.state.conversation;
             for (var i = 1; i < conversation.members.length; i++) {
                 let memberLength = conversation.members.length;
-                if (i == (memberLength - 1)) {
+                if (i === (memberLength - 1)) {
                     members += conversation.members[i].fullName;
                 } else {
                     members += conversation.members[i].fullName + ", ";
@@ -126,7 +126,7 @@ class MessageScreen extends React.Component {
             messages = this.state.conversation.messages.map((message) => {
                 var textBody = message.textBody;
                 var classType;
-                if (this.state.currUser.id == message.creator) {
+                if (this.state.currUser.id === message.creator) {
                     classType = "c-messages-my-message";
                 } else {
                     classType = "c-messages-not-my-message";
@@ -151,11 +151,14 @@ class MessageScreen extends React.Component {
                         ref={(el) => { this.messagesEnd = el; }}>
                     </div>                    
                 </div>
-                <div className="c-messages-input-field"> 
-                    <FormGroup controlId="formControlsTextarea" className="c-messages-input-form">
-                        <FormControl componentClass="input" placeholder="Message..." onClick={(e) => this.handleSubmit(e)}/>
-                    </FormGroup>
-                </div>
+                <FormGroup controlId="formControlsTextarea" className="c-messages-input-form">
+                    <div className="input-group c-messages-input-group">
+                        <FormControl componentClass="input" placeholder="Message..."/>
+                        <span className="input-group-addon" id="basic-addon1">
+                            <Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleSubmit(e)} />
+                        </span>
+                    </div>
+                </FormGroup>
             </div>
         );
     }

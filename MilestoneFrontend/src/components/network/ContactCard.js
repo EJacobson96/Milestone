@@ -2,7 +2,7 @@
 /// Pre-baked Component
 import React from 'react';
 import Axios from 'axios';
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
@@ -99,7 +99,7 @@ class ContactCard extends React.Component {
     isConnected(userId) {
         var connections = this.state.userData.connections;
         for (let i = 0; i < connections.length; i++) {
-            if (connections[i].id == userId) {
+            if (connections[i].id === userId) {
                 return true;
             }
         }

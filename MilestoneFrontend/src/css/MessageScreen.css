@@ -48,10 +48,13 @@
     align-self: flex-start;
 }
 
-/* .c-messages-input-field {
-    display: flex;
-    flex-direction: column;
-} */
+.c-messages-input-group .glyphicon {
+    font-size: 1.3em;
+}
+
+.c-messages-input-group .input-group-addon {
+    background-color: white;
+}
 
 .c-messages-input-form {
     /* flex-shrink :0; */

@@ -44,7 +44,7 @@ class Messages extends React.Component {
                     //     members += conversation.members[i].fullName + " & " + (memberLength - 2) + " others";
                     //     i = memberLength;
                     // }
-                    if (i == memberLength - 1) {
+                    if (i === memberLength - 1) {
                         members += conversation.members[i].fullName;
                     } else {
                         members += conversation.members[i].fullName + ", ";

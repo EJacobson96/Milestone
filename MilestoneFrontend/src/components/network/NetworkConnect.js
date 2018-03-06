@@ -36,10 +36,10 @@ class NetworkConnect extends React.Component {
         var userType = 'participants';
         var searchQuery = input.value;
         input.value = '';
-        if (this.props.accountType == 'participant') {
+        if (this.props.accountType === 'participant') {
             userType = 'serviceproviders';
         }
-        if (searchQuery.trim() != "") {
+        if (searchQuery.trim() !== "") {
             Axios.get(
                 'https://milestoneapi.eric-jacobson.me/' + userType + '?q=' + searchQuery,  
                 {
@@ -67,7 +67,7 @@ class NetworkConnect extends React.Component {
                         <img className="c-connection-placeholder" src={users} />
                         <h3 className="c-connection-placeholder-text">Look for new connections!</h3>
                       </div>
-        if (this.state.users && this.state.users.length != 0) {
+        if (this.state.users && this.state.users.length !== 0) {
             content = <Contacts showContacts={true} content={this.state.users} />
         }
         return (
