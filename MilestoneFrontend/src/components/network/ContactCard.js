@@ -115,10 +115,7 @@ class ContactCard extends React.Component {
         var email;
         var contactUser;
         if (this.state.contactInfo) {
-            name = 
-                <div className="c-contact-profile__header__profile-name-wrapper">
-                    <h3 className="c-contact-profile__header__profile-name">{this.state.contactInfo.FullName}</h3>
-                </div>;
+            name = <h3 className="c-contact-profile__header__profile-name">{this.state.contactInfo.FullName}</h3>
             email = this.state.contactInfo.email;
             if (this.isConnected(this.state.contactInfo.id)) {
                 contactUser = <div className='c-contact-profile__contact-icons'>
@@ -136,12 +133,7 @@ class ContactCard extends React.Component {
 
         return (
             <div className='c-contact-profile'>
-                <div className="c-contact-profile__header">
-                    <Button onClick={() => this.buttonClicked()} className="c-contact-profile__header__back-btn">
-                        <Glyphicon glyph="chevron-left" />
-                    </Button>
-                    {name}          
-                </div>
+                {name}          
                 <div className="c-contact-profile__profile-img">
                     <img src={fakeuser} alt="User Avatar"/>
                 </div>

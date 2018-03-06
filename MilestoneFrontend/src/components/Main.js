@@ -61,7 +61,6 @@ class Main extends Component {
 
     render() {
         let isLoggedIn = this.props.userLoggedIn;
-
         if (this.state.userData) {
             return isLoggedIn ? (
                 <Switch>
@@ -87,7 +86,7 @@ class Main extends Component {
                 <Redirect to="/login" />
             );
         } else {
-            return <h1></h1>
+            return <p></p>
         }
     }
 }

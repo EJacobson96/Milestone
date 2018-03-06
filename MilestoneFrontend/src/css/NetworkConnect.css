@@ -7,20 +7,16 @@
 }
 
 .c-connections-search {
-    margin: 0 2em 1em 2em;
-}
-
-.c-connections-header {
-    text-align: center;
-    font-size: 4vh;
-    padding: .5em 0;
-    margin: 0 0 0 2.5em;
+    margin: 1em 2em 1em 2em;
 }
 
 .c-contact-connections-header { 
-    display: flex;
+    text-align: center;
+    margin: 0;
     border-bottom: 2px solid #808080;
-    margin-bottom: .7em;
+    padding: .7em 0;
+    font-size: 4vh;
+    font-weight: 400;
 }
 
 .c-connection-placeholder-text {
