@@ -54,9 +54,11 @@ class NetworkSearch extends Component {
 					}
 					{
 						this.props.contentType == "messages" && 
-						<Button className="btn btn-outline-success my-2 my-sm-0 plus c-network-button">
-							<Glyphicon glyph="plus" /> 
-						</Button>
+						<Link to='/Network/Messages/New'>
+							<Button className="btn btn-outline-success my-2 my-sm-0 plus c-network-button">
+								<Glyphicon glyph="plus" /> 
+							</Button>
+						</Link>
 					}
 				</form>
 			</div>
