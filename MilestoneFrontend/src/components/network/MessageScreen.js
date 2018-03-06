@@ -104,7 +104,29 @@ class MessageScreen extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log("hello");
+        var input = this.textInput.value;
+        this.textInput.value = "";
+        Axios.post(
+            'https://milestoneapi.eric-jacobson.me/messages?id=' + this.state.currUser.id, 
+            {
+                // headers: {
+                //     'Authorization' : localStorage.getItem('Authorization')
+                // }  
+                id: this.state.conversation.id,
+                TextBody: input 
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                console.log(data);
+                this.setState({
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
     }
 
     render() {
@@ -153,7 +175,7 @@ class MessageScreen extends React.Component {
                 </div>
                 <FormGroup controlId="formControlsTextarea" className="c-messages-input-form">
                     <div className="input-group c-messages-input-group">
-                        <FormControl componentClass="input" placeholder="Message..."/>
+                        <FormControl inputRef={input => this.textInput = input} componentClass="input" placeholder="Message..."/>
                         <span className="input-group-addon" id="basic-addon1">
                             <Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleSubmit(e)} />
                         </span>

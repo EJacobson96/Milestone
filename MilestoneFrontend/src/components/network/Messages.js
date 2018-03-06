@@ -34,23 +34,13 @@ class Messages extends React.Component {
                 var members = "";
                 for (let i = 1; i < conversation.members.length; i++) {
                     let memberLength = conversation.members.length;
-                    // if (this.props.currUser !== conversation.members[i].id && memberLength === 2) {
-                    //     members += conversation.members[i].fullName;
-                    //     i = memberLength;
-                    // } else if (this.props.currUser !== conversation.members[i].id && memberLength == 3) {
-                    //     members += conversation.members[i].fullName + " & " + (memberLength - 2) + " other";
-                    //     i = memberLength;
-                    // } else if (this.props.currUser !== conversation.members[i].id && memberLength > 3) {
-                    //     members += conversation.members[i].fullName + " & " + (memberLength - 2) + " others";
-                    //     i = memberLength;
-                    // }
                     if (i === memberLength - 1) {
                         members += conversation.members[i].fullName;
                     } else {
                         members += conversation.members[i].fullName + ", ";
                     }
                 }
-                time = conversation.messages[0].createdAt;
+                time = conversation.lastMessage;
                 if (moment(time).calendar().startsWith('Today')) {
                     if (moment(time).format('hh:mm').startsWith('0')) {
                         time = moment(time).format('h:mm');
