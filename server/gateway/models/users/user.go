@@ -7,6 +7,7 @@ import (
 	"net/mail"
 	"strings"
 
+	"github.com/EJacobson96/Milestone/server/gateway/models/notifications"
 	"github.com/EJacobson96/Milestone/server/gateway/models/status"
 	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/mgo.v2/bson"
@@ -34,10 +35,12 @@ type User struct {
 	Program       string          `json:"program"`
 	Availability  []*Availability `json:"availability"`
 	//AreasOfExpertise 	[]*
-	Connections []*User        `json:"connections"`
-	AccountType string         `json:"accountType"`
-	UserStatus  *status.Status `json:"userStatus"`
-	Address     *Address       `json:"address"`
+	Notifications   []*notifications.Notification `json:"notifications"`
+	PendingRequests []*notifications.Request      `json:"pendingRequests"`
+	Connections     []*User                       `json:"connections"`
+	AccountType     string                        `json:"accountType"`
+	UserStatus      *status.Status                `json:"userStatus"`
+	Address         *Address                      `json:"address"`
 }
 
 //Credentials represents user sign-in credentials
