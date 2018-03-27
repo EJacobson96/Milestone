@@ -97,11 +97,12 @@ func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request)
 			return
 		}
 		messages, err := c.MessagesStore.InsertMessage(newMessage, bson.ObjectIdHex(userID))
-		err = json.NewEncoder(w).Encode(messages)
+		messagesPayload, err := json.Marshal(messages)
 		if err != nil {
-			http.Error(w, fmt.Sprintf("error encoding conversation to JSON: %v", err), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error marshalling messages to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
+		c.Notifer.Notify(messagesPayload)
 	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
 		return

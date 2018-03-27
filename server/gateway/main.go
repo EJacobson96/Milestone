@@ -120,6 +120,7 @@ func main() {
 	mux.Handle("/conversations/", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles getting a specific conversation based on id
 	mux.Handle("/messages", NewServiceProxy(splitMessagesSvcAddrs, context))       //handles inserting new message into a conversation
 	mux.Handle("/member", NewServiceProxy(splitMessagesSvcAddrs, context))         //handles removing a member from a conversation
+	mux.Handle("/ws/messages", NewServiceProxy(splitMessagesSvcAddrs, context))
 	// mux.Handle("/search/conversations", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles searching through conversations
 
 	corsMux := handlers.NewCORSHandler(mux)

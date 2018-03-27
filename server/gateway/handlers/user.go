@@ -177,3 +177,13 @@ func (c *HandlerContext) SpecificContactHandler(w http.ResponseWriter, r *http.R
 		return
 	}
 }
+
+// func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Request) {
+// 	switch r.Method {
+// 	case "POST":
+
+// 	default:
+// 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+// 		return
+// 	}
+// }

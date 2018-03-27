@@ -26,14 +26,17 @@ func main() {
 		log.Fatal("error dialing database")
 	}
 	mongostore := messages.NewMongoStore(session, "db", "conversations")
+	notifier := handlers.NewNotifier()
 	context := handlers.HandlerContext{
 		MessagesStore: mongostore,
+		Notifier: notifier
 	}
 
 	http.HandleFunc("/conversations", context.ConversationHandler)          //handles returning all conversations for a user and creating new conversation
 	http.HandleFunc("/conversations/", context.SpecificConversationHandler) //handles getting a specific conversation based on id
 	http.HandleFunc("/messages", context.MessagesHandler)                   //handles inserting new message into a conversation
 	http.HandleFunc("/member", context.MembersHandler)                      //handles removing a member from a conversation
+	http.Handle("/ws/messages", handlers.NewWebSocketsHandler(notifier))
 	// http.HandleFunc("/search/conversations", context.SearchConversationsHandler) handles searching through conversations
 
 	log.Printf("server is listening at http://%s...", addr)
