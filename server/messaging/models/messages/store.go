@@ -14,7 +14,7 @@ type Store interface {
 	GetConversations(userID bson.ObjectId) ([]*Conversation, error)
 
 	//InsertMessage inserts new message into the database, and returns it
-	InsertMessage(newMessage *NewMessage, userID bson.ObjectId) ([]*Message, error)
+	InsertMessage(newMessage *NewMessage, userID bson.ObjectId) (*Conversation, error)
 
 	//InsertMemberToConversation inserts a new member in a conversation
 	RemoveMemberFromConversation(removeMember *Member, coversationID bson.ObjectId) ([]*Member, error)

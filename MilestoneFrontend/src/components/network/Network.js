@@ -25,7 +25,6 @@ import '../../css/Network.css';
 class Network extends Component {
     constructor(props) {
         super(props);
-    
         this.state = {
             contentType: 'messages',
             search: '',
@@ -35,9 +34,11 @@ class Network extends Component {
         this.handleSearch = this.handleSearch.bind(this);
         this.getMessages = this.getMessages.bind(this);
     }
+
+
     
     componentDidMount() {
-        this.getMessages('');          
+        this.getMessages('');        
     }
 
     renderMessages(e) {
@@ -61,13 +62,6 @@ class Network extends Component {
             this.getMessages(search);
         }
     }
-
-    // toggleSearchAndNav(e) {
-    //     let toggle = !this.state.showSearchAndNav;
-    //     this.setState({
-    //         showSearchAndNav: toggle
-    //     })
-    // }
 
     getMessages(search) {
         Axios.get(

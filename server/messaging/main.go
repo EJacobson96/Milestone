@@ -29,7 +29,7 @@ func main() {
 	notifier := handlers.NewNotifier()
 	context := handlers.HandlerContext{
 		MessagesStore: mongostore,
-		Notifier: notifier
+		Notifier:      notifier,
 	}
 
 	http.HandleFunc("/conversations", context.ConversationHandler)          //handles returning all conversations for a user and creating new conversation

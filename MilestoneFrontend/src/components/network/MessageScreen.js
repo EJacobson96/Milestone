@@ -11,6 +11,7 @@ import '../../css/MessageScreen.css';
 
 /////////////////////////////////////////
 /// Code
+const websocket = new WebSocket("ws://localhost:3000/ws/messages");
 
 class MessageScreen extends React.Component {
     constructor(props) {
@@ -23,6 +24,10 @@ class MessageScreen extends React.Component {
 
     componentDidMount() {
         this.scrollToBottom();
+        websocket.addEventListener("message", function(event) {
+            console.log("websocket connected");
+            this.getCurrentUser(event.data);
+        });  
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         Axios.get(
             'https://milestoneapi.eric-jacobson.me/conversations/?id=' + id, 
@@ -121,7 +126,9 @@ class MessageScreen extends React.Component {
             .then(data => {
                 console.log(data);
                 this.setState({
+                    conversation: data
                 });
+
             })
             .catch(error => {
                 console.log(error);
