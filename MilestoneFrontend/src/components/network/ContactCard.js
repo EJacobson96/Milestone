@@ -6,6 +6,11 @@ import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
+/// Standard Components
+
+import HeaderBar from '../ux/HeaderBar';
+
+/////////////////////////////////////////
 /// Images & Styles
 import message from '../../img/messagebubble.png';
 import phone from '../../img/phoneicon.png';
@@ -115,7 +120,9 @@ class ContactCard extends React.Component {
         var email;
         var contactUser;
         if (this.state.contactInfo) {
-            name = <h3 className="c-contact-profile__header__profile-name">{this.state.contactInfo.FullName}</h3>
+            name = <HeaderBar
+                        text={this.state.contactInfo.FullName}
+                    />
             email = this.state.contactInfo.email;
             if (this.isConnected(this.state.contactInfo.id)) {
                 contactUser = <div className='c-contact-profile__contact-icons'>

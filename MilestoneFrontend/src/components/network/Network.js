@@ -12,6 +12,7 @@ import NetworkSearch from './NetworkSearch';
 import Contacts from './Contacts';
 import ContactCard from './ContactCard';
 import Messages from './Messages';
+import NewMessage from './NewMessage';
 import NetworkConnect from './NetworkConnect';
 import MessageScreen from './MessageScreen';
 
@@ -132,6 +133,9 @@ class Network extends Component {
         return (
             <div className="l-network-content">
                 <Switch>
+                    <Route path='/Network/Messages/New' render={(props) => (
+                        <NewMessage />
+                    )} />
                     <Route exact path ='/Network/Messages/Conversation/:id' render={(props) => (
                         <MessageScreen />
                     )} />
