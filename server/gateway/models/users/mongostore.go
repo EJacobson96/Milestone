@@ -3,7 +3,9 @@ package users
 import (
 	"errors"
 	"fmt"
+	"time"
 
+	"github.com/EJacobson96/Milestone/server/gateway/models/notifications"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -91,6 +93,25 @@ func (s *MongoStore) AddConnection(userID bson.ObjectId, newConnection *User) ([
 	return user.Connections, nil
 }
 
+func (s *MongoStore) AddNotification(notification *notifications.Notification) (*notifications.Notification, error) {
+	newNotification := notification
+	newNotification.TimeSent = time.Now()
+	col := s.session.DB(s.dbname).C(s.colname)
+	for _, userID := range notification.Users {
+		user := &User{}
+		err := col.FindId(userID).One(&user)
+		if err != nil {
+			return nil, fmt.Errorf("error finding user: %v", err)
+		}
+		user.Notifications = append(user.Notifications, newNotification)
+		_, err = col.UpsertId(userID, bson.M{"$addToSet": bson.M{"notifications": newNotification}})
+		if err != nil {
+			return nil, fmt.Errorf("error inserting new notification: %v", err)
+		}
+	}
+	return newNotification, nil
+}
+
 //Insert converts the NewUser to a User, inserts
 //it into the database, and returns it
 func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
@@ -99,7 +120,8 @@ func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
 		return nil, err
 	}
 	col := s.session.DB(s.dbname).C(s.colname)
-	if err := col.Insert(user); err != nil {
+	err = col.Insert(user)
+	if err != nil {
 		return nil, fmt.Errorf("error inserting new user: %v", err)
 	}
 	return user, nil

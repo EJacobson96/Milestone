@@ -97,11 +97,12 @@ func main() {
 		log.Fatal("error dialing database")
 	}
 	mongoStore := users.NewMongoStore(session, "db", "users")
-
+	notifier := handlers.NewNotifier()
 	context := handlers.HandlerContext{
 		SigningKey:    sessionKey,
 		SessionsStore: redisStore,
 		UsersStore:    mongoStore,
+		Notifier:      *notifier,
 	}
 
 	mux := http.NewServeMux()
@@ -114,13 +115,14 @@ func main() {
 	mux.HandleFunc("/connections", context.UserConnectionsHandler)      //handles getting list of conntections for a user
 	mux.HandleFunc("/connect", context.AddConnectionHandler)            //handlers adding a new user to connection list
 	mux.HandleFunc("/contact/", context.SpecificContactHandler)         //handles getting a specific contact based on id
+	mux.HandleFunc("/notifications", context.NotificationsHandler)      //handles posting new notifications
+	mux.Handle("/ws", handlers.NewWebSocketsHandler(notifier))
 
 	//messaging microservice
 	mux.Handle("/conversations", NewServiceProxy(splitMessagesSvcAddrs, context))  //handles returning all conversations for a user and creating new conversation
 	mux.Handle("/conversations/", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles getting a specific conversation based on id
 	mux.Handle("/messages", NewServiceProxy(splitMessagesSvcAddrs, context))       //handles inserting new message into a conversation
 	mux.Handle("/member", NewServiceProxy(splitMessagesSvcAddrs, context))         //handles removing a member from a conversation
-	mux.Handle("/ws/messages", NewServiceProxy(splitMessagesSvcAddrs, context))
 	// mux.Handle("/search/conversations", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles searching through conversations
 
 	corsMux := handlers.NewCORSHandler(mux)

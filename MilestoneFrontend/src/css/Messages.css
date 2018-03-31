@@ -36,7 +36,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     margin-top: .3em;
-    /* white-space: nowrap; */
+    white-space: nowrap;
 }
 
 .c-conversation-card__details__name-and-date {

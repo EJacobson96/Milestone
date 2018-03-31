@@ -11,7 +11,7 @@ import '../../css/MessageScreen.css';
 
 /////////////////////////////////////////
 /// Code
-const websocket = new WebSocket("ws://localhost:3000/ws/messages");
+const websocket = new WebSocket("wss://milestoneapi.eric-jacobson.me/ws");
 
 class MessageScreen extends React.Component {
     constructor(props) {
@@ -21,13 +21,7 @@ class MessageScreen extends React.Component {
         };
     }
 
-
-    componentDidMount() {
-        this.scrollToBottom();
-        websocket.addEventListener("message", function(event) {
-            console.log("websocket connected");
-            this.getCurrentUser(event.data);
-        });  
+    renderConversations() {
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         Axios.get(
             'https://milestoneapi.eric-jacobson.me/conversations/?id=' + id, 
@@ -49,6 +43,20 @@ class MessageScreen extends React.Component {
         );
     }
 
+
+    componentDidMount() {
+        this.scrollToBottom();
+        websocket.addEventListener("message", function(event) { 
+            var data = JSON.parse(event.data);
+            console.log(data.payload.contentType);
+            if (data.payload.contentType == "new message") {
+                console.log(this.props);
+                this.renderConversations();
+            }
+        }.bind(this));  
+        this.renderConversations();
+    }
+
     componentDidUpdate() {
         this.scrollToBottom();
     }
@@ -68,6 +76,32 @@ class MessageScreen extends React.Component {
                 this.setState({
                     currUser: data,
                     conversation: currConversation
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    }
+
+    postNotification(conversation, message) {
+        Axios.post(
+            'https://milestoneapi.eric-jacobson.me/notifications',
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                },
+                Read: false,
+                Body: message,
+                ContentType: "new message",
+                Users: conversation.Users,
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                this.setState({
+                    conversation: conversation
                 });
             })
             .catch(error => {
@@ -125,10 +159,7 @@ class MessageScreen extends React.Component {
             })
             .then(data => {
                 console.log(data);
-                this.setState({
-                    conversation: data
-                });
-
+                this.postNotification(data, input);
             })
             .catch(error => {
                 console.log(error);
@@ -144,12 +175,12 @@ class MessageScreen extends React.Component {
         var displayMessages;
         if (this.state.conversation) {
             conversation = this.state.conversation;
-            for (var i = 1; i < conversation.members.length; i++) {
+            for (var i = 0; i < conversation.members.length; i++) {
                 let memberLength = conversation.members.length;
-                if (i === (memberLength - 1)) {
+                if (conversation.members[i].id != this.state.currUser.id && members != "") {
+                    members += ", " + conversation.members[i].fullName;
+                } else if (conversation.members[i].id != this.state.currUser.id) {
                     members += conversation.members[i].fullName;
-                } else {
-                    members += conversation.members[i].fullName + ", ";
                 }
             }
             messages = this.state.conversation.messages.map((message) => {

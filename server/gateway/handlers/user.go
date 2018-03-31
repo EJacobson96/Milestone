@@ -7,6 +7,8 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/EJacobson96/Milestone/server/gateway/models/notifications"
+
 	"github.com/EJacobson96/Milestone/server/gateway/models/users"
 	"github.com/EJacobson96/Milestone/server/gateway/sessions"
 	"gopkg.in/mgo.v2/bson"
@@ -178,12 +180,49 @@ func (c *HandlerContext) SpecificContactHandler(w http.ResponseWriter, r *http.R
 	}
 }
 
-// func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Request) {
-// 	switch r.Method {
-// 	case "POST":
-
-// 	default:
-// 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
-// 		return
-// 	}
-// }
+func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Request) {
+	// sessionState := &SessionState{}
+	// sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+	// if err != nil {
+	// 	http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+	// 	return
+	// }
+	switch r.Method {
+	case "POST":
+		// err = c.SessionsStore.Save(sessionID, sessionState)
+		// if err != nil {
+		// 	http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
+		// 	return
+		// }
+		notification := &notifications.Notification{}
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(notification)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding notification: %v", err), http.StatusInternalServerError)
+			return
+		}
+		notification, err = c.UsersStore.AddNotification(notification)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error adding notification: %v", err), http.StatusInternalServerError)
+		}
+		err = json.NewEncoder(w).Encode(notification)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding notification to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+		notificationPayload := struct {
+			Payload *notifications.Notification `json:"payload"`
+		}{
+			notification,
+		}
+		payload, jsonErr := json.Marshal(notificationPayload)
+		if jsonErr != nil {
+			http.Error(w, fmt.Sprintf("error marshalling payload to JSON: %v", jsonErr), http.StatusInternalServerError)
+			return
+		}
+		c.Notifier.Notify(payload)
+	default:
+		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+		return
+	}
+}

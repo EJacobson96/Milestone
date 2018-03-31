@@ -10,4 +10,5 @@ type HandlerContext struct {
 	SigningKey    string
 	SessionsStore sessions.Store
 	UsersStore    users.Store
+	notifier      *Notifier
 }

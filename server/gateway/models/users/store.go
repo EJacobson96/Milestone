@@ -3,6 +3,8 @@ package users
 import (
 	"errors"
 
+	"github.com/EJacobson96/Milestone/server/gateway/models/notifications"
+
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -14,6 +16,9 @@ type Store interface {
 
 	//AddConnection adds a connection for a user and returns the connection list
 	AddConnection(userID bson.ObjectId, connection *User) ([]*User, error)
+
+	//AddNotification adds a notification for a user and returns it
+	AddNotification(notification *notifications.Notification) (*notifications.Notification, error)
 
 	//GetAllUsers returns every single user
 	GetAllUsers() ([]*User, error)
