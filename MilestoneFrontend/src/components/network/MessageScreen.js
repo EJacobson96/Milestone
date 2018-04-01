@@ -43,7 +43,6 @@ class MessageScreen extends React.Component {
         );
     }
 
-
     componentDidMount() {
         this.scrollToBottom();
         websocket.addEventListener("message", function(event) { 
@@ -94,6 +93,7 @@ class MessageScreen extends React.Component {
                 Read: false,
                 Body: message,
                 ContentType: "new message",
+                ContentID: conversation.id,
                 Users: conversation.Users,
             })
             .then(response => {

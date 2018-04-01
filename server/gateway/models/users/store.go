@@ -20,6 +20,9 @@ type Store interface {
 	//AddNotification adds a notification for a user and returns it
 	AddNotification(notification *notifications.Notification) (*notifications.Notification, error)
 
+	//AddRequest adds a reest for a user and returns it
+	AddRequest(request *notifications.Request) (*notifications.Request, error)
+
 	//GetAllUsers returns every single user
 	GetAllUsers() ([]*User, error)
 

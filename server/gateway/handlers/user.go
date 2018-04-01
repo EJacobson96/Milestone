@@ -88,8 +88,8 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 	switch r.Method {
 	case "GET":
 		query := r.URL.Query().Get("q")
-		allUsers, err := c.UsersStore.GetAllUsers()
 		serviceProviders := []*users.User{}
+		allUsers, err := c.UsersStore.GetAllUsers()
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error grabbing users from database: %v", err), http.StatusInternalServerError)
 			return
@@ -221,6 +221,54 @@ func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Req
 			return
 		}
 		c.Notifier.Notify(payload)
+	default:
+		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+		return
+	}
+}
+
+func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request) {
+	// sessionState := &SessionState{}
+	// sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+	// if err != nil {
+	// 	http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+	// 	return
+	// }
+	switch r.Method {
+	case "POST":
+		// err = c.SessionsStore.Save(sessionID, sessionState)
+		// if err != nil {
+		// 	http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
+		// 	return
+		// }
+		request := &notifications.Request{}
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(request)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding request: %v", err), http.StatusInternalServerError)
+		}
+		request, err = c.UsersStore.AddRequest(request)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error adding request: %v", err), http.StatusInternalServerError)
+			return
+		}
+		err = json.NewEncoder(w).Encode(request)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding notification to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+		requestPayload := struct {
+			Payload *notifications.Request `json:"payload"`
+		}{
+			request,
+		}
+		payload, jsonErr := json.Marshal(requestPayload)
+		if jsonErr != nil {
+			http.Error(w, fmt.Sprintf("error marshalling payload to JSON: %v", jsonErr), http.StatusInternalServerError)
+			return
+		}
+		c.Notifier.Notify(payload)
+	case "DELETE":
 	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
 		return

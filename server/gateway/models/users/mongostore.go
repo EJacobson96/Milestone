@@ -112,6 +112,23 @@ func (s *MongoStore) AddNotification(notification *notifications.Notification) (
 	return newNotification, nil
 }
 
+func (s *MongoStore) AddRequest(request *notifications.Request) (*notifications.Request, error) {
+	newRequest := request
+	newRequest.TimeSent = time.Now()
+	user := &User{}
+	col := s.session.DB(s.dbname).C(s.colname)
+	err := col.FindId(request.User).One(&user)
+	if err != nil {
+		return nil, fmt.Errorf("error finding user: %v", err)
+	}
+	user.PendingRequests = append(user.PendingRequests, newRequest)
+	_, err = col.UpsertId(request.User, bson.M{"$addToSet": bson.M{"notifications": newRequest}})
+	if err != nil {
+		return nil, fmt.Errorf("error inserting new request: %v", err)
+	}
+	return newRequest, nil
+}
+
 //Insert converts the NewUser to a User, inserts
 //it into the database, and returns it
 func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
@@ -129,13 +146,6 @@ func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
 
 //Update applies UserUpdates to the given user ID
 func (s *MongoStore) Update(userID bson.ObjectId, updates *Updates) error {
-	// user := &User{}
-	// err := user.ApplyUpdates(updates)
-	// if err != nil {
-	// 	return fmt.Errorf("error applying updates: %v", err)
-	// }
-	// col := s.session.DB(s.dbname).C(s.colname)
-	// return col.UpdateId(userID, updates)
 	user := &User{}
 	err := user.ApplyUpdates(updates)
 	if err != nil {

@@ -11,7 +11,7 @@ type Notification struct {
 	Read        bool            `json:"read"`
 	Body        string          `json:"body"`
 	ContentType string          `json:"contentType"`
-	Count       int             `json:"count"`
+	ContentID   bson.ObjectId   `json:"contentID"`
 	Users       []bson.ObjectId `json:"users"`
 }
 
@@ -20,4 +20,5 @@ type Request struct {
 	Body        string        `json:"body"`
 	User        bson.ObjectId `json:"user"`
 	ContentType string        `json:"contentType"`
+	ContentID   bson.ObjectId `json:"contentID"`
 }

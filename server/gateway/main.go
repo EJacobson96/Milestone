@@ -116,6 +116,7 @@ func main() {
 	mux.HandleFunc("/connect", context.AddConnectionHandler)            //handlers adding a new user to connection list
 	mux.HandleFunc("/contact/", context.SpecificContactHandler)         //handles getting a specific contact based on id
 	mux.HandleFunc("/notifications", context.NotificationsHandler)      //handles posting new notifications
+	mux.HandleFunc("/requests", context.RequestsHandler)                //handles all user requests
 	mux.Handle("/ws", handlers.NewWebSocketsHandler(notifier))
 
 	//messaging microservice
