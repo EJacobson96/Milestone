@@ -63,13 +63,6 @@ class Network extends Component {
         }
     }
 
-    // toggleSearchAndNav(e) {
-    //     let toggle = !this.state.showSearchAndNav;
-    //     this.setState({
-    //         showSearchAndNav: toggle
-    //     })
-    // }
-
     getMessages(search) {
         Axios.get(
             'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.state.userID + '&q=' + search,  
