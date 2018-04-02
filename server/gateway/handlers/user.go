@@ -77,6 +77,24 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
 		}
+	case "PATCH":
+		connections := []*users.User{}
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(connections)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding connection: %v", err), http.StatusInternalServerError)
+			return
+		}
+		connections, err = c.UsersStore.UpdateConnections(sessionState.User.ID, connections)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error adding connection: %v", err), http.StatusInternalServerError)
+			return
+		}
+		err = json.NewEncoder(w).Encode(connections)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
 	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
 		return
@@ -104,44 +122,6 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 		err = json.NewEncoder(w).Encode(serviceProviders)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
-		}
-	default:
-		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
-		return
-	}
-}
-
-//handles adding a new connection for the current user
-func (c *HandlerContext) AddConnectionHandler(w http.ResponseWriter, r *http.Request) {
-	sessionState := &SessionState{}
-	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
-		return
-	}
-	switch r.Method {
-	case "POST":
-		err = c.SessionsStore.Save(sessionID, sessionState)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
-			return
-		}
-		connection := &users.User{}
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(connection)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error decoding connection: %v", err), http.StatusInternalServerError)
-			return
-		}
-		connections, err := c.UsersStore.AddConnection(sessionState.User.ID, connection)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error adding connection: %v", err), http.StatusInternalServerError)
-			return
-		}
-		err = json.NewEncoder(w).Encode(connections)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
-			return
 		}
 	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
@@ -188,12 +168,7 @@ func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Req
 	// 	return
 	// }
 	switch r.Method {
-	case "POST":
-		// err = c.SessionsStore.Save(sessionID, sessionState)
-		// if err != nil {
-		// 	http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
-		// 	return
-		// }
+	case "PATCH":
 		notification := &notifications.Notification{}
 		decoder := json.NewDecoder(r.Body)
 		err := decoder.Decode(notification)
@@ -235,19 +210,14 @@ func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request)
 	// 	return
 	// }
 	switch r.Method {
-	case "POST":
-		// err = c.SessionsStore.Save(sessionID, sessionState)
-		// if err != nil {
-		// 	http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
-		// 	return
-		// }
-		request := &notifications.Request{}
+	case "PATCH":
+		request := []*notifications.Request{}
 		decoder := json.NewDecoder(r.Body)
 		err := decoder.Decode(request)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error decoding request: %v", err), http.StatusInternalServerError)
 		}
-		request, err = c.UsersStore.AddRequest(request)
+		request, err = c.UsersStore.UpdateRequests(request)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error adding request: %v", err), http.StatusInternalServerError)
 			return
@@ -258,7 +228,7 @@ func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request)
 			return
 		}
 		requestPayload := struct {
-			Payload *notifications.Request `json:"payload"`
+			Payload []*notifications.Request `json:"payload"`
 		}{
 			request,
 		}
@@ -268,7 +238,6 @@ func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request)
 			return
 		}
 		c.Notifier.Notify(payload)
-	case "DELETE":
 	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
 		return

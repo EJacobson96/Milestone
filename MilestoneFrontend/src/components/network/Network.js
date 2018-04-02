@@ -34,8 +34,6 @@ class Network extends Component {
         this.handleSearch = this.handleSearch.bind(this);
         this.getMessages = this.getMessages.bind(this);
     }
-
-
     
     componentDidMount() {
         this.getMessages('');        

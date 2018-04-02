@@ -112,8 +112,7 @@ func main() {
 	mux.HandleFunc("/sessions/mine", context.SessionsMineHandler)       //handles ending a session
 	mux.HandleFunc("/participants", context.ParticipantHandler)         //handles searching for a participant
 	mux.HandleFunc("/serviceproviders", context.ServiceProviderHandler) //handles searching for a service provider
-	mux.HandleFunc("/connections", context.UserConnectionsHandler)      //handles getting list of conntections for a user
-	mux.HandleFunc("/connect", context.AddConnectionHandler)            //handlers adding a new user to connection list
+	mux.HandleFunc("/connections", context.UserConnectionsHandler)      //handles all changes made to a user's connections list
 	mux.HandleFunc("/contact/", context.SpecificContactHandler)         //handles getting a specific contact based on id
 	mux.HandleFunc("/notifications", context.NotificationsHandler)      //handles posting new notifications
 	mux.HandleFunc("/requests", context.RequestsHandler)                //handles all user requests

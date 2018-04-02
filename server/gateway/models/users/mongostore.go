@@ -1,7 +1,6 @@
 package users
 
 import (
-	"errors"
 	"fmt"
 	"time"
 
@@ -73,24 +72,23 @@ func (s *MongoStore) GetByUserName(username string) (*User, error) {
 	return user, nil
 }
 
-func (s *MongoStore) AddConnection(userID bson.ObjectId, newConnection *User) ([]*User, error) {
-	user := &User{}
+func (s *MongoStore) UpdateConnections(userID bson.ObjectId, connections []*User) ([]*User, error) {
+	// user := &User{}
 	col := s.session.DB(s.dbname).C(s.colname)
-	err := col.FindId(userID).One(&user)
-	if err != nil {
-		return nil, fmt.Errorf("error finding user: %v", err)
-	}
-	for _, connection := range user.Connections {
-		if connection == newConnection {
-			return nil, errors.New("connection already exists")
-		}
-	}
-	user.Connections = append(user.Connections, newConnection)
-	_, err = col.UpsertId(userID, bson.M{"$addToSet": bson.M{"connections": newConnection}})
+	// err := col.FindId(userID).One(&user)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("error finding user: %v", err)
+	// }
+	// for _, connection := range user.Connections {
+	// 	if connection == newConnection {
+	// 		return nil, errors.New("connection already exists")
+	// 	}
+	// }
+	_, err := col.UpsertId(userID, bson.M{"connections": connections})
 	if err != nil {
 		return nil, fmt.Errorf("error inserting new connection: %v", err)
 	}
-	return user.Connections, nil
+	return connections, nil
 }
 
 func (s *MongoStore) AddNotification(notification *notifications.Notification) (*notifications.Notification, error) {
@@ -112,21 +110,21 @@ func (s *MongoStore) AddNotification(notification *notifications.Notification) (
 	return newNotification, nil
 }
 
-func (s *MongoStore) AddRequest(request *notifications.Request) (*notifications.Request, error) {
-	newRequest := request
+func (s *MongoStore) UpdateRequests(requests []*notifications.Request) ([]*notifications.Request, error) {
+	newRequest := requests[len(requests)-1]
 	newRequest.TimeSent = time.Now()
-	user := &User{}
+	// user := &User{}
 	col := s.session.DB(s.dbname).C(s.colname)
-	err := col.FindId(request.User).One(&user)
-	if err != nil {
-		return nil, fmt.Errorf("error finding user: %v", err)
-	}
-	user.PendingRequests = append(user.PendingRequests, newRequest)
-	_, err = col.UpsertId(request.User, bson.M{"$addToSet": bson.M{"notifications": newRequest}})
+	// err := col.FindId(newRequest.User).One(&user)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("error finding user: %v", err)
+	// }
+	// user.PendingRequests = append(user.PendingRequests, newRequest)
+	_, err := col.UpsertId(newRequest.User, bson.M{"notifications": requests})
 	if err != nil {
 		return nil, fmt.Errorf("error inserting new request: %v", err)
 	}
-	return newRequest, nil
+	return requests, nil
 }
 
 //Insert converts the NewUser to a User, inserts
