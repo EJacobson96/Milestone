@@ -35,9 +35,9 @@ class NetworkRequestThumbnail extends React.Component {
 						<img src={ plus } alt=''/>
 					</div>
 					<div className="c-network-request-thumbnail__details">
-						<span className="c-network-request-thumbnail__details__full-name">
+						<p className="c-network-request-thumbnail__details__full-name">
 							{ this.props.fullName }
-						</span>
+						</p>
 					</div>
 					<div className='c-network-request-thumbnail__button-wrapper'>
 						<Button className='c-network-request-thumbnail__button'>See Request</Button>

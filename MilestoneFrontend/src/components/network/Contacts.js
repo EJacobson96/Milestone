@@ -1,14 +1,13 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import ContactThumbnail from './ContactThumbnail';
 import NetworkRequestThumbnail from './NetworkRequestThumbnail';
 
 /////////////////////////////////////////
 /// Images & Styles
-import fakeuser from '../../img/fakeuser.png';
 import '../../css/Contacts.css';
 import fakeRequests from '../testdata/fakerequests.json';
 
@@ -20,7 +19,7 @@ class Contacts extends React.Component {
         super(props);
     
         this.state = {
-
+            requests: []
         };
     }
 
@@ -50,8 +49,9 @@ class Contacts extends React.Component {
             requests = this.state.requests.map((request) => {
                 return (
                     <NetworkRequestThumbnail 
-                        path = { '/' }
+                        path = { '/Network/Contacts/Request/:id' + request.id }
                         id = { request.id }
+                        key = { request.id }
                         fullName = { request.FullName }
                     />
                 );
@@ -61,6 +61,7 @@ class Contacts extends React.Component {
                     <ContactThumbnail
                         path={ "/Network/Contacts/Profile/:id" + connection.id }
                         id={ connection.id }
+                        key={ connection.id }
                         fullName={ connection.FullName }
                     />
                 );

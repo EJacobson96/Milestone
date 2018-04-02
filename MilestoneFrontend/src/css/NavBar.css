@@ -8,6 +8,7 @@
     top: 0;
     position: fixed;
     height: 8vh;
+    z-index: 1;
 }
 
 .c-navbar__logo-wrapper {
