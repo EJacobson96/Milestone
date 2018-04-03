@@ -100,7 +100,7 @@ class Messages extends React.Component {
                                     <span className="c-conversation-card__details__name">{members}</span>
                                     <span className="c-conversation-card__details__date">{time}</span>
                                 </div>
-                                <p className="c-conversation-card-body">{conversation.messages[0].textBody}</p>
+                                <p className="c-conversation-card-body">{conversation.messages[conversation.messages.length - 1].textBody}</p>
                             </div>
                         </div>
                     </Link>
