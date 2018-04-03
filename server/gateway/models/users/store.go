@@ -3,6 +3,8 @@ package users
 import (
 	"errors"
 
+	"github.com/EJacobson96/Milestone/server/gateway/models/notifications"
+
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -12,8 +14,14 @@ var ErrUserNotFound = errors.New("user not found")
 //Store represents a store for Users
 type Store interface {
 
-	//AddConnection adds a connection for a user and returns the connection list
-	AddConnection(userID bson.ObjectId, connection *User) ([]*User, error)
+	//UpdateConnections adds a connection for a user and returns the connection list
+	UpdateConnections(userID bson.ObjectId, connections []*User) ([]*User, error)
+
+	//AddNotification adds a notification for a user and returns it
+	AddNotification(notification *notifications.Notification) (*notifications.Notification, error)
+
+	//UpdateRequests adds a request for a user and returns it
+	UpdateRequests(request []*notifications.Request) ([]*notifications.Request, error)
 
 	//GetAllUsers returns every single user
 	GetAllUsers() ([]*User, error)

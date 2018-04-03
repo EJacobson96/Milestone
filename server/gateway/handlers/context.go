@@ -6,7 +6,9 @@ import (
 )
 
 type HandlerContext struct {
+	Notifier      Notifier
 	SigningKey    string
 	SessionsStore sessions.Store
 	UsersStore    users.Store
+	notifier      *Notifier
 }

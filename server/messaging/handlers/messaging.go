@@ -96,10 +96,10 @@ func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request)
 			http.Error(w, fmt.Sprintf("error decoding user: %v", err), http.StatusInternalServerError)
 			return
 		}
-		messages, err := c.MessagesStore.InsertMessage(newMessage, bson.ObjectIdHex(userID))
-		err = json.NewEncoder(w).Encode(messages)
+		conversation, err := c.MessagesStore.InsertMessage(newMessage, bson.ObjectIdHex(userID))
+		err = json.NewEncoder(w).Encode(conversation)
 		if err != nil {
-			http.Error(w, fmt.Sprintf("error encoding conversation to JSON: %v", err), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
 	default:

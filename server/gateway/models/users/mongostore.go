@@ -1,9 +1,10 @@
 package users
 
 import (
-	"errors"
 	"fmt"
+	"time"
 
+	"github.com/EJacobson96/Milestone/server/gateway/models/notifications"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -71,24 +72,43 @@ func (s *MongoStore) GetByUserName(username string) (*User, error) {
 	return user, nil
 }
 
-func (s *MongoStore) AddConnection(userID bson.ObjectId, newConnection *User) ([]*User, error) {
-	user := &User{}
+func (s *MongoStore) UpdateConnections(userID bson.ObjectId, connections []*User) ([]*User, error) {
 	col := s.session.DB(s.dbname).C(s.colname)
-	err := col.FindId(userID).One(&user)
-	if err != nil {
-		return nil, fmt.Errorf("error finding user: %v", err)
-	}
-	for _, connection := range user.Connections {
-		if connection == newConnection {
-			return nil, errors.New("connection already exists")
-		}
-	}
-	user.Connections = append(user.Connections, newConnection)
-	_, err = col.UpsertId(userID, bson.M{"$addToSet": bson.M{"connections": newConnection}})
+	_, err := col.UpsertId(userID, bson.M{"connections": connections})
 	if err != nil {
 		return nil, fmt.Errorf("error inserting new connection: %v", err)
 	}
-	return user.Connections, nil
+	return connections, nil
+}
+
+func (s *MongoStore) AddNotification(notification *notifications.Notification) (*notifications.Notification, error) {
+	newNotification := notification
+	newNotification.TimeSent = time.Now()
+	col := s.session.DB(s.dbname).C(s.colname)
+	for _, userID := range notification.Users {
+		user := &User{}
+		err := col.FindId(userID).One(&user)
+		if err != nil {
+			return nil, fmt.Errorf("error finding user: %v", err)
+		}
+		user.Notifications = append(user.Notifications, newNotification)
+		_, err = col.UpsertId(userID, bson.M{"$addToSet": bson.M{"notifications": newNotification}})
+		if err != nil {
+			return nil, fmt.Errorf("error inserting new notification: %v", err)
+		}
+	}
+	return newNotification, nil
+}
+
+func (s *MongoStore) UpdateRequests(requests []*notifications.Request) ([]*notifications.Request, error) {
+	newRequest := requests[len(requests)-1]
+	newRequest.TimeSent = time.Now()
+	col := s.session.DB(s.dbname).C(s.colname)
+	_, err := col.UpsertId(newRequest.User, bson.M{"notifications": requests})
+	if err != nil {
+		return nil, fmt.Errorf("error inserting new request: %v", err)
+	}
+	return requests, nil
 }
 
 //Insert converts the NewUser to a User, inserts
@@ -99,7 +119,8 @@ func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
 		return nil, err
 	}
 	col := s.session.DB(s.dbname).C(s.colname)
-	if err := col.Insert(user); err != nil {
+	err = col.Insert(user)
+	if err != nil {
 		return nil, fmt.Errorf("error inserting new user: %v", err)
 	}
 	return user, nil
@@ -107,13 +128,6 @@ func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
 
 //Update applies UserUpdates to the given user ID
 func (s *MongoStore) Update(userID bson.ObjectId, updates *Updates) error {
-	// user := &User{}
-	// err := user.ApplyUpdates(updates)
-	// if err != nil {
-	// 	return fmt.Errorf("error applying updates: %v", err)
-	// }
-	// col := s.session.DB(s.dbname).C(s.colname)
-	// return col.UpdateId(userID, updates)
 	user := &User{}
 	err := user.ApplyUpdates(updates)
 	if err != nil {
