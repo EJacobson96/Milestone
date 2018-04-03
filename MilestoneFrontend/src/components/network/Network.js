@@ -11,6 +11,7 @@ import NetworkNav from './NetworkNav';
 import NetworkSearch from './NetworkSearch';
 import Contacts from './Contacts';
 import ContactCard from './ContactCard';
+import NetworkRequestCard from './NetworkRequestCard';
 import Messages from './Messages';
 import NewMessage from './NewMessage';
 import NetworkConnect from './NetworkConnect';
@@ -20,6 +21,8 @@ import MessageScreen from './MessageScreen';
 /// Images & Styles
 import '../../css/Network.css';
 
+import networkRequests from '../testdata/fakerequests.json';
+
 /////////////////////////////////////////
 /// Code
 
@@ -27,30 +30,38 @@ class Network extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            contentType: 'messages',
+            messageContent: [],
+            contactsContent: [],
+            networkRequests: [],
+            contentType: 'loading',
             search: '',
             showSearchAndNav: true,
             userID: this.props.user.id,
         };
+        
         this.handleSearch = this.handleSearch.bind(this);
         this.getMessages = this.getMessages.bind(this);
+        this.getUserConnections = this.getUserConnections.bind(this);
     }
     
     componentDidMount() {
-        this.getMessages('');        
+        this.setState({
+            networkRequests: networkRequests
+        });
+
+        this.getMessages('');
+        this.getUserConnections('');
     }
 
     renderMessages(e) {
         this.setState({
             contentType: 'messages',
-            content: this.getMessages('')
         })
     }
 
     renderContacts(e) {
         this.setState({
             contentType: 'contacts',
-            content: this.getUserConnections('')
         })
     }
 
@@ -76,7 +87,8 @@ class Network extends Component {
             .then(data => {
                 // console.log(data);
                 this.setState({
-                    content: data
+                    messageContent: data,
+                    contentType: 'messages'
                 });
             })
             .catch(error => {
@@ -99,7 +111,7 @@ class Network extends Component {
             .then(data => {
                 // console.log(data);
                 this.setState({
-                    content: data
+                    contactsContent: data
                 });
             })
             .catch(error => {
@@ -110,9 +122,6 @@ class Network extends Component {
 
     render() {
         var topNav = <div>
-                        {/* <div className="c-network-header-container">
-                            <h5 className="c-network-header">MY NETWORK</h5>
-                        </div> */}
                         <NetworkNav
                             renderContacts={(e) => this.renderContacts(e)}
                             renderMessages={(e) => this.renderMessages(e)}
@@ -126,27 +135,36 @@ class Network extends Component {
             <div className="l-network-content">
                 <Switch>
                     <Route path='/Network/Messages/New' render={(props) => (
-                        <NewMessage />
+                        <NewMessage 
+                            messageContent = { this.state.messageContent }                        
+                        />
                     )} />
                     <Route exact path ='/Network/Messages/Conversation/:id' render={(props) => (
                         <MessageScreen />
                     )} />
                     <Route path="/Network/Messages" render={(props) => (
                         <div>
-                            {topNav} 
-                            <Messages currUser={this.props.user.id} content={this.state.content} />
+                            { topNav } 
+                            <Messages currUser={ this.props.user.id } content={ this.state.messageContent } />
                         </div>
+                    )} />
+                    <Route exact path='/Network/Contacts/Request/:id' render={(props) => (
+                        <NetworkRequestCard 
+                            requests={ this.state.networkRequests }
+                        />
                     )} />
                     <Route exact path ='/Network/Contacts/Profile/:id' render={(props) => (
                         <ContactCard />
                     )} />
                     <Route exact path="/Network/Contacts/Connect" render={(props) => (
-                        <NetworkConnect accountType={this.props.user.accountType} />
+                        <NetworkConnect 
+                            accountType={ this.props.user.accountType }
+                        />
                     )} />
                     <Route exact path="/Network/Contacts" render={(props) => (
                     <div>
-                        {topNav}
-                        <Contacts content={this.state.content} />
+                        { topNav }
+                        <Contacts content={ this.state.contactsContent } />
                     </div>
                     )} />
                     <Route exact path="/Network" render={(props) => (

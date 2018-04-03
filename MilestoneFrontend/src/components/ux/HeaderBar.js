@@ -1,7 +1,7 @@
 /////////////////////////////////////////
 /// Dev Notes
 
-import React, { Component } from 'react';
+import React from 'react';
 
 /////////////////////////////////////////
 /// Standard Components
