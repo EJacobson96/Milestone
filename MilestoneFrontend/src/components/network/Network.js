@@ -29,7 +29,6 @@ import networkRequests from '../testdata/fakerequests.json';
 class Network extends Component {
     constructor(props) {
         super(props);
-    
         this.state = {
             messageContent: [],
             contactsContent: [],

@@ -61,7 +61,7 @@ func (s *MongoStore) GetConversations(userID bson.ObjectId) ([]*Conversation, er
 }
 
 //InsertMessage insert a new message into the database and returns it
-func (s *MongoStore) InsertMessage(newMessage *NewMessage, userID bson.ObjectId) ([]*Message, error) {
+func (s *MongoStore) InsertMessage(newMessage *NewMessage, userID bson.ObjectId) (*Conversation, error) {
 	conversation := &Conversation{}
 	err := newMessage.Validate()
 	if err != nil {
@@ -90,7 +90,7 @@ func (s *MongoStore) InsertMessage(newMessage *NewMessage, userID bson.ObjectId)
 	if err = col.UpdateId(conversation.ID, conversation); err != nil {
 		return nil, fmt.Errorf("error inserting new message: %v", err)
 	}
-	return conversation.Messages, nil
+	return conversation, nil
 }
 
 //RemoveMemberFromConversation removes a member from a conversation

@@ -7,6 +7,8 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/EJacobson96/Milestone/server/gateway/models/notifications"
+
 	"github.com/EJacobson96/Milestone/server/gateway/models/users"
 	"github.com/EJacobson96/Milestone/server/gateway/sessions"
 	"gopkg.in/mgo.v2/bson"
@@ -75,6 +77,24 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
 		}
+	case "PATCH":
+		connections := []*users.User{}
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(connections)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding connection: %v", err), http.StatusInternalServerError)
+			return
+		}
+		connections, err = c.UsersStore.UpdateConnections(sessionState.User.ID, connections)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error adding connection: %v", err), http.StatusInternalServerError)
+			return
+		}
+		err = json.NewEncoder(w).Encode(connections)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
 	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
 		return
@@ -86,8 +106,8 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 	switch r.Method {
 	case "GET":
 		query := r.URL.Query().Get("q")
-		allUsers, err := c.UsersStore.GetAllUsers()
 		serviceProviders := []*users.User{}
+		allUsers, err := c.UsersStore.GetAllUsers()
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error grabbing users from database: %v", err), http.StatusInternalServerError)
 			return
@@ -102,44 +122,6 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 		err = json.NewEncoder(w).Encode(serviceProviders)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
-		}
-	default:
-		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
-		return
-	}
-}
-
-//handles adding a new connection for the current user
-func (c *HandlerContext) AddConnectionHandler(w http.ResponseWriter, r *http.Request) {
-	sessionState := &SessionState{}
-	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
-		return
-	}
-	switch r.Method {
-	case "POST":
-		err = c.SessionsStore.Save(sessionID, sessionState)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
-			return
-		}
-		connection := &users.User{}
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(connection)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error decoding connection: %v", err), http.StatusInternalServerError)
-			return
-		}
-		connections, err := c.UsersStore.AddConnection(sessionState.User.ID, connection)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error adding connection: %v", err), http.StatusInternalServerError)
-			return
-		}
-		err = json.NewEncoder(w).Encode(connections)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
-			return
 		}
 	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
@@ -172,6 +154,90 @@ func (c *HandlerContext) SpecificContactHandler(w http.ResponseWriter, r *http.R
 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
+	default:
+		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+		return
+	}
+}
+
+func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Request) {
+	// sessionState := &SessionState{}
+	// sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+	// if err != nil {
+	// 	http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+	// 	return
+	// }
+	switch r.Method {
+	case "PATCH":
+		notification := &notifications.Notification{}
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(notification)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding notification: %v", err), http.StatusInternalServerError)
+			return
+		}
+		notification, err = c.UsersStore.AddNotification(notification)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error adding notification: %v", err), http.StatusInternalServerError)
+		}
+		err = json.NewEncoder(w).Encode(notification)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding notification to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+		notificationPayload := struct {
+			Payload *notifications.Notification `json:"payload"`
+		}{
+			notification,
+		}
+		payload, jsonErr := json.Marshal(notificationPayload)
+		if jsonErr != nil {
+			http.Error(w, fmt.Sprintf("error marshalling payload to JSON: %v", jsonErr), http.StatusInternalServerError)
+			return
+		}
+		c.Notifier.Notify(payload)
+	default:
+		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+		return
+	}
+}
+
+func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request) {
+	// sessionState := &SessionState{}
+	// sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+	// if err != nil {
+	// 	http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+	// 	return
+	// }
+	switch r.Method {
+	case "PATCH":
+		request := []*notifications.Request{}
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(request)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding request: %v", err), http.StatusInternalServerError)
+		}
+		request, err = c.UsersStore.UpdateRequests(request)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error adding request: %v", err), http.StatusInternalServerError)
+			return
+		}
+		err = json.NewEncoder(w).Encode(request)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding notification to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+		requestPayload := struct {
+			Payload []*notifications.Request `json:"payload"`
+		}{
+			request,
+		}
+		payload, jsonErr := json.Marshal(requestPayload)
+		if jsonErr != nil {
+			http.Error(w, fmt.Sprintf("error marshalling payload to JSON: %v", jsonErr), http.StatusInternalServerError)
+			return
+		}
+		c.Notifier.Notify(payload)
 	default:
 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
 		return

@@ -3,6 +3,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Link, withRouter } from 'react-router-dom';
+import Axios from 'axios';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -21,6 +22,32 @@ class Messages extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.getCurrentUser();
+    }
+
+    getCurrentUser(currConversation) {
+        Axios.get(
+            'https://milestoneapi.eric-jacobson.me/users/me', 
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                }    
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                this.setState({
+                    currUser: data,
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    }
+
     render() {
         var conversations;
         var displayConversations;
@@ -31,12 +58,12 @@ class Messages extends React.Component {
             messagesCount = <h4 className="c-messages-count">Messages ({this.props.content.length})</h4>;
             conversations = this.props.content.map((conversation) => {
                 var members = "";
-                for (let i = 1; i < conversation.members.length; i++) {
+                for (let i = 0; i < conversation.members.length; i++) {
                     let memberLength = conversation.members.length;
-                    if (i === memberLength - 1) {
+                    if (conversation.members[i].id != this.state.currUser.id && members != "") {
+                        members += ", " + conversation.members[i].fullName;
+                    } else if (conversation.members[i].id != this.state.currUser.id) {
                         members += conversation.members[i].fullName;
-                    } else {
-                        members += conversation.members[i].fullName + ", ";
                     }
                 }
                 time = conversation.lastMessage;
@@ -72,7 +99,7 @@ class Messages extends React.Component {
                                     <span className="c-conversation-card__details__name">{members}</span>
                                     <span className="c-conversation-card__details__date">{time}</span>
                                 </div>
-                                <p className="c-conversation-card-body">{conversation.messages[0].textBody}</p>
+                                <p className="c-conversation-card-body">{conversation.messages[conversation.messages.length - 1].textBody}</p>
                             </div>
                         </div>
                     </Link>
