@@ -136,7 +136,9 @@ class Network extends Component {
             <div className="l-network-content">
                 <Switch>
                     <Route path='/Network/Messages/New' render={(props) => (
-                        <NewMessage />
+                        <NewMessage 
+                            messageContent = { this.state.messageContent }                        
+                        />
                     )} />
                     <Route exact path ='/Network/Messages/Conversation/:id' render={(props) => (
                         <MessageScreen />
@@ -156,7 +158,9 @@ class Network extends Component {
                         <ContactCard />
                     )} />
                     <Route exact path="/Network/Contacts/Connect" render={(props) => (
-                        <NetworkConnect accountType={this.props.user.accountType} />
+                        <NetworkConnect 
+                            accountType={ this.props.user.accountType }
+                        />
                     )} />
                     <Route exact path="/Network/Contacts" render={(props) => (
                     <div>

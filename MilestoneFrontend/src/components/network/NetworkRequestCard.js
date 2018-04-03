@@ -63,9 +63,26 @@ class NetworkRequestCard extends React.Component {
     }
 
     approveRequest() {
-        // Call create connection route here
-        // Also remove request from server
-        // Refresh frontend
+        Axios.post(
+            'https://milestoneapi.eric-jacobson.me/messages?id=' + this.state.currUser.id, 
+            {
+                // headers: {
+                //     'Authorization' : localStorage.getItem('Authorization')
+                // }  
+                data: this.state.user
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                console.log(data);
+                // this.setState({
+                // });
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
     }
 
     denyRequest() {

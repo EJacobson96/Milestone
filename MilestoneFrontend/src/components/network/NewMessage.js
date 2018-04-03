@@ -25,7 +25,8 @@ class NewMessage extends Component {
         super(props);
     
         this.state = {
-			connections: null
+            connections: null,
+            messageContent: []
         };
 		
         this.getUserConnections = this.getUserConnections.bind(this);
@@ -33,7 +34,10 @@ class NewMessage extends Component {
 	}
 
 	componentDidMount() {
-		this.getUserConnections('');
+        this.getUserConnections('');
+        this.setState({
+            messageContent: this.props.messageContent
+        });
 	}
 	
 	getUserConnections(search) {
@@ -67,6 +71,7 @@ class NewMessage extends Component {
     }
 
     render() {
+        console.log(this.props.messageContent);
 		var connections = <div></div>;
 		if (this.state.connections) {
 			connections = this.state.connections.map((connection) => {
@@ -94,7 +99,6 @@ class NewMessage extends Component {
                         </Button>
                     </form>
                 </div>
-                {/* <h4 className="c-messages-count">.</h4> */}
 
 				{ displayConnections }
 			</div>
