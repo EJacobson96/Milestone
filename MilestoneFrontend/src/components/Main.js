@@ -13,6 +13,7 @@ import { Redirect, Switch, Route } from 'react-router-dom';
 /////////////////////////////////////////
 /// Standard Components
 import Network from './network/Network';
+import Progress from './progress/Progress'
 import Placeholder from './Placeholder';
 
 /////////////////////////////////////////
@@ -73,7 +74,7 @@ class Main extends Component {
                         <Placeholder />
                     )} />
                     <Route path='/Progress' render={(props) => (
-                        <Placeholder />
+                        <Progress />
                     )} />
                     <Route path='/Requests' render={(props) => (
                         <Placeholder />

@@ -1,0 +1,32 @@
+.c-progress-nav {
+	list-style-type: none;
+	display: flex;
+	padding: 0;
+	margin: 0;
+}
+
+.c-progress-nav__link {
+	flex: 1;
+	text-align: center;
+}
+
+.c-progress-nav__link--non-active-link {
+	border-bottom: 2px solid #808080;
+}
+
+.c-progress-nav__link--active-link {
+	color: #FD786D;
+	border-bottom: 2px solid #FD786D;
+}
+
+.c-progress-nav a {
+	padding: 1em 0 1em 0;
+	text-decoration: none;
+	width: 100%;
+	display: inline-block;
+	font-family: Arial;
+	text-transform: uppercase;
+	color: #808080;
+	font-size: 1.5vh;
+}
+
