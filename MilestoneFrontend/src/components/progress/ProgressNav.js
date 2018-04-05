@@ -29,7 +29,11 @@ class ProgressNav extends Component {
 		};
 
 		this.updateNav = this.updateNav.bind(this);
-    }
+	}
+	
+	componentDidMount() {
+		this.updateNav(this.props.targetCategory);
+	}
 
     componentWillReceiveProps(nextProp) {
 		if (nextProp.targetCategory !== this.state.currentCategory) {
@@ -44,10 +48,10 @@ class ProgressNav extends Component {
 		let links = document.querySelectorAll('.c-progress-nav a');
 		for (let i = 0; i < links.length; i++) {
 			if (links[i].getAttribute('href').endsWith(targetCategory)) {
-				links[i].className = "c-progress-nav__link--active-link";
+				links[i].className = "c-progress-nav__link c-progress-nav__link--active-link";
 			}
 			else {
-				links[i].className = "c-progress-nav__link--non-active-link";
+				links[i].className = "c-progress-nav__link c-progress-nav__link--non-active-link";
 			}
 		}
 	}
