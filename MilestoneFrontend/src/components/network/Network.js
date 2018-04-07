@@ -62,7 +62,7 @@ class Network extends Component {
     }
 
     handleSearch(search) {
-        if (this.state.contentType === 'contacts') {
+        if (this.props.location.pathname.endsWith("/Contacts")) {
             this.getUserConnections(search);
         } else {
             this.getMessages(search);
