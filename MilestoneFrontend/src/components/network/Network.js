@@ -31,12 +31,12 @@ class Network extends Component {
         super(props);
         this.state = {
             messageContent: [],
-            contactsContent: [],
-            networkRequests: [],
+            contactsContent: this.props.user.connections,
+            networkRequests: this.props.user.pendingRequests,
             contentType: 'loading',
             search: '',
             showSearchAndNav: true,
-            userID: this.props.user.id,
+            currUser: this.props.user,
         };
         
         this.handleSearch = this.handleSearch.bind(this);
@@ -45,10 +45,6 @@ class Network extends Component {
     }
     
     componentDidMount() {
-        this.setState({
-            networkRequests: networkRequests
-        });
-
         this.getMessages('');
         this.getUserConnections('');
     }
@@ -75,7 +71,7 @@ class Network extends Component {
 
     getMessages(search) {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.state.userID + '&q=' + search,  
+            'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.state.currUser.id + '&q=' + search,  
             {
                 // headers: {
                 //     'Authorization' : localStorage.getItem('Authorization')
@@ -109,7 +105,7 @@ class Network extends Component {
                 return response.data;
             })
             .then(data => {
-                // console.log(data);
+                console.log(data);
                 this.setState({
                     contactsContent: data
                 });
@@ -159,12 +155,17 @@ class Network extends Component {
                     <Route exact path="/Network/Contacts/Connect" render={(props) => (
                         <NetworkConnect 
                             accountType={ this.props.user.accountType }
+                            currUser={ this.state.currUser }
                         />
                     )} />
                     <Route exact path="/Network/Contacts" render={(props) => (
                     <div>
                         { topNav }
-                        <Contacts content={ this.state.contactsContent } />
+                        <Contacts 
+                            showRequests={ true } 
+                            content={ this.state.contactsContent } 
+                            currUser={ this.state.currUser }
+                        />
                     </div>
                     )} />
                     <Route exact path="/Network" render={(props) => (

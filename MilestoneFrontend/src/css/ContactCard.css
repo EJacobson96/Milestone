@@ -54,6 +54,7 @@
 .c-contact-invite-button {
     border: none;
     background-color: #73C9B1;
+    color: white;
     padding: .5em 1.5em;
     margin-bottom: 1em;
     font-size: 2.5vh;
@@ -75,4 +76,35 @@
     color: lightgray;
     background-color: transparent;
     border: none;
+}
+
+.c-request-profile__button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding-top: 15px;
+    padding-bottom: 30px; */
+    padding: .5em 1.5em;
+    margin-bottom: 1em;
+    font-size: 2.5vh;
+}
+
+.c-request-profile__button--pending {
+    background-color: #73C9B1;
+    color: white;
+    /* border: 1px solid black; */
+    padding: .5em 1em;
+    border-radius: 4px;
+}
+
+.c-request-profile__button--approve {
+    padding: .5em 1.5em;
+    margin-right: .5em;
+    background-color: #73C9B1;
+    color: white;
+}
+
+.c-request-profile__button--deny {
+    padding: .5em 1.5em;
+    background-color: white;
 }

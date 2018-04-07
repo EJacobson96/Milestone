@@ -1,6 +1,7 @@
 package users
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -72,13 +73,41 @@ func (s *MongoStore) GetByUserName(username string) (*User, error) {
 	return user, nil
 }
 
-func (s *MongoStore) UpdateConnections(userID bson.ObjectId, connections []*User) ([]*User, error) {
+func (s *MongoStore) AddConnection(userID bson.ObjectId, newConnection *User) ([]*User, error) {
+	user := &User{}
 	col := s.session.DB(s.dbname).C(s.colname)
-	_, err := col.UpsertId(userID, bson.M{"connections": connections})
+	err := col.FindId(userID).One(&user)
+	if err != nil {
+		return nil, fmt.Errorf("error finding user: %v", err)
+	}
+	for _, connection := range user.Connections {
+		if connection == newConnection {
+			return nil, errors.New("connection already exists")
+		}
+	}
+	user.Connections = append(user.Connections, newConnection)
+	_, err = col.UpsertId(userID, bson.M{"$addToSet": bson.M{"connections": newConnection}})
 	if err != nil {
 		return nil, fmt.Errorf("error inserting new connection: %v", err)
 	}
-	return connections, nil
+	return user.Connections, nil
+}
+
+func (s *MongoStore) UpdateConnections(userID bson.ObjectId, update *UpdateConnections) (*User, error) {
+	user := &User{}
+	change := mgo.Change{
+		Update: bson.M{"$set": update},
+	}
+	col := s.session.DB(s.dbname).C(s.colname)
+	_, err := col.FindId(userID).Apply(change, &User{})
+	if err != nil {
+		return nil, fmt.Errorf("error updating user: %v", err)
+	}
+	err = col.FindId(userID).One(&user)
+	if err != nil {
+		return nil, fmt.Errorf("error finding user: %v", err)
+	}
+	return user, nil
 }
 
 func (s *MongoStore) AddNotification(notification *notifications.Notification) (*notifications.Notification, error) {
@@ -100,15 +129,28 @@ func (s *MongoStore) AddNotification(notification *notifications.Notification) (
 	return newNotification, nil
 }
 
-func (s *MongoStore) UpdateRequests(requests []*notifications.Request) ([]*notifications.Request, error) {
-	newRequest := requests[len(requests)-1]
+func (s *MongoStore) UpdateRequests(update *UpdateRequests, userID bson.ObjectId) (*User, error) {
+	user := &User{}
+	newRequest := update.PendingRequests[len(update.PendingRequests)-1]
 	newRequest.TimeSent = time.Now()
-	col := s.session.DB(s.dbname).C(s.colname)
-	_, err := col.UpsertId(newRequest.User, bson.M{"notifications": requests})
-	if err != nil {
-		return nil, fmt.Errorf("error inserting new request: %v", err)
+	update.PendingRequests[len(update.PendingRequests)-1] = newRequest
+	change := mgo.Change{
+		Update: bson.M{"$set": update},
 	}
-	return requests, nil
+	col := s.session.DB(s.dbname).C(s.colname)
+	// _, err := col.UpsertId(userID, bson.M{"$set": bson.M{"pendingRequests": update.PendingRequests}})
+	// if err != nil {
+	// 	return nil, fmt.Errorf("error inserting new request: %v", err)
+	// }
+	_, err := col.FindId(userID).Apply(change, &User{})
+	if err != nil {
+		return nil, fmt.Errorf("error updating user: %v", err)
+	}
+	err = col.FindId(userID).One(&user)
+	if err != nil {
+		return nil, fmt.Errorf("error finding user: %v", err)
+	}
+	return user, nil
 }
 
 //Insert converts the NewUser to a User, inserts

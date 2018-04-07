@@ -68,7 +68,7 @@ class NetworkConnect extends React.Component {
                         <h3 className="c-connection-placeholder-text">Look for new connections!</h3>
                       </div>
         if (this.state.users && this.state.users.length !== 0) {
-            content = <Contacts showContacts={true} content={this.state.users} />
+            content = <Contacts showContacts={true} showRequests={false} content={this.state.users} currUser={this.props.currUser} />
         }
         return (
             <div>

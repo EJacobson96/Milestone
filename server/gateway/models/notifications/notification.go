@@ -17,8 +17,11 @@ type Notification struct {
 
 type Request struct {
 	TimeSent    time.Time     `json:"timeSent"`
+	Type        string        `json:"type"`
 	Body        string        `json:"body"`
+	FullName    string        `json:"fullName"`
+	Email       string        `json:"email"`
 	User        bson.ObjectId `json:"user"`
 	ContentType string        `json:"contentType"`
-	ContentID   bson.ObjectId `json:"contentID"`
+	// ContentID   bson.ObjectId `json:"contentID"`
 }

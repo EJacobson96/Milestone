@@ -49,6 +49,14 @@ type Credentials struct {
 	Password string `json:"password"`
 }
 
+type UpdateRequests struct {
+	PendingRequests []*notifications.Request `json:"pendingRequests"`
+}
+
+type UpdateConnections struct {
+	Connections []*User `json:"connections"`
+}
+
 //NewUser represents a new user signing up for an account
 type NewUser struct {
 	Email         string `json:"email"`

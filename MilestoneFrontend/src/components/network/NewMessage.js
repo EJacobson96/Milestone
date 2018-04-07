@@ -71,7 +71,6 @@ class NewMessage extends Component {
     }
 
     render() {
-        console.log(this.props.messageContent);
 		var connections = <div></div>;
 		if (this.state.connections) {
 			connections = this.state.connections.map((connection) => {
