@@ -31,12 +31,11 @@ class Network extends Component {
         super(props);
         this.state = {
             messageContent: [],
-            contactsContent: this.props.user.connections,
-            networkRequests: this.props.user.pendingRequests,
+            contactsContent: [],
+            networkRequests: [],
             contentType: 'loading',
             search: '',
             showSearchAndNav: true,
-            currUser: this.props.user,
         };
         
         this.handleSearch = this.handleSearch.bind(this);
@@ -45,8 +44,11 @@ class Network extends Component {
     }
     
     componentDidMount() {
-        this.getMessages('');
-        this.getUserConnections('');
+        this.getCurrentUser();
+    }
+
+    componentWillReceiveProps() {
+        this.getCurrentUser();
     }
 
     renderMessages(e) {
@@ -67,6 +69,32 @@ class Network extends Component {
         } else {
             this.getMessages(search);
         }
+    }
+
+    getCurrentUser() {
+        Axios.get(
+            'https://milestoneapi.eric-jacobson.me/users/me', 
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                }    
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                this.setState({
+                    currUser: data,
+                    contactsContent: data.connections,
+                    networkRequests: data.pendingRequests
+                });
+                this.getMessages('');
+                this.getUserConnections('');
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
     }
 
     getMessages(search) {
@@ -95,7 +123,7 @@ class Network extends Component {
 
     getUserConnections(search) {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/connections?q=' + search, 
+            'https://milestoneapi.eric-jacobson.me/connections?q=' + search + "&id=" + this.state.currUser.id, 
             {
                 headers: {
                     'Authorization' : localStorage.getItem('Authorization')
@@ -105,7 +133,6 @@ class Network extends Component {
                 return response.data;
             })
             .then(data => {
-                console.log(data);
                 this.setState({
                     contactsContent: data
                 });
@@ -127,53 +154,58 @@ class Network extends Component {
                             handleSearch={(e) => this.handleSearch(e)}
                         />
                     </div>;
-        return (
-            <div className="l-network-content">
-                <Switch>
-                    <Route path='/Network/Messages/New' render={(props) => (
-                        <NewMessage 
-                            messageContent = { this.state.messageContent }                        
-                        />
-                    )} />
-                    <Route exact path ='/Network/Messages/Conversation/:id' render={(props) => (
-                        <MessageScreen />
-                    )} />
-                    <Route path="/Network/Messages" render={(props) => (
+        if (this.state.currUser) {
+            return (
+                <div className="l-network-content">
+                    <Switch>
+                        <Route path='/Network/Messages/New' render={(props) => (
+                            <NewMessage 
+                                messageContent = { this.state.messageContent }  
+                                user = {this.state.currUser }                      
+                            />
+                        )} />
+                        <Route exact path ='/Network/Messages/Conversation/:id' render={(props) => (
+                            <MessageScreen />
+                        )} />
+                        <Route path="/Network/Messages" render={(props) => (
+                            <div>
+                                { topNav } 
+                                <Messages currUser={ this.state.currUser.id } content={ this.state.messageContent } />
+                            </div>
+                        )} />
+                        <Route exact path='/Network/Contacts/Request/:id' render={(props) => (
+                            <NetworkRequestCard 
+                                requests={ this.state.networkRequests }
+                            />
+                        )} />
+                        <Route exact path ='/Network/Contacts/Profile/:id' render={(props) => (
+                            <ContactCard />
+                        )} />
+                        <Route exact path="/Network/Contacts/Connect" render={(props) => (
+                            <NetworkConnect 
+                                accountType={ this.state.currUser.accountType }
+                                currUser={ this.state.currUser }
+                            />
+                        )} />
+                        <Route exact path="/Network/Contacts" render={(props) => (
                         <div>
-                            { topNav } 
-                            <Messages currUser={ this.props.user.id } content={ this.state.messageContent } />
+                            { topNav }
+                            <Contacts 
+                                showRequests={ true } 
+                                content={ this.state.contactsContent } 
+                                currUser={ this.state.currUser }
+                            />
                         </div>
-                    )} />
-                    <Route exact path='/Network/Contacts/Request/:id' render={(props) => (
-                        <NetworkRequestCard 
-                            requests={ this.state.networkRequests }
-                        />
-                    )} />
-                    <Route exact path ='/Network/Contacts/Profile/:id' render={(props) => (
-                        <ContactCard />
-                    )} />
-                    <Route exact path="/Network/Contacts/Connect" render={(props) => (
-                        <NetworkConnect 
-                            accountType={ this.props.user.accountType }
-                            currUser={ this.state.currUser }
-                        />
-                    )} />
-                    <Route exact path="/Network/Contacts" render={(props) => (
-                    <div>
-                        { topNav }
-                        <Contacts 
-                            showRequests={ true } 
-                            content={ this.state.contactsContent } 
-                            currUser={ this.state.currUser }
-                        />
-                    </div>
-                    )} />
-                    <Route exact path="/Network" render={(props) => (
-                        <Redirect to="/Network/Messages" />
-                    )} />
-                </Switch>
-            </div>
-        );
+                        )} />
+                        <Route exact path="/Network" render={(props) => (
+                            <Redirect to="/Network/Messages" />
+                        )} />
+                    </Switch>
+                </div>
+            );
+        } else {
+            return <p></p>
+        }
     }
 }
 

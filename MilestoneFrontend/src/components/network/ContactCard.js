@@ -59,7 +59,6 @@ class ContactCard extends React.Component {
                 return response.data;
             })
             .then(data => {
-                console.log(data);
                 this.setState({
                     contactInfo: contactInfo,
                     currUser: data
@@ -114,8 +113,8 @@ class ContactCard extends React.Component {
                 return response.data;
             })
             .then(data => {
-                console.log(data);
-                this.updateOtherUser(otherUserRequests), data;
+                // console.log(data);
+                this.updateOtherUser(otherUserRequests, data);
             })
             .catch(error => {
                 console.log(error);
@@ -136,7 +135,6 @@ class ContactCard extends React.Component {
                 return response.data;
             })
             .then(data => {
-                console.log(data);
                 this.setState({
                     currUser: user,
                     contactInfo: data
@@ -157,19 +155,19 @@ class ContactCard extends React.Component {
         var currUserRequests = this.state.currUser.pendingRequests;
         var otherUserRequests = this.state.contactInfo.pendingRequests;
         var newRequest = {
-            Type: "received",
-            User: this.state.currUser.id,
-            ContentType: "Connection",
-            FullName: this.state.currUser.FullName,
-            Email: this.state.currUser.Email
-        };
-        currUserRequests.push(newRequest);
-        newRequest = {
             Type: "sent",
             User: this.state.contactInfo.id,
             ContentType: "Connection",
             FullName: this.state.contactInfo.FullName,
             Email: this.state.contactInfo.Email
+        };
+        currUserRequests.push(newRequest);
+        newRequest = {
+            Type: "received",
+            User: this.state.currUser.id,
+            ContentType: "Connection",
+            FullName: this.state.currUser.FullName,
+            Email: this.state.currUser.Email
         };
         otherUserRequests.push(newRequest);
         this.updateCurrUser(currUserRequests, otherUserRequests);
@@ -181,9 +179,9 @@ class ContactCard extends React.Component {
         Axios.patch(
             'https://milestoneapi.eric-jacobson.me/connections?id=' + this.state.currUser.id, 
             {
-                // headers: {
-                //     'Authorization' : localStorage.getItem('Authorization')
-                // }  
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                },
                 Connections: userConnections
             })
             .then(response => {
@@ -203,10 +201,10 @@ class ContactCard extends React.Component {
         var currUserRequests = this.state.currUser.pendingRequests;
         var otherUserRequests = this.state.contactInfo.pendingRequests;
         currUserRequests = currUserRequests.filter(request => {
-            return request.user !== this.state.currUser.id;
+            return request.user !== this.state.contactInfo.id;
         });
         otherUserRequests = otherUserRequests.filter(request => {
-            return request.user !== this.state.contactInfo.id;
+            return request.user !== this.state.currUser.id;
         });
         this.updateCurrUser(currUserRequests, otherUserRequests);
     }
@@ -214,7 +212,6 @@ class ContactCard extends React.Component {
     pendingRequest(contactID) {
         var requests = this.state.currUser.pendingRequests;
         for (let i = 0; i < requests.length; i++) {
-            console.log(requests[i]);
             if (requests[i].type === "sent" && requests[i].user === contactID) {
                 return "sent"
             } else if (requests[i].type === "received" && requests[i].user === contactID) {

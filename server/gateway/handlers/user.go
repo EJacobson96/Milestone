@@ -43,22 +43,23 @@ func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Reque
 
 //handles finding all connections for a given user and sorts them alphebetically based on fullname
 func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.Request) {
-	sessionState := &SessionState{}
-	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
-		return
-	}
+	// sessionState := &SessionState{}
+	// sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+	// if err != nil {
+	// 	http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+	// 	return
+	// }
 	switch r.Method {
 	case "GET":
-		err = c.SessionsStore.Save(sessionID, sessionState)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
-			return
-		}
+		// err = c.SessionsStore.Save(sessionID, sessionState)
+		// if err != nil {
+		// 	http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
+		// 	return
+		// }
 		connections := []*users.User{}
 		query := r.URL.Query().Get("q")
-		user, err := c.UsersStore.GetByID(sessionState.User.ID)
+		userID := r.URL.Query().Get("id")
+		user, err := c.UsersStore.GetByID(bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
 			return
@@ -77,29 +78,29 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
 		}
-	case "POST":
-		err = c.SessionsStore.Save(sessionID, sessionState)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
-			return
-		}
-		connection := &users.User{}
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(connection)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error decoding connection: %v", err), http.StatusInternalServerError)
-			return
-		}
-		connections, err := c.UsersStore.AddConnection(sessionState.User.ID, connection)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error adding connection: %v", err), http.StatusInternalServerError)
-			return
-		}
-		err = json.NewEncoder(w).Encode(connections)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
-			return
-		}
+	// case "POST":
+	// 	// err = c.SessionsStore.Save(sessionID, sessionState)
+	// 	if err != nil {
+	// 		http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
+	// 		return
+	// 	}
+	// 	connection := &users.User{}
+	// 	decoder := json.NewDecoder(r.Body)
+	// 	err := decoder.Decode(connection)
+	// 	if err != nil {
+	// 		http.Error(w, fmt.Sprintf("error decoding connection: %v", err), http.StatusInternalServerError)
+	// 		return
+	// 	}
+	// 	connections, err := c.UsersStore.AddConnection(sessionState.User.ID, connection)
+	// 	if err != nil {
+	// 		http.Error(w, fmt.Sprintf("error adding connection: %v", err), http.StatusInternalServerError)
+	// 		return
+	// 	}
+	// 	err = json.NewEncoder(w).Encode(connections)
+	// 	if err != nil {
+	// 		http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
+	// 		return
+	// 	}
 	case "PATCH":
 		update := &users.UpdateConnections{}
 		decoder := json.NewDecoder(r.Body)

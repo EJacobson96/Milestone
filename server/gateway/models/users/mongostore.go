@@ -130,18 +130,19 @@ func (s *MongoStore) AddNotification(notification *notifications.Notification) (
 }
 
 func (s *MongoStore) UpdateRequests(update *UpdateRequests, userID bson.ObjectId) (*User, error) {
-	user := &User{}
-	newRequest := update.PendingRequests[len(update.PendingRequests)-1]
-	newRequest.TimeSent = time.Now()
-	update.PendingRequests[len(update.PendingRequests)-1] = newRequest
-	change := mgo.Change{
-		Update: bson.M{"$set": update},
-	}
-	col := s.session.DB(s.dbname).C(s.colname)
+	// newRequest := update.PendingRequests[len(update.PendingRequests)-1]
+	// newRequest.TimeSent = time.Now()
+	// update.PendingRequests[len(update.PendingRequests)-1] = newRequest
+
 	// _, err := col.UpsertId(userID, bson.M{"$set": bson.M{"pendingRequests": update.PendingRequests}})
 	// if err != nil {
 	// 	return nil, fmt.Errorf("error inserting new request: %v", err)
 	// }
+	user := &User{}
+	change := mgo.Change{
+		Update: bson.M{"$set": update},
+	}
+	col := s.session.DB(s.dbname).C(s.colname)
 	_, err := col.FindId(userID).Apply(change, &User{})
 	if err != nil {
 		return nil, fmt.Errorf("error updating user: %v", err)

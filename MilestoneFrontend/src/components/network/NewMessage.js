@@ -26,7 +26,8 @@ class NewMessage extends Component {
     
         this.state = {
             connections: null,
-            messageContent: []
+            messageContent: [],
+            currUser: this.props.user
         };
 		
         this.getUserConnections = this.getUserConnections.bind(this);
@@ -42,7 +43,7 @@ class NewMessage extends Component {
 	
 	getUserConnections(search) {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/connections?q=' + search, 
+            'https://milestoneapi.eric-jacobson.me/connections?q=' + search + "&id=" + this.state.currUser.id, 
             {
                 headers: {
                     'Authorization' : localStorage.getItem('Authorization')

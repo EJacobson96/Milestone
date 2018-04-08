@@ -19,15 +19,11 @@ class Contacts extends React.Component {
         super(props);
     
         this.state = {
-            requests: []
+            requests: this.props.currUser.pendingRequests
         };
     }
 
     componentDidMount() {
-        console.log(this.props.currUser);
-        this.setState({
-            requests: this.props.currUser.pendingRequests
-        });
     }
 
     render() {

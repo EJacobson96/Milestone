@@ -75,7 +75,11 @@ func (c *HandlerContext) UsersMeHandler(w http.ResponseWriter, r *http.Request) 
 			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
 			return
 		}
-		err = json.NewEncoder(w).Encode(sessionState.User)
+		currentUser, err := c.UsersStore.GetByID(sessionState.User.ID)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error getting user: %v", err), http.StatusInternalServerError)
+		}
+		err = json.NewEncoder(w).Encode(currentUser)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding user: %v", err), http.StatusInternalServerError)
 			return
