@@ -85,7 +85,6 @@ class Network extends Component {
             .then(data => {
                 this.setState({
                     currUser: data,
-                    contactsContent: data.connections,
                     networkRequests: data.pendingRequests
                 });
                 this.getMessages('');
@@ -154,7 +153,7 @@ class Network extends Component {
                             handleSearch={(e) => this.handleSearch(e)}
                         />
                     </div>;
-        if (this.state.currUser) {
+        if (this.state.currUser && this.state.messageContent) {
             return (
                 <div className="l-network-content">
                     <Switch>

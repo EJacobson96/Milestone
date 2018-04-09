@@ -56,6 +56,7 @@ class Contacts extends React.Component {
                                 id = { request.user }
                                 key = { request.user }
                                 // fullName = { request.FullName }
+                                // email = { request.Email }
                             />
                         );
                     }

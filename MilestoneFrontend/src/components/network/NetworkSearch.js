@@ -45,7 +45,7 @@ class NetworkSearch extends Component {
 					</Button>
 					
 					{
-						this.props.location.pathname.endsWith("/Contacts") && 
+						this.props.location.pathname.endsWith("/Contacts") &&
 						<Link to="/Network/Contacts/Connect">
 							<Button className="btn btn-outline-success my-2 my-sm-0 plus c-network-button">
 								<Glyphicon glyph="plus" /> 
