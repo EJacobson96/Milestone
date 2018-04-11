@@ -9,6 +9,7 @@ import { Glyphicon, Button } from 'react-bootstrap';
 /////////////////////////////////////////
 /// Standard Components
 
+import ContactsList from './ContactsList';
 import NewMessageThumbnail from './NewMessageThumbnail';
 import ContactThumbnail from './ContactThumbnail';
 import HeaderBar from '../ux/HeaderBar';
@@ -30,42 +31,42 @@ class NewMessage extends Component {
             messageContent: [],
             currUser: this.props.user
         };
-		
-        // this.getUserConnections = this.getUserConnections.bind(this);
+
         this.handleSearch = this.handleSearch.bind(this);
 	}
 
 	componentDidMount() {
-        // this.getUserConnections('');
+        var searchQuery = this.props.location.pathname;
+        console.log(searchQuery);
+        searchQuery = searchQuery.substring(22, searchQuery.length)
+        this.appendToSearch(searchQuery);
         this.setState({
             connections: this.props.user.connections,
-            messageContent: this.props.messageContent
-
+            messageContent: this.props.messageContent,
+            searchQuery: searchQuery
         });
-	}
-	
-	// getUserConnections(search) {
-    //     Axios.get(
-    //         'https://milestoneapi.eric-jacobson.me/connections?q=' + search + "&id=" + this.state.currUser.id, 
-    //         {
-    //             headers: {
-    //                 'Authorization' : localStorage.getItem('Authorization')
-    //             }    
-    //         })
-    //         .then(response => {
-    //             return response.data;
-    //         })
-    //         .then(data => {
-    //             console.log(data);
-    //             this.setState({
-    //                 connections: data
-    //             });
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         }
-    //     );
-    // }
+    }
+
+    componentWillReceiveProps() {
+    }
+    
+    appendToSearch(search) {
+        var input = document.getElementById('newMessageSearch');
+        var searchQuery = search.trim().split(" ");
+        var newSearchQuery = "";
+        if (searchQuery.length > 1) {
+            for (let i = 0; i < searchQuery.length; i += 2) {
+                if (i == 0) {
+                    newSearchQuery += searchQuery[i] + " " + searchQuery[i + 1];
+                } else {
+                    newSearchQuery += ", " + searchQuery[i] + " " + searchQuery[i + 1];
+                }
+            }
+        }
+        if (newSearchQuery) {
+            input.value = newSearchQuery;
+        }
+    }
 
     renderConversations(messages) {
 
@@ -79,45 +80,68 @@ class NewMessage extends Component {
     }
 
     handleChange(e) {
-        e.preventDefault();
-        var input = e.target.value;
-        var names = input.replace(/\s+/g, '').split(",");
-        var filteredConversations = [];
-        var conversations = this.state.messageContent;
-        var existingConversation = false;
-        if (input != "") {
-            for (var i = 0; i < conversations.length; i++) {
-                for (var j = 0; j < names.length; j++) {
-                    for (var k = 0; k < conversations[i].members.length; k++) {
-                        if (conversations[i].members[k].fullName.toLowerCase().includes(names[j].toLowerCase())) {
-                            k = conversations[i].members.length;
-                        } else if (k == conversations[i].members.length - 1) {
-                            j = names.length;
-                        }
-                    }
-                    if (j === names.length - 1) {
-                        if (names.length === conversations[i].members.length) {
-                            existingConversation = true;
-                        }
-                        filteredConversations.push(conversations[i]);
-                    }
-                }
-            }
-        }
-        this.setState({
-            existingConversationsList: filteredConversations,
-            checkConversation: existingConversation,
-        });
-        // console.log(filteredConversations);
+        // e.preventDefault();
+        // var input = e.target.value;
+        // var names = input.replace(/\s+/g, '').split(",");
+        // var filteredConversations = [];
+        // var conversations = this.state.messageContent;
+        // var existingConversation = false;
+        // var newMembers = [];
+        // if (input != "") {
+        //     for (var i = 0; i < conversations.length; i++) {
+        //         for (var j = 0; j < names.length; j++) {
+        //             for (var k = 0; k < conversations[i].members.length; k++) {
+        //                 if (conversations[i].members[k].fullName.toLowerCase().includes(names[j].toLowerCase()) && j == names.length - 1) {
+        //                     if (names.length === conversations[i].members.length - 1) {
+        //                         existingConversation = true;
+        //                     }
+        //                     console.log(conversations[i].members[k]);
+        //                     filteredConversations.push(conversations[i]);
+        //                     k = conversations[i].members.length;
+        //                 } else if (k == conversations[i].members.length - 1) {
+        //                     j = names.length;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // if (!existingConversation && names[0] != "") {
+        //     for (var i = 0; i < names.length; i++) {
+        //         for (var j = 0; j < this.state.currUser.connections.length; j++) {
+        //             var connections = this.state.currUser.connections;
+        //             if (connections[j].FullName.toLowerCase().includes(names[i].toLowerCase()) && names[i] !== "") {
+        //                 var addConnection = {
+        //                     id: connections[j].id,
+        //                     fullName: connections[j].FullName
+        //                 }
+        //                 console.log(addConnection);
+        //                 newMembers.push(addConnection);
+        //                 j = connections.length;
+        //             } else if (j == connections.length - 1) {
+        //                 newMembers = [];
+        //                 i = names.length;
+        //             }
+        //         }
+        //     }
+        // }
+        // console.log(newMembers.length);
+        // this.setState({
+        //     existingConversationsList: filteredConversations,
+        //     newConversation: newMembers,
+        // });
     }
 
     render() {
-        // console.log(this.props.user);
-        // console.log(this.state.messageContent);
-		var conversationList;
+        var conversationList;
+        var newConversation;
 		if (this.state.existingConversationsList && this.state.currUser) {
+            if (this.state.newConversation && this.state.newConversation[0] != "") {
+                newConversation = <NewMessageThumbnail
+                                    currUser = { this.state.currUser }
+                                    members = {this.state.newConversation }
+                                  />
+            }
 			conversationList = this.state.existingConversationsList.map((conversation) => {
-                console.log(conversation);
 				return (
 					<NewMessageThumbnail
 						path={ '/Network/Messages/Conversation/:id' + conversation.id }
@@ -127,10 +151,10 @@ class NewMessage extends Component {
                         currUser = { this.state.currUser }
 					/>
 				);
-			});
+            });
         }
 
-		var displayExistingConversations = <div className="l-contacts">{ conversationList }</div>
+		var displayExistingConversations = <div className="l-contacts">{newConversation}{ conversationList }</div>
         return (
 			<div className="c-new-message">
                 <HeaderBar
@@ -139,9 +163,16 @@ class NewMessage extends Component {
                 <div className="c-new-message__search-wrapper">
                     <form className="[ form-inline ] c-new-message__search-form">
                         <input id="newMessageSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search" onChange={(e) => this.handleChange(e)}/>
-                        <Button className="btn btn-outline-success my-2 my-sm-0 c-network-button" onClick={(e) => this.handleSearch(e)}>
-                            <Glyphicon glyph="plus" /> 
-                        </Button>
+                        <Link 
+                            to={{
+                        	    pathname: '/Network/Messages/New/Contacts/' + this.state.searchQuery
+                            }}
+                            user={this.state.currUser}
+                        >
+                            <Button className="btn btn-outline-success my-2 my-sm-0 c-new-message-button">
+                                <Glyphicon glyph="plus" /> 
+                            </Button>
+                        </Link>
                     </form>
                 </div>
 

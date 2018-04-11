@@ -19,16 +19,14 @@ class NewMessageThumbnail extends React.Component {
     }
 
     render() {
-        var memberNames = "";
-        if (this.props.members) {
-            console.log("hello");
+        var memberNames;
+        if (this.props.members && this.props.currUser) {
+            memberNames = "";
             for (let i = 0; i < this.props.members.length; i++) {
                 let memberLength = this.props.members.length;
                 if (this.props.members[i].id != this.props.currUser.id && memberNames != "") {
-                    console.log(this.props.members[i].fullName);
                     memberNames += ", " + this.props.members[i].fullName;
                 } else if (this.props.members[i].id != this.props.currUser.id) {
-                    console.log(this.props.members[i].fullName);
                     memberNames += this.props.members[i].fullName;
                 }
             }

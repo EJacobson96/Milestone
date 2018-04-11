@@ -16,6 +16,7 @@ import Messages from './Messages';
 import NewMessage from './NewMessage';
 import NetworkConnect from './NetworkConnect';
 import MessageScreen from './MessageScreen';
+import ContactsList from './ContactsList';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -157,7 +158,12 @@ class Network extends Component {
             return (
                 <div className="l-network-content">
                     <Switch>
-                        <Route path='/Network/Messages/New' render={(props) => (
+                        <Route path='/Network/Messages/New/Contacts' render={(props) => (
+                            <ContactsList 
+                                user = {this.state.currUser }                      
+                            />
+                        )} />
+                        <Route path='/Network/Messages/New/' render={(props) => (
                             <NewMessage 
                                 messageContent = { this.state.messageContent }  
                                 user = {this.state.currUser }                      
