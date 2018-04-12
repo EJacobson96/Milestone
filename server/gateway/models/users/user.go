@@ -19,12 +19,12 @@ var bcryptCost = 13
 
 //User represents a user account in the database
 type User struct {
-	ID            bson.ObjectId `json:"id" bson:"_id"`
-	Email         string        `json:"email"`
-	PassHash      []byte        `json:"-"` //stored, but not encoded to clients
-	FirstName     string        `json:"firstName"`
-	LastName      string        `json:"lastName"`
-	FullName      string
+	ID            bson.ObjectId   `json:"id" bson:"_id"`
+	Email         string          `json:"email"`
+	PassHash      []byte          `json:"-"` //stored, but not encoded to clients
+	FirstName     string          `json:"firstName"`
+	LastName      string          `json:"lastName"`
+	FullName      string          `json:"fullName"`
 	PhotoURL      string          `json:"photoURL"`
 	RaceEthnicity string          `json:"raceEthnicity"`
 	Gender        string          `json:"gender"`
@@ -59,12 +59,12 @@ type UpdateConnections struct {
 
 //NewUser represents a new user signing up for an account
 type NewUser struct {
-	Email         string `json:"email"`
-	Password      string `json:"password"`
-	PasswordConf  string `json:"passwordConf"`
-	FirstName     string `json:"firstName"`
-	LastName      string `json:"lastName"`
-	FullName      string
+	Email         string          `json:"email"`
+	Password      string          `json:"password"`
+	PasswordConf  string          `json:"passwordConf"`
+	FirstName     string          `json:"firstName"`
+	LastName      string          `json:"lastName"`
+	FullName      string          `json:"fullName"`
 	RaceEthnicity string          `json:"raceEthnicity"`
 	Gender        string          `json:"gender"`
 	DOB           string          `json:"dob"`

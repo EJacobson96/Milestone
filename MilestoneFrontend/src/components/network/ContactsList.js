@@ -58,7 +58,7 @@ class ContactsList extends React.Component {
                 return (
                     <Link 
                         to={{
-                            pathname: '/Network/Messages/New/' + query +  ' ' + contact.FullName,
+                            pathname: '/Network/Messages/New/' + query +  ' ' + contact.id,
                         }}
                         className='c-contact-card-link-wrapper' 
                         key={ contact.id }
@@ -69,7 +69,7 @@ class ContactsList extends React.Component {
                             </div>
                             <div className="c-contact-card__details">
                                 <span className="c-contact-card__details__full-name">
-                                    { contact.FullName }
+                                    { contact.fullName }
                                 </span>
                             </div>
                         </div>

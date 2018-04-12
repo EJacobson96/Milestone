@@ -96,7 +96,7 @@ class NetworkRequestCard extends React.Component {
         var email;
         if (this.state.user) {
             name = <HeaderBar
-                        text={this.state.user.FullName}
+                        text={this.state.user.fullName}
                     />
             email = this.state.user.email;
         }

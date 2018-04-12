@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import { withRouter, Link } from 'react-router-dom';
-import { Glyphicon, Button } from 'react-bootstrap';
+import { FormControl, FormGroup, Glyphicon, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -31,15 +31,13 @@ class NewMessage extends Component {
             messageContent: [],
             currUser: this.props.user
         };
-
-        this.handleSearch = this.handleSearch.bind(this);
 	}
 
 	componentDidMount() {
         var searchQuery = this.props.location.pathname;
-        console.log(searchQuery);
         searchQuery = searchQuery.substring(22, searchQuery.length)
-        this.appendToSearch(searchQuery);
+        var newSearchQuery = this.appendToSearch(searchQuery);
+        this.displayConversations(searchQuery);
         this.setState({
             connections: this.props.user.connections,
             messageContent: this.props.messageContent,
@@ -54,88 +52,135 @@ class NewMessage extends Component {
         var input = document.getElementById('newMessageSearch');
         var searchQuery = search.trim().split(" ");
         var newSearchQuery = "";
-        if (searchQuery.length > 1) {
-            for (let i = 0; i < searchQuery.length; i += 2) {
+        if (searchQuery.length > 0 && searchQuery[0]) {
+            for (var i = 0; i < searchQuery.length; i++) {
+                var userFullName;
+                for (var j = 0; j < this.props.user.connections.length; j++) {
+                    if (this.props.user.connections[j].id == searchQuery[i].trim()) {
+                        userFullName = this.props.user.connections[j].fullName;
+                    }
+                }
                 if (i == 0) {
-                    newSearchQuery += searchQuery[i] + " " + searchQuery[i + 1];
+                    newSearchQuery += userFullName;
                 } else {
-                    newSearchQuery += ", " + searchQuery[i] + " " + searchQuery[i + 1];
+                    newSearchQuery += ", " + userFullName;
                 }
             }
         }
         if (newSearchQuery) {
             input.value = newSearchQuery;
         }
+        return newSearchQuery;
     }
 
-    renderConversations(messages) {
-
+    displayConversations(search) {
+        var input = document.getElementById('newMessageSearch');
+        var names = search.trim().split(" ");
+        var filteredConversations = [];
+        var conversations = this.props.messageContent;
+        var existingConversation = false;
+        var newMembers = [];
+        if (names.length > 0 && names[0]) {
+            for (var i = 0; i < conversations.length; i++) {
+                for (var j = 0; j < names.length; j++) {
+                    for (var k = 0; k < conversations[i].members.length; k++) {
+                        if (conversations[i].members[k].id == names[j] && j == names.length - 1) {
+                            if (names.length === conversations[i].members.length - 1) {
+                                existingConversation = true;
+                            }
+                            filteredConversations.push(conversations[i]);
+                            k = conversations[i].members.length;
+                        } else if (conversations[i].members[k].id == names[j]) {
+                            k = conversations[i].members.length;
+                        } else if (k == conversations[i].members.length - 1) {
+                            j = names.length;
+                        }
+                    }    
+                }
+            }
+        }
+        if (!existingConversation && names[0] != "" && this.props.user.connections) {
+            for (var i = 0; i < names.length; i++) {
+                for (var j = 0; j < this.props.user.connections.length; j++) {
+                    var connections = this.props.user.connections;
+                    if (connections[j].id == names[i].trim() && names[i] !== "") {
+                        var addConnection = {
+                            id: connections[j].id,
+                            fullName: connections[j].fullName
+                        }
+                        newMembers.push(addConnection);
+                        j = connections.length;
+                    } else if (j == connections.length - 1) {
+                        newMembers = [];
+                        i = names.length;
+                    }
+                }
+            }
+        }
+        this.setState({
+            existingConversationsList: filteredConversations,
+            newConversation: newMembers,
+        });
     }
 
-    handleSearch(e) {
+    handleSubmit(e) {
         e.preventDefault();
-        let input = document.getElementById('newMessageSearch');
-		let search = input.value;
-        this.getUserConnections(search);
+        var users = this.state.newConversation;
+        var filteredUsers = [];
+        filteredUsers.push({
+            ID: this.props.user.id,
+            FullName: this.props.user.fullName
+        })
+        for (var i = 0; i < users.length; i++) {
+            for (var j = i + 1; j < users.length; j++) {
+                if (users[i].id == users[j].id) {
+                    j = users.length;
+                } else if (j == users.length - 1) {
+                    filteredUsers.push({
+                        ID: users[i].id,
+                        FullName: users[i].fullName
+                    });
+                }
+            }
+            if (i == users.length - 1) {
+                filteredUsers.push({
+                    ID: users[i].id,
+                    FullName: users[i].fullName
+                });
+            }
+        }
+        var message = this.textInput.value;
+        Axios.post(
+            'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.props.user.id, 
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                },
+                Message: {
+                    TextBody: message
+                },
+                Members: filteredUsers
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                console.log(data);
+                this.props.history.push('/Network/Messages/Conversation/:id' + data.id);
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
     }
 
-    handleChange(e) {
-        // e.preventDefault();
-        // var input = e.target.value;
-        // var names = input.replace(/\s+/g, '').split(",");
-        // var filteredConversations = [];
-        // var conversations = this.state.messageContent;
-        // var existingConversation = false;
-        // var newMembers = [];
-        // if (input != "") {
-        //     for (var i = 0; i < conversations.length; i++) {
-        //         for (var j = 0; j < names.length; j++) {
-        //             for (var k = 0; k < conversations[i].members.length; k++) {
-        //                 if (conversations[i].members[k].fullName.toLowerCase().includes(names[j].toLowerCase()) && j == names.length - 1) {
-        //                     if (names.length === conversations[i].members.length - 1) {
-        //                         existingConversation = true;
-        //                     }
-        //                     console.log(conversations[i].members[k]);
-        //                     filteredConversations.push(conversations[i]);
-        //                     k = conversations[i].members.length;
-        //                 } else if (k == conversations[i].members.length - 1) {
-        //                     j = names.length;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        // if (!existingConversation && names[0] != "") {
-        //     for (var i = 0; i < names.length; i++) {
-        //         for (var j = 0; j < this.state.currUser.connections.length; j++) {
-        //             var connections = this.state.currUser.connections;
-        //             if (connections[j].FullName.toLowerCase().includes(names[i].toLowerCase()) && names[i] !== "") {
-        //                 var addConnection = {
-        //                     id: connections[j].id,
-        //                     fullName: connections[j].FullName
-        //                 }
-        //                 console.log(addConnection);
-        //                 newMembers.push(addConnection);
-        //                 j = connections.length;
-        //             } else if (j == connections.length - 1) {
-        //                 newMembers = [];
-        //                 i = names.length;
-        //             }
-        //         }
-        //     }
-        // }
-        // console.log(newMembers.length);
-        // this.setState({
-        //     existingConversationsList: filteredConversations,
-        //     newConversation: newMembers,
-        // });
-    }
+
 
     render() {
         var conversationList;
         var newConversation;
 		if (this.state.existingConversationsList && this.state.currUser) {
-            if (this.state.newConversation && this.state.newConversation[0] != "") {
+            if (this.state.newConversation && this.state.newConversation.length > 0) {
                 newConversation = <NewMessageThumbnail
                                     currUser = { this.state.currUser }
                                     members = {this.state.newConversation }
@@ -153,8 +198,7 @@ class NewMessage extends Component {
 				);
             });
         }
-
-		var displayExistingConversations = <div className="l-contacts">{newConversation}{ conversationList }</div>
+		var displayExistingConversations = <div className="l-contacts">{newConversation}{conversationList}</div>
         return (
 			<div className="c-new-message">
                 <HeaderBar
@@ -175,8 +219,15 @@ class NewMessage extends Component {
                         </Link>
                     </form>
                 </div>
-
-				{ displayExistingConversations }
+                { displayExistingConversations }
+                <FormGroup controlId="formControlsTextarea" className="c-messages-input-form">
+                    <div className="input-group c-messages-input-group">
+                        <FormControl inputRef={input => this.textInput = input} componentClass="input" placeholder="Message..."/>
+                        <span className="input-group-addon" id="basic-addon1">
+                            <Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleSubmit(e)} />
+                        </span>
+                    </div>
+                </FormGroup>
 			</div>
         );
     }

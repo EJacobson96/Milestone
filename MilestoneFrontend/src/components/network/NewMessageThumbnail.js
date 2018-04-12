@@ -32,7 +32,7 @@ class NewMessageThumbnail extends React.Component {
             }
         }
         return (
-            <div>
+            <div className="l-new-message">
                 <Link 
                     to={{
                         pathname: this.props.path

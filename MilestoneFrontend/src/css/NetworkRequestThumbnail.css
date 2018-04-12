@@ -1,25 +1,12 @@
 /**  Layout  **/
 
-.l-contacts {
-    background-color: white;
-}
-
 /**  Components  **/
-.l-contacts:last-child{
-    border-top: 1px solid #9C9B9B;
-}
-
 .c-network-request-thumbnail {
     display: flex;
     border-bottom: 1px solid #9C9B9B;
     align-items: center;
 	padding: 1em 0 1em 0;
 	background-color: lightblue;
-}
-
-.c-contacts-count {
-    margin-left: 1em;
-    font-size: 2.3vh;
 }
 
 .c-network-request-thumbnail__user-img {

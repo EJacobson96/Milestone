@@ -6,3 +6,8 @@
 .c-new-message-button {
 	margin: 0 .5em 0 .8em;
 }
+
+.l-new-message:last-child{
+	border-top: 1px solid #9C9B9B;
+	background-color: white;
+}

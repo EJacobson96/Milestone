@@ -147,18 +147,13 @@ class ContactCard extends React.Component {
     }
 
     sendInvite() {
-        // Type        string        `json:"type"`
-        // ContentType string        `json:"contentType"`
-        // User        bson.ObjectId `json:"user"`
-        // FullName    string        `json:"fullName"`
-        // Email       string        `json:"email"`
         var currUserRequests = this.state.currUser.pendingRequests;
         var otherUserRequests = this.state.contactInfo.pendingRequests;
         var newRequest = {
             Type: "sent",
             User: this.state.contactInfo.id,
             ContentType: "Connection",
-            FullName: this.state.contactInfo.FullName,
+            FullName: this.state.contactInfo.fullName,
             Email: this.state.contactInfo.Email
         };
         currUserRequests.push(newRequest);
@@ -166,7 +161,7 @@ class ContactCard extends React.Component {
             Type: "received",
             User: this.state.currUser.id,
             ContentType: "Connection",
-            FullName: this.state.currUser.FullName,
+            FullName: this.state.currUser.fullName,
             Email: this.state.currUser.Email
         };
         otherUserRequests.push(newRequest);
@@ -242,7 +237,7 @@ class ContactCard extends React.Component {
         var requestType;
         if (this.state.contactInfo) {
             name = <HeaderBar
-                        text={this.state.contactInfo.FullName}
+                        text={this.state.contactInfo.fullName}
                     />
             email = this.state.contactInfo.email;
             requestType = this.pendingRequest(this.state.contactInfo.id);

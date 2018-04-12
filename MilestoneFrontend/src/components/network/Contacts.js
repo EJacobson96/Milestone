@@ -55,8 +55,8 @@ class Contacts extends React.Component {
                                 path = { '/Network/Contacts/Profile/:id' + request.user }
                                 id = { request.user }
                                 key = { request.user }
-                                // fullName = { request.FullName }
-                                // email = { request.Email }
+                                fullName = { request.fullName }
+                                email = { request.email }
                             />
                         );
                     }
@@ -68,7 +68,7 @@ class Contacts extends React.Component {
                         path={ "/Network/Contacts/Profile/:id" + connection.id }
                         id={ connection.id }
                         key={ connection.id }
-                        fullName={ connection.FullName }
+                        fullName={ connection.fullName }
                     />
                 );
             });
