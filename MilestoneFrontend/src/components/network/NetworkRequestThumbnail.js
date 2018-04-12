@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
+import fakeuser from '../../img/fakeuser.png';
 import plus from '../../img/plus.png';
 import '../../css/Contacts.css';
 import '../../css/NetworkRequestThumbnail.css';
@@ -32,7 +33,7 @@ class NetworkRequestThumbnail extends React.Component {
 			>
 				<div className="c-network-request-thumbnail" key={ this.props.id } >
 					<div className="c-network-request-thumbnail__user-img">
-						<img src={ plus } alt=''/>
+						<img src={ fakeuser } alt=''/>
 					</div>
 					<div className="c-network-request-thumbnail__details">
 						<p className="c-network-request-thumbnail__details__full-name">

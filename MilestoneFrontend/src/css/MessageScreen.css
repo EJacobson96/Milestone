@@ -45,6 +45,7 @@
     padding: .5em 1em;
     font-weight: 300;
     flex-basis: 67%;
+    width: 67%;
     align-self: flex-start;
 }
 

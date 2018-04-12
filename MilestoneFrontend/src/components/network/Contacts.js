@@ -19,14 +19,11 @@ class Contacts extends React.Component {
         super(props);
     
         this.state = {
-            requests: []
+            requests: this.props.currUser.pendingRequests
         };
     }
 
     componentDidMount() {
-        this.setState({
-            requests: fakeRequests.requests
-        });
     }
 
     render() {
@@ -35,10 +32,14 @@ class Contacts extends React.Component {
         var displayConnectionsCount;
         var displayConnections;
         if (this.props.content) {
-            console.log(this.props.content);
-            console.log(this.state.requests);
             if(this.state.requests.length > 0) {
-                var numRequests = <span>, Requests ({ this.state.requests.length })</span>
+                var count = 0;
+                for (let i = 0; i < this.state.requests.length; i++) {
+                    if (this.state.requests[i].type === "received") {
+                        count++;
+                    }
+                }
+                var numRequests = <span>, Requests ({ count })</span>
             }
             if (!this.props.showContacts) { 
                 displayConnectionsCount = <h4 className="c-contacts-count">
@@ -46,23 +47,28 @@ class Contacts extends React.Component {
                                             { numRequests }
                                           </h4>;
             }
-            requests = this.state.requests.map((request) => {
-                return (
-                    <NetworkRequestThumbnail 
-                        path = { '/Network/Contacts/Request/:id' + request.id }
-                        id = { request.id }
-                        key = { request.id }
-                        fullName = { request.FullName }
-                    />
-                );
-            })
+            if (this.props.showRequests) {
+                requests = this.state.requests.map((request) => {
+                    if (request.type === "received") {
+                        return (
+                            <NetworkRequestThumbnail 
+                                path = { '/Network/Contacts/Profile/:id' + request.user }
+                                id = { request.user }
+                                key = { request.user }
+                                fullName = { request.fullName }
+                                email = { request.email }
+                            />
+                        );
+                    }
+                })
+            }
             connections = this.props.content.map((connection) => {
                 return (
                     <ContactThumbnail
                         path={ "/Network/Contacts/Profile/:id" + connection.id }
                         id={ connection.id }
                         key={ connection.id }
-                        fullName={ connection.FullName }
+                        fullName={ connection.fullName }
                     />
                 );
             });

@@ -28,13 +28,14 @@ class NetworkRequestCard extends React.Component {
 
     componentDidMount() {
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
-
-        for (let i = 0; i < this.props.requests.requests.length; i++) {
-			if(this.props.requests.requests[i].id === id) {
-                this.setState({
-                    user: this.props.requests.requests[i]
-                });
-			}
+        if (this.props.requests != null) {
+            for (let i = 0; i < this.props.requests.length; i++) {
+                if(this.props.requests[i].id === id) {
+                    this.setState({
+                        user: this.props.requests[i]
+                    });
+                }
+            }
         }
     }
 
@@ -95,7 +96,7 @@ class NetworkRequestCard extends React.Component {
         var email;
         if (this.state.user) {
             name = <HeaderBar
-                        text={this.state.user.FullName}
+                        text={this.state.user.fullName}
                     />
             email = this.state.user.email;
         }

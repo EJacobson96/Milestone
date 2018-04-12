@@ -48,7 +48,7 @@ class MessageScreen extends React.Component {
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
             console.log(data.payload.contentType);
-            if (data.payload.contentType == "new message") {
+            if (data.payload.contentType === "new message") {
                 console.log(this.props);
                 this.renderConversations();
             }
@@ -84,7 +84,7 @@ class MessageScreen extends React.Component {
     }
 
     postNotification(conversation, message) {
-        Axios.post(
+        Axios.patch(
             'https://milestoneapi.eric-jacobson.me/notifications',
             {
                 headers: {
@@ -177,9 +177,9 @@ class MessageScreen extends React.Component {
             conversation = this.state.conversation;
             for (var i = 0; i < conversation.members.length; i++) {
                 let memberLength = conversation.members.length;
-                if (conversation.members[i].id != this.state.currUser.id && members != "") {
+                if (conversation.members[i].id !== this.state.currUser.id && members !== "") {
                     members += ", " + conversation.members[i].fullName;
-                } else if (conversation.members[i].id != this.state.currUser.id) {
+                } else if (conversation.members[i].id !== this.state.currUser.id) {
                     members += conversation.members[i].fullName;
                 }
             }
