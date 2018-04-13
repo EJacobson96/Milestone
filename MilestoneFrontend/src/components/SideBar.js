@@ -48,7 +48,7 @@ class SideBar extends React.Component {
 
 					<div>
 						<ul className="c-sidebar__links-wrapper">
-							<Link to='/'>
+							<Link to='/Network'>
 								<li>
 									<Glyphicon glyph="comment" className="c-sidebar__glyph" />
 									<span className="c-sidebar__link">

@@ -144,8 +144,14 @@ func (s *MongoStore) InsertConversation(newConversation *NewConversation, userID
 	conversation.ID = conversationID
 	conversation.Messages = append(conversation.Messages, message)
 	col := s.session.DB(s.dbname).C(s.colname)
-	if err := col.Insert(&conversation); err != nil {
+	err = col.Insert(&conversation)
+	if err != nil {
 		return nil, fmt.Errorf("error inserting conversation : %v", err)
 	}
-	return conversation, nil
+	insertedConversation := &Conversation{}
+	err = col.FindId(conversationID).One(&insertedConversation)
+	if err != nil {
+		return nil, fmt.Errorf("error finding conversation: %v", err)
+	}
+	return insertedConversation, nil
 }

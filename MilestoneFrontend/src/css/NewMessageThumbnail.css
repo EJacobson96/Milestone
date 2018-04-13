@@ -1,0 +1,16 @@
+.c-message-thumbnail {
+    border-bottom: 1px solid #9C9B9B;
+    padding: 1.4em 0;
+}
+
+.c-message-thumbnail-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 75%;
+    font-size: 4vh;
+    text-align: left;
+    margin-left: 2em;
+    text-decoration: none;
+    color: black;
+}

@@ -43,22 +43,23 @@ func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Reque
 
 //handles finding all connections for a given user and sorts them alphebetically based on fullname
 func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.Request) {
-	sessionState := &SessionState{}
-	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
-		return
-	}
+	// sessionState := &SessionState{}
+	// sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+	// if err != nil {
+	// 	http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+	// 	return
+	// }
 	switch r.Method {
 	case "GET":
-		err = c.SessionsStore.Save(sessionID, sessionState)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
-			return
-		}
+		// err = c.SessionsStore.Save(sessionID, sessionState)
+		// if err != nil {
+		// 	http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
+		// 	return
+		// }
 		connections := []*users.User{}
 		query := r.URL.Query().Get("q")
-		user, err := c.UsersStore.GetByID(sessionState.User.ID)
+		userID := r.URL.Query().Get("id")
+		user, err := c.UsersStore.GetByID(bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
 			return
@@ -78,14 +79,15 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
 		}
 	case "PATCH":
-		connections := []*users.User{}
+		update := &users.UpdateConnections{}
 		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(connections)
+		err := decoder.Decode(update)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error decoding connection: %v", err), http.StatusInternalServerError)
 			return
 		}
-		connections, err = c.UsersStore.UpdateConnections(sessionState.User.ID, connections)
+		userID := r.URL.Query().Get("id")
+		connections, err := c.UsersStore.UpdateConnections(bson.ObjectIdHex(userID), update)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error adding connection: %v", err), http.StatusInternalServerError)
 			return
@@ -211,26 +213,27 @@ func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request)
 	// }
 	switch r.Method {
 	case "PATCH":
-		request := []*notifications.Request{}
+		update := &users.UpdateRequests{}
+		userID := r.URL.Query().Get("id")
 		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(request)
+		err := decoder.Decode(update)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error decoding request: %v", err), http.StatusInternalServerError)
 		}
-		request, err = c.UsersStore.UpdateRequests(request)
+		requestsList, err := c.UsersStore.UpdateRequests(update, bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error adding request: %v", err), http.StatusInternalServerError)
 			return
 		}
-		err = json.NewEncoder(w).Encode(request)
+		err = json.NewEncoder(w).Encode(requestsList)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding notification to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
 		requestPayload := struct {
-			Payload []*notifications.Request `json:"payload"`
+			Payload *users.User `json:"payload"`
 		}{
-			request,
+			requestsList,
 		}
 		payload, jsonErr := json.Marshal(requestPayload)
 		if jsonErr != nil {

@@ -1,6 +1,6 @@
-.l-conversations {
+/* .l-conversations {
     background-color: white;
-}
+} */
 
 .l-conversations:last-child {
     border-top: 1px solid #9C9B9B;
@@ -10,6 +10,7 @@
     border-bottom: 1px solid #9C9B9B;
     padding: 1em 0 1em 0;
     display: flex;
+    background-color: white;
 }
 
 .c-conversation-card__user-img {

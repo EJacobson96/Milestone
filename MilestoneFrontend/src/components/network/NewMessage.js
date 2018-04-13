@@ -4,11 +4,13 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import { withRouter, Link } from 'react-router-dom';
-import { Glyphicon, Button } from 'react-bootstrap';
+import { FormControl, FormGroup, Glyphicon, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Standard Components
 
+import ContactsList from './ContactsList';
+import NewMessageThumbnail from './NewMessageThumbnail';
 import ContactThumbnail from './ContactThumbnail';
 import HeaderBar from '../ux/HeaderBar';
 
@@ -26,36 +28,145 @@ class NewMessage extends Component {
     
         this.state = {
             connections: null,
-            messageContent: []
+            messageContent: [],
+            currUser: this.props.user
         };
-		
-        this.getUserConnections = this.getUserConnections.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
 	}
 
 	componentDidMount() {
-        this.getUserConnections('');
+        var searchQuery = this.props.location.pathname;
+        searchQuery = searchQuery.substring(22, searchQuery.length)
+        var newSearchQuery = this.appendToSearch(searchQuery);
+        this.displayConversations(searchQuery);
         this.setState({
-            messageContent: this.props.messageContent
+            connections: this.props.user.connections,
+            messageContent: this.props.messageContent,
+            searchQuery: searchQuery
         });
-	}
-	
-	getUserConnections(search) {
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/connections?q=' + search, 
+    }
+
+    componentWillReceiveProps() {
+    }
+    
+    appendToSearch(search) {
+        var input = document.getElementById('newMessageSearch');
+        var searchQuery = search.trim().split(" ");
+        var newSearchQuery = "";
+        if (searchQuery.length > 0 && searchQuery[0]) {
+            for (var i = 0; i < searchQuery.length; i++) {
+                var userFullName;
+                for (var j = 0; j < this.props.user.connections.length; j++) {
+                    if (this.props.user.connections[j].id == searchQuery[i].trim()) {
+                        userFullName = this.props.user.connections[j].fullName;
+                    }
+                }
+                if (i == 0) {
+                    newSearchQuery += userFullName;
+                } else {
+                    newSearchQuery += ", " + userFullName;
+                }
+            }
+        }
+        if (newSearchQuery) {
+            input.value = newSearchQuery;
+        }
+        return newSearchQuery;
+    }
+
+    displayConversations(search) {
+        var input = document.getElementById('newMessageSearch');
+        var names = search.trim().split(" ");
+        var filteredConversations = [];
+        var conversations = this.props.messageContent;
+        var existingConversation = false;
+        var newMembers = [];
+        if (names.length > 0 && names[0]) {
+            for (var i = 0; i < conversations.length; i++) {
+                for (var j = 0; j < names.length; j++) {
+                    for (var k = 0; k < conversations[i].members.length; k++) {
+                        if (conversations[i].members[k].id == names[j] && j == names.length - 1) {
+                            if (names.length === conversations[i].members.length - 1) {
+                                existingConversation = true;
+                            }
+                            filteredConversations.push(conversations[i]);
+                            k = conversations[i].members.length;
+                        } else if (conversations[i].members[k].id == names[j]) {
+                            k = conversations[i].members.length;
+                        } else if (k == conversations[i].members.length - 1) {
+                            j = names.length;
+                        }
+                    }    
+                }
+            }
+        }
+        if (!existingConversation && names[0] != "" && this.props.user.connections) {
+            for (var i = 0; i < names.length; i++) {
+                for (var j = 0; j < this.props.user.connections.length; j++) {
+                    var connections = this.props.user.connections;
+                    if (connections[j].id == names[i].trim() && names[i] !== "") {
+                        var addConnection = {
+                            id: connections[j].id,
+                            fullName: connections[j].fullName
+                        }
+                        newMembers.push(addConnection);
+                        j = connections.length;
+                    } else if (j == connections.length - 1) {
+                        newMembers = [];
+                        i = names.length;
+                    }
+                }
+            }
+        }
+        this.setState({
+            existingConversationsList: filteredConversations,
+            newConversation: newMembers,
+        });
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        var users = this.state.newConversation;
+        var filteredUsers = [];
+        filteredUsers.push({
+            ID: this.props.user.id,
+            FullName: this.props.user.fullName
+        })
+        for (var i = 0; i < users.length; i++) {
+            for (var j = i + 1; j < users.length; j++) {
+                if (users[i].id == users[j].id) {
+                    j = users.length;
+                } else if (j == users.length - 1) {
+                    filteredUsers.push({
+                        ID: users[i].id,
+                        FullName: users[i].fullName
+                    });
+                }
+            }
+            if (i == users.length - 1) {
+                filteredUsers.push({
+                    ID: users[i].id,
+                    FullName: users[i].fullName
+                });
+            }
+        }
+        var message = this.textInput.value;
+        Axios.post(
+            'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.props.user.id, 
             {
                 headers: {
                     'Authorization' : localStorage.getItem('Authorization')
-                }    
+                },
+                Message: {
+                    TextBody: message
+                },
+                Members: filteredUsers
             })
             .then(response => {
                 return response.data;
             })
             .then(data => {
                 console.log(data);
-                this.setState({
-                    connections: data
-                });
+                this.props.history.push('/Network/Messages/Conversation/:id' + data.id);
             })
             .catch(error => {
                 console.log(error);
@@ -63,29 +174,31 @@ class NewMessage extends Component {
         );
     }
 
-    handleSearch(e) {
-        e.preventDefault();
-        let input = document.getElementById('newMessageSearch');
-		let search = input.value;
-        this.getUserConnections(search);
-    }
+
 
     render() {
-        console.log(this.props.messageContent);
-		var connections = <div></div>;
-		if (this.state.connections) {
-			connections = this.state.connections.map((connection) => {
+        var conversationList;
+        var newConversation;
+		if (this.state.existingConversationsList && this.state.currUser) {
+            if (this.state.newConversation && this.state.newConversation.length > 0) {
+                newConversation = <NewMessageThumbnail
+                                    currUser = { this.state.currUser }
+                                    members = {this.state.newConversation }
+                                  />
+            }
+			conversationList = this.state.existingConversationsList.map((conversation) => {
 				return (
-					<ContactThumbnail
-						path={ '/Network/Messages/Conversation/:id' + connection.id }
-                        id={ connection.id }
-                        key={ connection.id }
-						fullName={ connection.FullName }
+					<NewMessageThumbnail
+						path={ '/Network/Messages/Conversation/:id' + conversation.id }
+                        id={ conversation.id }
+                        key={ conversation.id }
+                        members = { conversation.members }
+                        currUser = { this.state.currUser }
 					/>
 				);
-			});
-		}
-		var displayConnections = <div className="l-contacts">{ connections }</div>
+            });
+        }
+		var displayExistingConversations = <div className="l-contacts">{newConversation}{conversationList}</div>
         return (
 			<div className="c-new-message">
                 <HeaderBar
@@ -93,14 +206,28 @@ class NewMessage extends Component {
                 />
                 <div className="c-new-message__search-wrapper">
                     <form className="[ form-inline ] c-new-message__search-form">
-                        <input id="newMessageSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
-                        <Button className="btn btn-outline-success my-2 my-sm-0 c-network-button" onClick={(e) => this.handleSearch(e)}>
-                            <Glyphicon glyph="search" /> 
-                        </Button>
+                        <input id="newMessageSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search" onChange={(e) => this.handleChange(e)}/>
+                        <Link 
+                            to={{
+                        	    pathname: '/Network/Messages/New/Contacts/' + this.state.searchQuery
+                            }}
+                            user={this.state.currUser}
+                        >
+                            <Button className="btn btn-outline-success my-2 my-sm-0 c-new-message-button">
+                                <Glyphicon glyph="plus" /> 
+                            </Button>
+                        </Link>
                     </form>
                 </div>
-
-				{ displayConnections }
+                { displayExistingConversations }
+                <FormGroup controlId="formControlsTextarea" className="c-messages-input-form">
+                    <div className="input-group c-messages-input-group">
+                        <FormControl inputRef={input => this.textInput = input} componentClass="input" placeholder="Message..."/>
+                        <span className="input-group-addon" id="basic-addon1">
+                            <Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleSubmit(e)} />
+                        </span>
+                    </div>
+                </FormGroup>
 			</div>
         );
     }

@@ -16,6 +16,7 @@ import Messages from './Messages';
 import NewMessage from './NewMessage';
 import NetworkConnect from './NetworkConnect';
 import MessageScreen from './MessageScreen';
+import ContactsList from './ContactsList';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -36,7 +37,6 @@ class Network extends Component {
             contentType: 'loading',
             search: '',
             showSearchAndNav: true,
-            userID: this.props.user.id,
         };
         
         this.handleSearch = this.handleSearch.bind(this);
@@ -45,12 +45,11 @@ class Network extends Component {
     }
     
     componentDidMount() {
-        this.setState({
-            networkRequests: networkRequests
-        });
+        this.getCurrentUser();
+    }
 
-        this.getMessages('');
-        this.getUserConnections('');
+    componentWillReceiveProps() {
+        this.getCurrentUser();
     }
 
     renderMessages(e) {
@@ -66,16 +65,41 @@ class Network extends Component {
     }
 
     handleSearch(search) {
-        if (this.state.contentType === 'contacts') {
+        if (this.props.location.pathname.endsWith("/Contacts")) {
             this.getUserConnections(search);
         } else {
             this.getMessages(search);
         }
     }
 
+    getCurrentUser() {
+        Axios.get(
+            'https://milestoneapi.eric-jacobson.me/users/me', 
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                }    
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                this.setState({
+                    currUser: data,
+                    networkRequests: data.pendingRequests
+                });
+                this.getMessages('');
+                this.getUserConnections('');
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    }
+
     getMessages(search) {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.state.userID + '&q=' + search,  
+            'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.state.currUser.id + '&q=' + search,  
             {
                 // headers: {
                 //     'Authorization' : localStorage.getItem('Authorization')
@@ -99,7 +123,7 @@ class Network extends Component {
 
     getUserConnections(search) {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/connections?q=' + search, 
+            'https://milestoneapi.eric-jacobson.me/connections?q=' + search + "&id=" + this.state.currUser.id, 
             {
                 headers: {
                     'Authorization' : localStorage.getItem('Authorization')
@@ -109,7 +133,6 @@ class Network extends Component {
                 return response.data;
             })
             .then(data => {
-                // console.log(data);
                 this.setState({
                     contactsContent: data
                 });
@@ -131,48 +154,63 @@ class Network extends Component {
                             handleSearch={(e) => this.handleSearch(e)}
                         />
                     </div>;
-        return (
-            <div className="l-network-content">
-                <Switch>
-                    <Route path='/Network/Messages/New' render={(props) => (
-                        <NewMessage 
-                            messageContent = { this.state.messageContent }                        
-                        />
-                    )} />
-                    <Route exact path ='/Network/Messages/Conversation/:id' render={(props) => (
-                        <MessageScreen />
-                    )} />
-                    <Route path="/Network/Messages" render={(props) => (
+        if (this.state.currUser && this.state.messageContent) {
+            return (
+                <div className="l-network-content">
+                    <Switch>
+                        <Route path='/Network/Messages/New/Contacts' render={(props) => (
+                            <ContactsList 
+                                user = {this.state.currUser }                      
+                            />
+                        )} />
+                        <Route path='/Network/Messages/New/' render={(props) => (
+                            <NewMessage 
+                                messageContent = { this.state.messageContent }  
+                                user = {this.state.currUser }                      
+                            />
+                        )} />
+                        <Route exact path ='/Network/Messages/Conversation/:id' render={(props) => (
+                            <MessageScreen />
+                        )} />
+                        <Route path="/Network/Messages" render={(props) => (
+                            <div>
+                                { topNav } 
+                                <Messages currUser={ this.state.currUser.id } content={ this.state.messageContent } />
+                            </div>
+                        )} />
+                        <Route exact path='/Network/Contacts/Request/:id' render={(props) => (
+                            <NetworkRequestCard 
+                                requests={ this.state.networkRequests }
+                            />
+                        )} />
+                        <Route exact path ='/Network/Contacts/Profile/:id' render={(props) => (
+                            <ContactCard />
+                        )} />
+                        <Route exact path="/Network/Contacts/Connect" render={(props) => (
+                            <NetworkConnect 
+                                accountType={ this.state.currUser.accountType }
+                                currUser={ this.state.currUser }
+                            />
+                        )} />
+                        <Route exact path="/Network/Contacts" render={(props) => (
                         <div>
-                            { topNav } 
-                            <Messages currUser={ this.props.user.id } content={ this.state.messageContent } />
+                            { topNav }
+                            <Contacts 
+                                showRequests={ true } 
+                                content={ this.state.contactsContent } 
+                                currUser={ this.state.currUser }
+                            />
                         </div>
-                    )} />
-                    <Route exact path='/Network/Contacts/Request/:id' render={(props) => (
-                        <NetworkRequestCard 
-                            requests={ this.state.networkRequests }
-                        />
-                    )} />
-                    <Route exact path ='/Network/Contacts/Profile/:id' render={(props) => (
-                        <ContactCard />
-                    )} />
-                    <Route exact path="/Network/Contacts/Connect" render={(props) => (
-                        <NetworkConnect 
-                            accountType={ this.props.user.accountType }
-                        />
-                    )} />
-                    <Route exact path="/Network/Contacts" render={(props) => (
-                    <div>
-                        { topNav }
-                        <Contacts content={ this.state.contactsContent } />
-                    </div>
-                    )} />
-                    <Route exact path="/Network" render={(props) => (
-                        <Redirect to="/Network/Messages" />
-                    )} />
-                </Switch>
-            </div>
-        );
+                        )} />
+                        <Route exact path="/Network" render={(props) => (
+                            <Redirect to="/Network/Messages" />
+                        )} />
+                    </Switch>
+                </div>
+            );
+        } else {
+            return <p></p>
+        }
     }
 }
 
