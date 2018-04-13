@@ -10,6 +10,7 @@ import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import ProgressNav from './ProgressNav';
 import ProgressSearch from './ProgressSearch';
 import GoalSelector from './GoalSelector';
+import UpcomingPebbles from './UpcomingPebbles';
 
 import goalData from '../testdata/fakegoals.json';
 
@@ -26,20 +27,6 @@ class Progress extends Component {
         this.state = {
             currentCategory: "1",
             goalData: goalData,
-            categoryContent: {
-                category1: {
-
-                },
-                category2: {
-
-                },
-                category3: {
-
-                },
-                category4: {
-
-                }
-            }
         };
 
         this.switchCategory = this.switchCategory.bind(this);
@@ -77,18 +64,11 @@ class Progress extends Component {
                                     goals={ currentGoals }
                                 />
                             </div>
-        
-        // For testing
-        // let i = 0;
-        // let currentGoalsTest = this.state.goalData.goals.map((goal) => {
-        //     if (goal.Category == this.state.currentCategory) {
-        //         i++;
-        //         return (
-        //             <p key={ goal.GoalID }>Goal #{ i }: { goal.Title }</p>
-        //         )
-        //     }
-        // })
-
+        var upcoming =      <div>
+                                <UpcomingPebbles 
+                                    goals={ currentGoals }
+                                />
+                            </div>
 
         return (
             <div className="l-progress-content">
@@ -96,9 +76,8 @@ class Progress extends Component {
                     <Route path="/Progress/Category" render={(props) => (
                         <div>
                             { topNav }
-                            {/* <p>Current Category: { this.state.currentCategory }</p> */}
-                            {/* { currentGoalsTest } */}
                             { goalSelector }
+                            { upcoming }
                         </div>
                     )} />
                     <Route exact path="/Progress" render={(props) => (

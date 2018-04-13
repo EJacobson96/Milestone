@@ -2,6 +2,7 @@
 /// Dev Notes
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -29,7 +30,9 @@ class GoalSelectorAddItem extends Component {
     render() {
         return (
             <div className="c-goal-selector__goal-selector-add-item">
-                <img src={ plus } className="c-goal-selector__goal-selector-add-item__plus-img" />
+                <Link to="">
+                    <img src={ plus } className="c-goal-selector__goal-selector-add-item__plus-img" />
+                </Link>
 				<p className="c-goal-selector__goal-selector-add-item__goal-title">ADD GOAL</p>
 			</div>
         );

@@ -54,7 +54,6 @@ class Messages extends React.Component {
         var messagesCount;
         var time;
         if (this.props.content && this.state.currUser) {
-            console.log(this.props.content);
             messagesCount = <h4 className="c-messages-count">Messages ({this.props.content.length})</h4>;
             conversations = this.props.content.map((conversation) => {
                 var members = "";

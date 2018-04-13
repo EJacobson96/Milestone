@@ -33,7 +33,6 @@ class GoalSelector extends Component {
     }
 
     render() {
-		console.log(this.props.goals);
 		var goalItems = this.props.goals.map((goal) => {
 			return (
 				<GoalSelectorItem 
