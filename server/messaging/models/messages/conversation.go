@@ -37,10 +37,9 @@ func (nc *NewConversation) Validate() error {
 }
 
 func (nc *NewConversation) ToConversation() (*Conversation, error) {
-	conversation := &Conversation{
+	return &Conversation{
 		Members:     nc.Members,
 		CreatedAt:   time.Now(),
 		LastMessage: time.Now(),
-	}
-	return conversation, nil
+	}, nil
 }

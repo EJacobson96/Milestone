@@ -108,36 +108,6 @@ func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request)
 	}
 }
 
-//handles searching through conversations based on user input
-// func (c *HandlerContext) SearchConversationsHandler(w http.ResponseWriter, r *http.Request) {
-// 	// authUser := r.Header.Get("X-User")
-// 	// if len(authUser) == 0 {
-// 	// 	http.Error(w, errors.New("unauthorized").Error(), http.StatusUnauthorized)
-// 	// 	return
-// 	// }
-// 	switch r.Method {
-// 	case "GET":
-// 		query := r.URL.Query().Get("q")
-// 		userID := r.URL.Query().Get("id")
-// 		userFullName := r.URL.Query().Get("name")
-// 		filteredConversations := []*messages.Conversation{}
-// 		conversations, err := c.MessagesStore.GetConversations(userFullName, bson.ObjectIdHex(userID))
-// 		if err != nil {
-// 			http.Error(w, fmt.Sprintf("error getting conversations from database: %v", err), http.StatusBadRequest)
-// 			return
-// 		}
-// 		filteredConversations = FilterConversations(conversations, query)
-// 		err = json.NewEncoder(w).Encode(filteredConversations)
-// 		if err != nil {
-// 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
-// 			return
-// 		}
-// 	default:
-// 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
-// 		return
-// 	}
-// }
-
 func (c *HandlerContext) MembersHandler(w http.ResponseWriter, r *http.Request) {
 	// authUser := r.Header.Get("X-User")
 	// if len(authUser) == 0 {
