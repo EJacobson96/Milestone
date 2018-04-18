@@ -27,9 +27,10 @@ type NewGoal struct {
 }
 
 func (ng *NewGoal) Validate() error {
-	if len(ng.Tasks) == 0 {
-		return errors.New("Error: no tasks created")
-	} else if len(ng.UserID) == 0 {
+	// if len(ng.Tasks) == 0 {
+	// 	return errors.New("Error: no tasks created")
+	// }
+	if len(ng.UserID) == 0 {
 		return errors.New("Error: no user found")
 	} else if len(ng.Creator) == 0 {
 		return errors.New("Error: no creator found")
@@ -47,8 +48,8 @@ func (ng *NewGoal) ToGoal() *Goal {
 		Creator:  ng.Creator,
 		Title:    ng.Title,
 		Category: ng.Category,
-		Tasks:    ng.Tasks,
-		DueDate:  ng.DueDate,
-		Active:   true,
+		// Tasks:    ng.Tasks,
+		DueDate: ng.DueDate,
+		Active:  true,
 	}
 }

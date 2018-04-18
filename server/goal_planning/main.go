@@ -5,9 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/EJacobson96/Milestone/server/gateway/models/goals"
-
-	"github.com/EJacobson96/Milestone/server/gateway/handlers"
+	"github.com/EJacobson96/Milestone/server/goal_planning/handlers"
+	"github.com/EJacobson96/Milestone/server/goal_planning/models/goals"
 	"gopkg.in/mgo.v2"
 )
 
@@ -29,6 +28,9 @@ func main() {
 	context := handlers.HandlerContext{
 		GoalsStore: mongostore,
 	}
+
+	http.HandleFunc("/goals", context.GoalHandler) //handles getting goals for a user and inserting new goals
+	http.HandleFunc("/tasks", context.TaskHandler) //handles adding new tasks to a goal
 
 	log.Printf("server is listening at http://%s...", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))

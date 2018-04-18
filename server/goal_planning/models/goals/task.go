@@ -39,7 +39,7 @@ func (nt *NewTask) Validate() error {
 	return nil
 }
 
-func (nt *NewTask) ToTask(userID bson.ObjectId) *Task {
+func (nt *NewTask) ToTask() *Task {
 	return &Task{
 		GoalID:      nt.GoalID,
 		CreatorID:   nt.CreatorID,

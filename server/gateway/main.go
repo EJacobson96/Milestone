@@ -74,6 +74,8 @@ func main() {
 	dbADDR := os.Getenv("DBADDR")
 	messagesSvcAddrs := os.Getenv("MESSAGESSVCADDR")
 	splitMessagesSvcAddrs := strings.Split(messagesSvcAddrs, ",")
+	goalsSvcAddrs := os.Getenv("GOALSSVCADDR")
+	splitGoalsSvcAddrs := strings.Split(goalsSvcAddrs, ",")
 
 	if len(tlsKeyPath) == 0 || len(tlsCertPath) == 0 {
 		log.Fatal("please insert TLSKEY and TLSCERT")
@@ -124,6 +126,10 @@ func main() {
 	mux.Handle("/messages", NewServiceProxy(splitMessagesSvcAddrs, context))       //handles inserting new message into a conversation
 	mux.Handle("/member", NewServiceProxy(splitMessagesSvcAddrs, context))         //handles removing a member from a conversation
 	// mux.Handle("/search/conversations", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles searching through conversations
+
+	//goal microservice
+	mux.Handle("/goals", NewServiceProxy(splitGoalsSvcAddrs, context))
+	mux.Handle("/tasks", NewServiceProxy(splitGoalsSvcAddrs, context))
 
 	corsMux := handlers.NewCORSHandler(mux)
 
