@@ -3,11 +3,11 @@
 } */
 
 .l-conversations:last-child {
-    border-top: 1px solid #9C9B9B;
+    border-bottom: 1px solid #9C9B9B;
 }
 
 .c-conversation-card {
-    border-bottom: 1px solid #9C9B9B;
+    border-top: 1px solid #9C9B9B;
     padding: 1em 0 1em 0;
     display: flex;
     background-color: white;

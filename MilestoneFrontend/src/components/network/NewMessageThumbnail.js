@@ -20,7 +20,13 @@ class NewMessageThumbnail extends React.Component {
 
     render() {
         var memberNames;
+        var thumbnailClasses = "c-message-thumbnail-name ";
         if (this.props.members && this.props.currUser) {
+            if (this.props.existing) {
+                thumbnailClasses += "c-message-existing-conversation";
+            } else {
+                thumbnailClasses += "c-message-not-existing-conversation";
+            }
             memberNames = "";
             for (let i = 0; i < this.props.members.length; i++) {
                 let memberLength = this.props.members.length;
@@ -41,7 +47,7 @@ class NewMessageThumbnail extends React.Component {
                     key={ this.props.id }
                 >
                     <div className="c-message-thumbnail" key={ this.props.id } >
-                        <div className="c-message-thumbnail-name">
+                        <div className={thumbnailClasses}>
                             { memberNames }
                         </div>
                     </div>

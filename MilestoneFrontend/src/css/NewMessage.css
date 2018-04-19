@@ -7,7 +7,10 @@
 	margin: 0 .5em 0 .8em;
 }
 
-.l-new-message:last-child{
-	border-top: 1px solid #9C9B9B;
+.l-new-message:last-child {
 	background-color: white;
+}
+
+.l-new-message:last-child .c-message-thumbnail {
+	border-bottom: 1px solid #9C9B9B;
 }
