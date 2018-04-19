@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/EJacobson96/Milestone/server/goal_planning/models/goals"
+	"github.com/EJacobson96/Milestone/server/progress/models/goals"
 	"gopkg.in/mgo.v2/bson"
 )
 

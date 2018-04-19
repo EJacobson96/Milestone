@@ -3,7 +3,7 @@ package handlers
 import (
 	"strings"
 
-	"github.com/EJacobson96/Milestone/server/goal_planning/models/goals"
+	"github.com/EJacobson96/Milestone/server/progress/models/goals"
 )
 
 func FilterGoals(userGoals []*goals.Goal, query string) []*goals.Goal {

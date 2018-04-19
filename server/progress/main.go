@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/EJacobson96/Milestone/server/goal_planning/handlers"
-	"github.com/EJacobson96/Milestone/server/goal_planning/models/goals"
+	"github.com/EJacobson96/Milestone/server/progress/handlers"
+	"github.com/EJacobson96/Milestone/server/progress/models/goals"
 	"gopkg.in/mgo.v2"
 )
 

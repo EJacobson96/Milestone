@@ -127,7 +127,7 @@ func main() {
 	mux.Handle("/member", NewServiceProxy(splitMessagesSvcAddrs, context))         //handles removing a member from a conversation
 	// mux.Handle("/search/conversations", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles searching through conversations
 
-	//goal microservice
+	//progress microservice
 	mux.Handle("/goals", NewServiceProxy(splitGoalsSvcAddrs, context))
 	mux.Handle("/tasks", NewServiceProxy(splitGoalsSvcAddrs, context))
 
