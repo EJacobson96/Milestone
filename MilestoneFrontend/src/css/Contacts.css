@@ -15,6 +15,10 @@
     border-bottom: 1px solid #9C9B9B;
 }
 
+.l-contacts .c-network-request-thumbnail-link-wrapper:last-child .c-network-request-thumbnail {
+    border-bottom: 1px solid #9C9B9B;
+}
+
 .c-contact-card {
     display: flex;
     border-top: 1px solid #9C9B9B;

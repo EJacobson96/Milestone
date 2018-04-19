@@ -11,10 +11,6 @@
     
 }
 
-.c-network-request-thumbnail:last-child {
-    border-bottom: 1px solid #9C9B9B;
-}
-
 .c-network-request-thumbnail__user-img {
     display: flex;
     justify-content: center;

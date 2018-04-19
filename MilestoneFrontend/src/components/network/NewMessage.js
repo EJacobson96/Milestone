@@ -176,7 +176,16 @@ class NewMessage extends Component {
         }
     }
 
-
+    clearInput(e) {
+        e.preventDefault();
+        var input = document.getElementById('newMessageSearch');
+        input.value = "";
+        this.setState({
+            existingConversationsList: [],
+            newConversation: [],
+            searchQuery: "",
+        });
+    }
 
     render() {
         var conversationList;
@@ -211,6 +220,7 @@ class NewMessage extends Component {
                 <div className="c-new-message__search-wrapper">
                     <form className="[ form-inline ] c-new-message__search-form">
                         <input id="newMessageSearch" className="form-control mr-sm-2" type="search" placeholder="Select a contact" aria-label="Search" onChange={(e) => this.handleChange(e)} disabled/>
+                        <Button className="btn btn-outline-success my-2 my-sm-0 c-new-message-button" onClick={(e) => this.clearInput(e)}>Clear</Button>
                         <Link 
                             to={{
                         	    pathname: '/Network/Messages/New/Contacts/' + this.state.searchQuery

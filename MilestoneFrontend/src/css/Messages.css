@@ -1,8 +1,4 @@
-/* .l-conversations {
-    background-color: white;
-} */
-
-.l-conversations:last-child {
+.l-conversations .c-contact-card-link-wrapper:last-child .c-conversation-card {
     border-bottom: 1px solid #9C9B9B;
 }
 
@@ -53,7 +49,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    width: 75%;
+    width: 65%;
 }
 
 .c-messages-count {

@@ -76,7 +76,7 @@ class Contacts extends React.Component {
             displayConnections = <div className="l-contacts">
                                     { connections }
                                  </div>
-            displayRequests = <div classNAme="l-contacts"> 
+            displayRequests = <div className="l-contacts"> 
                                     {requests}
                               </div>
         } 
