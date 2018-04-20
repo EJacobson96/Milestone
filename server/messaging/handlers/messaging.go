@@ -23,7 +23,7 @@ func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r *http.Requ
 		query := r.URL.Query().Get("q")
 		filteredConversations := []*messages.Conversation{}
 		conversations, err := c.MessagesStore.GetConversations(bson.ObjectIdHex(userID))
-		if err == nil {
+		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting conversations from database: %v", err), http.StatusBadRequest)
 			return
 		}
