@@ -23,7 +23,7 @@ func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r *http.Requ
 		query := r.URL.Query().Get("q")
 		filteredConversations := []*messages.Conversation{}
 		conversations, err := c.MessagesStore.GetConversations(bson.ObjectIdHex(userID))
-		if err != nil {
+		if err == nil {
 			http.Error(w, fmt.Sprintf("error getting conversations from database: %v", err), http.StatusBadRequest)
 			return
 		}
@@ -98,38 +98,6 @@ func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request)
 		}
 		conversation, err := c.MessagesStore.InsertMessage(newMessage, bson.ObjectIdHex(userID))
 		err = json.NewEncoder(w).Encode(conversation)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
-			return
-		}
-	default:
-		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
-		return
-	}
-}
-
-func (c *HandlerContext) MembersHandler(w http.ResponseWriter, r *http.Request) {
-	// authUser := r.Header.Get("X-User")
-	// if len(authUser) == 0 {
-	// 	http.Error(w, errors.New("unauthorized").Error(), http.StatusUnauthorized)
-	// 	return
-	// }
-	switch r.Method {
-	case "DELETE":
-		conversationID := r.URL.Query().Get("id")
-		removeMember := &messages.Member{}
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(removeMember)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error decoding user: %v", err), http.StatusInternalServerError)
-			return
-		}
-		members, err := c.MessagesStore.RemoveMemberFromConversation(removeMember, bson.ObjectIdHex(conversationID))
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error getting conversations from database: %v", err), http.StatusBadRequest)
-			return
-		}
-		err = json.NewEncoder(w).Encode(members)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 			return
