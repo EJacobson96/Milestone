@@ -2,91 +2,57 @@
 /// Dev Notes
 
 import React, { Component } from 'react';
-import Axios from 'axios';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
-import ProgressNav from './ProgressNav';
-import ProgressSearch from './ProgressSearch';
-import GoalSelector from './GoalSelector';
-import UpcomingPebbles from './UpcomingPebbles';
-
-import goalData from '../testdata/fakegoals.json';
+import ProgressHeading from './ProgressHeading';
+import GoalCategories from './GoalCategories';
+import UpcomingGoals from './UpcomingGoals';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/Progress.css';
+import '../../css/progress/Progress.css';
 
 /////////////////////////////////////////
 /// Code
 
-class Progress extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentCategory: "1",
-            goalData: goalData,
-        };
+const Progress = (props) => {
+	const heading = (heading) => <ProgressHeading
+						heading = { heading }
+						handleSearch={ (e) => props.handleSearch(e) }
+						navFilter={ props.navFilter }
+						switchFilter={ (e, t) => props.switchFilter(e, t) }
+					/>
 
-        this.switchCategory = this.switchCategory.bind(this);
-    }
-    
-    componentDidMount() {
-        // TODO:
-    }
-
-    handleSearch(search) {
-        // TODO:
-    }
-
-    switchCategory(targetCategory) {
-        this.setState({
-            currentCategory: targetCategory
-        });
-    }
-
-    render() {
-        var topNav =        <div>
-                                <ProgressNav
-                                    targetCategory={ this.state.currentCategory }
-                                    switchCategory={ (e) => this.switchCategory(e) }
-                                />
-                                <ProgressSearch />
-                            </div>;
-        var currentGoals = this.state.goalData.goals.filter((goal) => {
-            if (goal.Category == this.state.currentCategory) {
-                return goal;
-            }
-        });
-        var goalSelector =  <div>
-                                <GoalSelector 
-                                    goals={ currentGoals }
-                                />
-                            </div>
-        var upcoming =      <div>
-                                <UpcomingPebbles 
-                                    goals={ currentGoals }
-                                />
-                            </div>
-
-        return (
-            <div className="l-progress-content">
-                <Switch>
-                    <Route path="/Progress/Category" render={(props) => (
-                        <div>
-                            { topNav }
-                            { goalSelector }
-                            { upcoming }
-                        </div>
-                    )} />
-                    <Route exact path="/Progress" render={(props) => (
-                        <Redirect to="/Progress/Category/1" />
-                    )} />
-                </Switch>
-			</div>
-        );
-    }
+	return (
+		<div className='l-progress-content'>
+			<Switch>
+				<Route path='/Progress/Goals/:id' render={() => (
+					<div>
+						{ heading(props.heading) }
+						<UpcomingGoals
+							targeGoalCategoryId={ props.targeGoalCategoryId }
+							goals={ props.goals.goals } // ADJUST AS NECESSARY
+						/>
+					</div>
+				)} />
+				<Route path='/Progress/Goals' render={() => (
+					<div>
+						{ heading(props.heading) }
+						<GoalCategories
+							goals={ props.goals }
+							changeGoalCategory = { (e, i, t) => props.changeGoalCategory(e, i, t) }
+							updateHeading={ (t) => props.updateHeading(t) }
+						/>
+					</div>
+				)} />
+				<Route path='/Progress' render={(props) => (
+					<Redirect to='/Progress/Goals' />
+				)} />
+			</Switch>
+		</div>
+	)
 }
 
-export default withRouter(Progress);
+export default Progress;
