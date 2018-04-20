@@ -67,10 +67,10 @@ class Messages extends React.Component {
                 }
                 time = conversation.lastMessage;
                 if (moment(time).calendar().startsWith('Today')) {
-                    if (moment(time).format('hh:mm').startsWith('0')) {
-                        time = moment(time).format('h:mm');
+                    if (moment(time).format('hh:mm A').startsWith('0')) {
+                        time = moment(time).format('h:mm A');
                     } else {
-                        time = moment(time).format('hh:mm');
+                        time = moment(time).format('hh:mm A');
                     }
                 } else if (moment(time).calendar().startsWith('Yesterday')) {
                     time = 'Yesterday';

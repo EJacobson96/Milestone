@@ -150,31 +150,42 @@ class NewMessage extends Component {
             }
         }
         var message = this.textInput.value;
-        Axios.post(
-            'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.props.user.id, 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
-                Message: {
-                    TextBody: message
-                },
-                Members: filteredUsers
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                this.props.history.push('/Network/Messages/Conversation/:id' + data.id);
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
+        if (this.state.newConversation && this.state.newConversation.length != 0) {
+            Axios.post(
+                'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.props.user.id, 
+                {
+                    headers: {
+                        'Authorization' : localStorage.getItem('Authorization')
+                    },
+                    Message: {
+                        TextBody: message
+                    },
+                    Members: filteredUsers
+                })
+                .then(response => {
+                    return response.data;
+                })
+                .then(data => {
+                    console.log(data);
+                    this.props.history.push('/Network/Messages/Conversation/:id' + data.id);
+                })
+                .catch(error => {
+                    console.log(error);
+                }
+            );
+        }
     }
 
-
+    clearInput(e) {
+        e.preventDefault();
+        var input = document.getElementById('newMessageSearch');
+        input.value = "";
+        this.setState({
+            existingConversationsList: [],
+            newConversation: [],
+            searchQuery: "",
+        });
+    }
 
     render() {
         var conversationList;
@@ -184,6 +195,7 @@ class NewMessage extends Component {
                 newConversation = <NewMessageThumbnail
                                     currUser = { this.state.currUser }
                                     members = {this.state.newConversation }
+                                    existing = { false }
                                   />
             }
 			conversationList = this.state.existingConversationsList.map((conversation) => {
@@ -194,6 +206,7 @@ class NewMessage extends Component {
                         key={ conversation.id }
                         members = { conversation.members }
                         currUser = { this.state.currUser }
+                        existing = { true }
 					/>
 				);
             });
@@ -206,7 +219,8 @@ class NewMessage extends Component {
                 />
                 <div className="c-new-message__search-wrapper">
                     <form className="[ form-inline ] c-new-message__search-form">
-                        <input id="newMessageSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search" onChange={(e) => this.handleChange(e)}/>
+                        <input id="newMessageSearch" className="form-control mr-sm-2" type="search" placeholder="Select a contact" aria-label="Search" onChange={(e) => this.handleChange(e)} disabled/>
+                        <Button className="btn btn-outline-success my-2 my-sm-0 c-new-message-button" onClick={(e) => this.clearInput(e)}>Clear</Button>
                         <Link 
                             to={{
                         	    pathname: '/Network/Messages/New/Contacts/' + this.state.searchQuery

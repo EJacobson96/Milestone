@@ -1,13 +1,16 @@
 .c-new-message__search-wrapper .c-new-message__search-form {
 	display: flex;
-	margin: .8em 1em .7em;
+	margin: .6em 1em;
 }
 
 .c-new-message-button {
-	margin: 0 .5em 0 .8em;
+	margin: 0 0 0 .5em;
 }
 
-.l-new-message:last-child{
-	border-top: 1px solid #9C9B9B;
+.l-new-message:last-child {
 	background-color: white;
+}
+
+.l-new-message:last-child .c-message-thumbnail {
+	border-bottom: 1px solid #9C9B9B;
 }

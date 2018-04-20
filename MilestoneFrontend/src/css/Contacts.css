@@ -11,13 +11,17 @@
 }
 
 /**  Components  **/
-.l-contacts:last-child{
-    border-top: 1px solid #9C9B9B;
+.l-contacts .c-contact-card-link-wrapper:last-child .c-contact-card {
+    border-bottom: 1px solid #9C9B9B;
+}
+
+.l-contacts .c-network-request-thumbnail-link-wrapper:last-child .c-network-request-thumbnail {
+    border-bottom: 1px solid #9C9B9B;
 }
 
 .c-contact-card {
     display: flex;
-    border-bottom: 1px solid #9C9B9B;
+    border-top: 1px solid #9C9B9B;
     align-items: center;
     padding: 1em 0 1em 0;
     background-color: white;

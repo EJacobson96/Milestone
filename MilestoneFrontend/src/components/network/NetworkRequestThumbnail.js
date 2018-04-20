@@ -41,7 +41,7 @@ class NetworkRequestThumbnail extends React.Component {
 						</p>
 					</div>
 					<div className='c-network-request-thumbnail__button-wrapper'>
-						<Button className='c-network-request-thumbnail__button'>See Request</Button>
+						<Button className='c-network-request-thumbnail__button'>View Request</Button>
 					</div>
 				</div>
 			</Link>
