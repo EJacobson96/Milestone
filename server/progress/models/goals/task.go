@@ -8,22 +8,23 @@ import (
 )
 
 type Task struct {
-	GoalID      bson.ObjectId
-	CreatorID   bson.ObjectId
-	Title       string
-	Description string
-	DueDate     time.Time
+	ID          bson.ObjectId `json:"id" bson:"_id"`
+	GoalID      bson.ObjectId `json:"goalID"`
+	CreatorID   bson.ObjectId `json:"creatorID"`
+	Title       string        `json:"title"`
+	Description string        `json:"description"`
+	DueDate     time.Time     `json:"dueDate"`
 	// Comments    []*Comments
 	// Resources   []*Resources
-	Active bool
+	Active bool `json:"active,omitempty"`
 }
 
 type NewTask struct {
-	GoalID      bson.ObjectId
-	CreatorID   bson.ObjectId
-	Title       string
-	Description string
-	DueDate     time.Time
+	GoalID      bson.ObjectId `json:"goalID"`
+	CreatorID   bson.ObjectId `json:"creatorID"`
+	Title       string        `json:"title"`
+	Description string        `json:"description"`
+	DueDate     time.Time     `json:"dueDate"`
 	// Comments    []*Comments
 	// Resources   []*Resources
 }
@@ -41,6 +42,7 @@ func (nt *NewTask) Validate() error {
 
 func (nt *NewTask) ToTask() *Task {
 	return &Task{
+		ID:          bson.NewObjectId(),
 		GoalID:      nt.GoalID,
 		CreatorID:   nt.CreatorID,
 		Title:       nt.Title,

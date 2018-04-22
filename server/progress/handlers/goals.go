@@ -23,7 +23,7 @@ func (c *HandlerContext) GoalHandler(w http.ResponseWriter, r *http.Request) {
 		filteredGoals = FilterGoals(goals, query)
 		err = json.NewEncoder(w).Encode(filteredGoals)
 		if err != nil {
-			http.Error(w, fmt.Sprintf("error encoding conversgoalsations to JSON: %v", err), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error encoding goals to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
 	case "POST":

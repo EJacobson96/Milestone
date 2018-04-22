@@ -8,22 +8,23 @@ import (
 )
 
 type Goal struct {
-	UserID   bson.ObjectId
-	Creator  bson.ObjectId
-	Title    string
-	Category string
-	Tasks    []*Task
-	DueDate  time.Time
-	Active   bool
+	ID       bson.ObjectId `json:"id" bson:"_id"`
+	UserID   bson.ObjectId `json:"userID"`
+	Creator  bson.ObjectId `json:"creator"`
+	Title    string        `json:"title"`
+	Category string        `json:"category"`
+	Tasks    []*Task       `json:"tasks"`
+	DueDate  time.Time     `json:"dueDate"`
+	Active   bool          `json:"active"`
 }
 
 type NewGoal struct {
-	UserID   bson.ObjectId
-	Creator  bson.ObjectId
-	Title    string
-	Category string
-	Tasks    []*Task
-	DueDate  time.Time
+	UserID   bson.ObjectId `json:"userID"`
+	Creator  bson.ObjectId `json:"creator"`
+	Title    string        `json:"title"`
+	Category string        `json:"category"`
+	Tasks    []*Task       `json:"tasks"`
+	DueDate  time.Time     `json:"dueDate"`
 }
 
 func (ng *NewGoal) Validate() error {
@@ -44,6 +45,7 @@ func (ng *NewGoal) Validate() error {
 
 func (ng *NewGoal) ToGoal() *Goal {
 	return &Goal{
+		ID:       bson.NewObjectId(),
 		UserID:   ng.UserID,
 		Creator:  ng.Creator,
 		Title:    ng.Title,
