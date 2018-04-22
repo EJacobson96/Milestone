@@ -16,7 +16,7 @@ import '../../css/progress/UpcomingGoals.css';
 
 const UpcomingGoals = (props) => {
 	let goals;
-	// console.log(props);
+	console.log(props);
 	if (props.targetGoalCategoryId) {
 		const targetGoalCategory = props.goals.filter(goal => goal.id == props.targetGoalCategoryId);
 		goals = targetGoalCategory[0].tasks.map((task) => { // ADJUST NAME WHEN NECESSARY

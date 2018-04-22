@@ -2,8 +2,9 @@
 /// Dev Notes
 
 import React, { Component } from 'react';
-import Axios from 'axios';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import moment from 'moment';
+import Axios from 'axios';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -34,6 +35,7 @@ class ProgressController extends Component {
             goalData: []
         };
 
+        this.addGoal = this.addGoal.bind(this);
         this.updateAndGetLocalStore = this.updateAndGetLocalStore.bind(this);
         this.getCurrentUser = this.getCurrentUser.bind(this);
     }
@@ -42,12 +44,43 @@ class ProgressController extends Component {
         this.getCurrentUser();
     }
 
+    addGoal(title, date, description, targetCategoryId) {
+        console.log(title);
+        console.log(description);
+        console.log(targetCategoryId);
+        let newTask = {
+            GoalID: targetCategoryId,
+            CreatorID: this.state.currUser.id,
+            Title: title,
+            Description: description
+        }
+        if (date) {
+            newTask["dueDate"] = date
+        }
+
+        Axios.post(
+            'https://milestoneapi.eric-jacobson.me/tasks',
+            newTask)
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                console.log(data);
+                this.getCurrentUser();
+                this.props.history.push('/Progress/Goals/:id' + targetCategoryId);
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );    
+    }
+
     changeGoalCategory(e, targetCategoryId, targetHeading) {
         console.log(targetCategoryId, targetHeading);
         this.setState({
             currentGoalCategoryId: targetCategoryId,
             heading: targetHeading,
-            addBtnLink: '/Progress/Goals/NewGoal/id:' + targetCategoryId
+            addBtnLink: '/Progress/Goals/NewGoal/:id' + targetCategoryId
         });
     }
 
@@ -67,6 +100,7 @@ class ProgressController extends Component {
                     currUser: data
                 });
                 
+                console.log(data.id);
                 this.getCurrentGoals(data.id);
             })
             .catch(error => {
@@ -127,6 +161,7 @@ class ProgressController extends Component {
             <Route path='/Progress' render={(props) => (
                 <div>
                     <Progress
+                        addGoal={ (t,dd,d,c) => this.addGoal(t,dd,d,c) }
                         changeGoalCategory = { (e, i, t) => this.changeGoalCategory(e, i, t) }
                         handleSearch={ (e) => this.handleSearch(e) }
                         switchFilter={ (e, t) => this.switchFilter(e, t) }

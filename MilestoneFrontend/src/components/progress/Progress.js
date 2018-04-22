@@ -20,7 +20,6 @@ import '../../css/progress/Progress.css';
 /// Code
 
 const Progress = (props) => {
-	console.log(props.addBtnLink);
 	const heading = (heading) => 	<ProgressHeading
 										heading = { heading }
 										handleSearch={ (e) => props.handleSearch(e) }
@@ -32,9 +31,12 @@ const Progress = (props) => {
 	return (
 		<div className='l-progress-content'>
 			<Switch>
-				<Route path='/Progress/Goals/NewGoal' render={() => (
+				<Route path='/Progress/Goals/NewGoal/:id' render={() => (
 					<div>
-						<NewGoal />
+						<NewGoal 
+							addGoal={ (t,dd,d,c) => { props.addGoal(t,dd,d,c) }}
+							targetGoalCategoryId = { props.targetGoalCategoryId }
+						/>
 					</div>
 				)} />
 				<Route path='/Progress/Goals/NewCategory' render={() => (
