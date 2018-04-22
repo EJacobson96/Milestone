@@ -21,6 +21,7 @@ const ProgressHeading = (props) => {
 			<div className='l-progress-content__head'>
 				<ProgressSearch
 					handleSearch={ (e) => props.handleSearch(e) }
+					addBtnLink={ props.addBtnLink }
 				/>
 				<h1 className="c-progress-header">{ props.heading }</h1>
 				<ProgressNav

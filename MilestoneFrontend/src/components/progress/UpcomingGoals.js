@@ -16,14 +16,15 @@ import '../../css/progress/UpcomingGoals.css';
 
 const UpcomingGoals = (props) => {
 	let goals;
-	if (props.targeGoalCategoryId) {
-		const targetGoalCategory = props.goals.filter(goal => goal.GoalID == props.targeGoalCategoryId);
-		goals = targetGoalCategory[0].Pebbles.map((pebble) => { // ADJUST NAME WHEN NECESSARY
+	// console.log(props);
+	if (props.targetGoalCategoryId) {
+		const targetGoalCategory = props.goals.filter(goal => goal.id == props.targetGoalCategoryId);
+		goals = targetGoalCategory[0].tasks.map((task) => { // ADJUST NAME WHEN NECESSARY
 			return (
 				<Goal
 					goalCategory={ targetGoalCategory[0] }
-					goal={ pebble } 
-					key={ pebble.TaskID } 
+					goal={ task } 
+					key={ task.id } 
 				/>
 			);
 		});
