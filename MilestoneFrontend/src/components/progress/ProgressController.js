@@ -10,7 +10,16 @@ import Axios from 'axios';
 /// Dev Notes
 
 	/*
-	 * 
+	 * //TODO: 
+     *      + A "No Results Found" message upon an empty search.
+     *      + A "No goals yet!" message upon opening a empty goal category.
+     *      + Any necessary adjustments for desktop components.
+     *      + Reformat UpcomingGoals.js to remove date on dateless goals and to match designs more closely.
+     *      + Three-dot dropdown menu on each goal w/ 'Delete', 'Rename' & 'Mark complete' [REQUIRES ROUTE]
+     *      + Comments. [REQUIRES ROUTE]
+     *      + Resources. [REQUIRES ROUTE]
+     *      + Implement attaching Service Providers to goals upon creation. [REQUIRES ROUTE]
+     *      + Two way goal approval. [REQUIRES ROUTE]
 	 */
 
 /////////////////////////////////////////
@@ -40,7 +49,8 @@ class ProgressController extends Component {
             currentNavFilter: msLocalStore.prog_CurrNavFilter,
             currentGoalCategoryId: null,
             addBtnLink: '/Progress/Goals/NewCategory',
-            goalData: []
+            goalData: [],
+            searchResults: []
         };
 
         this.addGoal = this.addGoal.bind(this);
@@ -123,7 +133,6 @@ class ProgressController extends Component {
                     currUser: data
                 });
                 
-                console.log(data.id);
                 this.getCurrentGoals(data.id);
             })
             .catch(error => {
@@ -146,7 +155,24 @@ class ProgressController extends Component {
     }
 
     handleSearch(e) {
-        console.log("Search fired");
+        e.preventDefault();
+        let input = document.getElementById('progressSearch');
+		let search = input.value;
+		input.value = '';
+
+        Axios.get(
+            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currUser.id + '&q=' + search,
+            { })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                this.setState({
+                    searchResults: data
+                });
+                console.log(data);
+                this.props.history.push('/Progress/Goals/Search?q=' + search);
+            });
     }
 
 	switchFilter(e, targetNavFilter) {
@@ -179,6 +205,7 @@ class ProgressController extends Component {
         const heading = this.state.heading;
         const targetNavFilter = this.state.currentNavFilter;
         const goals = this.state.goalData;
+        const searchResults = this.state.searchResults;
         const targetGoalCategoryId = this.state.currentGoalCategoryId; // Save me to localStorage!
 
         return (
@@ -196,6 +223,7 @@ class ProgressController extends Component {
                         goals={ goals }
                         heading={ heading }
                         navFilter={ targetNavFilter }
+                        searchResults={ searchResults }
                         targetGoalCategoryId = { targetGoalCategoryId }
                     />
                 </div>

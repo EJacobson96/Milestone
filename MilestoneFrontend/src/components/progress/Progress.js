@@ -38,6 +38,16 @@ const Progress = (props) => {
 	return (
 		<div className='l-progress-content'>
 			<Switch>
+				<Route path='/Progress/Goals/Search' render={() => (
+					<div>
+						{ heading('Search Results') }
+						<GoalCategories
+							goals={ props.searchResults }
+							refreshUser={() => props.refreshUser() }
+							changeGoalCategory = { (e, i, t) => props.changeGoalCategory(e, i, t) }
+						/>
+					</div>
+				)} />
 				<Route path='/Progress/Goals/NewGoal/:id' render={() => (
 					<div>
 						<NewGoal 
@@ -66,7 +76,7 @@ const Progress = (props) => {
 				)} />
 				<Route exact path='/Progress/Goals' render={() => (
 					<div>
-						{ heading('Goal Planning') }
+						{ heading('Goal Categories') }
 						<GoalCategories
 							goals={ props.goals }
 							refreshUser={() => props.refreshUser() }
