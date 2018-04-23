@@ -2,6 +2,7 @@
 /// Dev Notes
 
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -16,7 +17,6 @@ import '../../css/progress/UpcomingGoals.css';
 
 const UpcomingGoals = (props) => {
 	let goals;
-	console.log(props);
 	if (props.targetGoalCategoryId) {
 		const targetGoalCategory = props.goals.filter(goal => goal.id == props.targetGoalCategoryId);
 		goals = targetGoalCategory[0].tasks.map((task) => { // ADJUST NAME WHEN NECESSARY
@@ -29,7 +29,7 @@ const UpcomingGoals = (props) => {
 			);
 		});
 	} else {
-		goals = <h1>Oops! Go back.</h1>
+		goals = <Redirect to='/Progress/Goals' />
 	}
 
 	return (

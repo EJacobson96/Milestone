@@ -1,8 +1,15 @@
 /////////////////////////////////////////
-/// Dev Notes
+/// Package imports
 
 import React, { Component } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
+
+/////////////////////////////////////////
+/// Dev Notes
+
+	/*
+	 * 
+	 */
 
 /////////////////////////////////////////
 /// Standard Components
@@ -41,7 +48,11 @@ const Progress = (props) => {
 				)} />
 				<Route path='/Progress/Goals/NewCategory' render={() => (
 					<div>
-						<NewGoalCategory />
+						<NewGoalCategory 
+							currUser={ props.currUser }
+							refreshUser={() => props.refreshUser() }
+							addGoalCategory={ (o) => props.addGoalCategory(o) }
+						/>
 					</div>
 				)} />
 				<Route path='/Progress/Goals/:id' render={() => (
@@ -58,6 +69,7 @@ const Progress = (props) => {
 						{ heading('Goal Planning') }
 						<GoalCategories
 							goals={ props.goals }
+							refreshUser={() => props.refreshUser() }
 							changeGoalCategory = { (e, i, t) => props.changeGoalCategory(e, i, t) }
 						/>
 					</div>

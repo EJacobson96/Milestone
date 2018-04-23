@@ -1,4 +1,11 @@
 /////////////////////////////////////////
+/// Package imports
+
+import React, { Component } from 'react';
+import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+
+/////////////////////////////////////////
 /// Dev Notes
 
 	/*
@@ -6,11 +13,6 @@
 	 * pass it back to the controller. Other state should be kept to a
 	 * minimum.
 	 */
-
-import React, { Component } from 'react';
-import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
-
 
 /////////////////////////////////////////
 /// Standard Components
@@ -84,7 +86,7 @@ class NewGoal extends React.Component {
 									<Button className='c-new-goal-form__button--approve' onClick={ (e) => { this.props.addGoal(this.state.goalTitle, this.state.dueDate, this.state.goalDescription, catId) } }>
 										Save
 									</Button>
-									<Button className='c-new-goal-form__button--deny' onClick={ () => {  } }>
+									<Button className='c-new-goal-form__button--deny' onClick={ () => { this.props.history.push('/Progress/Goals/:id' + catId )} }>
 										Cancel
 									</Button>
 				              	</div>

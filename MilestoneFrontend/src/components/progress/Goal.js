@@ -16,7 +16,6 @@ import fakeuser from '../../img/fakeuser.png';
 /// Code
 
 const Goal = (props) => {
-	console.log(props);
 	return (
 		<div className='c-goal'>
 			<div className='c-goal__header'>

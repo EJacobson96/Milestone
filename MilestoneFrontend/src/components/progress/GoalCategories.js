@@ -1,8 +1,17 @@
 /////////////////////////////////////////
-/// Dev Notes
+/// Package imports
 
 import React, { Component } from 'react';
 import Axios from 'axios';
+
+/////////////////////////////////////////
+/// Dev Notes
+
+	/*
+	 * This component is a class only to be able to access lifecycle.
+     * _Please_ keep it stateless, and otherwise treat it as a 
+     * functional component.
+	 */
 
 /////////////////////////////////////////
 /// Standard Components
@@ -15,26 +24,36 @@ import '../../css/progress/GoalCategories.css';
 /////////////////////////////////////////
 /// Code
 
-const GoalCategories = (props) => {
-    // console.log(props.goals);
-    var goalCategories = props.goals.map((goal) => { // Change as necessary
+class GoalCategories extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+	componentWillMount() {
+		this.props.refreshUser();
+	}
+
+    render() {
+        const goalCategories = this.props.goals.map((goal) => {
+            return (
+                <GoalCategory
+                    title={ goal.title }
+                    status={ goal.active ? "Active" : "Finished" }
+                    numberOfGoals={ goal.tasks.length }
+                    id={ goal.id }
+                    key={ goal.id }
+                    changeGoalCategory = { (e, i, t) => this.props.changeGoalCategory(e, i, t) }
+                />
+            );
+        });
+        
         return (
-            <GoalCategory
-            title={ goal.title }
-            status={ goal.active ? "Active" : "Finished" }
-            numberOfGoals={ goal.tasks.length }
-            id={ goal.id }
-            key={ goal.id }
-            changeGoalCategory = { (e, i, t) => props.changeGoalCategory(e, i, t) }
-            />
-        );
-    });
-    
-    return (
-        <div className="c-goal-categories">
-            { goalCategories }
-        </div>
-    )
+            <div className="c-goal-categories">
+                { goalCategories }
+            </div>
+        )
+    }
 }
 
 export default GoalCategories;

@@ -15,7 +15,6 @@ import '../../css/progress/GoalCategory.css';
 /// Code
 
 const GoalCategory = (props) => {
-    console.log(props);
     const linkToGoalId = '/Progress/Goals/:id' + props.id;
     let numberOfGoals = props.numberOfGoals + ' Goal';
     if (props.numberOfGoals > 1) {
