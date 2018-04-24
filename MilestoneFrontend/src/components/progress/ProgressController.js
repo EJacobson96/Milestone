@@ -15,6 +15,7 @@ import Axios from 'axios';
      *      + A "No goals yet!" message upon opening a empty goal category.
      *      + Any necessary adjustments for desktop components.
      *      + Reformat UpcomingGoals.js to remove date on dateless goals and to match designs more closely.
+     *      + Implement In Progress vs. Completed.
      *      + Three-dot dropdown menu on each goal w/ 'Delete', 'Rename' & 'Mark complete' [REQUIRES ROUTE]
      *      + Comments. [REQUIRES ROUTE]
      *      + Resources. [REQUIRES ROUTE]

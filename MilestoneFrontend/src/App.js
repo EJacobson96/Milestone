@@ -22,8 +22,8 @@ class App extends Component {
         super(props);
     
         this.state = {
-			// userLoggedIn: false,
-			userLoggedIn: true,
+			userLoggedIn: false,
+			// userLoggedIn: true,
 			sideBarOpen: false,
 			navBarDisplay: false
 		};
