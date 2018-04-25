@@ -65,7 +65,7 @@ class Main extends Component {
             <Switch>
                 <Route path='/Network' render={(props) => (
                     <Network 
-                        // user={ this.state.userData }
+                    // user={ this.state.userData }
                     />
                 )} />
                 <Route path='/Calendar' render={(props) => (

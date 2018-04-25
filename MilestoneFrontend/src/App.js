@@ -17,6 +17,12 @@ import './css/App.css';
 /////////////////////////////////////////
 /// Code
 
+@connect((store) => {
+	return {
+		
+	}
+})
+
 class App extends Component {
 	constructor(props) {
         super(props);

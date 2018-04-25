@@ -81,8 +81,6 @@ class LoginForm extends Component {
                 return response.data;
             })
             .then(data => {
-                // console.log(data);
-                // console.log(typeof(data));
                 this.setState({
                     userData: data
                 });
