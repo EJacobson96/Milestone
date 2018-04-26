@@ -2,6 +2,7 @@
 /// Pre-baked Components
 import React from 'react';
 import { Glyphicon, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -35,10 +36,15 @@ class NavBar extends React.Component {
                     <Glyphicon glyph="menu-hamburger" />
                 </Button>
                 <div className="c-navbar__logo-wrapper">
-                    <div className="c-navbar-logo-container">
-                        <img src={ logo } className="c-navbar__logo-img" alt="Milestone Logo" />
-                    </div>
+                    <Link to="/Network">
+                        <div className="c-navbar-logo-container">
+                            <img src={ logo } className="c-navbar__logo-img" alt="Milestone Logo" />
+                        </div>
+                    </Link>
                 </div>
+                <Link to="/Notifications" className="c-navbar__btn">
+                    <Glyphicon glyph="bell" />
+                </Link>
                 <Button bsSize="lg" className="c-navbar__btn">
                     <Glyphicon glyph="user" />                
                 </Button>
