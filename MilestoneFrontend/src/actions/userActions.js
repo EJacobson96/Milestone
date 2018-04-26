@@ -1,4 +1,4 @@
-import axios from 'axios';
+import Axios from 'axios';
 
 export function fetchUser() {
     return function(dispatch) {

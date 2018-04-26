@@ -9,6 +9,9 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import { Redirect, Switch, Route } from 'react-router-dom';
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { fetchUser } from '../actions/userActions'
 
 /////////////////////////////////////////
 /// Standard Components
@@ -34,6 +37,10 @@ class Main extends Component {
     
     componentDidMount() {
         // this.getCurrentUser();
+        const { user, dispatch } = this.props;
+        
+        dispatch(fetchUser());
+        console.log(user);
     }
 
     // getCurrentUser() {
@@ -61,8 +68,13 @@ class Main extends Component {
 
     render() {
         let isLoggedIn = this.props.userLoggedIn;
+        // const { user, fetching, fetched } = this.props;
+        console.log(this.props);
         return isLoggedIn ? (
             <Switch>
+                {
+
+                }
                 <Route path='/Network' render={(props) => (
                     <Network 
                     // user={ this.state.userData }
@@ -86,5 +98,24 @@ class Main extends Component {
         );
     } 
 }
+
+// function mapStateToProps(state) {
+//     const { selectedSubreddit, postsBySubreddit } = state
+//     const {
+//       isFetching,
+//       lastUpdated,
+//       items: posts
+//     } = postsBySubreddit[selectedSubreddit] || {
+//       isFetching: true,
+//       items: []
+//     }
+
+//     return {
+//       selectedSubreddit,
+//       posts,
+//       isFetching,
+//       lastUpdated
+//     }
+//   }
   
-export default Main;
+export default connect()(Main);

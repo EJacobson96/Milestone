@@ -2,6 +2,8 @@
 /// Pre-baked Components & Packages
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux'
+import store from './store';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -16,12 +18,6 @@ import './css/App.css';
 
 /////////////////////////////////////////
 /// Code
-
-@connect((store) => {
-	return {
-		
-	}
-})
 
 class App extends Component {
 	constructor(props) {
@@ -92,9 +88,11 @@ class App extends Component {
 							/>
 						)} />
 						<Route path ='/' render={(props) => (
-							<Main 
-								userLoggedIn = { this.state.userLoggedIn }
-							/>
+							<Provider store={store}>
+								<Main 
+									userLoggedIn = { this.state.userLoggedIn }
+								/>
+							</Provider>
 						)} />
 					</Switch>
 				</div>

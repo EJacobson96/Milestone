@@ -32,7 +32,7 @@ export default function reducer(state={
             case "FETCH_USER_REJECTED": {
                 return {...state, fetching: false, error: action.payload}
             }
-            case "FETCH_USER": {
+            case "FETCH_USER_FULFILLED": {
                 return {
                     ...state, 
                     fetching: true, 
@@ -40,6 +40,8 @@ export default function reducer(state={
                     user: action.payload
                 }
             }
+            default: 
+                return state
         }
     return state
 }
