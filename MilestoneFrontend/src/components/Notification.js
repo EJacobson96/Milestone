@@ -24,11 +24,12 @@ class Notification extends React.Component {
     render() {
         var notifications;
         if (this.props.user) {
-            console.log(this.props.user.notifications);
+            var count = 0;
             notifications = this.props.user.notifications.map((notification) => {
                 var body;
                 var time;
                 var read;
+                count++;
                 switch (notification.contentType) {
                     case "new message":
                         body = 'Bob sent you a message: "' + notification.body + '"';
@@ -61,7 +62,7 @@ class Notification extends React.Component {
                         pathname: "",
                     }}
                     className='c-notification-card-link-wrapper' 
-                    key={notification.contentID}
+                    key={count}
                     >
                         <div className={"c-notification-card " + read}>
                             <div className="c-notification-user-avatar">
