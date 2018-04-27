@@ -28,9 +28,16 @@ class Notification extends React.Component {
             notifications = this.props.user.notifications.map((notification) => {
                 var body;
                 var time;
+                var read;
                 switch (notification.contentType) {
                     case "new message":
                         body = 'Bob sent you a message: "' + notification.body + '"';
+                }
+                switch (notification.read) {
+                    case true:
+                        read = "c-notification-card-read"
+                    case false: 
+                        read = "c-notification-card-not-read"
                 }
                 time = notification.timeSent;
                 if (moment(time).calendar().startsWith('Today')) {
@@ -56,7 +63,7 @@ class Notification extends React.Component {
                     className='c-notification-card-link-wrapper' 
                     key={notification.contentID}
                     >
-                        <div className="c-notification-card">
+                        <div className={"c-notification-card " + read}>
                             <div className="c-notification-user-avatar">
                                 <img src={fakeuser} alt="User Avatar" />
                             </div>
