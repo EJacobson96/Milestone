@@ -173,7 +173,7 @@ class MessageScreen extends React.Component {
         var conversation;
         var displayMembers;
         var displayMessages;
-        if (this.state.conversation) {
+        if (this.state.conversation && this.state.currUser) {
             conversation = this.state.conversation;
             for (var i = 0; i < conversation.members.length; i++) {
                 let memberLength = conversation.members.length;
@@ -213,7 +213,7 @@ class MessageScreen extends React.Component {
                 </div>
                 <FormGroup controlId="formControlsTextarea" className="c-messages-input-form">
                     <div className="input-group c-messages-input-group">
-                        <FormControl inputRef={input => this.textInput = input} componentClass="input" placeholder="Message..."/>
+                        <FormControl inputRef={input => this.textInput = input} componentClass="input" placeholder="Message..." className="messageInput"/>
                         <span className="input-group-addon" id="basic-addon1">
                             <Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleSubmit(e)} />
                         </span>

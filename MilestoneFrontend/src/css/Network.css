@@ -1,9 +1,16 @@
+.l-network-content .container {
+	display: flex;
+	flex-direction: column;
+	/* margin: auto; */
+}
+
 .l-network-content input {
 	flex: 1;
 }
 
 .l-network-content {
 	padding-top: 8vh;
+	align-self: flex-start;
 }
 
 .l-network-content .c-network-button {
@@ -20,4 +27,34 @@
 
 .plus {
 	margin: 0 .7em;
+}
+
+@media(max-width: 768px) {
+    .l-network-content .container {
+		margin: 0;
+		padding: 0;
+		height: 100vh;
+	}
+	.l-network-content {
+		flex: 1;
+	}
+}
+
+@media(min-width: 769px) {
+    .l-network-content .container {
+		margin: default;
+		padding: default;
+		height: 80vh;
+	}
+	.l-network-content {
+		flex: 1;
+	}
+	.topNav {
+		align-self: flex-start;
+		width: 30%;
+	}
+	
+	.messageConversation {
+		display: flex;
+	}
 }

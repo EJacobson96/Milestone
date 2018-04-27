@@ -1,12 +1,13 @@
 .c-messages-screen-header {
     margin: 0 auto;
-    padding: .7em 0;
-    font-size: 4vh;
+    padding: .5em 0;
+    font-size: 1.5em;
     font-weight: 400;
     text-overflow: ellipsis;
     overflow: hidden;
     width: 50%;
     white-space: nowrap;
+    text-align: center;
 }
 
 .c-messages-header-wrapper {
@@ -24,6 +25,7 @@
     overflow: scroll;
     padding-top: 11vh;
     padding-bottom: 3.5em;
+    width: 100%;
 }
 
 .c-messages-my-message {
@@ -33,7 +35,7 @@
     border-radius: 20px;
     padding: .5em 1em;
     font-weight: 300;
-    width: 67%;
+    display: inline-block;
     align-self: flex-end;
 }
 
@@ -63,4 +65,26 @@
     bottom: 0;
     width: 100%;
     margin: 0;
+}
+
+@media(min-width: 769px) {
+    .c-messages-screen-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 70%;
+        height: 65vh;
+        border-top: 1px solid #9C9B9B;
+    }
+    .c-messages-container {
+        padding-top: 0;
+    }
+    .c-messages-my-message {
+       display: inline-block;
+    }
+    .c-messages-input-form {
+        position: sticky;
+    }
+    .c-messages-header-wrapper {
+        position: sticky;
+    }
 }

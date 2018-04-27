@@ -2,10 +2,12 @@
 /// Pre-baked Components & Packages
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 
 /////////////////////////////////////////
 /// Standard Components
 import NavBar from './components/NavBar';
+import DesktopNav from './components/desktop/DesktopNav';
 import SideBar from './components/SideBar';
 import LoginForm from './components/login/LoginForm';
 import Main from './components/Main';
@@ -62,19 +64,27 @@ class App extends Component {
 		return (
 			<div className="App">
 				<div>
-					{
-						isLoggedIn &&
-						<NavBar 
-							openSideBar={(e) => this.toggleSideBar(e)}
-						/>
-					}
+				    <MediaQuery query="(min-device-width: 769px)">
+					    {
+							isLoggedIn &&
+							<DesktopNav />
+						}
+					</MediaQuery>
+					<MediaQuery query="(max-device-width: 768px)">
+						{
+							isLoggedIn &&
+							<NavBar 
+								openSideBar={(e) => this.toggleSideBar(e)}
+							/>
+						}
 
-					{
-						displaySideBar &&
-						<SideBar 
-							closeSideBar={(e) => this.toggleSideBar(e)}
-						/>
-					}
+						{
+							displaySideBar &&
+							<SideBar 
+								closeSideBar={(e) => this.toggleSideBar(e)}
+							/>
+						}
+					</MediaQuery>
 				</div>
 
 				<div className="l-main">
