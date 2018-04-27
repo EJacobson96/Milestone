@@ -57,6 +57,10 @@ type UpdateConnections struct {
 	Connections []*User `json:"connections"`
 }
 
+type UpdateNotifications struct {
+	Notifications []*notifications.Notification `json:"notifications"`
+}
+
 //NewUser represents a new user signing up for an account
 type NewUser struct {
 	Email         string          `json:"email"`

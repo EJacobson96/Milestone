@@ -7,8 +7,6 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/EJacobson96/Milestone/server/gateway/models/notifications"
-
 	"github.com/EJacobson96/Milestone/server/gateway/models/users"
 	"github.com/EJacobson96/Milestone/server/gateway/sessions"
 	"gopkg.in/mgo.v2/bson"
@@ -171,26 +169,27 @@ func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Req
 	// }
 	switch r.Method {
 	case "PATCH":
-		notification := &notifications.Notification{}
+		update := &users.UpdateNotifications{}
+		userID := r.URL.Query().Get("id")
 		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(notification)
+		err := decoder.Decode(update)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error decoding notification: %v", err), http.StatusInternalServerError)
 			return
 		}
-		notification, err = c.UsersStore.AddNotification(notification)
+		notificationsList, err := c.UsersStore.UpdateNotifications(update, bson.ObjectIdHex((userID)))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error adding notification: %v", err), http.StatusInternalServerError)
 		}
-		err = json.NewEncoder(w).Encode(notification)
+		err = json.NewEncoder(w).Encode(notificationsList)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding notification to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
 		notificationPayload := struct {
-			Payload *notifications.Notification `json:"payload"`
+			Payload *users.User `json:"payload"`
 		}{
-			notification,
+			notificationsList,
 		}
 		payload, jsonErr := json.Marshal(notificationPayload)
 		if jsonErr != nil {
