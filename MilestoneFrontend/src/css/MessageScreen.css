@@ -11,7 +11,7 @@
 }
 
 .c-messages-header-wrapper {
-    border-bottom: 2px solid #808080;
+    /* border-bottom: 2px solid #808080; */
     top: 8vh;
     position: fixed;
     background-color: #EBECED;
@@ -46,8 +46,7 @@
     border-radius: 50px;
     padding: .5em 1em;
     font-weight: 300;
-    flex-basis: 67%;
-    width: 67%;
+    display: inline-block;
     align-self: flex-start;
 }
 
@@ -72,8 +71,9 @@
         display: flex;
         flex-direction: column;
         flex-basis: 70%;
-        height: 65vh;
-        border-top: 1px solid #9C9B9B;
+        height: 73.5vh;
+        border-top: 1px solid #808080;
+        box-sizing: border-box;
     }
     .c-messages-container {
         padding-top: 0;
@@ -83,8 +83,17 @@
     }
     .c-messages-input-form {
         position: sticky;
+        border: 1px solid #808080;
+        border-top: none;
+        border-left: none;
     }
     .c-messages-header-wrapper {
         position: sticky;
+    }
+}
+
+@media(max-width: 768px) {
+    .c-messages-header-wrapper {
+        border-bottom: 2px solid #808080;
     }
 }

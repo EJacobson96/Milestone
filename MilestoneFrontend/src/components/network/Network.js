@@ -146,20 +146,17 @@ class Network extends Component {
 
     render() {
         var topNav = <div className="topNav">
-                        <NetworkNav
+                        <NetworkNav className="networkNav"
                             renderContacts={(e) => this.renderContacts(e)}
                             renderMessages={(e) => this.renderMessages(e)}
                         />
-                        <NetworkSearch 
+                        <NetworkSearch className="networkSearch"
                             contentType={this.state.contentType}
                             handleSearch={(e) => this.handleSearch(e)}
                         />
                     </div>;
-        var firstMessage;
-            if (this.state.messageContent.length > 0) {
-                firstMessage = this.state.messageContent[0];
-            }
-        if (this.state.currUser && this.state.messageContent) {
+        var firstMessage = [];
+        if (this.state.currUser) {
             return (
                 <div className="l-network-content">
                     <Switch>
@@ -179,7 +176,7 @@ class Network extends Component {
                             <MediaQuery query="(max-device-width: 768px)">
                               <MessageScreen />
                             </MediaQuery>
-                            <MediaQuery query="(min-device-width: 769px)">
+                            <MediaQuery query="(min-width: 769px)">
                               <div className="container">
                                 { topNav }
                                 <div className="messageConversation">
@@ -199,8 +196,9 @@ class Network extends Component {
                                     <Messages currUser={ this.state.currUser.id } content={ this.state.messageContent } />
                                 </div>
                             </MediaQuery>
-                            <MediaQuery query="(min-device-width: 769px)">
-                                <Redirect to={"/Network/Messages/Conversation/:id" + firstMessage.id}  />      
+                            <MediaQuery query="(min-width: 769px)">
+                            {console.log(this.state.messageContent.length > 0)}
+                                <Redirect to={"/Network/Messages/Conversation/:id" + (this.state.messageContent.length > 0 ? this.state.messageContent[0].id : '')}  />      
                             </MediaQuery>
                           </div>
                         )} />
@@ -219,14 +217,21 @@ class Network extends Component {
                             />
                         )} />
                         <Route exact path="/Network/Contacts" render={(props) => (
-                        <div>
-                            { topNav }
-                            <Contacts 
-                                showRequests={ true } 
-                                content={ this.state.contactsContent } 
-                                currUser={ this.state.currUser }
-                            />
-                        </div>
+                            <div>
+                                <MediaQuery query="(max-width: 768px)">
+                                    <div>
+                                        { topNav }
+                                        <Contacts 
+                                            showRequests={ true } 
+                                            content={ this.state.contactsContent } 
+                                            currUser={ this.state.currUser }
+                                        />
+                                    </div>
+                                </MediaQuery>
+                                <MediaQuery query="(min-width: 769px)">
+                                    <Redirect to={"/Network/Contacts/Profile/:id"} />
+                                </MediaQuery>
+                            </div>
                         )} />
                         <Route exact path="/Network" render={(props) => (
                             <Redirect to="/Network/Messages" />

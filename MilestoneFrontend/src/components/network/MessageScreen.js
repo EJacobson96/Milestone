@@ -21,8 +21,7 @@ class MessageScreen extends React.Component {
         };
     }
 
-    renderConversations() {
-        var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
+    renderConversations(id) {
         Axios.get(
             'https://milestoneapi.eric-jacobson.me/conversations/?id=' + id, 
             {
@@ -35,7 +34,34 @@ class MessageScreen extends React.Component {
             })
             .then(data => {
                 console.log(data);
-                this.getCurrentUser(data);
+                this.getCurrentUser(data, null);
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    }
+
+    getMessages(id, user) {
+        Axios.get(
+            'https://milestoneapi.eric-jacobson.me/conversations?id=' + id + '&q=',  
+            {
+                // headers: {
+                //     'Authorization' : localStorage.getItem('Authorization')
+                // }    
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                console.log(data);
+                if (data.length > 0) {
+                    console.log(data[0]);
+                    this.setState({
+                        currUser: user,
+                        conversation: data[0],
+                    })
+                }
             })
             .catch(error => {
                 console.log(error);
@@ -44,20 +70,45 @@ class MessageScreen extends React.Component {
     }
 
     componentDidMount() {
+        var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
+        if (id === "") {
+            this.getUser();
+        } 
         this.scrollToBottom();
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
             console.log(data.payload.contentType);
             if (data.payload.contentType === "new message") {
                 console.log(this.props);
-                this.renderConversations();
+                this.renderConversations(id);
             }
         }.bind(this));  
-        this.renderConversations();
+        this.renderConversations(id); 
+
     }
 
     componentDidUpdate() {
         this.scrollToBottom();
+    }
+
+    getUser() {
+        Axios.get(
+            'https://milestoneapi.eric-jacobson.me/users/me', 
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                }    
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                this.getMessages(data.id, data)
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
     }
 
     getCurrentUser(currConversation) {
@@ -173,7 +224,9 @@ class MessageScreen extends React.Component {
         var conversation;
         var displayMembers;
         var displayMessages;
+        console.log(this.state.conversation);
         if (this.state.conversation && this.state.currUser) {
+            console.log(this.state.conversation);
             conversation = this.state.conversation;
             for (var i = 0; i < conversation.members.length; i++) {
                 let memberLength = conversation.members.length;
@@ -199,6 +252,7 @@ class MessageScreen extends React.Component {
             });
             displayMessages = messages;
             displayMembers = <h3 className="c-messages-screen-header">{members}</h3>
+            console.log(displayMessages);
         }
         return (
             <div className="c-messages-screen-wrapper">
