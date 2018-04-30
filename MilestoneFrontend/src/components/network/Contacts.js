@@ -31,6 +31,8 @@ class Contacts extends React.Component {
         var requests;
         var displayConnectionsCount;
         var displayConnections;
+        var numRequests;
+        var displayRequests;
         if (this.props.content) {
             if(this.state.requests.length > 0) {
                 var count = 0;
@@ -39,12 +41,11 @@ class Contacts extends React.Component {
                         count++;
                     }
                 }
-                var numRequests = <span>, Requests ({ count })</span>
+                numRequests = <h4 className="c-contacts-count"> Requests ({ count })</h4>
             }
             if (!this.props.showContacts) { 
                 displayConnectionsCount = <h4 className="c-contacts-count">
                                             Contacts ({this.props.content.length})
-                                            { numRequests }
                                           </h4>;
             }
             if (this.props.showRequests) {
@@ -73,12 +74,16 @@ class Contacts extends React.Component {
                 );
             });
             displayConnections = <div className="l-contacts">
-                                    { requests }
                                     { connections }
                                  </div>
+            displayRequests = <div className="l-contacts"> 
+                                    {requests}
+                              </div>
         } 
         return (
             <div> 
+                {numRequests}
+                {displayRequests}
                 {displayConnectionsCount}
                 {displayConnections}
             </div>

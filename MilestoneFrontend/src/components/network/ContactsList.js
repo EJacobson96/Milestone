@@ -80,7 +80,7 @@ class ContactsList extends React.Component {
         return (
             <div>
                 <h3 className="c-contact-list-header">Contacts</h3>
-                <div>
+                <div className="l-contacts">
                     {contactList}
                 </div>
             </div>

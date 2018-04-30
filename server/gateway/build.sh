@@ -10,5 +10,10 @@ GOOS=linux go build
 docker build -t ejacobson96/messaging .
 docker push ejacobson96/messaging
 go clean
+cd ../progress
+GOOS=linux go build
+docker build -t ejacobson96/progress .
+docker push ejacobson96/progress
+go clean
 
 cd ../gateway

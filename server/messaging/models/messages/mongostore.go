@@ -93,32 +93,6 @@ func (s *MongoStore) InsertMessage(newMessage *NewMessage, userID bson.ObjectId)
 	return conversation, nil
 }
 
-//RemoveMemberFromConversation removes a member from a conversation
-func (s *MongoStore) RemoveMemberFromConversation(removeMember *Member, conversationID bson.ObjectId) ([]*Member, error) {
-	conversation := &Conversation{}
-	members := []*Member{}
-	col := s.session.DB(s.dbname).C(s.colname)
-	if err := col.FindId(conversationID).One(&conversation); err != nil {
-		return nil, fmt.Errorf("error finding conversation: %v", err)
-	}
-	checkMember := false
-	for _, member := range conversation.Members {
-		if member.ID == removeMember.ID {
-			checkMember = true
-		} else {
-			members = append(members, member)
-		}
-	}
-	if !checkMember {
-		return nil, errors.New("member is not part of conversation")
-	}
-	conversation.Members = members
-	if err := col.UpdateId(conversation.ID, conversation); err != nil {
-		return nil, fmt.Errorf("error inserting new message: %v", err)
-	}
-	return conversation.Members, nil
-}
-
 //InsertConversation inserts a new conversation into the database and returns it
 func (s *MongoStore) InsertConversation(newConversation *NewConversation, userID bson.ObjectId) (*Conversation, error) {
 	conversationID := bson.NewObjectId()
