@@ -67,3 +67,19 @@
         color: black;
 }
     
+@media(min-width: 769px) {
+    .contacts {
+        flex-basis: 30%;
+        height: 73.5vh;
+        overflow: scroll;
+        background-color: white;
+        border: 1px solid #9C9B9B;
+    }
+    .c-contact-card {
+        display: flex;
+        border-top: 1px solid #9C9B9B;
+        align-items: center;
+        padding: 1em 0 1em 0;
+        background-color: white;
+    }
+}

@@ -58,7 +58,9 @@
 		width: 30%;
 	}
 	
-	.messageConversation {
+	.messageConversation, .desktopContacts, .connectContacts, .contactsNewMessage {
 		display: flex;
+		width: 100%;
+		margin: auto;
 	}
 }

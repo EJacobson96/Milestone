@@ -36,6 +36,7 @@ class NewMessage extends Component {
 	componentDidMount() {
         var searchQuery = this.props.location.pathname;
         searchQuery = searchQuery.substring(22, searchQuery.length)
+        console.log(searchQuery);
         var newSearchQuery = this.appendToSearch(searchQuery);
         this.displayConversations(searchQuery);
         this.setState({
@@ -46,7 +47,18 @@ class NewMessage extends Component {
     }
 
     componentWillReceiveProps() {
+        var searchQuery = this.props.location.pathname;
+        searchQuery = searchQuery.substring(22, searchQuery.length)
+        console.log(searchQuery);
+        var newSearchQuery = this.appendToSearch(searchQuery);
+        this.displayConversations(searchQuery);
+        this.setState({
+            connections: this.props.user.connections,
+            messageContent: this.props.messageContent,
+            searchQuery: searchQuery
+        });
     }
+
     
     appendToSearch(search) {
         var input = document.getElementById('newMessageSearch');
@@ -184,6 +196,10 @@ class NewMessage extends Component {
             existingConversationsList: [],
             newConversation: [],
             searchQuery: "",
+        }, () => {
+            console.log(this.props)
+            this.props.history.push('/Network/Messages/New/');
+            this.props.location.pathname = '/Network/Messages/New/';
         });
     }
 
@@ -226,10 +242,13 @@ class NewMessage extends Component {
                         	    pathname: '/Network/Messages/New/Contacts/' + this.state.searchQuery
                             }}
                             user={this.state.currUser}
-                        >
-                            <Button className="btn btn-outline-success my-2 my-sm-0 c-new-message-button">
-                                <Glyphicon glyph="plus" /> 
-                            </Button>
+                        > 
+                            {
+                                !this.props.isDesktop &&
+                                <Button className="btn btn-outline-success my-2 my-sm-0 c-new-message-button">
+                                    <Glyphicon glyph="plus" /> 
+                                </Button>
+                            }
                         </Link>
                     </form>
                 </div>

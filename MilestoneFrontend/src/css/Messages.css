@@ -95,7 +95,7 @@
         text-align: center;
     }
     .selectedMessage {
-        background-color: rgba(0, 0, 255, .25);
+        background-color: rgba(200, 200, 200, .6);
     }
     .c-message-count-border {
         border-bottom: none;
