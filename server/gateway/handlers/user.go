@@ -222,12 +222,12 @@ func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request)
 		}
 		requestsList, err := c.UsersStore.UpdateRequests(update, bson.ObjectIdHex(userID))
 		if err != nil {
-			http.Error(w, fmt.Sprintf("error adding request: %v", err), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error updating request: %v", err), http.StatusInternalServerError)
 			return
 		}
 		err = json.NewEncoder(w).Encode(requestsList)
 		if err != nil {
-			http.Error(w, fmt.Sprintf("error encoding notification to JSON: %v", err), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("error encoding request to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
 		requestPayload := struct {

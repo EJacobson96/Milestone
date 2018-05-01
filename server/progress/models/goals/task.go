@@ -14,9 +14,10 @@ type Task struct {
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
 	DueDate     time.Time     `json:"dueDate"`
-	// Comments    []*Comments
-	// Resources   []*Resources
-	Active bool `json:"active,omitempty"`
+	Active      bool          `json:"active"`
+	Completed   bool          `json:"completed"`
+	Comments    []*Comment    `json:"comments"`
+	Resources   []*Resource   `json:"resources"`
 }
 
 type NewTask struct {
@@ -25,8 +26,19 @@ type NewTask struct {
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
 	DueDate     time.Time     `json:"dueDate"`
-	// Comments    []*Comments
-	// Resources   []*Resources
+	Comments    []*Comment    `json:"comments"`
+	Resources   []*Resource   `json:"resources"`
+}
+
+type Comment struct {
+	Creator   bson.ObjectId `json:"creator"`
+	TextBody  string        `json:"textBody"`
+	CreatedAt time.Time     `json:"createdAt"`
+}
+
+type Resource struct {
+	Title string `json:"title"`
+	URL   string `json:"url"`
 }
 
 func (nt *NewTask) Validate() error {
@@ -49,5 +61,8 @@ func (nt *NewTask) ToTask() *Task {
 		Description: nt.Description,
 		DueDate:     nt.DueDate,
 		Active:      true,
+		Completed:   false,
+		Comments:    nt.Comments,
+		Resources:   nt.Resources,
 	}
 }
