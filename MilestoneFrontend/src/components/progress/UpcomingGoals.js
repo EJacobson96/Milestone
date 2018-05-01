@@ -16,8 +16,13 @@ import '../../css/progress/UpcomingGoals.css';
 /// Code
 
 const UpcomingGoals = (props) => {
+	props.goals.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate));
+	let goalsWithSortedTasks = props.goals.map((goal) => {
+		 return goal.tasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
+	});
+	console.log(props.goals);
 	let goals;
-	if (props.targetGoalCategoryId) {
+	if (props.targetGoalCategoryId) { // add else to get id from path
 		const targetGoalCategory = props.goals.filter(goal => goal.id == props.targetGoalCategoryId);
 		goals = targetGoalCategory[0].tasks.map((task) => { // ADJUST NAME WHEN NECESSARY
 			return (

@@ -1,16 +1,18 @@
 .c-goal {
-	min-height: 150px;
-	background-color: #EFF0F3;
-	margin-bottom: 10px;
-	/* border-radius: 3px; */
+	min-height: 125px;
+	background-color: white;
+	margin-bottom: 20px;
+	border-radius: 8px;
+	/* background-color: #EFF0F3; */
 	/* box-shadow: 3px 3px lightgray; */
 }
 
 .c-goal__header {
 	position: relative;
-	height: 25px;
-	background-color: white;
-	/* border-radius: 3px 3px 0 0; */
+	height: 30px;
+	background-color: #FD776C;
+	border-radius: 8px 8px 0 0;
+	/* background-color: white; */
 	/* border-top: .5px solid gray; */
 	/* border-right: .5px solid gray; */
 	/* border-left: .5px solid gray; */
@@ -21,26 +23,29 @@
 	display: inline-block;
 	border-radius: 50%;
 	left: 16px;
-	/* left: 5%; */
 	top: 50%; 
 	margin-left: -9px;
 	margin-top: -9px;
 	position: absolute;
+	/* left: 5%; */
 }
-
+/* 
 .c-goal__due-date::before {
 	content: "GOAL ";
 	color: black;
-}
+} */
 
 .c-goal__due-date {
+	font-size: 0.9em;
+	font-weight: 400;
+	color: white;	
 	margin-left: 30px;
-	line-height: 25px;
-	color: #98989C;
+	line-height: 30px;
+	/* color: #98989C; */
 }
 
 .c-goal__body {
-	min-height: 100px;
+	min-height: 60px;
 }
 
 .c-goal__category-title-block {
@@ -54,29 +59,68 @@
 .c-goal__category-title {
 	color: white;
 	font-size: 1em;
+	line-height: 30px;
 	font-weight: 300;
-	margin-left: 10px;
+	margin-left: 30px;
 	padding-right: 10px;
 }
 
 .c-goal__title {
-	margin-top: 15px;
-	margin-left: 30px;
-	font-weight: 300;
-	font-size: 1.2em;
+	padding-top: 15px;
+	margin-bottom: 0px;
+	text-align: center;
+	font-weight: 500;
+	font-size: 1.1em;
+	/* margin-left: 15px; */
 }
 
 .c-goal__description {
 	color: gray;
 	font-weight: 300;
-	font-size: 0.8em;
+	font-size: 0.75em;
 	margin-top: 10px;
-	margin-left: 30px;
+	margin-left: 15px;
 }
 
 .c-goal__footer {
-	height: 25px;
+	height: 35px;
 	background-color: white;
-	/* border-radius: 0 0 3px 3px; */
+	border-radius: 0 0 8px 8px;
+	border-top: .5px solid lightgray;
 	/* border-right: .5px solid gray; */
+}
+
+.c-goal__footer__comments-link {
+	display: inline-block;
+	margin-top: 5px;
+	margin-left: 15px;
+	height: 20px;
+	width: auto;
+}
+
+.c-goal__footer__comments-link-text {
+	color: #5B6471;
+	font-size: 0.8em;
+	line-height: 20px;
+	padding-left: 5px;
+}
+
+.c-goal__footer__comments-link-icon {
+	height: 15px;
+}
+
+.c-goal__footer__resources-link {
+	float: right;
+	margin-top: 5px;
+	margin-right: 15px;
+	height: 20px;
+	width: auto;
+	/* background-color: blue; */
+}
+
+.c-goal__footer__resources-link-text {
+	color: #5B6471;
+	font-size: 0.8em;
+	line-height: 20px;
+	/* padding-right: 5px; */
 }
