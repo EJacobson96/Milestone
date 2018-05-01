@@ -3,9 +3,7 @@ package users
 import (
 	"errors"
 	"fmt"
-	"time"
 
-	"github.com/EJacobson96/Milestone/server/gateway/models/notifications"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -110,34 +108,24 @@ func (s *MongoStore) UpdateConnections(userID bson.ObjectId, update *UpdateConne
 	return user, nil
 }
 
-func (s *MongoStore) AddNotification(notification *notifications.Notification) (*notifications.Notification, error) {
-	newNotification := notification
-	newNotification.TimeSent = time.Now()
-	col := s.session.DB(s.dbname).C(s.colname)
-	for _, userID := range notification.Users {
-		user := &User{}
-		err := col.FindId(userID).One(&user)
-		if err != nil {
-			return nil, fmt.Errorf("error finding user: %v", err)
-		}
-		user.Notifications = append(user.Notifications, newNotification)
-		_, err = col.UpsertId(userID, bson.M{"$addToSet": bson.M{"notifications": newNotification}})
-		if err != nil {
-			return nil, fmt.Errorf("error inserting new notification: %v", err)
-		}
+func (s *MongoStore) UpdateNotifications(update *UpdateNotifications, userID bson.ObjectId) (*User, error) {
+	user := &User{}
+	change := mgo.Change{
+		Update: bson.M{"$set": update},
 	}
-	return newNotification, nil
+	col := s.session.DB(s.dbname).C(s.colname)
+	_, err := col.FindId(userID).Apply(change, &User{})
+	if err != nil {
+		return nil, fmt.Errorf("error updating user: %v", err)
+	}
+	err = col.FindId(userID).One(&user)
+	if err != nil {
+		return nil, fmt.Errorf("error finding user: %v", err)
+	}
+	return user, nil
 }
 
 func (s *MongoStore) UpdateRequests(update *UpdateRequests, userID bson.ObjectId) (*User, error) {
-	// newRequest := update.PendingRequests[len(update.PendingRequests)-1]
-	// newRequest.TimeSent = time.Now()
-	// update.PendingRequests[len(update.PendingRequests)-1] = newRequest
-
-	// _, err := col.UpsertId(userID, bson.M{"$set": bson.M{"pendingRequests": update.PendingRequests}})
-	// if err != nil {
-	// 	return nil, fmt.Errorf("error inserting new request: %v", err)
-	// }
 	user := &User{}
 	change := mgo.Change{
 		Update: bson.M{"$set": update},
