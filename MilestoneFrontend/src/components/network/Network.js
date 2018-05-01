@@ -118,12 +118,15 @@ class Network extends Component {
                         <Route path='/Network/Messages/New/Contacts' render={(props) => (
                             <ContactsList
                                 user={this.state.currUser}
+                                userController = { this.props.userController }
                             />
                         )} />
                         <Route path='/Network/Messages/New/' render={(props) => (
                             <NewMessage
-                                messageContent={this.state.messageContent}
-                                user={this.state.currUser}
+                                messageContent={ this.state.messageContent }
+                                user={ this.state.currUser }
+                                userController = { this.props.userController }
+                                messageController = { this.props.messageController }
                             />
                         )} />
                         <Route exact path='/Network/Messages/Conversation/:id' render={(props) => (
@@ -141,7 +144,9 @@ class Network extends Component {
                             />
                         )} />
                         <Route exact path='/Network/Contacts/Profile/:id' render={(props) => (
-                            <ContactCard />
+                            <ContactCard 
+                                userController = { this.props.userController }
+                            />
                         )} />
                         <Route exact path="/Network/Contacts/Connect" render={(props) => (
                             <NetworkConnect

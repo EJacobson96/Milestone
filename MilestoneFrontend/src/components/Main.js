@@ -7,7 +7,6 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React, { Component } from 'react';
-import Axios from 'axios';
 import { Redirect, Switch, Route } from 'react-router-dom';
 
 /////////////////////////////////////////
@@ -23,9 +22,6 @@ import '../css/LoginForm.css';
 /// Code
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return this.props.userLoggedIn ? (

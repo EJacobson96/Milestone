@@ -9,19 +9,11 @@ import NetworkRequestThumbnail from './NetworkRequestThumbnail';
 /////////////////////////////////////////
 /// Images & Styles
 import '../../css/Contacts.css';
-import fakeRequests from '../testdata/fakerequests.json';
 
 /////////////////////////////////////////
 /// Code
 
 class Contacts extends React.Component {
-    constructor(props) {
-        super(props);
-    
-    }
-
-    componentDidMount() {
-    }
 
     render() {
         var connections, 

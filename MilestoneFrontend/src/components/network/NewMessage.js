@@ -2,16 +2,13 @@
 /// Dev Notes
 
 import React, { Component } from 'react';
-import Axios from 'axios';
 import { withRouter, Link } from 'react-router-dom';
 import { FormControl, FormGroup, Glyphicon, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Standard Components
 
-import ContactsList from './ContactsList';
 import NewMessageThumbnail from './NewMessageThumbnail';
-import ContactThumbnail from './ContactThumbnail';
 import HeaderBar from '../ux/HeaderBar';
 
 /////////////////////////////////////////
@@ -45,9 +42,6 @@ class NewMessage extends Component {
         });
     }
 
-    componentWillReceiveProps() {
-    }
-    
     appendToSearch(search) {
         var input = document.getElementById('newMessageSearch');
         var searchQuery = search.trim().split(" ");
@@ -56,11 +50,11 @@ class NewMessage extends Component {
             for (var i = 0; i < searchQuery.length; i++) {
                 var userFullName;
                 for (var j = 0; j < this.props.user.connections.length; j++) {
-                    if (this.props.user.connections[j].id == searchQuery[i].trim()) {
+                    if (this.props.user.connections[j].id === searchQuery[i].trim()) {
                         userFullName = this.props.user.connections[j].fullName;
                     }
                 }
-                if (i == 0) {
+                if (i === 0) {
                     newSearchQuery += userFullName;
                 } else {
                     newSearchQuery += ", " + userFullName;
@@ -74,7 +68,6 @@ class NewMessage extends Component {
     }
 
     displayConversations(search) {
-        var input = document.getElementById('newMessageSearch');
         var names = search.trim().split(" ");
         var filteredConversations = [];
         var conversations = this.props.messageContent;
@@ -84,33 +77,33 @@ class NewMessage extends Component {
             for (var i = 0; i < conversations.length; i++) {
                 for (var j = 0; j < names.length; j++) {
                     for (var k = 0; k < conversations[i].members.length; k++) {
-                        if (conversations[i].members[k].id == names[j] && j == names.length - 1) {
+                        if (conversations[i].members[k].id === names[j] && j === names.length - 1) {
                             if (names.length === conversations[i].members.length - 1) {
                                 existingConversation = true;
                             }
                             filteredConversations.push(conversations[i]);
                             k = conversations[i].members.length;
-                        } else if (conversations[i].members[k].id == names[j]) {
+                        } else if (conversations[i].members[k].id === names[j]) {
                             k = conversations[i].members.length;
-                        } else if (k == conversations[i].members.length - 1) {
+                        } else if (k === conversations[i].members.length - 1) {
                             j = names.length;
                         }
                     }    
                 }
             }
         }
-        if (!existingConversation && names[0] != "" && this.props.user.connections) {
+        if (!existingConversation && names[0] !== "" && this.props.user.connections) {
             for (var i = 0; i < names.length; i++) {
                 for (var j = 0; j < this.props.user.connections.length; j++) {
                     var connections = this.props.user.connections;
-                    if (connections[j].id == names[i].trim() && names[i] !== "") {
+                    if (connections[j].id === names[i].trim() && names[i] !== "") {
                         var addConnection = {
                             id: connections[j].id,
                             fullName: connections[j].fullName
                         }
                         newMembers.push(addConnection);
                         j = connections.length;
-                    } else if (j == connections.length - 1) {
+                    } else if (j === connections.length - 1) {
                         newMembers = [];
                         i = names.length;
                     }
@@ -133,16 +126,16 @@ class NewMessage extends Component {
         })
         for (var i = 0; i < users.length; i++) {
             for (var j = i + 1; j < users.length; j++) {
-                if (users[i].id == users[j].id) {
+                if (users[i].id === users[j].id) {
                     j = users.length;
-                } else if (j == users.length - 1) {
+                } else if (j === users.length - 1) {
                     filteredUsers.push({
                         ID: users[i].id,
                         FullName: users[i].fullName
                     });
                 }
             }
-            if (i == users.length - 1) {
+            if (i === users.length - 1) {
                 filteredUsers.push({
                     ID: users[i].id,
                     FullName: users[i].fullName
@@ -150,29 +143,11 @@ class NewMessage extends Component {
             }
         }
         var message = this.textInput.value;
-        if (this.state.newConversation && this.state.newConversation.length != 0) {
-            Axios.post(
-                'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.props.user.id, 
-                {
-                    headers: {
-                        'Authorization' : localStorage.getItem('Authorization')
-                    },
-                    Message: {
-                        TextBody: message
-                    },
-                    Members: filteredUsers
-                })
-                .then(response => {
-                    return response.data;
-                })
+        if (this.state.newConversation && this.state.newConversation.length !== 0) {
+            this.props.messageController.postConversation(this.props.user.id, message, filteredUsers)
                 .then(data => {
-                    console.log(data);
                     this.props.history.push('/Network/Messages/Conversation/:id' + data.id);
                 })
-                .catch(error => {
-                    console.log(error);
-                }
-            );
         }
     }
 

@@ -16,32 +16,15 @@ import fakeuser from '../../img/fakeuser.png';
 class ContactsList extends React.Component {
     constructor(props) {
         super(props);
-    
-        this.state = {
-            value: ''
-        };
     }
 
     componentDidMount() {
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/connections?&id=' + this.props.user.id, 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.setState({
-                    contacts: data
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
+        this.props.userController.getUserConnections('', this.props.user.id)
+        .then(data => {
+            this.setState({
+                contacts: data
+            });
+        })
     }
 
     getQuery() {
@@ -52,7 +35,7 @@ class ContactsList extends React.Component {
 
     render() {
         var contactList;
-        if (this.state.contacts) {
+        if (this.state && this.state.contacts) {
             contactList = this.state.contacts.map((contact) => {
                 var query =  this.getQuery();
                 return (

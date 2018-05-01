@@ -14,9 +14,6 @@ import '../../css/Contacts.css';
 class ContactThumbnail extends React.Component {
     constructor(props) {
         super(props);
-    
-        this.state = {
-        };
     }
 
     render() {
