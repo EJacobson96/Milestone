@@ -128,8 +128,9 @@ func main() {
 	// mux.Handle("/search/conversations", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles searching through conversations
 
 	//progress microservice
-	mux.Handle("/goals", NewServiceProxy(splitGoalsSvcAddrs, context))
-	mux.Handle("/tasks", NewServiceProxy(splitGoalsSvcAddrs, context))
+	mux.Handle("/goals", NewServiceProxy(splitGoalsSvcAddrs, context))  //handles getting goals, inserting goals, updating and deleting goals
+	mux.Handle("/goals/", NewServiceProxy(splitGoalsSvcAddrs, context)) //handles getting a specific goal
+	// mux.Handle("/tasks", NewServiceProxy(splitGoalsSvcAddrs, context))
 
 	corsMux := handlers.NewCORSHandler(mux)
 

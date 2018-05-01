@@ -8,29 +8,36 @@ import (
 )
 
 type Goal struct {
-	ID       bson.ObjectId `json:"id" bson:"_id"`
-	UserID   bson.ObjectId `json:"userID"`
-	Creator  bson.ObjectId `json:"creator"`
-	Title    string        `json:"title"`
-	Category string        `json:"category"`
-	Tasks    []*Task       `json:"tasks"`
-	DueDate  time.Time     `json:"dueDate"`
-	Active   bool          `json:"active"`
+	ID               bson.ObjectId   `json:"id" bson:"_id"`
+	UserID           bson.ObjectId   `json:"userID"`
+	Creator          bson.ObjectId   `json:"creator"`
+	ServiceProviders []bson.ObjectId `json:"serviceProviders"`
+	Title            string          `json:"title"`
+	Category         string          `json:"category"`
+	Tasks            []*Task         `json:"tasks"`
+	DueDate          time.Time       `json:"dueDate"`
+	Active           bool            `json:"active"`
 }
 
 type NewGoal struct {
-	UserID   bson.ObjectId `json:"userID"`
-	Creator  bson.ObjectId `json:"creator"`
-	Title    string        `json:"title"`
-	Category string        `json:"category"`
-	Tasks    []*Task       `json:"tasks"`
-	DueDate  time.Time     `json:"dueDate"`
+	UserID           bson.ObjectId   `json:"userID"`
+	Creator          bson.ObjectId   `json:"creator"`
+	ServiceProviders []bson.ObjectId `json:"serviceProviders"`
+	Title            string          `json:"title"`
+	Category         string          `json:"category"`
+	Tasks            []*Task         `json:"tasks"`
+	DueDate          time.Time       `json:"dueDate"`
+}
+
+type UpdateGoal struct {
+	Title    string    `json:"title"`
+	Category string    `json:"category"`
+	Tasks    []*Task   `json:"tasks"`
+	DueDate  time.Time `json:"dueDate"`
+	Active   bool      `json:"active"`
 }
 
 func (ng *NewGoal) Validate() error {
-	// if len(ng.Tasks) == 0 {
-	// 	return errors.New("Error: no tasks created")
-	// }
 	if len(ng.UserID) == 0 {
 		return errors.New("Error: no user found")
 	} else if len(ng.Creator) == 0 {
@@ -45,13 +52,13 @@ func (ng *NewGoal) Validate() error {
 
 func (ng *NewGoal) ToGoal() *Goal {
 	return &Goal{
-		ID:       bson.NewObjectId(),
-		UserID:   ng.UserID,
-		Creator:  ng.Creator,
-		Title:    ng.Title,
-		Category: ng.Category,
-		// Tasks:    ng.Tasks,
-		DueDate: ng.DueDate,
-		Active:  true,
+		ID:               bson.NewObjectId(),
+		UserID:           ng.UserID,
+		Creator:          ng.Creator,
+		ServiceProviders: ng.ServiceProviders,
+		Title:            ng.Title,
+		Category:         ng.Category,
+		DueDate:          ng.DueDate,
+		Active:           true,
 	}
 }
