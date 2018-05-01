@@ -16,36 +16,7 @@ import '../../css/Messages.css';
 class Messages extends React.Component {
     constructor(props) {
         super(props);
-    
-        this.state = {
-            value: ''
-        };
-    }
 
-    componentDidMount() {
-        this.getCurrentUser();
-    }
-
-    getCurrentUser(currConversation) {
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/users/me', 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.setState({
-                    currUser: data,
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
     }
 
     render() {
@@ -53,15 +24,15 @@ class Messages extends React.Component {
         var displayConversations;
         var messagesCount;
         var time;
-        if (this.props.content && this.state.currUser) {
+        if (this.props.content && this.props.currUser) {
             messagesCount = <h4 className="c-messages-count">Messages ({this.props.content.length})</h4>;
             conversations = this.props.content.map((conversation) => {
                 var members = "";
                 for (let i = 0; i < conversation.members.length; i++) {
                     let memberLength = conversation.members.length;
-                    if (conversation.members[i].id != this.state.currUser.id && members != "") {
+                    if (conversation.members[i].id != this.props.currUser.id && members != "") {
                         members += ", " + conversation.members[i].fullName;
-                    } else if (conversation.members[i].id != this.state.currUser.id) {
+                    } else if (conversation.members[i].id != this.props.currUser.id) {
                         members += conversation.members[i].fullName;
                     }
                 }

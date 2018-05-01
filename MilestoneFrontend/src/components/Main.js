@@ -25,47 +25,15 @@ import '../css/LoginForm.css';
 class Main extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            userLoggedIn: this.props.isLoggedIn
-        };
-
-        // this.getCurrentUser = this.getCurrentUser.bind(this);
     }
-    
-    componentDidMount() {
-        // this.getCurrentUser();
-    }
-
-    // getCurrentUser() {
-    //     Axios.get(
-    //         'https://milestoneapi.eric-jacobson.me/users/me', 
-    //         {
-    //             headers: {
-    //                 'Authorization' : localStorage.getItem('Authorization')
-    //             }    
-    //         })
-    //         .then(response => {
-    //             return response.data;
-    //         })
-    //         .then(data => {
-    //             console.log(data);
-    //             this.setState({
-    //                 userData: data
-    //             });
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         }
-    //     );
-    // }
 
     render() {
-        let isLoggedIn = this.props.userLoggedIn;
-        return isLoggedIn ? (
+        return this.props.userLoggedIn ? (
             <Switch>
                 <Route path='/Network' render={(props) => (
                     <Network 
-                        // user={ this.state.userData }
+                        messageController = { this.props.messageController }
+                        userController = { this.props.userController }
                     />
                 )} />
                 <Route path='/Calendar' render={(props) => (

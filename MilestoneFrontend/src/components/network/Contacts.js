@@ -18,26 +18,23 @@ class Contacts extends React.Component {
     constructor(props) {
         super(props);
     
-        this.state = {
-            requests: this.props.currUser.pendingRequests
-        };
     }
 
     componentDidMount() {
     }
 
     render() {
-        var connections;
-        var requests;
-        var displayConnectionsCount;
-        var displayConnections;
-        var numRequests;
-        var displayRequests;
+        var connections, 
+            requests, 
+            displayConnectionsCount, 
+            displayConnections, 
+            numRequests, 
+            displayRequests;
         if (this.props.content) {
-            if(this.state.requests.length > 0) {
+            if(this.props.currUser.pendingRequests.length > 0) {
                 var count = 0;
-                for (let i = 0; i < this.state.requests.length; i++) {
-                    if (this.state.requests[i].type === "received") {
+                for (let i = 0; i < this.props.currUser.pendingRequests.length; i++) {
+                    if (this.props.currUser.pendingRequests[i].type === "received") {
                         count++;
                     }
                 }
@@ -49,7 +46,7 @@ class Contacts extends React.Component {
                                           </h4>;
             }
             if (this.props.showRequests) {
-                requests = this.state.requests.map((request) => {
+                requests = this.props.currUser.pendingRequests.map((request) => {
                     if (request.type === "received") {
                         return (
                             <NetworkRequestThumbnail 
