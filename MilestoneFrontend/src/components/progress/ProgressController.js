@@ -14,8 +14,7 @@ import Axios from 'axios';
      *      + A "No Results Found" message upon an empty search.
      *      + A "No goals yet!" message upon opening a empty goal category.
      *      + Any necessary adjustments for desktop components.
-     *      + Reformat UpcomingGoals.js to remove date on dateless goals and to match designs more closely.
-     *      + Implement In Progress vs. Completed.
+     *      + Implement In Progress vs. Completed on search results.
      *      + Three-dot dropdown menu on each goal w/ 'Delete', 'Rename' & 'Mark complete' [REQUIRES ROUTE]
      *      + Comments. [REQUIRES ROUTE]
      *      + Resources. [REQUIRES ROUTE]
@@ -48,9 +47,12 @@ class ProgressController extends Component {
             msLocalStore: msLocalStore,
             heading: 'Goal Planning',
             currentNavFilter: msLocalStore.prog_CurrNavFilter,
+            currentGoalNavFilter: 'inProgress',
             currentGoalCategoryId: null,
             addBtnLink: '/Progress/Goals/NewCategory',
             goalData: [],
+            activeGoalData: [],
+            completedGoalData: [],
             searchResults: []
         };
 
@@ -152,6 +154,8 @@ class ProgressController extends Component {
                 this.setState({
                     goalData: data
                 });
+
+                this.sortGoals(data);
             });
     }
 
@@ -176,11 +180,44 @@ class ProgressController extends Component {
             });
     }
 
-	switchFilter(e, targetNavFilter) {
+    sortGoals(goalData) {
+        let activeGoalData = goalData.filter((goal) => goal.active == true);
+        let completedGoalData = goalData.filter((goal) => goal.active == false);
+        this.setState({
+            activeGoalData: activeGoalData,
+            completedGoalData: completedGoalData
+        });
+        if(this.state.currentNavFilter == "inProgress") {
+            this.setState({
+                goalData: activeGoalData
+            });
+        } else {
+            this.setState({
+                goalData: completedGoalData
+            });
+        }
+    }
+
+	switchGoalCatFilter(e, targetNavFilter) {
         let newMsLocalStore = this.updateAndGetLocalStore('prog_CurrNavFilter', targetNavFilter);
         this.setState({
             currentNavFilter: targetNavFilter,
             msLocalStore: newMsLocalStore
+        });
+        if(targetNavFilter == "inProgress") {
+            this.setState({
+                goalData: this.state.activeGoalData
+            });
+        } else {
+            this.setState({
+                goalData: this.state.completedGoalData
+            });
+        }
+    }
+
+    switchGoalFilter(e, targetNavFilter) {
+        this.setState({
+            currentGoalNavFilter: targetNavFilter
         });
     }
 
@@ -205,6 +242,7 @@ class ProgressController extends Component {
         const currUser = this.state.currUser;
         const heading = this.state.heading;
         const targetNavFilter = this.state.currentNavFilter;
+        const targetGoalNavFilter = this.state.currentGoalNavFilter;
         const goals = this.state.goalData;
         const searchResults = this.state.searchResults;
         const targetGoalCategoryId = this.state.currentGoalCategoryId; // Save me to localStorage!
@@ -218,12 +256,14 @@ class ProgressController extends Component {
                         changeGoalCategory = { (e, i, t) => this.changeGoalCategory(e, i, t) }
                         refreshUser={ () => this.getCurrentUser() }
                         handleSearch={ (e) => this.handleSearch(e) }
-                        switchFilter={ (e, t) => this.switchFilter(e, t) }
+                        switchGoalCatNavFilter={ (e, t) => this.switchGoalCatFilter(e, t) }
+                        switchGoalNavFilter={ (e, t) => this.switchGoalFilter(e, t) }
                         currUser={ currUser }
                         addBtnLink={ addBtnLink }
                         goals={ goals }
                         heading={ heading }
                         navFilter={ targetNavFilter }
+                        goalNavFilter={ targetGoalNavFilter }
                         searchResults={ searchResults }
                         targetGoalCategoryId = { targetGoalCategoryId }
                     />

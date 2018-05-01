@@ -83,7 +83,7 @@
 }
 
 .c-goal__footer {
-	height: 35px;
+	min-height: 35px;
 	background-color: white;
 	border-radius: 0 0 8px 8px;
 	border-top: .5px solid lightgray;
@@ -94,6 +94,7 @@
 	display: inline-block;
 	margin-top: 5px;
 	margin-left: 15px;
+	margin-bottom: 10px;
 	height: 20px;
 	width: auto;
 }
@@ -123,4 +124,12 @@
 	font-size: 0.8em;
 	line-height: 20px;
 	/* padding-right: 5px; */
+}
+
+/*****************************************************************************/
+
+.c-goal-comments {
+	min-height: 50px;
+	background-color: #FD776C;
+	border-radius: 0 0 8px 8px;
 }

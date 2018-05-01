@@ -144,7 +144,7 @@ class NewGoalCategory extends React.Component {
 							<div className='[ container ] c-new-goal-category-form__section'>
 								<div className='c-new-goal-category-form__button-wrapper'>
 									<Button className='c-new-goal-category-form__button--approve' onClick={ () => { this.addGoalCategory() } }>Save</Button>
-									<Button className='c-new-goal-category-form__button--deny' onClick={ () => { this.props.history.push('/Progress/Goals') } }>Cancel</Button>
+									<Button className='c-new-goal-category-form__button--deny' onClick={ () => { this.props.history.replace('/Progress/Goals') } }>Cancel</Button>
 								</div>
 							</div>
 						</FormGroup>

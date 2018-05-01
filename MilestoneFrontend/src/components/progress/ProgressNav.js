@@ -27,10 +27,10 @@ function ProgressNav(props) {
 	return (
 		<ul className="c-progress-nav">
 			<li role="presentation" className={ inProgressClassName }>
-				<Link to="#" className="" onClick={(e) => props.switchFilter(e, "inProgress")}>In Progress</Link>
+				<span className="" onClick={(e) => props.switchFilter(e, "inProgress")}>In Progress</span>
 			</li>
 			<li role="presentation" className={ completedClassName }>
-				<Link to="#" className="" onClick={(e) => props.switchFilter(e, "completed")}>Completed</Link>
+				<span className="" onClick={(e) => props.switchFilter(e, "completed")}>Completed</span>
 			</li>
 		</ul>
 	);

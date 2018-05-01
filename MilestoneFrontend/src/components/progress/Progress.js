@@ -27,11 +27,11 @@ import '../../css/progress/Progress.css';
 /// Code
 
 const Progress = (props) => {
-	const heading = (heading) => 	<ProgressHeading
+	const heading = (heading, navFilter, switchFunc) => 	<ProgressHeading
 										heading = { heading }
 										handleSearch={ (e) => props.handleSearch(e) }
-										navFilter={ props.navFilter }
-										switchFilter={ (e, t) => props.switchFilter(e, t) }
+										navFilter={ navFilter }
+										switchFilter={ (e, t) => switchFunc(e, t) }
 										addBtnLink={ props.addBtnLink }
 									/>
 
@@ -40,7 +40,7 @@ const Progress = (props) => {
 			<Switch>
 				<Route path='/Progress/Goals/Search' render={() => (
 					<div>
-						{ heading('Search Results') }
+						{ heading('Search Results', props.goalNavFilter, props.switchGoalNavFilter) }
 						<GoalCategories
 							goals={ props.searchResults }
 							refreshUser={() => props.refreshUser() }
@@ -67,16 +67,18 @@ const Progress = (props) => {
 				)} />
 				<Route path='/Progress/Goals/:id' render={() => (
 					<div>
-						{ heading(props.heading) }
+						{ heading(props.heading, props.goalNavFilter, props.switchGoalNavFilter) }
 						<UpcomingGoals
 							targetGoalCategoryId={ props.targetGoalCategoryId }
 							goals={ props.goals }
+							navFilter={ props.goalNavFilter }
+							refreshUser={() => props.refreshUser() }
 						/>
 					</div>
 				)} />
 				<Route exact path='/Progress/Goals' render={() => (
 					<div>
-						{ heading('Goal Categories') }
+						{ heading('Goal Categories', props.navFilter, props.switchGoalCatNavFilter) }
 						<GoalCategories
 							goals={ props.goals }
 							refreshUser={() => props.refreshUser() }

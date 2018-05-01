@@ -14,7 +14,7 @@
 	border-bottom: 2px solid #808080;
 }
 
-.c-progress-nav__link--non-active-link a {
+.c-progress-nav__link--non-active-link span {
 	color: #808080;
 }
 
@@ -23,11 +23,11 @@
 	border-bottom: 2px solid #FD786D;
 }
 
-.c-progress-nav__link--active-link a {
+.c-progress-nav__link--active-link span {
 	color: #FD786D;
 }
 
-.c-progress-nav a {
+.c-progress-nav span {
 	padding: 1em 0 1em 0;
 	text-decoration: none;
 	width: 100%;

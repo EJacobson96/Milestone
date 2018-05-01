@@ -42,6 +42,11 @@ class NewGoal extends React.Component {
 		this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
 	}
 
+	goBack() {
+		this.props.history.goBack()
+		this.props.history.replace('/Progress/Goals');
+	}
+
 	handleDateChange(date) {
 		this.setState({
 		  	dueDate: date
@@ -86,7 +91,7 @@ class NewGoal extends React.Component {
 									<Button className='c-new-goal-form__button--approve' onClick={ (e) => { this.props.addGoal(this.state.goalTitle, this.state.dueDate, this.state.goalDescription, catId) } }>
 										Save
 									</Button>
-									<Button className='c-new-goal-form__button--deny' onClick={ () => { this.props.history.push('/Progress/Goals/:id' + catId )} }>
+									<Button className='c-new-goal-form__button--deny' onClick={ () => { this.goBack() } }>
 										Cancel
 									</Button>
 				              	</div>
