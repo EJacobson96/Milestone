@@ -102,18 +102,18 @@ class LoginForm extends Component {
                 // state: { user: this.state.userData }
               }}/>
         ) : (
-            <div>
+            <div className="c-login">
                 <h1 className="c-login-header">
                     Milestone
                 </h1>
-                <div className="[ container ] l-login">
+                <div className="l-login">
                     <div className="l-login__content">
                         <Form horizontal className="c-login-form">
                             <FormGroup controlId="formHorizontalEmail">
-                                <Col componentClass={ControlLabel} sm={2} className="c-login-form__label">
+                                <Col componentClass={ControlLabel} sm={12} className="c-login-form__label">
                                     Email
                                 </Col>
-                                <Col sm={10}>
+                                <Col sm={12}>
                                     <FormControl 
                                         type="email" 
                                         value={this.state.userEmail} 
@@ -125,10 +125,10 @@ class LoginForm extends Component {
                             </FormGroup>
 
                             <FormGroup controlId="formHorizontalPassword">
-                                <Col componentClass={ControlLabel} sm={2} className="c-login-form__label">
+                                <Col componentClass={ControlLabel} sm={12} className="c-login-form__label">
                                     Password
                                 </Col>
-                                <Col sm={10}>
+                                <Col sm={12}>
                                     <FormControl 
                                         type="password" 
                                         value={this.state.userPassword} 
@@ -140,7 +140,7 @@ class LoginForm extends Component {
                             </FormGroup>
 
                             <FormGroup>
-                                <Col smOffset={2} sm={10}>
+                                <Col sm={12}>
                                     <button className="c-login-form__btn" type="submit" onClick={(e) => this.attemptLogIn(e)} >Sign in</button>
                                 </Col>
                             </FormGroup>
