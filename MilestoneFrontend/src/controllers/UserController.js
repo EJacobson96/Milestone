@@ -50,21 +50,21 @@ var UserController = {
             });
     },
 
-    updateUserRequests: function (id, requests) {
-        return Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/requests?id=' + id,
+    searchForConnections: function (userType, searchQuery) {
+        return Axios.get(
+            'https://milestoneapi.eric-jacobson.me/' + userType + '?q=' + searchQuery,  
             {
                 // headers: {
                 //     'Authorization' : localStorage.getItem('Authorization')
-                // }
-                PendingRequests: requests
+                // }    
             })
             .then(response => {
                 return response.data;
             })
             .catch(error => {
                 console.log(error);
-            });
+            }
+        );
     },
 
     addConnection: function (id, userConnections) {
@@ -84,6 +84,46 @@ var UserController = {
             }
         );
     },
+
+    updateUserRequests: function (id, requests) {
+        return Axios.patch(
+            'https://milestoneapi.eric-jacobson.me/requests?id=' + id,
+            {
+                // headers: {
+                //     'Authorization' : localStorage.getItem('Authorization')
+                // }
+                PendingRequests: requests
+            })
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+
+    postNotification: function (conversation, message) {
+        return Axios.patch(
+            'https://milestoneapi.eric-jacobson.me/notifications',
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                },
+                Read: false,
+                Body: message,
+                ContentType: "new message",
+                ContentID: conversation.id,
+                Users: conversation.Users,
+            })
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    },
+
 };
 
 export default UserController;

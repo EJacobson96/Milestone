@@ -23,7 +23,7 @@ class Contacts extends React.Component {
             numRequests, 
             displayRequests;
         if (this.props.content) {
-            if(this.props.currUser.pendingRequests.length > 0) {
+            if(this.props.currUser.pendingRequests.length > 0 && this.props.showRequests) {
                 var count = 0;
                 for (let i = 0; i < this.props.currUser.pendingRequests.length; i++) {
                     if (this.props.currUser.pendingRequests[i].type === "received") {

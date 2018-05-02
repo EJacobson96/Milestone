@@ -2,7 +2,6 @@
 /// Pre-baked Components
 import React from 'react';
 import { Button, Glyphicon } from 'react-bootstrap';
-import Axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import Contacts from './Contacts.js';
 
@@ -17,18 +16,8 @@ import users from '../../img/users.png';
 class NetworkConnect extends React.Component {
     constructor(props) {
         super(props);
-    
-        this.state = {
-            value: ''
-        };
 
         this.handleSearch = this.handleSearch.bind(this);
-    }
-
-    componentDidMount() {
-    }
-
-    componentWillUnmount() {
     }
 
     handleSearch(event) {
@@ -40,26 +29,12 @@ class NetworkConnect extends React.Component {
             userType = 'serviceproviders';
         }
         if (searchQuery.trim() !== "") {
-            Axios.get(
-                'https://milestoneapi.eric-jacobson.me/' + userType + '?q=' + searchQuery,  
-                {
-                    // headers: {
-                    //     'Authorization' : localStorage.getItem('Authorization')
-                    // }    
-                })
-                .then(response => {
-                    return response.data;
-                })
-                .then(data => {
-                    console.log(data);
-                    this.setState({ 
-                        users: data 
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
-                }
-            );
+            this.props.userController.searchForConnections(userType, searchQuery)
+            .then(data => {
+                this.setState({
+                    users: data
+                });
+            })
         }
     }
     render() {
@@ -67,7 +42,7 @@ class NetworkConnect extends React.Component {
                         <img className="c-connection-placeholder" src={users} />
                         <h3 className="c-connection-placeholder-text">Look for new connections!</h3>
                       </div>
-        if (this.state.users && this.state.users.length !== 0) {
+        if (this.state && this.state.users && this.state.users.length !== 0) {
             content = <Contacts showContacts={true} showRequests={false} content={this.state.users} currUser={this.props.currUser} />
         }
         return (

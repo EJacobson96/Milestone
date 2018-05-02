@@ -19,9 +19,6 @@ import '../../css/NetworkSearch.css';
 class NetworkSearch extends Component {
     constructor(props) {
         super(props);
-    
-        this.state = {
-        };
 		
 		this.handleSearch = this.handleSearch.bind(this);
     }
@@ -30,7 +27,6 @@ class NetworkSearch extends Component {
         e.preventDefault();
         let input = document.getElementById('networkSearch');
 		let search = input.value;
-
 		this.props.handleSearch(search);
 		input.value = '';
     }
