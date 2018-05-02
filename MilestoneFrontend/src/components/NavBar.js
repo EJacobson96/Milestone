@@ -25,7 +25,7 @@ class NavBar extends React.Component {
     }
 
     componentDidMount() {
-        this.getCurrentUser();
+        this.setUserData();
     }
 
     openSideBar(e) {
@@ -33,29 +33,15 @@ class NavBar extends React.Component {
         
         this.props.openSideBar();
     }
-
-    getCurrentUser() {
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/users/me', 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                this.setState({
-                    userData: data
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
-    }
+    
+    setUserData() {
+        this.props.userController.getUser()
+        .then((data) => {
+          this.setState({
+            userData: data,
+          })
+        })
+      }
 
     render() {
         var notifications = 0;

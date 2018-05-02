@@ -22,7 +22,18 @@ class MessageScreen extends React.Component {
     componentDidMount() {
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         if (id === "") {
-            this.getUser();
+            var user;
+            this.props.userController.getUser()
+            .then(oldData => {
+                user = oldData;
+                this.props.messageController.getMessages('', oldData.id)
+                .then(newData => {
+                    this.setState({
+                        currUser: user,
+                        conversation: newData[0] 
+                    })
+                })
+            })
         } 
         this.scrollToBottom();
         websocket.addEventListener("message", function(event) { 
@@ -75,7 +86,6 @@ class MessageScreen extends React.Component {
     postNotification(conversation, message) {
         this.props.userController.postNotification(conversation, message)
             .then(data => {
-                console.log(data);
                 this.setState({
                     conversation: conversation
                 });
@@ -86,8 +96,9 @@ class MessageScreen extends React.Component {
         e.preventDefault();
         var input = this.textInput.value;
         this.textInput.value = "";
-        this.props.messageController.getSpecificConversation(this.state.currUser.id, this.state.conversation.id, input)
+        this.props.messageController.postMessage(this.state.currUser.id, this.state.conversation.id, input)
         .then(data => {
+            console.log(data);
             this.postNotification(data, input);
         })
     }

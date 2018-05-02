@@ -25,14 +25,17 @@ class ContactCard extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.state);
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
-        this.setContactData(id);
+        if (id !== "") {
+            this.setContactData(id);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         var currID = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         var nextID = nextProps.match.params.id.substring(3, nextProps.match.params.id.length)
-        if (currID !== nextID) {
+        if (currID !== nextID && nextID !== "") {
             this.setContactData(nextID);
         }
     }
@@ -178,7 +181,7 @@ class ContactCard extends React.Component {
         return (
             <div className='c-contact-profile'>
                 {
-                    this.state.currUser &&
+                    this.state && this.state.currUser &&
                     <div>
                         {name}          
                         <div className="c-contact-profile__profile-img">

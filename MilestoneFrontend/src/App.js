@@ -28,8 +28,8 @@ class App extends Component {
         super(props);
     
         this.state = {
-			userLoggedIn: false,
-			// userLoggedIn: true,
+			// userLoggedIn: false,
+			userLoggedIn: true,
 			sideBarOpen: false,
 			navBarDisplay: false
 		};
@@ -80,7 +80,9 @@ class App extends Component {
 				    <MediaQuery query="(min-device-width: 769px)">
 					    {
 							isLoggedIn &&
-							<DesktopNav />
+							<DesktopNav 
+								userController={this.getUserController()}
+							/>
 						}
 					</MediaQuery>
 					<MediaQuery query="(max-device-width: 768px)">
@@ -88,6 +90,7 @@ class App extends Component {
 							isLoggedIn &&
 							<NavBar 
 								openSideBar={(e) => this.toggleSideBar(e)}
+								userController={this.getUserController()}
 							/>
 						}
 

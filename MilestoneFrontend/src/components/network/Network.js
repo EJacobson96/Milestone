@@ -51,9 +51,10 @@ class Network extends Component {
             .then(data => {
                 this.setState({
                     currUser: data,
-                });
-                this.setMessageData('', data.id);
-                this.setUserConnections('', data.id);
+                }, () => {
+                    this.setMessageData('', data.id);
+                    this.setUserConnections('', data.id);
+                })
             })
     }
 
@@ -69,11 +70,11 @@ class Network extends Component {
 
     setUserConnections(search, id) {
         this.props.userController.getUserConnections(search, id)
-        .then(data => {
-            this.setState({
-                contactsContent: data
-            });
-        })
+            .then(data => {
+                this.setState({
+                    contactsContent: data
+                });
+            })
     }
 
     renderMessages(e) {
@@ -90,7 +91,12 @@ class Network extends Component {
 
     handleSearch(search) {
         if (this.props.location.pathname.includes("/Contacts")) {
-            this.getUserConnections(search);
+            this.props.userController.getUserConnections(search, this.state.currUser.id)
+            .then(data => {
+                this.setState({
+                    contactsContent: data
+                });
+            })
         } else {
             this.setMessageData(search, this.state.currUser.id);
         }
@@ -98,15 +104,15 @@ class Network extends Component {
 
     render() {
         var topNav = <div className="topNav">
-                        <NetworkNav className="networkNav"
-                            renderContacts={(e) => this.renderContacts(e)}
-                            renderMessages={(e) => this.renderMessages(e)}
-                        />
-                        <NetworkSearch className="networkSearch"
-                            contentType={this.state.contentType}
-                            handleSearch={(e) => this.handleSearch(e)}
-                        />
-                    </div>;
+            <NetworkNav className="networkNav"
+                renderContacts={(e) => this.renderContacts(e)}
+                renderMessages={(e) => this.renderMessages(e)}
+            />
+            <NetworkSearch className="networkSearch"
+                contentType={this.state.contentType}
+                handleSearch={(e) => this.handleSearch(e)}
+            />
+        </div>;
         var firstMessage = [];
         if (this.state.currUser && this.state.messageContent) {
             return (
@@ -115,93 +121,93 @@ class Network extends Component {
                         <Route path='/Network/Messages/New/Contacts' render={(props) => (
                             <ContactsList
                                 user={this.state.currUser}
-                                userController = { this.props.userController }
+                                userController={this.props.userController}
                             />
                         )} />
                         <Route path='/Network/Messages/New/' render={(props) => (
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
-                                    <NewMessage 
-                                        messageContent = { this.state.messageContent }  
-                                        user = {this.state.currUser }   
-                                userController = { this.props.userController }
-                                messageController = { this.props.messageController }
+                                    <NewMessage
+                                        messageContent={this.state.messageContent}
+                                        user={this.state.currUser}
+                                        userController={this.props.userController}
+                                        messageController={this.props.messageController}
                                     />
                                 </MediaQuery>
                                 <MediaQuery query="(min-width: 769px)">
                                     <div className="container">
                                         <div className="contactsNewMessage">
-                                            <ContactsList 
-                                                user = {this.state.currUser }                      
+                                            <ContactsList
+                                                user={this.state.currUser}
+                                                userController={this.props.userController}
                                             />
-                                            <NewMessage 
-                                                isDesktop= { true }
-                                                messageContent = { this.state.messageContent }  
-                                                user = {this.state.currUser }   
-                                userController = { this.props.userController }
-                                messageController = { this.props.messageController }
+                                            <NewMessage
+                                                isDesktop={true}
+                                                messageContent={this.state.messageContent}
+                                                user={this.state.currUser}
+                                                userController={this.props.userController}
+                                                messageController={this.props.messageController}
                                             />
                                         </div>
                                     </div>
                                 </MediaQuery>
                             </div>
                         )} />
-                        <Route path ='/Network/Messages/Conversation/:id' render={(props) => (
-                          <div>
-                            <MediaQuery query="(max-device-width: 768px)">
-                              <MessageScreen 
-                                                                                  userController = { this.props.userController }
-                                messageController = { this.props.messageController }
-                                                                                  />
-                            </MediaQuery>
-                            <MediaQuery query="(min-width: 769px)">
-                              <div className="container">
-                                { topNav }
-                                <div className="messageConversation">
-                                    <Messages className="c-messages-component" currUser={ this.state.currUser.id } content={ this.state.messageContent } firstMessage = {firstMessage} />
-                                    <MessageScreen className="c-messagescreen-component"
-userController = { this.props.userController }
-                                messageController = { this.props.messageController }
-/>
-                                </div>
-                              </div>
-                            </MediaQuery>
-                          </div>
-                        )} />
-                        <Route exact path="/Network/Messages" render={(props) => (
-                          <div>
-                              {console.log(window.innerWidth)}
-                            <MediaQuery query="(max-width: 768px)">
-                                <div>
-                                    { topNav } 
-                                    <Messages currUser={ this.state.currUser.id } content={ this.state.messageContent } />
-                                </div>
-                            </MediaQuery>
-                            <MediaQuery query="(min-width: 769px)">
-                                <Redirect to={"/Network/Messages/Conversation/:id" + (this.state.messageContent.length > 0 ? this.state.messageContent[0].id : '')}  />      
-                            </MediaQuery>
-                          </div>
-                        )} />
-                        <Route exact path ='/Network/Contacts/Profile/:id' render={(props) => (
+                        <Route path='/Network/Messages/Conversation/:id' render={(props) => (
                             <div>
-                                <MediaQuery query="(max-width: 768px)">
-                                    <ContactCard 
-                                                                                   userController = { this.props.userController }
-                                                                                   />
+                                <MediaQuery query="(max-device-width: 768px)">
+                                    <MessageScreen
+                                        userController={this.props.userController}
+                                        messageController={this.props.messageController}
+                                    />
                                 </MediaQuery>
                                 <MediaQuery query="(min-width: 769px)">
                                     <div className="container">
-                                        { topNav }
-                                        <div className="desktopContacts">
-                                            <Contacts 
-                                                showRequests={ true } 
-                                                content={ this.state.contactsContent } 
-                                                currUser={ this.state.currUser }
-userController = { this.props.userController }
+                                        {topNav}
+                                        <div className="messageConversation">
+                                            <Messages className="c-messages-component" currUser={this.state.currUser} content={this.state.messageContent} firstMessage={firstMessage} />
+                                            <MessageScreen className="c-messagescreen-component"
+                                                userController={this.props.userController}
+                                                messageController={this.props.messageController}
                                             />
-                                            <ContactCard 
-userController = { this.props.userController }
-/>
+                                        </div>
+                                    </div>
+                                </MediaQuery>
+                            </div>
+                        )} />
+                        <Route exact path="/Network/Messages" render={(props) => (
+                            <div>
+                                <MediaQuery query="(max-width: 768px)">
+                                    <div>
+                                        {topNav}
+                                        <Messages currUser={this.state.currUser} content={this.state.messageContent} />
+                                    </div>
+                                </MediaQuery>
+                                <MediaQuery query="(min-width: 769px)">
+                                    <Redirect to={"/Network/Messages/Conversation/:id" + (this.state.messageContent.length > 0 ? this.state.messageContent[0].id : '')} />
+                                </MediaQuery>
+                            </div>
+                        )} />
+                        <Route exact path='/Network/Contacts/Profile/:id' render={(props) => (
+                            <div>
+                                <MediaQuery query="(max-width: 768px)">
+                                    <ContactCard
+                                        userController={this.props.userController}
+                                    />
+                                </MediaQuery>
+                                <MediaQuery query="(min-width: 769px)">
+                                    <div className="container">
+                                        {topNav}
+                                        <div className="desktopContacts">
+                                            <Contacts
+                                                showRequests={true}
+                                                content={this.state.contactsContent}
+                                                currUser={this.state.currUser}
+                                                userController={this.props.userController}
+                                            />
+                                            <ContactCard
+                                                userController={this.props.userController}
+                                            />
                                         </div>
                                     </div>
                                 </MediaQuery>
@@ -212,19 +218,19 @@ userController = { this.props.userController }
                         <Route exact path="/Network/Contacts/Connect" render={(props) => (
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
-                                        <NetworkConnect 
-                                            isDesktop={ false }
-                                            accountType={ this.state.currUser.accountType }
-                                            currUser={ this.state.currUser }
-userController = { this.props.userController }
-                                        />
+                                    <NetworkConnect
+                                        isDesktop={false}
+                                        accountType={this.state.currUser.accountType}
+                                        currUser={this.state.currUser}
+                                        userController={this.props.userController}
+                                    />
                                 </MediaQuery>
                                 <MediaQuery query="(min-width: 769px)">
                                     <Redirect to='/Network/Contacts/Connect/Profile/:id' />
                                 </MediaQuery>
                             </div>
                         )} />
-                        <Route exact path ='/Network/Contacts/Connect/Profile/:id' render={(props) => (
+                        <Route exact path='/Network/Contacts/Connect/Profile/:id' render={(props) => (
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
                                     <Redirect to="/Network/Contacts/Connect" />
@@ -232,15 +238,15 @@ userController = { this.props.userController }
                                 <MediaQuery query="(min-width: 769px)">
                                     <div className="container">
                                         <div className="connectContacts">
-                                            <NetworkConnect 
-                                                isDesktopInvitation={ true }
-                                                accountType={ this.state.currUser.accountType }
-                                                currUser={ this.state.currUser }
-userController = { this.props.userController }
+                                            <NetworkConnect
+                                                isDesktopInvitation={true}
+                                                accountType={this.state.currUser.accountType}
+                                                currUser={this.state.currUser}
+                                                userController={this.props.userController}
                                             />
-                                            <ContactCard 
-userController = { this.props.userController }
-/>
+                                            <ContactCard
+                                                userController={this.props.userController}
+                                            />
                                         </div>
                                     </div>
                                 </MediaQuery>
@@ -250,12 +256,12 @@ userController = { this.props.userController }
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
                                     <div>
-                                        { topNav }
-                                        <Contacts 
-                                            showRequests={ true } 
-                                            content={ this.state.contactsContent } 
-                                            currUser={ this.state.currUser }
-userController = { this.props.userController }
+                                        {topNav}
+                                        <Contacts
+                                            showRequests={true}
+                                            content={this.state.contactsContent}
+                                            currUser={this.state.currUser}
+                                            userController={this.props.userController}
                                         />
                                     </div>
                                 </MediaQuery>

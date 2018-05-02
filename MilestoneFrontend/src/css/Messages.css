@@ -55,8 +55,8 @@
 .c-messages-count {
     margin-left: 1em;
     padding: 11px 0;
-    margin: 0;
-    text-align: center;
+    margin: 0 0 0 1em;
+    text-align: left;
     font-size: 2.3vh;
 }
 
@@ -93,6 +93,7 @@
     }
     .c-messages-count {
         text-align: center;
+        margin: 0;
     }
     .selectedMessage {
         background-color: rgba(200, 200, 200, .6);

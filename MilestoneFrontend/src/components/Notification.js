@@ -16,16 +16,26 @@ class Notification extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            value: ''
-        };
     }
+
+    componentDidMount() {
+        this.setUserData();
+      }
+    
+      setUserData() {
+        this.props.userController.getUser()
+        .then((data) => {
+          this.setState({
+            user: data,
+          })
+        })
+      }
 
     render() {
         var notifications;
-        if (this.props.user) {
+        if (this.state && this.state.user) {
             var count = 0;
-            notifications = this.props.user.notifications.map((notification) => {
+            notifications = this.state.user.notifications.map((notification) => {
                 var body;
                 var time;
                 var read;

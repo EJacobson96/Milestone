@@ -25,11 +25,7 @@ class Messages extends React.Component {
         var messagesCount;
         var time;
         var firstMessage;
-        if (this.props.content && this.state.currUser) {
-            // var firstMessage = document.getElementsByClassName("c-conversation-card");
-            // if (firstMessage.length > 0) {
-            //     firstMessage.classList[0].remove("selectedMessage");
-            // }
+        if (this.props.content) {
             messagesCount = <h4 className={this.props.content.length === 0 ? " c-message-count-border" : " c-messages-count" }>Messages ({this.props.content.length})</h4>;
             conversations = this.props.content.map((conversation, i) => {
                 firstMessage = "";
@@ -87,7 +83,6 @@ class Messages extends React.Component {
                     </Link>
                 );
             });
-            // displayConversations = <div className="l-conversations">{conversations}</div>
         } else {
             conversations = <p className="c-no-conversations"></p>;
         }

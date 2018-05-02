@@ -21,7 +21,8 @@ class Contacts extends React.Component {
             displayConnectionsCount, 
             displayConnections, 
             numRequests, 
-            displayRequests;
+            displayRequests,
+            firstContact;
         if (this.props.content) {
             if(this.props.currUser.pendingRequests.length > 0 && this.props.showRequests) {
                 var count = 0;
@@ -52,13 +53,21 @@ class Contacts extends React.Component {
                     }
                 })
             }
-            connections = this.props.content.map((connection) => {
+            connections = this.props.content.map((connection, i) => {
+                // firstContact = "";
+                // if (this.props.match.params.id) {
+                //     var id = this.props.match.params.id.substring(3, this.props.match.params.id.length);
+                //     if (id === "" && i === 0) {
+                //         firstContact = " selectedMessage "
+                //     }
+                // }
                 return (
                     <ContactThumbnail
                         path={ this.props.isDesktopInvitation ? "/Network/Contacts/Connect/Profile/:id" + connection.id : "/Network/Contacts/Profile/:id" + connection.id }
                         id={ connection.id }
                         key={ connection.id }
                         fullName={ connection.fullName }
+                        className = {this.props.match.params.id == ":id" + connection.id && ' selectedMessage '} 
                     />
                 );
             });

@@ -17,15 +17,16 @@ class ContactThumbnail extends React.Component {
     }
 
     render() {
+		console.log(this.props);
 		return (
 			<Link 
 				to={{
 					pathname: this.props.path
 				}}
-				className='c-contact-card-link-wrapper' 
+				className= 'c-contact-card-link-wrapper'
 				key={ this.props.id }
 			>
-				<div className="c-contact-card" key={ this.props.id } >
+				<div className={"c-contact-card " + this.props.className} key={ this.props.id } >
 					<div className="c-contact-card__user-img">
 						<img src={fakeuser} alt=''/>
 					</div>

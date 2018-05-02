@@ -44,7 +44,9 @@ class Main extends Component {
                     <Placeholder />
                 )} />
                 <Route path='/Notifications' render={(props) => (
-                    <Notification user={this.state.userData} />
+                    <Notification 
+                        userController = { this.props.userController }
+                     />
                 )} />
                 <Route exact path="/" render={(props) => (
                     <Redirect to="/Network" />
