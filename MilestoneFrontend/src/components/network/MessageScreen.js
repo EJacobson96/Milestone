@@ -84,6 +84,10 @@ class MessageScreen extends React.Component {
     }
 
     postNotification(conversation, message) {
+        var users = [];
+        for (let i = 0; i < conversation.members.length; i++) {
+            users.push(conversation.members[i].id);
+        }
         Axios.patch(
             'https://milestoneapi.eric-jacobson.me/notifications',
             {
@@ -94,12 +98,13 @@ class MessageScreen extends React.Component {
                 Body: message,
                 ContentType: "new message",
                 ContentID: conversation.id,
-                Users: conversation.Users,
+                Users: users,
             })
             .then(response => {
                 return response.data;
             })
             .then(data => {
+                console.log(data);
                 this.setState({
                     conversation: conversation
                 });

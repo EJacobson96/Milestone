@@ -13,6 +13,7 @@ import { Redirect, Switch, Route } from 'react-router-dom';
 /////////////////////////////////////////
 /// Standard Components
 import Network from './network/Network';
+import Notification from './Notification';
 import Placeholder from './Placeholder';
 
 /////////////////////////////////////////
@@ -29,35 +30,35 @@ class Main extends Component {
             userLoggedIn: this.props.isLoggedIn
         };
 
-        // this.getCurrentUser = this.getCurrentUser.bind(this);
+        this.getCurrentUser = this.getCurrentUser.bind(this);
     }
     
     componentDidMount() {
-        // this.getCurrentUser();
+        this.getCurrentUser();
     }
 
-    // getCurrentUser() {
-    //     Axios.get(
-    //         'https://milestoneapi.eric-jacobson.me/users/me', 
-    //         {
-    //             headers: {
-    //                 'Authorization' : localStorage.getItem('Authorization')
-    //             }    
-    //         })
-    //         .then(response => {
-    //             return response.data;
-    //         })
-    //         .then(data => {
-    //             console.log(data);
-    //             this.setState({
-    //                 userData: data
-    //             });
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         }
-    //     );
-    // }
+    getCurrentUser() {
+        Axios.get(
+            'https://milestoneapi.eric-jacobson.me/users/me', 
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                }    
+            })
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                console.log(data);
+                this.setState({
+                    userData: data
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    }
 
     render() {
         let isLoggedIn = this.props.userLoggedIn;
@@ -76,6 +77,9 @@ class Main extends Component {
                 )} />
                 <Route path='/Requests' render={(props) => (
                     <Placeholder />
+                )} />
+                <Route path='/Notifications' render={(props) => (
+                    <Notification user={this.state.userData} />
                 )} />
                 <Route exact path="/" render={(props) => (
                     <Redirect to="/Network" />

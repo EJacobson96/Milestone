@@ -84,6 +84,7 @@ class Network extends Component {
                 return response.data;
             })
             .then(data => {
+                console.log(data);
                 this.setState({
                     currUser: data,
                     networkRequests: data.pendingRequests

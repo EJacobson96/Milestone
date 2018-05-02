@@ -1,0 +1,63 @@
+.l-notifications {
+    padding-top: 10vh;
+}
+
+.l-notifications .c-notification-card-link-wrapper:last-child .c-notification-card {
+    border-bottom: 1px solid #9C9B9B;
+    /* border-bottom: 1.2px solid #73C9B1; */
+}
+
+.c-notification-card {
+    color: black;
+    text-decoration: none;
+}
+
+.c-notifications-header { 
+    text-align: center;
+    margin: 0 0 .2em 0;
+    padding: .7em 0;
+    font-size: 3.4vh;
+    font-weight: 700;
+}
+
+.c-notification-card {
+    display: flex;
+    border-top: 1px solid #9C9B9B;
+    align-items: center;
+    padding: .8em 0 .8em 0;
+    /* background-color: rgba(253, 120, 109, .5); */
+}
+
+.c-notification-card-read {
+    background-color: white;
+}
+
+.c-notification-card-not-read {
+    background-color: rgba(253, 120, 109, .5);
+}
+
+.c-notification-user-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .6em;
+    flex-basis: 18%;
+    max-width: 200px;
+}
+
+.c-notfication-details-body {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 98%;
+}
+
+.c-notification-details p {
+    padding: 0;
+    margin: 0;
+}
+
+.c-notification-user-avatar img {
+    width: 75%;
+    border-radius: 50%;
+}
