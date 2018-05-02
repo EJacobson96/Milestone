@@ -133,7 +133,7 @@ class Network extends Component {
                         <Route path="/Network/Messages" render={(props) => (
                             <div>
                                 {topNav}
-                                <Messages currUser={this.state.currUser.id} content={this.state.messageContent} />
+                                <Messages currUser={this.state.currUser} content={this.state.messageContent} />
                             </div>
                         )} />
                         <Route exact path='/Network/Contacts/Profile/:id' render={(props) => (

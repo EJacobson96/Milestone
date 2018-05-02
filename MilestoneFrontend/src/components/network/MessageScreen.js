@@ -92,7 +92,7 @@ class MessageScreen extends React.Component {
         var conversation;
         var displayMembers;
         var displayMessages;
-        if (this.state.conversation) {
+        if (this.state && this.state.conversation) {
             conversation = this.state.conversation;
             for (var i = 0; i < conversation.members.length; i++) {
                 let memberLength = conversation.members.length;
