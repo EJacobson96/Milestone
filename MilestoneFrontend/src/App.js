@@ -12,6 +12,10 @@ import SideBar from './components/SideBar';
 import LoginForm from './components/login/LoginForm';
 import Main from './components/Main';
 
+//Controllers
+import UserController from './controllers/UserController'
+import MessageController from './controllers/MessageController'
+
 /////////////////////////////////////////
 /// Images & Styles
 import './css/App.css';
@@ -29,8 +33,17 @@ class App extends Component {
 			sideBarOpen: false,
 			navBarDisplay: false
 		};
-		
+		this.getUserController = this.getUserController.bind(this);
+		this.getMessagecontroller = this.getMessagecontroller.bind(this);
 		this.toggleSideBar = this.toggleSideBar.bind(this);
+	}
+
+	getUserController() {
+		return UserController;
+	}
+
+	getMessagecontroller() {
+		return MessageController;
 	}
 
 	logIn(success) {
@@ -97,6 +110,8 @@ class App extends Component {
 						)} />
 						<Route path ='/' render={(props) => (
 							<Main 
+								messageController = { this.getMessagecontroller() }
+								userController = { this.getUserController() }
 								userLoggedIn = { this.state.userLoggedIn }
 							/>
 						)} />

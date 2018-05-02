@@ -1,7 +1,6 @@
 /////////////////////////////////////////
 /// Pre-baked Component
 import React from 'react';
-import Axios from 'axios';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
@@ -23,125 +22,52 @@ import '../../css/ContactCard.css';
 class ContactCard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { };
     }
 
     componentDidMount() {
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/contact/?id=' + id, 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.getCurrentUser(data);
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
-    }
-
-    getCurrentUser(contactInfo) {
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/users/me', 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.setState({
-                    contactInfo: contactInfo,
-                    currUser: data
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
-    }
-
-    componentWillUnmount() {
+        this.setContactData(id);
     }
 
     componentWillReceiveProps(nextProps) {
         var currID = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         var nextID = nextProps.match.params.id.substring(3, nextProps.match.params.id.length)
         if (currID !== nextID) {
-            Axios.get(
-                'https://milestoneapi.eric-jacobson.me/contact/?id=' + nextID, 
-                {
-                    headers: {
-                        'Authorization' : localStorage.getItem('Authorization')
-                    }    
-                })
-                .then(response => {
-                    return response.data;
-                })
-                .then(data => {
-                    console.log(data);
-                    this.getCurrentUser(data);
-                })
-                .catch(error => {
-                    console.log(error);
-                }
-            );
+            this.setContactData(nextID);
         }
     }
 
-    updateCurrUser(currUserRequests, otherUserRequests) {
-        Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/requests?id=' + this.state.currUser.id, 
-            {
-                // headers: {
-                //     'Authorization' : localStorage.getItem('Authorization')
-                // }
-                PendingRequests: currUserRequests
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                // console.log(data);
-                this.updateOtherUser(otherUserRequests, data);
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
+    setContactData(id) {
+        this.props.userController.getContact(id)
+        .then(data => {
+            this.setUserData(data);
+        })
     }
 
-    updateOtherUser(requests, user) {
-        Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/requests?id=' + this.state.contactInfo.id, 
-            {
-                // headers: {
-                //     'Authorization' : localStorage.getItem('Authorization')
-                // }  
-                PendingRequests: requests
-            })
-            .then(response => {
-                return response.data;
-            })
+    setUserData(contactInfo) {
+        this.props.userController.getUser()
             .then(data => {
                 this.setState({
-                    currUser: user,
-                    contactInfo: data
+                    contactInfo: contactInfo,
+                    currUser: data
                 });
             })
-            .catch(error => {
-                console.log(error);
-            }
-        );
+    }
+
+    setUserRequests(currUserID, currUserRequests, otherUserID, otherUserRequests) {
+        this.props.userController.updateUserRequests(currUserID, currUserRequests)
+        .then(data => {
+            this.setState({
+                currUser: data,
+            }, () => {
+                this.props.userController.updateUserRequests(otherUserID, otherUserRequests)
+                .then(data => {
+                    this.setState({
+                        contactInfo: data,
+                    })
+                })
+            });
+        })
     }
 
     sendInvite() {
@@ -163,31 +89,16 @@ class ContactCard extends React.Component {
             Email: this.state.currUser.Email
         };
         otherUserRequests.push(newRequest);
-        this.updateCurrUser(currUserRequests, otherUserRequests);
+        this.setUserRequests(this.state.currUser.id, currUserRequests, this.state.contactInfo.id, otherUserRequests);
     }
 
     approveRequest() {
         var userConnections = this.state.currUser.connections;
         userConnections.push(this.state.contactInfo);
-        Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/connections?id=' + this.state.currUser.id, 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
-                Connections: userConnections
-            })
-            .then(response => {
-                return response.data;
-            })
+        this.props.userController.addConnection(this.state.currUser.id, userConnections)
             .then(data => {
-                console.log(data);
                 this.removeRequests();
             })
-            .catch(error => {
-                console.log(error);
-            }
-        );
     }
 
     removeRequests() {
@@ -199,7 +110,7 @@ class ContactCard extends React.Component {
         otherUserRequests = otherUserRequests.filter(request => {
             return request.user !== this.state.currUser.id;
         });
-        this.updateCurrUser(currUserRequests, otherUserRequests);
+        this.setUserRequests(this.state.currUser.id, currUserRequests, this.state.contactInfo.id, otherUserRequests);
     }
 
     pendingRequest(contactID) {
@@ -228,16 +139,12 @@ class ContactCard extends React.Component {
         }
     }
 
-    buttonClicked() {
-        this.props.history.goBack();
-    }
-
     render() {
-        var name;
-        var email;
-        var contactUser;
-        var requestType;
-        if (this.state.contactInfo && this.state.currUser) {
+        var name, 
+        email,
+        contactUser,
+        requestType;
+        if (this.state && this.state.contactInfo) {
             name = <HeaderBar
                         text={this.state.contactInfo.fullName}
                     />

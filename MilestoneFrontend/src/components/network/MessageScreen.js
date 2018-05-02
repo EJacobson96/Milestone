@@ -17,56 +17,6 @@ class MessageScreen extends React.Component {
     constructor(props) {
         super(props);
     
-        this.state = {
-        };
-    }
-
-    renderConversations(id) {
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/conversations/?id=' + id, 
-            {
-                // headers: {
-                //     'Authorization' : localStorage.getItem('Authorization')
-                // }    
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                this.getCurrentUser(data, null);
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
-    }
-
-    getMessages(id, user) {
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/conversations?id=' + id + '&q=',  
-            {
-                // headers: {
-                //     'Authorization' : localStorage.getItem('Authorization')
-                // }    
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                if (data.length > 0) {
-                    console.log(data[0]);
-                    this.setState({
-                        currUser: user,
-                        conversation: data[0],
-                    })
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
     }
 
     componentDidMount() {
@@ -77,10 +27,8 @@ class MessageScreen extends React.Component {
         this.scrollToBottom();
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
-            console.log(data.payload.contentType);
             if (data.payload.contentType === "new message") {
-                console.log(this.props);
-                this.renderConversations(id);
+                this.renderConversations();
             }
         }.bind(this));  
         this.renderConversations(id); 
@@ -91,105 +39,14 @@ class MessageScreen extends React.Component {
         this.scrollToBottom();
     }
 
-    getUser() {
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/users/me', 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.getMessages(data.id, data)
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
-    }
-
-    getCurrentUser(currConversation) {
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/users/me', 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.setState({
-                    currUser: data,
-                    conversation: currConversation
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
-    }
-
-    postNotification(conversation, message) {
-        var users = [];
-        for (let i = 0; i < conversation.members.length; i++) {
-            users.push(conversation.members[i].id);
-        }
-        Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/notifications',
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
-                Read: false,
-                Body: message,
-                ContentType: "new message",
-                ContentID: conversation.id,
-                Users: users,
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                this.setState({
-                    conversation: conversation
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
-    }
-
     componentWillReceiveProps(nextProps) {
         var currID = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         var nextID = nextProps.match.params.id.substring(3, nextProps.match.params.id.length)
         if (currID !== nextID) {
-            Axios.get(
-                'https://milestoneapi.eric-jacobson.me/conversations/?id=' + nextID, 
-                {
-                    // headers: {
-                    //     'Authorization' : localStorage.getItem('Authorization')
-                    // }    
-                })
-                .then(response => {
-                    return response.data;
-                })
-                .then(data => {
-                    console.log(data);
-                    this.setState({
-                        conversation: data
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
-                }
-            );
+            this.props.messageController.getSpecificConversation(nextID)
+            .then(data => {
+                this.setUserData(data);
+            })
         }
     }
 
@@ -197,30 +54,42 @@ class MessageScreen extends React.Component {
         this.messagesEnd.scrollIntoView({ behavior: "smooth" });
       }
 
+    renderConversations() {
+        var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
+        this.props.messageController.getSpecificConversation(id)
+        .then(data => {
+            this.setUserData(data);
+        })
+    }
+
+    setUserData(currConversation) {
+        this.props.userController.getUser()
+            .then(data => {
+                this.setState({
+                    currUser: data,
+                    conversation: currConversation
+                });
+            })
+    }
+
+    postNotification(conversation, message) {
+        this.props.userController.postNotification(conversation, message)
+            .then(data => {
+                console.log(data);
+                this.setState({
+                    conversation: conversation
+                });
+            })
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         var input = this.textInput.value;
         this.textInput.value = "";
-        Axios.post(
-            'https://milestoneapi.eric-jacobson.me/messages?id=' + this.state.currUser.id, 
-            {
-                // headers: {
-                //     'Authorization' : localStorage.getItem('Authorization')
-                // }  
-                id: this.state.conversation.id,
-                TextBody: input 
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                this.postNotification(data, input);
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
+        this.props.messageController.getSpecificConversation(this.state.currUser.id, this.state.conversation.id, input)
+        .then(data => {
+            this.postNotification(data, input);
+        })
     }
 
     render() {
@@ -229,9 +98,7 @@ class MessageScreen extends React.Component {
         var conversation;
         var displayMembers;
         var displayMessages;
-        console.log(this.state.conversation);
-        if (this.state.conversation && this.state.currUser) {
-            console.log(this.state.conversation);
+        if (this.state && this.state.conversation) {
             conversation = this.state.conversation;
             for (var i = 0; i < conversation.members.length; i++) {
                 let memberLength = conversation.members.length;

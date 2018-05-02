@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 /////////////////////////////////////////
 /// Images & Styles
 import fakeuser from '../../img/fakeuser.png';
-import plus from '../../img/plus.png';
 import '../../css/Contacts.css';
 import '../../css/NetworkRequestThumbnail.css';
 
@@ -18,8 +17,6 @@ class NetworkRequestThumbnail extends React.Component {
     constructor(props) {
         super(props);
     
-        this.state = {
-        };
     }
 
     render() {
