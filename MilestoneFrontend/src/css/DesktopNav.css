@@ -1,0 +1,38 @@
+.c-navbar {
+    background-color: #FD786D;
+    width: 100%;
+    top: 0;
+    position: fixed;
+    height: 8vh;
+    z-index: 1;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.milestoneLogo {
+    margin-right: 15px;
+}
+
+.c-navbar__btn {
+    margin-left: auto;
+}
+
+.navLink {
+    margin: 5px 10px 0;
+    color: white;
+}
+
+i {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}

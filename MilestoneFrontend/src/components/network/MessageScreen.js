@@ -20,6 +20,10 @@ class MessageScreen extends React.Component {
     }
 
     componentDidMount() {
+        var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
+        if (id === "") {
+            this.getUser();
+        } 
         this.scrollToBottom();
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
@@ -27,7 +31,8 @@ class MessageScreen extends React.Component {
                 this.renderConversations();
             }
         }.bind(this));  
-        this.renderConversations();
+        this.renderConversations(id); 
+
     }
 
     componentDidUpdate() {
@@ -70,6 +75,7 @@ class MessageScreen extends React.Component {
     postNotification(conversation, message) {
         this.props.userController.postNotification(conversation, message)
             .then(data => {
+                console.log(data);
                 this.setState({
                     conversation: conversation
                 });
@@ -118,6 +124,7 @@ class MessageScreen extends React.Component {
             });
             displayMessages = messages;
             displayMembers = <h3 className="c-messages-screen-header">{members}</h3>
+            console.log(displayMessages);
         }
         return (
             <div className="c-messages-screen-wrapper">
@@ -132,7 +139,7 @@ class MessageScreen extends React.Component {
                 </div>
                 <FormGroup controlId="formControlsTextarea" className="c-messages-input-form">
                     <div className="input-group c-messages-input-group">
-                        <FormControl inputRef={input => this.textInput = input} componentClass="input" placeholder="Message..."/>
+                        <FormControl inputRef={input => this.textInput = input} componentClass="input" placeholder="Message..." className="messageInput"/>
                         <span className="input-group-addon" id="basic-addon1">
                             <Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleSubmit(e)} />
                         </span>

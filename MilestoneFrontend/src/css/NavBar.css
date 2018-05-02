@@ -41,6 +41,7 @@
     font-size: 4vh;
     display: flex;
     align-items: center;
+    color: black;
 }
 
 .c-navbar__btn:hover {

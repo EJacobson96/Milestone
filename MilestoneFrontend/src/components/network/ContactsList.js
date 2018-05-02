@@ -29,7 +29,11 @@ class ContactsList extends React.Component {
 
     getQuery() {
         var searchQuery = this.props.location.pathname;
-        searchQuery = searchQuery.substring(31, searchQuery.length)
+        if (searchQuery.includes('Contacts')) {
+            searchQuery = searchQuery.substring(31, searchQuery.length)
+        } else {
+            searchQuery = searchQuery.substring(22, searchQuery.length)
+        }
         return searchQuery;
     }
 
@@ -61,7 +65,7 @@ class ContactsList extends React.Component {
             })
         }
         return (
-            <div>
+            <div className="c-contact-list">
                 <h3 className="c-contact-list-header">Contacts</h3>
                 <div className="l-contacts">
                     {contactList}

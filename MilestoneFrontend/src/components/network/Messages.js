@@ -24,9 +24,21 @@ class Messages extends React.Component {
         var displayConversations;
         var messagesCount;
         var time;
-        if (this.props.content && this.props.currUser) {
-            messagesCount = <h4 className="c-messages-count">Messages ({this.props.content.length})</h4>;
-            conversations = this.props.content.map((conversation) => {
+        var firstMessage;
+        if (this.props.content && this.state.currUser) {
+            // var firstMessage = document.getElementsByClassName("c-conversation-card");
+            // if (firstMessage.length > 0) {
+            //     firstMessage.classList[0].remove("selectedMessage");
+            // }
+            messagesCount = <h4 className={this.props.content.length === 0 ? " c-message-count-border" : " c-messages-count" }>Messages ({this.props.content.length})</h4>;
+            conversations = this.props.content.map((conversation, i) => {
+                firstMessage = "";
+                if (this.props.match.params.id) {
+                    var id = this.props.match.params.id.substring(3, this.props.match.params.id.length);
+                    if (id === "" && i === 0) {
+                        firstMessage = " selectedMessage"
+                    }
+                }
                 var members = "";
                 for (let i = 0; i < conversation.members.length; i++) {
                     let memberLength = conversation.members.length;
@@ -57,10 +69,10 @@ class Messages extends React.Component {
                         to={{
                             pathname: "/Network/Messages/Conversation/:id" + conversation.id,
                         }}
-                        className='c-contact-card-link-wrapper' 
+                        className='c-contact-card-link-wrapper'  
                         key={conversation.id}
                     >
-                        <div className="c-conversation-card" key={conversation.id} >
+                        <div className={`c-conversation-card ${firstMessage} ${this.props.match.params.id == ":id" + conversation.id && 'selectedMessage'}`} key={conversation.id} >
                             <div className="c-conversation-card__user-img">
                                 <img src={fakeuser} alt="User Avatar"/>
                             </div>
@@ -75,15 +87,15 @@ class Messages extends React.Component {
                     </Link>
                 );
             });
-            displayConversations = <div className="l-conversations">{conversations}</div>
+            // displayConversations = <div className="l-conversations">{conversations}</div>
         } else {
             conversations = <p className="c-no-conversations"></p>;
         }
 
         return (
-            <div>
+            <div className="l-conversations">
                 {messagesCount}
-                {displayConversations}
+                {conversations}
             </div>
         );
     }

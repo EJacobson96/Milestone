@@ -1,7 +1,3 @@
-/* .c-contact-profile {
-    margin-top: -0.8em;
-} */
-
 .c-contact-profile__profile-img {
     align-items: center;
     justify-content: center;
@@ -104,4 +100,23 @@
 .c-request-profile__button--deny {
     padding: .5em 1.5em;
     background-color: white;
+}
+
+@media(min-width: 769px) {
+    .c-contact-profile {
+        flex-basis: 70%;
+        height: 73.5vh;
+        overflow: scroll;
+        border: 1px solid #9C9B9B;
+    }
+    .c-contact-profile__contact-icons__phone {
+        width: 30%
+    }
+    
+    .c-contact-profile__contact-icons__msg {
+        width: 30%;
+    }
+    .c-contact-profile__profile-img img {
+        width: 20%;
+    }
 }

@@ -14,7 +14,7 @@
 	font-size: 5vh;
 	background-color: #FD786D;
 	text-align: center;
-	flex: 0 0 100%;
+	flex: 1;
 	margin: 0;
 	padding: .2em 0;
 }	
@@ -83,3 +83,54 @@
 /* .ms-login-btn-wrapper {
 	float: right;
 } */
+
+@media(min-width: 769px) {
+	.c-login {
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+	.l-login {
+		max-width: 400px;
+		margin: auto;
+	}
+	.l-login__content {
+		display: flex;
+		flex-direction: column;
+	}
+	.c-login-form__label {
+		display: block;
+		text-align: left !important;
+	}
+	.c-login-form__input {
+		display: block;
+	}
+	.c-login-form {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		margin: auto;
+		background-color: rgba(175,175,175, 0.25);
+		box-shadow: 0 0 25px rgba(0,0,0, 0.25);
+		padding: 2.5em 1.5em;
+		border-radius: 5px;
+	}
+	.c-login-form__footer {
+		max-width: 400px;
+		position: static;
+		margin: 0 auto;
+	}
+	.c-login-header {
+		flex-basis: 25px;
+		flex: unset;
+	}	
+	.c-login-form__btn {
+		width: 50%;
+		display: block;
+		margin: 1em auto;
+		font-size: 2vh;
+	}
+	.c-login-form__forgot-password {
+		text-align: center;
+	}
+}

@@ -8,10 +8,12 @@
 /// Pre-baked Components
 import React, { Component } from 'react';
 import { Redirect, Switch, Route } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 
 /////////////////////////////////////////
 /// Standard Components
 import Network from './network/Network';
+import Notification from './Notification';
 import Placeholder from './Placeholder';
 
 /////////////////////////////////////////
@@ -40,6 +42,9 @@ class Main extends Component {
                 )} />
                 <Route path='/Requests' render={(props) => (
                     <Placeholder />
+                )} />
+                <Route path='/Notifications' render={(props) => (
+                    <Notification user={this.state.userData} />
                 )} />
                 <Route exact path="/" render={(props) => (
                     <Redirect to="/Network" />
