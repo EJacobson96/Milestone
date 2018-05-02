@@ -22,3 +22,13 @@
 .c-connection-placeholder-text {
     text-align: center;
 }
+
+@media(min-width: 769px) {
+    .newInvitation {
+        flex-basis: 30%;
+        border: 1px solid #9C9B9B;
+        height: 73.5vh;
+        overflow: scroll;
+        background-color: white;
+    }
+}

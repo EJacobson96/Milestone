@@ -89,9 +89,7 @@ class ContactCard extends React.Component {
                 })
                 .then(data => {
                     console.log(data);
-                    this.setState({
-                        contactInfo: data
-                    });
+                    this.getCurrentUser(data);
                 })
                 .catch(error => {
                     console.log(error);
@@ -205,25 +203,29 @@ class ContactCard extends React.Component {
     }
 
     pendingRequest(contactID) {
-        var requests = this.state.currUser.pendingRequests;
-        for (let i = 0; i < requests.length; i++) {
-            if (requests[i].type === "sent" && requests[i].user === contactID) {
-                return "sent"
-            } else if (requests[i].type === "received" && requests[i].user === contactID) {
-                return "received"
+        if (this.state.currUser) {
+            var requests = this.state.currUser.pendingRequests;
+            for (let i = 0; i < requests.length; i++) {
+                if (requests[i].type === "sent" && requests[i].user === contactID) {
+                    return "sent"
+                } else if (requests[i].type === "received" && requests[i].user === contactID) {
+                    return "received"
+                }
             }
+            return "";
         }
-        return "";
     }
 
     isConnected(contactID) {
-        var connections = this.state.currUser.connections;
-        for (let i = 0; i < connections.length; i++) {
-            if (connections[i].id === contactID) {
-                return true;
+        if (this.state.currUser) {
+            var connections = this.state.currUser.connections;
+            for (let i = 0; i < connections.length; i++) {
+                if (connections[i].id === contactID) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
     buttonClicked() {
@@ -235,7 +237,7 @@ class ContactCard extends React.Component {
         var email;
         var contactUser;
         var requestType;
-        if (this.state.contactInfo) {
+        if (this.state.contactInfo && this.state.currUser) {
             name = <HeaderBar
                         text={this.state.contactInfo.fullName}
                     />
@@ -268,23 +270,28 @@ class ContactCard extends React.Component {
 
         return (
             <div className='c-contact-profile'>
-                {name}          
-                <div className="c-contact-profile__profile-img">
-                    <img src={fakeuser} alt="User Avatar"/>
-                </div>
-                <div className="c-contact-invite">
-                    {contactUser}
-                </div>
-                <div className='c-contact-profile__profile-info'>
-                    <p className='c-contact-profile__field-label'><strong>Email: </strong>{ email }</p>
-                    <h5>Description: </h5>
-                    <p>
-                        Dolore do eiusmod sit qui veniam cillum. Cupidatat qui excepteur magna ea laboris. 
-                        Consequat tempor dolor eiusmod consectetur. Id aliquip voluptate ea minim non pariatur 
-                        minim aliqua pariatur reprehenderit pariatur sint. Mollit cillum ea adipisicing velit eu 
-                        voluptate ipsum velit fugiat sint minim est minim elit.
-                    </p>
-                </div>
+                {
+                    this.state.currUser &&
+                    <div>
+                        {name}          
+                        <div className="c-contact-profile__profile-img">
+                            <img src={fakeuser} alt="User Avatar"/>
+                        </div>
+                        <div className="c-contact-invite">
+                            {contactUser}
+                        </div>
+                        <div className='c-contact-profile__profile-info'>
+                            <p className='c-contact-profile__field-label'><strong>Email: </strong>{ email }</p>
+                            <h5>Description: </h5>
+                            <p>
+                                Dolore do eiusmod sit qui veniam cillum. Cupidatat qui excepteur magna ea laboris. 
+                                Consequat tempor dolor eiusmod consectetur. Id aliquip voluptate ea minim non pariatur 
+                                minim aliqua pariatur reprehenderit pariatur sint. Mollit cillum ea adipisicing velit eu 
+                                voluptate ipsum velit fugiat sint minim est minim elit.
+                            </p>
+                        </div>
+                    </div>
+                }
             </div>
         );
     }

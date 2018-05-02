@@ -64,3 +64,13 @@
     background-color: rgba(115, 201, 177, .9);
     color: white;
 }
+
+@media(min-width: 769px) {
+    .c-network-request-thumbnail__button-wrapper {
+        position: static;
+        margin-right: 18px;
+    }
+    .c-network-request-thumbnail__details__full-name {
+        max-width: 90%;
+    }
+}

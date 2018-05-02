@@ -66,7 +66,7 @@ class Contacts extends React.Component {
             connections = this.props.content.map((connection) => {
                 return (
                     <ContactThumbnail
-                        path={ "/Network/Contacts/Profile/:id" + connection.id }
+                        path={ this.props.isDesktopInvitation ? "/Network/Contacts/Connect/Profile/:id" + connection.id : "/Network/Contacts/Profile/:id" + connection.id }
                         id={ connection.id }
                         key={ connection.id }
                         fullName={ connection.fullName }
@@ -81,9 +81,9 @@ class Contacts extends React.Component {
                               </div>
         } 
         return (
-            <div> 
-                {numRequests}
-                {displayRequests}
+            <div className="contacts"> 
+                {!this.props.isDesktopInvitation && numRequests}
+                {!this.props.isDesktopInvitation && displayRequests}
                 {displayConnectionsCount}
                 {displayConnections}
             </div>

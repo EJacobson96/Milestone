@@ -9,6 +9,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import { Redirect, Switch, Route } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -65,9 +66,11 @@ class Main extends Component {
         return isLoggedIn ? (
             <Switch>
                 <Route path='/Network' render={(props) => (
-                    <Network 
-                        // user={ this.state.userData }
-                    />
+                    // <MediaQuery query="(min-device-width: 769px)">
+                        <Network 
+                            // user={ this.state.userData }
+                        />
+                    // </MediaQuery>
                 )} />
                 <Route path='/Calendar' render={(props) => (
                     <Placeholder />

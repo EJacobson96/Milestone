@@ -35,7 +35,7 @@ class NetworkNav extends Component {
 
     componentDidMount() {
         var links = document.querySelectorAll(".c-network-nav a");
-        if (this.props.location.pathname.endsWith("/Contacts")) {
+        if (this.props.location.pathname.includes("/Contacts")) {
             links[1].className = "c-network-nav__link--active-link";
             links[0].className = "c-network-nav__link--non-active-link";
         } else {
@@ -47,7 +47,7 @@ class NetworkNav extends Component {
     componentWillReceiveProps(nextProp) {
         if (nextProp.location.pathname !== this.props.location.pathname) {
             var links = document.querySelectorAll(".c-network-nav a");
-            if (nextProp.location.pathname.endsWith("/Contacts")) {
+            if (nextProp.location.pathname.includes("/Contacts")) {
                 links[1].className = "c-network-nav__link--active-link";
                 links[0].className = "c-network-nav__link--non-active-link";
             } else {

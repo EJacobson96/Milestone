@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -65,7 +66,7 @@ class Network extends Component {
     }
 
     handleSearch(search) {
-        if (this.props.location.pathname.endsWith("/Contacts")) {
+        if (this.props.location.pathname.includes("/Contacts")) {
             this.getUserConnections(search);
         } else {
             this.getMessages(search);
@@ -145,17 +146,18 @@ class Network extends Component {
     }
 
     render() {
-        var topNav = <div>
-                        <NetworkNav
+        var topNav = <div className="topNav">
+                        <NetworkNav className="networkNav"
                             renderContacts={(e) => this.renderContacts(e)}
                             renderMessages={(e) => this.renderMessages(e)}
                         />
-                        <NetworkSearch 
+                        <NetworkSearch className="networkSearch"
                             contentType={this.state.contentType}
                             handleSearch={(e) => this.handleSearch(e)}
                         />
                     </div>;
-        if (this.state.currUser && this.state.messageContent) {
+        var firstMessage = [];
+        if (this.state.currUser) {
             return (
                 <div className="l-network-content">
                     <Switch>
@@ -165,19 +167,58 @@ class Network extends Component {
                             />
                         )} />
                         <Route path='/Network/Messages/New/' render={(props) => (
-                            <NewMessage 
-                                messageContent = { this.state.messageContent }  
-                                user = {this.state.currUser }                      
-                            />
-                        )} />
-                        <Route exact path ='/Network/Messages/Conversation/:id' render={(props) => (
-                            <MessageScreen />
-                        )} />
-                        <Route path="/Network/Messages" render={(props) => (
                             <div>
-                                { topNav } 
-                                <Messages currUser={ this.state.currUser.id } content={ this.state.messageContent } />
+                                <MediaQuery query="(max-width: 768px)">
+                                    <NewMessage 
+                                        messageContent = { this.state.messageContent }  
+                                        user = {this.state.currUser }                      
+                                    />
+                                </MediaQuery>
+                                <MediaQuery query="(min-width: 769px)">
+                                    <div className="container">
+                                        <div className="contactsNewMessage">
+                                            <ContactsList 
+                                                user = {this.state.currUser }                      
+                                            />
+                                            <NewMessage 
+                                                isDesktop= { true }
+                                                messageContent = { this.state.messageContent }  
+                                                user = {this.state.currUser }                      
+                                            />
+                                        </div>
+                                    </div>
+                                </MediaQuery>
                             </div>
+                        )} />
+                        <Route path ='/Network/Messages/Conversation/:id' render={(props) => (
+                          <div>
+                            <MediaQuery query="(max-device-width: 768px)">
+                              <MessageScreen />
+                            </MediaQuery>
+                            <MediaQuery query="(min-width: 769px)">
+                              <div className="container">
+                                { topNav }
+                                <div className="messageConversation">
+                                    <Messages className="c-messages-component" currUser={ this.state.currUser.id } content={ this.state.messageContent } firstMessage = {firstMessage} />
+                                    <MessageScreen className="c-messagescreen-component"/>
+                                </div>
+                              </div>
+                            </MediaQuery>
+                          </div>
+                        )} />
+                        <Route exact path="/Network/Messages" render={(props) => (
+                          <div>
+                              {console.log(window.innerWidth)}
+                            <MediaQuery query="(max-width: 768px)">
+                                <div>
+                                    { topNav } 
+                                    <Messages currUser={ this.state.currUser.id } content={ this.state.messageContent } />
+                                </div>
+                            </MediaQuery>
+                            <MediaQuery query="(min-width: 769px)">
+                                <Redirect to={"/Network/Messages/Conversation/:id" + (this.state.messageContent.length > 0 ? this.state.messageContent[0].id : '')}  />      
+                            </MediaQuery>
+                          </div>
                         )} />
                         <Route exact path='/Network/Contacts/Request/:id' render={(props) => (
                             <NetworkRequestCard 
@@ -185,23 +226,76 @@ class Network extends Component {
                             />
                         )} />
                         <Route exact path ='/Network/Contacts/Profile/:id' render={(props) => (
-                            <ContactCard />
+                            <div>
+                                <MediaQuery query="(max-width: 768px)">
+                                    <ContactCard />
+                                </MediaQuery>
+                                <MediaQuery query="(min-width: 769px)">
+                                    <div className="container">
+                                        { topNav }
+                                        <div className="desktopContacts">
+                                            <Contacts 
+                                                showRequests={ true } 
+                                                content={ this.state.contactsContent } 
+                                                currUser={ this.state.currUser }
+                                            />
+                                            <ContactCard />
+                                        </div>
+                                    </div>
+                                </MediaQuery>
+
+                            </div>
+
                         )} />
                         <Route exact path="/Network/Contacts/Connect" render={(props) => (
-                            <NetworkConnect 
-                                accountType={ this.state.currUser.accountType }
-                                currUser={ this.state.currUser }
-                            />
+                            <div>
+                                <MediaQuery query="(max-width: 768px)">
+                                        <NetworkConnect 
+                                            isDesktop={ false }
+                                            accountType={ this.state.currUser.accountType }
+                                            currUser={ this.state.currUser }
+                                        />
+                                </MediaQuery>
+                                <MediaQuery query="(min-width: 769px)">
+                                    <Redirect to='/Network/Contacts/Connect/Profile/:id' />
+                                </MediaQuery>
+                            </div>
+                        )} />
+                        <Route exact path ='/Network/Contacts/Connect/Profile/:id' render={(props) => (
+                            <div>
+                                <MediaQuery query="(max-width: 768px)">
+                                    <Redirect to="/Network/Contacts/Connect" />
+                                </MediaQuery>
+                                <MediaQuery query="(min-width: 769px)">
+                                    <div className="container">
+                                        <div className="connectContacts">
+                                            <NetworkConnect 
+                                                isDesktopInvitation={ true }
+                                                accountType={ this.state.currUser.accountType }
+                                                currUser={ this.state.currUser }
+                                            />
+                                            <ContactCard />
+                                        </div>
+                                    </div>
+                                </MediaQuery>
+                            </div>
                         )} />
                         <Route exact path="/Network/Contacts" render={(props) => (
-                        <div>
-                            { topNav }
-                            <Contacts 
-                                showRequests={ true } 
-                                content={ this.state.contactsContent } 
-                                currUser={ this.state.currUser }
-                            />
-                        </div>
+                            <div>
+                                <MediaQuery query="(max-width: 768px)">
+                                    <div>
+                                        { topNav }
+                                        <Contacts 
+                                            showRequests={ true } 
+                                            content={ this.state.contactsContent } 
+                                            currUser={ this.state.currUser }
+                                        />
+                                    </div>
+                                </MediaQuery>
+                                <MediaQuery query="(min-width: 769px)">
+                                    <Redirect to={"/Network/Contacts/Profile/:id"} />
+                                </MediaQuery>
+                            </div>
                         )} />
                         <Route exact path="/Network" render={(props) => (
                             <Redirect to="/Network/Messages" />
