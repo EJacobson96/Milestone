@@ -46,15 +46,14 @@ class App extends Component {
 		return MessageController;
 	}
 
-	logIn(success) {
-		if(success) {
+	logIn() {
+		if (localStorage.getItem('Authorization')) {
 			this.setState({
-				userLoggedIn: true
+				userLoggedIn: true,
 			})
-		}
-		else {
+		} else {
 			this.setState({
-				userLoggedIn: false
+				userLoggedIn: false,
 			})
 		}
 	}
@@ -64,11 +63,14 @@ class App extends Component {
 		this.setState({
 			menuOpen: toggle
 		})
-		console.log(this.state);
 	}
 	
 	componentDidMount() {
-		console.log(this.state);
+		if (localStorage.getItem('Authorization')) {
+			this.setState({
+				userLoggedIn: true,
+			})
+		}
 	}
 	
 	render() {
