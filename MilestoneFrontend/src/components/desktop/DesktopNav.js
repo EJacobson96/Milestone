@@ -54,18 +54,18 @@ class DesktopNav extends React.Component {
             <i className="fas fa-comments"></i>
             <p>Network</p>
           </Link>
-          <Link className="navLink" to='/Calendar'>
+          {/* <Link className="navLink" to='/Calendar'>
             <i className="far fa-calendar"></i>
             <p>Calendar</p>
-          </Link>
+          </Link> */}
           <Link className="navLink" to='/Progress'>
             <i className="far fa-flag"></i>
             <p>Progress</p>
           </Link>
-          <Link className="navLink" to='/Requests'>
+          {/* <Link className="navLink" to='/Requests'>
             <i className="far fa-paper-plane"></i>
             <p>Requests</p>
-          </Link>
+          </Link> */}
           <Link to="/Notifications" className="c-navbar__btn">
             <Glyphicon glyph="bell" />
             {displayNotifications}
