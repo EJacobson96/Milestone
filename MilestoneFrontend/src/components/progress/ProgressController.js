@@ -94,6 +94,8 @@ class ProgressController extends Component {
         );    
     }
 
+    addGoalComment
+
     addGoalCategory(goalCategory) {
         Axios.post(
             'https://milestoneapi.eric-jacobson.me/goals',
@@ -110,6 +112,27 @@ class ProgressController extends Component {
                 console.log(error);
             }
         );    
+    }
+
+    addGoalComment(comment, taskId) {
+        let currGoalCat = this.state.goalData
+            .filter((goal) => goal.id = this.state.currentGoalCategoryId)[0];
+        let currTasks = currGoalCat.tasks;
+        let currTask = currTasks.filter((task) => task.id == taskId)[0];
+        console.log(currTask);
+        let currDate = new Date().toISOString();
+        let newCommentStruct = {
+            creator: this.state.currUser.id,
+            textBody: comment,
+            createdAt: currDate
+        }
+        let commentArray = currTask.comments;
+        if (!commentArray) {
+            commentArray = [];
+        }
+        commentArray.push(newCommentStruct);
+        currTask.comments = commentArray;
+        console.log(currTask);
     }
 
     changeGoalCategory(e, targetCategoryId, targetHeading) {
@@ -234,6 +257,12 @@ class ProgressController extends Component {
         return newMsLocalStore;
     }
 
+    updateCurrGoalCatId(id) {
+        this.setState({
+            currentGoalCategoryId: id
+        });
+    }
+
     render() {
         var addBtnLink = this.state.addBtnLink;
         if (this.props.location.pathname.endsWith('Progress/Goals')) {
@@ -256,8 +285,10 @@ class ProgressController extends Component {
                         changeGoalCategory = { (e, i, t) => this.changeGoalCategory(e, i, t) }
                         refreshUser={ () => this.getCurrentUser() }
                         handleSearch={ (e) => this.handleSearch(e) }
+                        submitComment={ (comment, taskId) => this.addGoalComment(comment, taskId) }
                         switchGoalCatNavFilter={ (e, t) => this.switchGoalCatFilter(e, t) }
                         switchGoalNavFilter={ (e, t) => this.switchGoalFilter(e, t) }
+                        updateCurrGoalCatId={ (i) => this.updateCurrGoalCatId(i) }
                         currUser={ currUser }
                         addBtnLink={ addBtnLink }
                         goals={ goals }

@@ -73,6 +73,8 @@ const Progress = (props) => {
 							goals={ props.goals }
 							navFilter={ props.goalNavFilter }
 							refreshUser={() => props.refreshUser() }
+							updateCurrGoalCatId={ (i) => props.updateCurrGoalCatId(i) }
+							submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
 						/>
 					</div>
 				)} />

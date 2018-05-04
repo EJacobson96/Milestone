@@ -52,7 +52,8 @@ class NewGoalCategory extends React.Component {
 			UserID: this.props.currUser.id,
 			Creator: this.props.currUser.id,
 			Title: this.state.goalCategoryName,
-			Category: "Education"
+			Category: "Education",
+			ServiceProviders: this.state.selectedProviders
 		}
 
 		this.props.addGoalCategory(goalCategory);

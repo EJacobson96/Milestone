@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Moment from 'react-moment';
+import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Dev Notes
@@ -13,6 +14,8 @@ import Moment from 'react-moment';
 
 /////////////////////////////////////////
 /// Standard Components
+
+import GoalComments from './GoalComments';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -59,9 +62,10 @@ const Goal = (props) => {
 				<div className='c-goal__footer__resources-link'>
 					<span className='c-goal__footer__resources-link-text'>RESOURCES</span>				
 				</div>
-				<div className={ 'c-goal-comments' } id={ 'comments-id-' + props.id } style={{display: 'none'}}>
-					
-				</div>
+				<GoalComments
+					id={ props.id }
+					submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
+				/>
 			</div>
 		</div>
 	);

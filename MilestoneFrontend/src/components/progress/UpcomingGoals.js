@@ -27,13 +27,11 @@ const UpcomingGoals = (props) => {
 	let targetGoalCategoryId = props.targetGoalCategoryId;
 	if (!targetGoalCategoryId) {
 		targetGoalCategoryId = props.location.pathname.split(':id')[1];
+		props.updateCurrGoalCatId(targetGoalCategoryId);
 	}
-	let goals = <div></div>;
+	let goals = <Redirect to='/Progress/Goals/'></Redirect>; // <div></div>;
 	let isActive = props.navFilter == "inProgress" ? true : false;
-	console.log(props.goals);
-	console.log(targetGoalCategoryId);
-	console.log(isActive);
-	if (props.goals.length > 1) { // add else to get id from path
+	if (props.goals.length > 1 && targetGoalCategoryId !== undefined) { // add else to get id from path
 		const targetGoalCategory = props.goals.filter(goal => goal.id == targetGoalCategoryId);
 		const filteredGoals = targetGoalCategory[0].tasks.filter((task) => task.active == isActive)
 		goals = filteredGoals.map((task) => {
@@ -42,7 +40,8 @@ const UpcomingGoals = (props) => {
 					goalCategory={ targetGoalCategory[0] }
 					goal={ task } 
 					id={ task.id }
-					key={ task.id } 
+					key={ task.id }
+					submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
 				/>
 			);
 		});
