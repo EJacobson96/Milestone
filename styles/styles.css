@@ -1,0 +1,313 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+header {
+	height: 500px;
+	background-image: url("../images/timothy-eberly-531611-unsplash copy.jpg");
+	background-size: 2000px auto;
+	background-repeat: no-repeat;
+	background-position: left bottom;
+}
+
+footer {
+	margin-top: 60px;
+	height: 75px;
+	background-color: #828282;
+}
+
+@media (min-width: 1800px) {
+	header {
+		height: 600px;
+		background-size: cover;
+	}
+}
+
+.body-text {
+	color: black;
+	font-size: 24px;
+}
+
+.body-text-center {
+	color: black;
+	font-size: 24px;
+	text-align: center;
+}
+
+@media (max-width: 500px) {
+	.body-text {
+		text-align: center;
+		font-size: 18px;
+	}
+
+	.body-text-center {
+		text-align: center;
+		font-size: 18px;
+	}
+
+	.the-team__link-text {
+		font-size: 18px;
+	}
+}
+
+.divider {
+	max-width: 600px;
+	border-top: 3px solid #67C3A9;
+	margin: 60px auto;
+}
+
+.header__top-flex-container {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 20px;
+}
+
+.header__flex-left {
+	padding-top: 20px;
+}
+
+.header__milestone-logo {
+	height: 2.5em;
+}
+
+.header__links-wrapper {
+	display: inline-block;
+	padding-top: 5px;
+	padding-left: 20px;
+	vertical-align: middle;
+}
+
+.header__links-wrapper a {
+	color: white;
+	font-weight: 100;
+	font-size: 1em;
+}
+
+.header__links-wrapper span {
+	color: white;
+	font-weight: 100;
+}
+
+.header__flex-right {
+	padding-top: 20px;
+}
+
+.header__flex-right p {
+	color: white;
+	font-size: 1.5em;
+}
+
+.header__title-container {
+	padding-top: 40px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.header__title {
+	color: white;
+	font-size: 48px;
+	margin-top: 20px;
+	margin-bottom: 0px;
+}
+
+.header__sub-title {
+	font-weight: 200;
+	
+	color: white;
+	font-size: 24px;
+}
+
+.what-is-wrapper__heading-text {
+	color: black;
+	font-size: 36px;
+	font-weight: 600;
+	text-align: center;
+}
+
+.what-is-wrapper {
+	margin-top: 75px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.the-problem-wrapper {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.the-problem-wrapper__heading-text {
+	color: black;
+	font-size: 36px;
+	font-weight: 600;
+	text-align: center;
+}
+
+.solution-wrapper {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.solution__heading-text {
+	color: black;
+	font-size: 36px;
+	font-weight: 600;
+	text-align: center;
+}
+
+.solution__mobile-screenshot {
+	max-height: 300px;
+	display: block;
+	margin: 0 auto;
+}
+
+.solution__desktop-screenshot {
+	max-height: 300px;
+	max-width: 100%;
+	display: block;
+	margin: 0 auto;
+}
+
+@media (max-width: 1000px) {
+	.solution__mobile-screenshot {
+		max-height: 250px;
+	}
+	
+	.solution__desktop-screenshot {
+		max-height: 250px;
+	}
+}
+
+@media (max-width: 768px) {
+	.solution__mobile-screenshot {
+		max-height: 175px;
+	}
+	
+	.solution__desktop-screenshot {
+		max-height: 175px;
+	}
+}
+
+@media (max-width: 500px) {
+	.solution__desktop-screenshot {
+		max-width: 280px;
+	}
+}
+
+.solution__label-text {
+	text-align: center;
+	font-size: 0.9rem;
+	margin-top: 15px;
+	margin-bottom: 0px;
+}
+
+.solution__sub-label-text {
+	text-align: center;
+	font-size: 0.9rem;
+	font-style: italic;
+}
+
+.section__heading-text {
+	color: black;
+	font-size: 36px;
+	font-weight: 600;
+	text-align: center;
+}
+
+.the-team-wrapper {
+	text-align: center;
+}
+
+.the-team__body-text {
+	display: inline;
+}
+
+.the-team__link-text {
+	color: darkblue;
+	font-size: 24px;
+	display: inline;
+}
+
+@media (max-width: 500px) {
+	.the-team__link-text {
+		font-size: 18px;
+	}
+}
+
+.the-team__city-of-seattle-wrapper {
+	margin: 40px auto;
+}
+
+.the-team__city-of-seattle-logo {
+	display: inline-block;
+	height: 150px;
+	line-height: 150px;
+	vertical-align: -15%;
+}
+
+.the-team__city-of-seattle-text-wrapper {
+	display: inline-block;
+}
+
+.the-team__city-of-seattle-large-text {
+	font-size: 48px;
+	font-weight: 600;
+	color: black;
+	margin-bottom: 5px;
+}
+
+.the-team__city-of-seattle-small-text {
+	font-size: 24px;
+	color: black;
+}
+
+.the-team__team-wrapper {
+	margin-top: 40px;
+	text-align: center;
+}
+
+.the-team__portrait-div {
+	background-color: lightgray;
+	border-radius: 50%;
+	height: 150px;
+	width: 150px;
+	margin: 0 auto;
+}
+
+.the-team__member-name {
+	font-size: 36px;
+	font-weight: 600;
+	color: black;
+}
+
+.the-team__member-title {
+	font-size: 24px;
+	color: black;
+}
+
+.ischool-logo-wrapper {
+	margin-top: 40px;
+	text-align: center;
+}
+
+.ischool-logo {
+	display: inline-block;
+	height: 60px;
+}
+
+@media (max-width: 500px) {
+	.ischool-logo{
+		max-width: 280px;
+	}
+}
+
+.footer__copyright {
+	line-height: 75px;
+	margin-bottom: 0px;
+	color: white;
+	display: inline;
+}
+
+.footer__photo-source-link {
+	color: white;
+	display: inline;
+}
