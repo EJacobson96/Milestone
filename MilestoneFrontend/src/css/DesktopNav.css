@@ -12,12 +12,12 @@
   align-items: center;
 }
 
-.milestoneLogo {
-    margin-right: 15px;
+.c-link-notifications {
+    margin-left: auto;
 }
 
-.c-navbar__btn {
-    margin-left: auto;
+.milestoneLogo {
+    margin-right: 15px;
 }
 
 .navLink {

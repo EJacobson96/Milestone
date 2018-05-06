@@ -15,4 +15,11 @@
         background-color: white;
         border: 1px solid #9C9B9B;
     }
+    .c-contact-card-list-link-wrapper:first-of-type .c-contact-card {
+        border-top: none;
+    }
+
+    .c-contact-list-header {
+        border-bottom: 1px solid #808080;
+    }
 }

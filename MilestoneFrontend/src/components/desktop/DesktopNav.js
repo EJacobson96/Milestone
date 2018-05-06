@@ -66,7 +66,7 @@ class DesktopNav extends React.Component {
             <i className="far fa-paper-plane"></i>
             <p>Requests</p>
           </Link> */}
-          <Link to="/Notifications" className="c-navbar__btn">
+          <Link to="/Notifications" className="c-navbar__btn c-link-notifications">
             <Glyphicon glyph="bell" />
             {displayNotifications}
           </Link>

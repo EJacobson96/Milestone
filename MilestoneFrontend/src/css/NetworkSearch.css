@@ -1,17 +1,6 @@
-.c-network-button {
-	/* border-top-left-radius: 0;
-	border-bottom-left-radius: 0; */
-}
-
 .c-network-form .c-network-search {
 	display: flex;
 	margin: .8em 0 0 .7em;
-}
-
-#networkSearch {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-	border-right: none;
 }
 
 @media(min-width: 789px) {

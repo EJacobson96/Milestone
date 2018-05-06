@@ -68,9 +68,13 @@
 @media(min-width: 769px) {
     .c-network-request-thumbnail__button-wrapper {
         position: static;
+        display: inline-block;
         margin-right: 18px;
     }
     .c-network-request-thumbnail__details__full-name {
-        max-width: 90%;
+        max-width: 100px;
+    }
+    .c-network-request-thumbnail__user-img {
+        flex-basis: 125px;
     }
 }

@@ -10,6 +10,8 @@ import Axios from 'axios';
 import fakeuser from '../../img/fakeuser.png';
 import '../../css/Messages.css';
 
+import NetworkSearch from './NetworkSearch';
+
 /////////////////////////////////////////
 /// Code
 
@@ -25,7 +27,17 @@ class Messages extends React.Component {
         var messagesCount;
         var time;
         var firstMessage;
+        var search;
         if (this.props.content) {
+            if (this.props.renderSearch) {
+                var networkSearch = <NetworkSearch 
+                    id="networkSearch"
+                    contentType={this.props.contentType}
+                    handleSearch={this.props.handleSearch}
+                />
+                console.log(this.props.handleSearch);
+                console.log(this.props.contentType);
+            }
             messagesCount = <h4 className={this.props.content.length === 0 ? " c-message-count-border" : " c-messages-count" }>Messages ({this.props.content.length})</h4>;
             conversations = this.props.content.map((conversation, i) => {
                 firstMessage = "";
@@ -90,6 +102,7 @@ class Messages extends React.Component {
         return (
             <div className="l-conversations">
                 {messagesCount}
+                {networkSearch}
                 {conversations}
             </div>
         );

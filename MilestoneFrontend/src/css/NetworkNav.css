@@ -36,4 +36,11 @@
 	.c-network-nav .c-network-nav__link--active-link, .c-network-nav .c-network-nav__link--non-active-link {
 		padding-bottom: 10px;
 	}
+
+	.c-network-nav {
+		flex: unset;
+		align-self: flex-start;
+		width: 30%;
+	}
+
 }

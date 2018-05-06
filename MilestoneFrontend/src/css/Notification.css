@@ -7,11 +7,6 @@
     /* border-bottom: 1.2px solid #73C9B1; */
 }
 
-.c-notification-card {
-    color: black;
-    text-decoration: none;
-}
-
 .c-notifications-header { 
     text-align: center;
     margin: 0 0 .2em 0;
@@ -21,8 +16,11 @@
 }
 
 .c-notification-card {
+    color: black;
+    text-decoration: none;
     display: flex;
-    border-top: 1px solid #9C9B9B;
+    border: 1px solid #9C9B9B;
+    border-bottom: none;
     align-items: center;
     padding: .8em 0 .8em 0;
     /* background-color: rgba(253, 120, 109, .5); */
@@ -60,4 +58,21 @@
 .c-notification-user-avatar img {
     width: 75%;
     border-radius: 50%;
+}
+
+@media(min-width: 769px) {
+    .l-notifications {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    .c-notification-card {
+        height: 50px;
+    }
+    .c-notification-user-avatar {
+        max-width: 50px;
+    }
+    .c-notfication-details-body {
+        flex: 1;
+        width: unset;
+    }
 }

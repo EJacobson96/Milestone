@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom';
 import ContactThumbnail from './ContactThumbnail';
 import NetworkRequestThumbnail from './NetworkRequestThumbnail';
 
+import NetworkSearch from './NetworkSearch';
+
 /////////////////////////////////////////
 /// Images & Styles
 import '../../css/Contacts.css';
@@ -22,8 +24,18 @@ class Contacts extends React.Component {
             displayConnections, 
             numRequests, 
             displayRequests,
-            firstContact;
+            firstContact,
+            search;
         if (this.props.content) {
+            if (this.props.renderSearch) {
+                var networkSearch = <NetworkSearch 
+                    id="networkSearch"
+                    contentType={this.props.contentType}
+                    handleSearch={this.props.handleSearch}
+                />
+                console.log(this.props.handleSearch);
+                console.log(this.props.contentType);
+            }
             if(this.props.currUser.pendingRequests.length > 0 && this.props.showRequests) {
                 var count = 0;
                 for (let i = 0; i < this.props.currUser.pendingRequests.length; i++) {
@@ -80,6 +92,7 @@ class Contacts extends React.Component {
         } 
         return (
             <div className="contacts"> 
+                {networkSearch}
                 {!this.props.isDesktopInvitation && numRequests}
                 {!this.props.isDesktopInvitation && displayRequests}
                 {displayConnectionsCount}

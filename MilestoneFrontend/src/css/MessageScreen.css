@@ -90,6 +90,9 @@
     .c-messages-header-wrapper {
         position: sticky;
     }
+    .messageInput, .input-group-addon {
+        border-radius: 0 !important;
+    }
 }
 
 @media(max-width: 768px) {
