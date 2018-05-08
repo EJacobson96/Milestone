@@ -1,0 +1,47 @@
+.l-new-goal-category {
+}
+
+.c-new-goal-category-form {
+
+}
+
+.c-new-goal-category-form__section {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+.c-new-goal-category-form__section-heading {
+	margin-left: 5px;
+}
+
+.c-new-goal-category-form__section-sub-heading {
+	font-size: 0.8em;
+	color: darkgray;
+	margin-left: 5px;
+}
+
+.c-new-goal-category-form__divider {
+	border-top: 1px solid #979797;
+	margin-bottom: 0px;
+}
+
+.c-new-goal-category-form__button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5em 1.5em;
+    margin-bottom: 1em;
+    font-size: 2.5vh;
+}
+
+.c-new-goal-category-form__button--approve {
+    padding: .5em 1.5em;
+    margin-right: .5em;
+    background-color: #73C9B1;
+    color: white;
+}
+
+.c-new-goal-category-form__button--deny {
+    padding: .5em 1.5em;
+    background-color: white;
+}

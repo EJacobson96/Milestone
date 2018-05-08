@@ -14,6 +14,7 @@ import MediaQuery from 'react-responsive';
 /// Standard Components
 import Network from './network/Network';
 import Notification from './Notification';
+import ProgressController from './progress/ProgressController';
 import Placeholder from './Placeholder';
 
 /////////////////////////////////////////
@@ -38,7 +39,7 @@ class Main extends Component {
                     <Placeholder />
                 )} />
                 <Route path='/Progress' render={(props) => (
-                    <Placeholder />
+                    <ProgressController />
                 )} />
                 <Route path='/Requests' render={(props) => (
                     <Placeholder />

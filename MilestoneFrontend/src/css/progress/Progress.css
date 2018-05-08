@@ -1,0 +1,19 @@
+.l-progress-content input {
+	flex: 1;
+}
+
+.l-progress-content {
+	padding-top: 8vh;
+}
+
+.l-progress-content .c-progress-button {
+	flex-basis: 40px;
+}
+
+.l-progress-content__head {
+	background-color: #FCFCFC;
+}
+
+.c-progress-header {
+	margin-left: 15px;
+}
