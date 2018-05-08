@@ -76,10 +76,17 @@ class ProgressController extends Component {
         if (date) {
             newTask["dueDate"] = date
         }
+        let currGoalCat = this.state.goalData
+            .filter((goalCat) => goalCat.id == targetCategoryId)[0];
+        let currGoalCatTasks = currGoalCat.tasks;
+        currGoalCatTasks.push(newTask);
+        currGoalCat.tasks = currGoalCatTasks;
+        console.log(currGoalCat);
 
-        Axios.post(
-            'https://milestoneapi.eric-jacobson.me/tasks',
-            newTask)
+        // Push it to the server
+        Axios.patch(
+            'https://milestoneapi.eric-jacobson.me/goals?id=' + targetCategoryId,
+            currGoalCat)
             .then(response => {
                 return response.data;
             })
@@ -92,7 +99,7 @@ class ProgressController extends Component {
             .catch(error => {
                 console.log(error);
             }
-        );    
+        );
     }
 
     addGoalCategory(goalCategory) {
@@ -145,6 +152,8 @@ class ProgressController extends Component {
         currTask.comments = commentArray;
         currTasks[currTaskIndex] = currTask;
         currGoalCat.tasks = currTasks;
+
+        console.log(currGoalCat);
 
         // Push it to the server
         Axios.patch(

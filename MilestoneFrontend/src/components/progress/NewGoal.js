@@ -43,7 +43,6 @@ class NewGoal extends React.Component {
 	}
 
 	goBack() {
-		console.log(this.props.location);
 		this.props.history.replace('/Progress/Goals/:id' + this.props.location.pathname.split(':id')[1]);
 		this.props.history.goBack()
 	}
