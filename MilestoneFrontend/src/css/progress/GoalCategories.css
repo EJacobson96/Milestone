@@ -1,0 +1,10 @@
+.c-goal-categories {
+	padding-top: 10px;
+}
+
+@media (max-width: 480px) {
+	.c-goal-categories {
+		width: 320px;
+		margin: 0 auto;
+	}
+}

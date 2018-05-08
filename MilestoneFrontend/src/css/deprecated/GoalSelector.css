@@ -1,0 +1,8 @@
+.c-goal-selector {
+	/* border-top: 2px solid lightgray;
+	border-bottom: 2px solid lightgray;
+	background-color: rgb(119, 119, 119); */
+	height: 150px;
+	overflow-x: auto;
+	white-space: nowrap;
+}

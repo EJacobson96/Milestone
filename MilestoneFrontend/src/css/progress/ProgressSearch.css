@@ -1,0 +1,21 @@
+.c-network-button {
+
+}
+
+.c-progress-form .c-progress-search {
+	display: flex;
+	margin-left: .7em;
+	padding-top: 2vh;
+}
+
+#progressSearch {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-right: none;
+}
+
+.c-progress-search__search-button {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	margin-right: 0.7em;
+}
