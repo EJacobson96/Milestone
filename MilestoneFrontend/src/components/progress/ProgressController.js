@@ -50,6 +50,7 @@ class ProgressController extends Component {
             currentGoalNavFilter: 'inProgress',
             currentGoalCategoryId: null,
             addBtnLink: '/Progress/Goals/NewCategory',
+            allGoalData: [],
             goalData: [],
             activeGoalData: [],
             completedGoalData: [],
@@ -94,8 +95,6 @@ class ProgressController extends Component {
         );    
     }
 
-    addGoalComment
-
     addGoalCategory(goalCategory) {
         Axios.post(
             'https://milestoneapi.eric-jacobson.me/goals',
@@ -115,27 +114,58 @@ class ProgressController extends Component {
     }
 
     addGoalComment(comment, taskId) {
+        // Get a copy of the current Goal Category
         let currGoalCat = this.state.goalData
-            .filter((goal) => goal.id = this.state.currentGoalCategoryId)[0];
+            .filter((goal) => goal.id == this.state.currentGoalCategoryId)[0];
+        // Get a copy of the current Goal Category's tasks
         let currTasks = currGoalCat.tasks;
-        let currTask = currTasks.filter((task) => task.id == taskId)[0];
-        console.log(currTask);
+        // Get the current task and it's index to be replaced later
+        let currTask;
+        let currTaskIndex = -1;
+        for (let i = 0; i < currTasks.length; i++) {
+            if (currTasks[i].id == taskId) {
+                currTask = currTasks[i];
+                currTaskIndex = i;
+            }
+        }
+        // Create the comment object
         let currDate = new Date().toISOString();
         let newCommentStruct = {
             creator: this.state.currUser.id,
             textBody: comment,
             createdAt: currDate
         }
+        // Get (or initialize) the current goal's comments aray
         let commentArray = currTask.comments;
         if (!commentArray) {
             commentArray = [];
         }
+        // Replace the current goal's comments; replace the Goal Category's tasks
         commentArray.push(newCommentStruct);
         currTask.comments = commentArray;
-        console.log(currTask);
+        currTasks[currTaskIndex] = currTask;
+        currGoalCat.tasks = currTasks;
+
+        // Push it to the server
+        Axios.patch(
+            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalCategoryId,
+            currGoalCat)
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                console.log(data);
+                this.getCurrentUser();
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );  
     }
 
     changeGoalCategory(e, targetCategoryId, targetHeading) {
+        // console.log('Cat changed: ' + targetCategoryId);
+        // console.log(this.state.goalData);
         this.setState({
             currentGoalCategoryId: targetCategoryId,
             heading: targetHeading,
@@ -175,7 +205,7 @@ class ProgressController extends Component {
             })
             .then(data => {
                 this.setState({
-                    goalData: data
+                    allGoalData: data
                 });
 
                 this.sortGoals(data);
@@ -227,6 +257,7 @@ class ProgressController extends Component {
             currentNavFilter: targetNavFilter,
             msLocalStore: newMsLocalStore
         });
+        // this.sortGoals(this.state.allGoalData);
         if(targetNavFilter == "inProgress") {
             this.setState({
                 goalData: this.state.activeGoalData
@@ -257,11 +288,12 @@ class ProgressController extends Component {
         return newMsLocalStore;
     }
 
-    updateCurrGoalCatId(id) {
-        this.setState({
-            currentGoalCategoryId: id
-        });
-    }
+    // updateCurrGoalCatId(id) {
+    //     console.log('oops im happening');
+    //     this.setState({
+    //         currentGoalCategoryId: id
+    //     });
+    // }
 
     render() {
         var addBtnLink = this.state.addBtnLink;
@@ -288,7 +320,7 @@ class ProgressController extends Component {
                         submitComment={ (comment, taskId) => this.addGoalComment(comment, taskId) }
                         switchGoalCatNavFilter={ (e, t) => this.switchGoalCatFilter(e, t) }
                         switchGoalNavFilter={ (e, t) => this.switchGoalFilter(e, t) }
-                        updateCurrGoalCatId={ (i) => this.updateCurrGoalCatId(i) }
+                        // updateCurrGoalCatId={ (i) => this.updateCurrGoalCatId(i) }
                         currUser={ currUser }
                         addBtnLink={ addBtnLink }
                         goals={ goals }

@@ -1,3 +1,6 @@
+/////////////////////////////////////////
+/// Package imports
+
 import React, { Component } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 
@@ -25,13 +28,13 @@ const UpcomingGoals = (props) => {
 		 return goal.tasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
 	});
 	let targetGoalCategoryId = props.targetGoalCategoryId;
-	if (!targetGoalCategoryId) {
-		targetGoalCategoryId = props.location.pathname.split(':id')[1];
-		props.updateCurrGoalCatId(targetGoalCategoryId);
-	}
+	// if (!targetGoalCategoryId) {
+	// 	targetGoalCategoryId = props.location.pathname.split(':id')[1];
+	// 	props.updateCurrGoalCatId(targetGoalCategoryId);
+	// }
 	let goals = <Redirect to='/Progress/Goals/'></Redirect>; // <div></div>;
 	let isActive = props.navFilter == "inProgress" ? true : false;
-	if (props.goals.length > 1 && targetGoalCategoryId !== undefined) { // add else to get id from path
+	if (props.goals.length > 1 && targetGoalCategoryId) { // add else to get id from path
 		const targetGoalCategory = props.goals.filter(goal => goal.id == targetGoalCategoryId);
 		const filteredGoals = targetGoalCategory[0].tasks.filter((task) => task.active == isActive)
 		goals = filteredGoals.map((task) => {

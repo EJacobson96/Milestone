@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Moment from 'react-moment';
+import { Link } from 'react-router-dom';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 /////////////////////////////////////////
@@ -28,15 +29,6 @@ import commentBubble from '../../img/comment.png';
 
 const Goal = (props) => {
 
-	function handleCommentsClick() {
-		let targetDiv = document.getElementById('comments-id-' + props.id);
-		if (!targetDiv.style.display || targetDiv.style.display == "none") {
-			targetDiv.style.display = "block";
-		} else {
-			targetDiv.style.display = "none";
-		}
-	}
-
 	let dueDateSpan;
 	if (props.goal.dueDate != '0001-01-01T00:00:00Z') {
 		let dueDate = <Moment format='MM/DD/YY'>{ props.goal.dueDate }</Moment>
@@ -46,27 +38,32 @@ const Goal = (props) => {
 	}
 	return (
 		<div className='c-goal'>
-			<div className='c-goal__header'>
-				<img src={ fakeuser } className='c-goal__sp-avatar' />
-				{ dueDateSpan }
-			</div>
-			<div className='c-goal__body'>
-				<p className='c-goal__title'> { props.goal.title }</p>
-				<p className='c-goal__description'> { props.goal.description }</p>
-			</div>
-			<div className='c-goal__footer'>
-				<div className='c-goal__footer__comments-link' onClick={ () => handleCommentsClick() }>
-					<img src={ commentBubble } className='c-goal__footer__comments-link-icon' />
-					<span className='c-goal__footer__comments-link-text'>COMMENTS</span>
+				<div className='c-goal__header'>
+					<img src={ fakeuser } className='c-goal__sp-avatar' />
+					{ dueDateSpan }
 				</div>
-				<div className='c-goal__footer__resources-link'>
-					<span className='c-goal__footer__resources-link-text'>RESOURCES</span>				
+				<div className='c-goal__body'>
+					<p className='c-goal__title'> { props.goal.title }</p>
+					<p className='c-goal__description'> { props.goal.description }</p>
 				</div>
-				<GoalComments
-					id={ props.id }
-					submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
-				/>
-			</div>
+				<div className='c-goal__footer'>
+					<Link to={ '/Progress/Goals/Comments/:id' + props.id }>
+						<div className='c-goal__footer__comments-link'>
+							<img src={ commentBubble } className='c-goal__footer__comments-link-icon' />
+							<span className='c-goal__footer__comments-link-text'>COMMENTS</span>
+						</div>
+					</Link>
+					<div className='c-goal__footer__resources-link'>
+						<span className='c-goal__footer__resources-link-text'>{/*RESOURCES*/}</span>				
+					</div>
+					{ props.showComments == true &&
+					<GoalComments
+						currUser={ props.currUser }
+						id={ props.id }
+						goal={ props.goal }
+						submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
+					/> }
+				</div>
 		</div>
 	);
 }

@@ -18,6 +18,7 @@ import GoalCategories from './GoalCategories';
 import UpcomingGoals from './UpcomingGoals';
 import NewGoal from './NewGoal';
 import NewGoalCategory from './NewGoalCategory';
+import GoalExpandedComments from './GoalExpandedComments';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -65,6 +66,15 @@ const Progress = (props) => {
 						/>
 					</div>
 				)} />
+				<Route path='/Progress/Goals/Comments/:id' render={() => (
+					<div>
+						<GoalExpandedComments
+							currUser={ props.currUser }
+							goals={ props.goals }
+							submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
+						/>
+					</div>
+				)} />
 				<Route path='/Progress/Goals/:id' render={() => (
 					<div>
 						{ heading(props.heading, props.goalNavFilter, props.switchGoalNavFilter) }
@@ -73,8 +83,7 @@ const Progress = (props) => {
 							goals={ props.goals }
 							navFilter={ props.goalNavFilter }
 							refreshUser={() => props.refreshUser() }
-							updateCurrGoalCatId={ (i) => props.updateCurrGoalCatId(i) }
-							submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
+							// updateCurrGoalCatId={ (i) => props.updateCurrGoalCatId(i) }
 						/>
 					</div>
 				)} />

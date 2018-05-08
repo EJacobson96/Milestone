@@ -45,42 +45,69 @@ class GoalComments extends React.Component {
 	}
 
 	handleCommentSubmit(e) {
-		this.props.submitComment(this.state.commentValue, this.props.id);
+		e.preventDefault();
+		if (this.state.commentValue !== "") {
+			this.props.submitComment(this.state.commentValue, this.props.id);
+		}
+		this.setState({
+			commentValue: ""
+		});
 	}
 	
 	render() {
-		return (
-			<div className={ 'c-goal-comments' } id={ 'comments-id-' + this.props.id } style={{display: 'none'}}>
-			<div className='c-goal-comments__input-wrapper'>
-				<div className='c-goal-comments__avatar-flex-block'>
-					<img src={ fakeuser } className='c-goal-comments__user-avatar' />
-				</div>
-				<div className='c-goal-comments__input-flex-block'>
-					<form>
-						<FormGroup
-							controlId="goalCommentInput"
-							// validationState={this.getValidationState()}
-						>
-							<div className="input-group">
-								<FormControl
-									type="text"
-									value={ this.state.commentValue }
-									placeholder="Comment..."
-									onChange={ (e) => this.handleCommentChange(e) }
-									className='c-goal-comments__input'
-								/>
-								<span className="input-group-addon" id="basic-addon1">
-									<Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleCommentSubmit(e)} />
-								</span>
-							</div>							
-							<FormControl.Feedback />
-						</FormGroup>
-					</form>
+		console.log(this.props.goal.comments);
+		console.log(this.props.currUser);
 
+		let comments = "";
+		if (this.props.goal.comments) {
+			comments = this.props.goal.comments.map((comment) => {
+				if (comment.creator == this.props.currUser.id) {
+					return (
+						<div className='c-goal-comments__comment-from-user'>
+							<div className='c-goal-comments__comment-from-user__avatar-flex-box'>
+								<img src={ fakeuser } className='c-goal-comments__user-avatar' />
+							</div>
+							<div className='c-goal-comments__comment-from-user__text-flex-box'>
+								<p className='c-goal-comments__comment-from-user__text'>{ comment.textBody }</p>
+							</div>
+						</div>
+					)
+				}
+			});
+		}
+		return (
+			<div className={ 'c-goal-comments' } id={ 'comments-id-' + this.props.id }>
+				{ comments }
+
+				<div className='c-goal-comments__input-wrapper'>
+					<div className='c-goal-comments__avatar-flex-block'>
+						<img src={ fakeuser } className='c-goal-comments__user-avatar' />
+					</div>
+					<div className='c-goal-comments__input-flex-block'>
+						<form onSubmit={ (e) => this.handleCommentSubmit(e) }>
+							<FormGroup
+								controlId="goalCommentInput"
+								// validationState={this.getValidationState()}
+							>
+								<div className="input-group">
+									<FormControl
+										type="text"
+										value={ this.state.commentValue }
+										placeholder="Comment..."
+										onChange={ (e) => this.handleCommentChange(e) }
+										className='c-goal-comments__input'
+										autoComplete='off'
+									/>
+									<span className="input-group-addon" id="basic-addon1">
+										<Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleCommentSubmit(e)} />
+									</span>
+								</div>							
+								<FormControl.Feedback />
+							</FormGroup>
+						</form>
+					</div>
 				</div>
 			</div>
-		</div>
-
 		)
 	}
 }
