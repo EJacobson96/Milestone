@@ -4,35 +4,60 @@
     background-color: #FD786D;
     width: 100%;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     top: 0;
     position: fixed;
     height: 8vh;
-    z-index: 1;
 }
 
 .c-navbar__logo-wrapper {
-    flex: 1;
+    flex-basis: 50px;
+    display: flex;
     height: 100%;
-    position: relative;
-}
-
-.c-navbar-logo-container {
-    height: 80%;
-    top: 50%;
-    text-align: center;
-    width: 100%;
-    position: absolute;
-    transform: translateY(-50%);
+    padding: 5px;
+    margin-left: 10px;
 }
 
 .c-navbar__logo-img {
-    display: block;
+    width: 100%;
+}
+
+.c-navbar__link {
+    color: black;
+    padding: 5px;
+}
+
+.c-navbar__btn {
+    background: none;
+    font-size: 1em;
+    padding: 5px;
+    margin-right: 5px;
+    border: none;
+    color: black;
+}
+
+.c-navbar__btn:hover {
+    background: none;
+    border: none;
+}
+
+.c-nav-notifiactions {
+    display: flex;
+    align-items: center;
     margin-left: auto;
-    margin-right: auto;
-    /* max-width: 30px; */
+}
+
+.c-notification-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: auto;
+}
+
+/* .c-navbar__logo-wrapper {
     height: 100%;
-    padding: .2em 0;
+    margin: 0 auto 0 10px;
 }
 
 .c-navbar__btn {
@@ -43,11 +68,13 @@
     align-items: center;
     color: black;
 }
-
-.c-navbar__btn:hover {
-    background: none;
-    border: none;
+.mobileNavLink {
+    height: 100%;
 }
+.mobileNavLink div {
+    padding: 15px;
+    height: 100%;
+} */
 
 
 /**  Currently Unused  **/

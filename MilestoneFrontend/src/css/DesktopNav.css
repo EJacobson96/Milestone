@@ -12,8 +12,21 @@
   align-items: center;
 }
 
-.c-link-notifications {
+.notificationDropdown {
     margin-left: auto;
+}
+.notificationDropdown .dropdown-menu {
+    width: 400px;
+    background-color: #EBECED;
+}
+.dropdown .c-link-notifications {
+    display: flex;
+}
+.dropdown .c-notification-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: auto;
 }
 
 .milestoneLogo {
@@ -22,7 +35,7 @@
 
 .navLink {
     margin: 5px 10px 0;
-    color: white;
+    color: black;
 }
 
 i {
