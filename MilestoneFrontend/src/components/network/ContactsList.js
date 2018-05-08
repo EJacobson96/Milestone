@@ -47,7 +47,7 @@ class ContactsList extends React.Component {
                         to={{
                             pathname: '/Network/Messages/New/' + query +  ' ' + contact.id,
                         }}
-                        className='c-contact-card-link-wrapper' 
+                        className='c-contact-card-list-link-wrapper' 
                         key={ contact.id }
                     >
                         <div className="c-contact-card" key={ contact.id } >

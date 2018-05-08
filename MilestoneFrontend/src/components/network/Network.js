@@ -163,9 +163,19 @@ class Network extends Component {
                                 </MediaQuery>
                                 <MediaQuery query="(min-width: 769px)">
                                     <div className="container">
-                                        {topNav}
+                                        <NetworkNav className="networkNav"
+                                            renderContacts={(e) => this.renderContacts(e)}
+                                            renderMessages={(e) => this.renderMessages(e)}
+                                        />
                                         <div className="messageConversation">
-                                            <Messages className="c-messages-component" currUser={this.state.currUser} content={this.state.messageContent} firstMessage={firstMessage} />
+                                            <Messages className="c-messages-component" 
+                                                currUser={this.state.currUser} 
+                                                content={this.state.messageContent} 
+                                                firstMessage={firstMessage} 
+                                                renderSearch={ true }
+                                                contentType={this.state.contentType}
+                                                handleSearch={(e) => this.handleSearch(e)}
+                                            />
                                             <MessageScreen className="c-messagescreen-component"
                                                 userController={this.props.userController}
                                                 messageController={this.props.messageController}
@@ -197,13 +207,19 @@ class Network extends Component {
                                 </MediaQuery>
                                 <MediaQuery query="(min-width: 769px)">
                                     <div className="container">
-                                        {topNav}
+                                        <NetworkNav className="networkNav"
+                                            renderContacts={(e) => this.renderContacts(e)}
+                                            renderMessages={(e) => this.renderMessages(e)}
+                                        />
                                         <div className="desktopContacts">
                                             <Contacts
                                                 showRequests={true}
                                                 content={this.state.contactsContent}
                                                 currUser={this.state.currUser}
                                                 userController={this.props.userController}
+                                                renderSearch={ true }
+                                                contentType={this.state.contentType}
+                                                handleSearch={(e) => this.handleSearch(e)}
                                             />
                                             <ContactCard
                                                 userController={this.props.userController}

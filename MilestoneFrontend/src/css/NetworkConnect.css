@@ -31,4 +31,7 @@
         overflow: scroll;
         background-color: white;
     }
+    .newInvitation .contacts {
+        border: none;
+    }
 }

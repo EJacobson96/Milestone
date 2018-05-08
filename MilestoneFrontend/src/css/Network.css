@@ -53,12 +53,16 @@
 	.l-network-content > div {
 		height: 100%;
 	}
-	.topNav {
+	.networkSearch {
 		align-self: flex-start;
-		width: 30%;
 	}
-	
-	.messageConversation, .desktopContacts, .connectContacts, .contactsNewMessage {
+
+	.messageConversation, .desktopContacts {
+		display: flex;
+		width: 100%;
+		margin: 15px auto;
+	}
+	.contactsNewMessage, .connectContacts {
 		display: flex;
 		width: 100%;
 		margin: auto;
