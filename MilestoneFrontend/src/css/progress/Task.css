@@ -120,6 +120,14 @@
 	/* background-color: blue; */
 }
 
+.c-task__footer__resources-fa-icon {
+	display: inline;
+	font-size: 1.2em;
+	color: #596372;
+	vertical-align: middle;
+	padding-right: 5px;
+}
+
 .c-task__footer__resources-link-text {
 	color: #5B6471;
 	font-size: 0.8em;

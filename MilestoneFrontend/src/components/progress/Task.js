@@ -16,6 +16,7 @@ import { FormGroup, FormControl, ControlLabel, DropdownButton, Dropdown, MenuIte
 /// Standard Components
 
 import TaskComments from './TaskComments';
+import TaskResources from './TaskResources';
 import TaskDropdown from './TaskDropdown';
 
 /////////////////////////////////////////
@@ -77,15 +78,25 @@ const Task = (props) => {
 							<span className='c-task__footer__comments-link-text'>{ numComments }</span>
 						</div>
 					</Link>
-					<div className='c-task__footer__resources-link'>
-						<span className='c-task__footer__resources-link-text'>{/*RESOURCES*/}</span>				
-					</div>
-					{ props.showComments == true &&
+					<Link to={ '/progress/goals/resources/:id' + props.taskId }>
+						<div className='c-task__footer__resources-link'>
+							<i className="fas fa-link c-task__footer__resources-fa-icon"></i>
+							<span className='c-task__footer__resources-link-text'>RESOURCES</span>				
+						</div>
+					</Link>
+					{ props.showComments === true &&
 					<TaskComments
 						currUser={ props.currUser }
 						taskId={ props.taskId }
 						task={ props.task }
 						submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
+					/> }
+					{ props.showResources === true &&
+					<TaskResources
+						currUser={ props.currUser }
+						taskId={ props.taskId }
+						task={ props.task }
+						submitResource={ (resourceName, resourceUrl, taskId) => props.submitResource(resourceName, resourceUrl, taskId) }
 					/> }
 				</div>
 		</div>

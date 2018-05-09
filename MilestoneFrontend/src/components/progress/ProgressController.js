@@ -16,10 +16,11 @@ import Axios from 'axios';
      *      + Any necessary adjustments for desktop components.
      *      + Three-dot dropdown menu on each goal w/ 'Delete', 'Rename' & 'Mark complete' [REQUIRES ROUTE]
      *          - Finished for tasks, needs route for goals
-     *      + Resources on tasks.
+     *      + Show who resources came from.
      *      + Two way goal approval. [REQUIRES ROUTE?]
      *          - Includes 'pending' message on both goals & tasks, and maybe a pending tab.
      *          - Remove goals/tasks if either side denies?
+     *      + TaskComments needs a block of code for displaying comments from users other than the current user
 	 */
 
 /////////////////////////////////////////
@@ -169,7 +170,59 @@ class ProgressController extends Component {
             .catch(error => {
                 console.log(error);
             }
-        );  
+        ); 
+    }
+
+    addTaskResource(resourceName, resourceUrl, taskId) {
+        console.log(resourceName + ' ' + resourceUrl + ' for ' + taskId);
+        // Get a copy of the current Goal
+        let currGoalCat = this.state.goalData
+            .filter((goal) => goal.id == this.state.currentGoalId)[0];
+        // Get a copy of the current Goal's tasks
+        let currTasks = currGoalCat.tasks;
+        // Get the current task and it's index to be replaced later
+        let currTask;
+        let currTaskIndex = -1;
+        for (let i = 0; i < currTasks.length; i++) {
+            if (currTasks[i].id == taskId) {
+                currTask = currTasks[i];
+                currTaskIndex = i;
+            }
+        }
+        // Create the comment object
+        let currDate = new Date().toISOString();
+        let newResourceStruct = {
+            title: resourceName,
+            url: resourceUrl
+        }
+        // Get (or initialize) the current goal's resource aray
+        let resourceArray = currTask.resources;
+        if (!resourceArray) {
+            resourceArray = [];
+        }
+        // Replace the current goal's comments; replace the Goal Category's tasks
+        resourceArray.push(newResourceStruct);
+        currTask.resources = resourceArray;
+        currTasks[currTaskIndex] = currTask;
+        currGoalCat.tasks = currTasks;
+
+        console.log(currGoalCat);
+
+        // Push it to the server
+        Axios.patch(
+            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalId,
+            currGoalCat)
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                console.log(data);
+                this.getCurrentUser();
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        ); 
     }
 
     changeGoalFocus(e, targetCategoryId, targetHeading) {
@@ -406,6 +459,7 @@ class ProgressController extends Component {
                         updateTask={ (title, date, description, targetGoalId, targetTaskId) => this.updateTask(title, date, description, targetGoalId, targetTaskId) }
                         markTaskComplete={ (taskId) => this.markTaskComplete(taskId) }
                         submitComment={ (comment, taskId) => this.addTaskComment(comment, taskId) }
+                        submitResource={ (resourceName, resourceUrl, taskId) => this.addTaskResource(resourceName, resourceUrl, taskId) }
                         switchGoalNavFilter={ (e, t) => this.switchGoalNavFilter(e, t) }
                         switchTaskNavFilter={ (e, t) => this.switchTaskNavFilter(e, t) }
                         currUser={ currUser }

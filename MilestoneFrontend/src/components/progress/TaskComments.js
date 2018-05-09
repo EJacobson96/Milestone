@@ -55,12 +55,13 @@ class TaskComments extends React.Component {
 	}
 	
 	render() {
-		console.log(this.props.task.comments);
-		console.log(this.props.currUser);
+		// console.log(this.props.task.comments);
+		// console.log(this.props.currUser);
 
 		let comments = "";
 		if (this.props.task.comments) {
 			comments = this.props.task.comments.map((comment) => {
+				// If comment came from current user; NEED BLOCK FOR OTHER USERS WHEN APPLICABLE!
 				if (comment.creator == this.props.currUser.id) {
 					return (
 						<div className='c-task-comments__comment-from-user'>

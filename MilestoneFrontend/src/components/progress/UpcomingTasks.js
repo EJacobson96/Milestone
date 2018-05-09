@@ -44,7 +44,6 @@ const UpcomingTasks = (props) => {
 					task={ task } 
 					taskId={ task.id }
 					key={ task.id }
-					submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
 					editTask={ (taskId) => props.editTask(taskId) }
 					markTaskComplete={ (taskId) => props.markTaskComplete(taskId) }
 				/>

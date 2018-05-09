@@ -21,6 +21,7 @@ import NewTask from './NewTask';
 import EditTask from './EditTask';
 import NewGoal from './NewGoal';
 import TaskExpandedComments from './TaskExpandedComments';
+import TaskExpandedResources from './TaskExpandedResources';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -85,6 +86,17 @@ const Progress = (props) => {
 							currUser={ props.currUser }
 							goals={ props.goals }
 							submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
+							editTask={ (taskId) => props.editTask(taskId) }
+							markTaskComplete={ (taskId) => props.markTaskComplete(taskId) }
+						/>
+					</div>
+				)} />
+				<Route path='/progress/goals/resources/:id' render={() => (
+					<div>
+						<TaskExpandedResources
+							currUser={ props.currUser }
+							goals={ props.goals }
+							submitResource={ (resourceName, resourceUrl, taskId) => props.submitResource(resourceName, resourceUrl, taskId) }
 							editTask={ (taskId) => props.editTask(taskId) }
 							markTaskComplete={ (taskId) => props.markTaskComplete(taskId) }
 						/>
