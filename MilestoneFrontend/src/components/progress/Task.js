@@ -54,6 +54,15 @@ const Task = (props) => {
 			}
 		}
 	}
+	let numResources = "NO RESOURCES";
+	if (props.task.resources !== null) {
+		if (props.task.comments.length > 0) {
+			numResources = props.task.resources.length + " RESOURCE";
+			if (props.task.resources.length > 1) {
+				numResources += "S"
+			}
+		}
+	}
 
 	return (
 		<div className='c-task'>
@@ -81,7 +90,7 @@ const Task = (props) => {
 					<Link to={ '/progress/goals/resources/:id' + props.taskId }>
 						<div className='c-task__footer__resources-link'>
 							<i className="fas fa-link c-task__footer__resources-fa-icon"></i>
-							<span className='c-task__footer__resources-link-text'>RESOURCES</span>				
+							<span className='c-task__footer__resources-link-text'>{ numResources }</span>				
 						</div>
 					</Link>
 					{ props.showComments === true &&

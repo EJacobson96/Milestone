@@ -16,6 +16,7 @@ import Axios from 'axios';
      *      + Any necessary adjustments for desktop components.
      *      + Three-dot dropdown menu on each goal w/ 'Delete', 'Rename' & 'Mark complete' [REQUIRES ROUTE]
      *          - Finished for tasks, needs route for goals
+     *          - Maybe make it so finished tasks can be 'unfinished'?
      *      + Show who resources came from.
      *      + Two way goal approval. [REQUIRES ROUTE?]
      *          - Includes 'pending' message on both goals & tasks, and maybe a pending tab.
