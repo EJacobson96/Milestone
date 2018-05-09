@@ -1,31 +1,31 @@
-.l-new-goal-category {
+.l-new-task {
 }
 
-.c-new-goal-category-form {
+.c-new-task-form {
 
 }
 
-.c-new-goal-category-form__section {
+.c-new-task-form__section {
 	margin-top: 10px;
 	margin-bottom: 20px;
 }
 
-.c-new-goal-category-form__section-heading {
+.c-new-task-form__section-heading {
 	margin-left: 5px;
 }
 
-.c-new-goal-category-form__section-sub-heading {
+.c-new-task-form__section-sub-heading {
 	font-size: 0.8em;
 	color: darkgray;
 	margin-left: 5px;
 }
 
-.c-new-goal-category-form__divider {
+.c-new-task-form__divider {
 	border-top: 1px solid #979797;
 	margin-bottom: 0px;
 }
 
-.c-new-goal-category-form__button-wrapper {
+.c-new-task-form__button-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,14 +34,14 @@
     font-size: 2.5vh;
 }
 
-.c-new-goal-category-form__button--approve {
+.c-new-task-form__button--approve {
     padding: .5em 1.5em;
     margin-right: .5em;
     background-color: #73C9B1;
     color: white;
 }
 
-.c-new-goal-category-form__button--deny {
+.c-new-task-form__button--deny {
     padding: .5em 1.5em;
     background-color: white;
 }

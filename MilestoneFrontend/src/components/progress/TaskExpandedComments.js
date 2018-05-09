@@ -14,38 +14,38 @@ import { withRouter, Redirect } from 'react-router-dom';
 /////////////////////////////////////////
 /// Standard Components
 
-import Goal from './Goal';
+import Task from './Task';
 import fakeuser from '../../img/fakeuser.png';
 import commentBubble from '../../img/comment.png';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/progress/GoalExpandedComments.css';
+import '../../css/progress/TaskExpandedComments.css';
 
 /////////////////////////////////////////
 /// Code
 
-const GoalExpandedComments = (props) => {
-	const targetGoalId = props.location.pathname.split(':id')[1];
-	let targetGoal = false;
-	let targetGoalCategory = null;
+const TaskExpandedComments = (props) => {
+	const targetTaskId = props.location.pathname.split(':id')[1];
+	let targetTask = false;
+	let targetGoal = null;
 	for (let i = 0; i < props.goals.length; i++) {
 		for (let j = 0; j < props.goals[i].tasks.length; j++) {
-			if (props.goals[i].tasks[j].id == targetGoalId) {
-				targetGoal = props.goals[i].tasks[j];
-				targetGoalCategory = props.goals[i];
+			if (props.goals[i].tasks[j].id == targetTaskId) {
+				targetTask = props.goals[i].tasks[j];
+				targetGoal = props.goals[i];
 			}
 		}
 	}
 
 	return (
-		targetGoal ?
-		<div className='[ container ] l-goal-expanded-comments'>
-			<Goal
+		targetTask ?
+		<div className='[ container ] l-task-expanded-comments'>
+			<Task
 				currUser={ props.currUser }
-				goalCategory={ targetGoalCategory }
-				goal={ targetGoal } 
-				id={ targetGoal.id }
+				goal={ targetGoal }
+				task={ targetTask } 
+				taskId={ targetTask.id }
 				submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
 				showComments={ true }
 				editTask={ (taskId) => props.editTask(taskId) }
@@ -53,8 +53,8 @@ const GoalExpandedComments = (props) => {
 			/>
 		</div>
 		:
-		<Redirect to='/Progress/Goals' />
+		<Redirect to='/progress/goals' />
 	);
 }
 
-export default withRouter(GoalExpandedComments);
+export default withRouter(TaskExpandedComments);

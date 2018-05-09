@@ -8,7 +8,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
 	/*
-	 * This component is has state in order to manage the goal input,
+	 * This component is has state in order to manage the task input,
 	 * validate the input, manage the datepicker and  pass data back to the controller. 
 	 * Other state should be kept to a minimum.
 	 */
@@ -26,13 +26,13 @@ import WideDatepicker from './WideDatepicker';
 /////////////////////////////////////////
 /// Code
 
-class NewGoalInput extends React.Component {
+class NewTaskInput extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
 			startDate: moment(),
-			goalTitle: '',
-			goalDescription: ''
+			taskTitle: '',
+			taskDescription: ''
 		};
 		this.handleDateChange = this.handleDateChange.bind(this);
 		this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -49,7 +49,7 @@ class NewGoalInput extends React.Component {
 
 	handleTitleChange(e) {
 		this.setState({
-			goalTitle: e.target.value
+			taskTitle: e.target.value
 		});
 
 		this.props.handleTitleChange(e.target.value);
@@ -57,7 +57,7 @@ class NewGoalInput extends React.Component {
 
 	handleDescriptionChange(e) {
 		this.setState({
-			goalDescription: e.target.value
+			taskDescription: e.target.value
 		});
 
 		this.props.handleDescriptionChange(e.target.value);
@@ -66,39 +66,39 @@ class NewGoalInput extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className='[ container ] c-new-goal-form__section'>
-					<h4 className='c-new-goal-form__section-heading'>
-						Goal name
+				<div className='[ container ] c-new-task-form__section'>
+					<h4 className='c-new-task-form__section-heading'>
+						Task name
 					</h4>
 					<FormControl
 						type='text'
-						value={ this.state.goalTitle }
+						value={ this.state.taskTitle }
 						onChange={ this.handleTitleChange }
-						placeholder='Type in your goal...'
+						placeholder='Type in your task...'
 					/>
 				</div>
 
-				<hr className='c-new-goal-form__divider' />
+				<hr className='c-new-task-form__divider' />
 
-				<div className='[ container ] c-new-goal-form__section'>
-					<h4 className='c-new-goal-form__section-heading'>
-						Goal description
+				<div className='[ container ] c-new-task-form__section'>
+					<h4 className='c-new-task-form__section-heading'>
+						Task description
 					</h4>
 					<FormControl
 						type='text'
-						value={ this.state.goalDescription }
+						value={ this.state.taskDescription }
 						onChange={ this.handleDescriptionChange }
-						placeholder='Describe your goal...'
+						placeholder='Describe your task...'
 					/>
 				</div>
 
-				<hr className='c-new-goal-form__divider' />
+				<hr className='c-new-task-form__divider' />
 				
-				<div className='[ container ] c-new-goal-form__section'>
-					<h4 className='c-new-goal-form__section-heading'>
+				<div className='[ container ] c-new-task-form__section'>
+					<h4 className='c-new-task-form__section-heading'>
 						Due date
 					</h4>
-					<p className='c-new-goal-form__section-sub-heading'>Optional</p>
+					<p className='c-new-task-form__section-sub-heading'>Optional</p>
 					<DatePicker
 						customInput={ <WideDatepicker /> }
 						selected={ this.state.dueDate }
@@ -107,10 +107,10 @@ class NewGoalInput extends React.Component {
 					/>
 				</div>
 
-				<hr className='c-new-goal-form__divider' />
+				<hr className='c-new-task-form__divider' />
 			</div>							
 		)
 	}
 }
 
-export default NewGoalInput;
+export default NewTaskInput;

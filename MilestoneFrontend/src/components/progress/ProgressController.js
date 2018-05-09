@@ -11,15 +11,13 @@ import Axios from 'axios';
 
 	/*
 	 * //TODO: 
-     *      + A "No Results Found" message upon an empty search.
-     *      + A "No goals yet!" message upon opening a empty goal category.
+     *      + A "No Results Found" message upon an empty search. [low priority]
+     *      + A "No goals yet!" message upon opening a empty goal category. [low priority]
      *      + Any necessary adjustments for desktop components.
-     *      + Implement In Progress vs. Completed on search results.
      *      + Three-dot dropdown menu on each goal w/ 'Delete', 'Rename' & 'Mark complete' [REQUIRES ROUTE]
-     *      + Comments. [REQUIRES ROUTE]
-     *      + Resources. [REQUIRES ROUTE]
-     *      + Implement attaching Service Providers to goals upon creation. [REQUIRES ROUTE]
-     *      + Two way goal approval. [REQUIRES ROUTE]
+     *          - Finished for tasks, needs route for goals
+     *      + Resources on tasks.
+     *      + Two way goal approval. [REQUIRES ROUTE?]
 	 */
 
 /////////////////////////////////////////
@@ -47,9 +45,9 @@ class ProgressController extends Component {
             msLocalStore: msLocalStore,
             heading: 'Goal Planning',
             currentNavFilter: msLocalStore.prog_CurrNavFilter,
-            currentGoalNavFilter: 'inProgress',
-            currentGoalCategoryId: null,
-            addBtnLink: '/Progress/Goals/NewCategory',
+            currentTaskNavFilter: 'inProgress',
+            currentGoalId: null,
+            addBtnLink: '/progress/goals/newgoal',
             allGoalData: [],
             goalData: [],
             activeGoalData: [],
@@ -57,7 +55,7 @@ class ProgressController extends Component {
             searchResults: []
         };
 
-        this.addGoal = this.addGoal.bind(this);
+        this.addTask = this.addTask.bind(this);
         this.updateAndGetLocalStore = this.updateAndGetLocalStore.bind(this);
         this.getCurrentUser = this.getCurrentUser.bind(this);
     }
@@ -66,9 +64,9 @@ class ProgressController extends Component {
         this.getCurrentUser();
     }
 
-    addGoal(title, date, description, targetCategoryId) {
+    addTask(title, date, description, targetGoalId) {
         let newTask = {
-            GoalID: targetCategoryId,
+            GoalID: targetGoalId,
             CreatorID: this.state.currUser.id,
             Title: title,
             Description: description
@@ -77,7 +75,7 @@ class ProgressController extends Component {
             newTask["dueDate"] = date
         }
         let currGoalCat = this.state.goalData
-            .filter((goalCat) => goalCat.id == targetCategoryId)[0];
+            .filter((goalCat) => goalCat.id == targetGoalId)[0];
         let currGoalCatTasks = currGoalCat.tasks;
         currGoalCatTasks.push(newTask);
         currGoalCat.tasks = currGoalCatTasks;
@@ -85,7 +83,7 @@ class ProgressController extends Component {
 
         // Push it to the server
         Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + targetCategoryId,
+            'https://milestoneapi.eric-jacobson.me/goals?id=' + targetGoalId,
             currGoalCat)
             .then(response => {
                 return response.data;
@@ -93,8 +91,8 @@ class ProgressController extends Component {
             .then(data => {
                 console.log(data);
                 this.getCurrentUser();
-                this.props.history.push('/Progress/Goals/:id' + targetCategoryId);
-                this.props.history.replace('/Progress/Goals');
+                this.props.history.push('/progress/goals/:id' + targetGoalId);
+                this.props.history.replace('/progress/goals');
             })
             .catch(error => {
                 console.log(error);
@@ -102,17 +100,17 @@ class ProgressController extends Component {
         );
     }
 
-    addGoalCategory(goalCategory) {
+    addGoal(goal) {
         Axios.post(
             'https://milestoneapi.eric-jacobson.me/goals',
-            goalCategory)
+            goal)
             .then(response => {
                 return response.data;
             })
             .then(data => {
                 console.log(data);
                 this.getCurrentUser();
-                this.props.history.push('/Progress/Goals');
+                this.props.history.push('/progress/goals');
             })
             .catch(error => {
                 console.log(error);
@@ -120,10 +118,10 @@ class ProgressController extends Component {
         );    
     }
 
-    addGoalComment(comment, taskId) {
+    addTaskComment(comment, taskId) {
         // Get a copy of the current Goal Category
         let currGoalCat = this.state.goalData
-            .filter((goal) => goal.id == this.state.currentGoalCategoryId)[0];
+            .filter((goal) => goal.id == this.state.currentGoalId)[0];
         // Get a copy of the current Goal Category's tasks
         let currTasks = currGoalCat.tasks;
         // Get the current task and it's index to be replaced later
@@ -157,7 +155,7 @@ class ProgressController extends Component {
 
         // Push it to the server
         Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalCategoryId,
+            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalId,
             currGoalCat)
             .then(response => {
                 return response.data;
@@ -172,19 +170,17 @@ class ProgressController extends Component {
         );  
     }
 
-    changeGoalCategory(e, targetCategoryId, targetHeading) {
-        // console.log('Cat changed: ' + targetCategoryId);
-        // console.log(this.state.goalData);
+    changeGoalFocus(e, targetCategoryId, targetHeading) {
         this.setState({
-            currentGoalCategoryId: targetCategoryId,
+            currentGoalId: targetCategoryId,
             heading: targetHeading,
-            addBtnLink: '/Progress/Goals/NewGoal/:id' + targetCategoryId
+            addBtnLink: '/progress/goals/newtask/:id' + targetCategoryId
         });
     }
 
     editTask(taskId) {
         console.log('edit ' + taskId);
-        this.props.history.push('/Progress/Goals/EditGoal/:id' + taskId);
+        this.props.history.push('/progress/goals/edittask/:id' + taskId);
     }
 
     getCurrentUser() {
@@ -243,7 +239,7 @@ class ProgressController extends Component {
                     searchResults: data
                 });
                 console.log(data);
-                this.props.history.push('/Progress/Goals/Search?q=' + search);
+                this.props.history.push('/progress/goals/search?q=' + search);
             });
     }
 
@@ -251,7 +247,7 @@ class ProgressController extends Component {
         console.log('mark ' + taskId + ' complete');
         // Get a copy of the current Goal Category
         let currGoalCat = this.state.goalData
-            .filter((goal) => goal.id == this.state.currentGoalCategoryId)[0];
+            .filter((goal) => goal.id == this.state.currentGoalId)[0];
         // Get a copy of the current Goal Category's tasks
         let currTasks = currGoalCat.tasks;
         // Get the current task and it's index to be replaced later
@@ -271,7 +267,7 @@ class ProgressController extends Component {
 
         // Push it to the server
         Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalCategoryId,
+            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalId,
             currGoalCat)
             .then(response => {
                 return response.data;
@@ -304,13 +300,12 @@ class ProgressController extends Component {
         }
     }
 
-	switchGoalCatFilter(e, targetNavFilter) {
+	switchGoalNavFilter(e, targetNavFilter) {
         let newMsLocalStore = this.updateAndGetLocalStore('prog_CurrNavFilter', targetNavFilter);
         this.setState({
             currentNavFilter: targetNavFilter,
             msLocalStore: newMsLocalStore
         });
-        // this.sortGoals(this.state.allGoalData);
         if(targetNavFilter == "inProgress") {
             this.setState({
                 goalData: this.state.activeGoalData
@@ -322,9 +317,9 @@ class ProgressController extends Component {
         }
     }
 
-    switchGoalFilter(e, targetNavFilter) {
+    switchTaskNavFilter(e, targetNavFilter) {
         this.setState({
-            currentGoalNavFilter: targetNavFilter
+            currentTaskNavFilter: targetNavFilter
         });
     }
 
@@ -366,7 +361,7 @@ class ProgressController extends Component {
 
         // Push it to the server
         Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalCategoryId,
+            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalId,
             currGoalCat)
             .then(response => {
                 return response.data;
@@ -374,7 +369,7 @@ class ProgressController extends Component {
             .then(data => {
                 console.log(data);
                 this.getCurrentUser();
-                this.props.history.push('/Progress/Goals/:id' + targetGoalId);
+                this.props.history.push('/progress/goals/:id' + targetGoalId);
             })
             .catch(error => {
                 console.log(error);
@@ -384,42 +379,41 @@ class ProgressController extends Component {
 
     render() {
         var addBtnLink = this.state.addBtnLink;
-        if (this.props.location.pathname.endsWith('Progress/Goals') || 
-            this.props.location.pathname.endsWith('Progress/Goals/')) {
-            addBtnLink = '/Progress/Goals/NewCategory'
+        if (this.props.location.pathname.endsWith('progress/goals') || 
+            this.props.location.pathname.endsWith('progress/goals/')) {
+            addBtnLink = '/progress/goals/newgoal'
         }
         const currUser = this.state.currUser;
         const heading = this.state.heading;
-        const targetNavFilter = this.state.currentNavFilter;
-        const targetGoalNavFilter = this.state.currentGoalNavFilter;
+        const targetGoalNavFilter = this.state.currentNavFilter;
+        const targetTaskNavFilter = this.state.currentTaskNavFilter;
         const goals = this.state.goalData;
         const searchResults = this.state.searchResults;
-        const targetGoalCategoryId = this.state.currentGoalCategoryId; // Save me to localStorage!
+        const targetGoalId = this.state.currentGoalId; // Save me to localStorage!
 
         return (
             <Route path='/Progress' render={(props) => (
                 <div>
                     <Progress
-                        addGoal={ (t,dd,d,c) => this.addGoal(t,dd,d,c) }
-                        addGoalCategory={ (o) => this.addGoalCategory(o) }
-                        changeGoalCategory = { (e, i, t) => this.changeGoalCategory(e, i, t) }
+                        addTask={ (t,dd,d,c) => this.addTask(t,dd,d,c) }
+                        addGoal={ (o) => this.addGoal(o) }
+                        changeGoalFocus = { (e, goalId, goalTitle) => this.changeGoalFocus(e, goalId, goalTitle) }
                         refreshUser={ () => this.getCurrentUser() }
                         handleSearch={ (e) => this.handleSearch(e) }
                         editTask={ (taskId) => this.editTask(taskId) }
                         updateTask={ (title, date, description, targetGoalId, targetTaskId) => this.updateTask(title, date, description, targetGoalId, targetTaskId) }
                         markTaskComplete={ (taskId) => this.markTaskComplete(taskId) }
-                        submitComment={ (comment, taskId) => this.addGoalComment(comment, taskId) }
-                        switchGoalCatNavFilter={ (e, t) => this.switchGoalCatFilter(e, t) }
-                        switchGoalNavFilter={ (e, t) => this.switchGoalFilter(e, t) }
-                        // updateCurrGoalCatId={ (i) => this.updateCurrGoalCatId(i) }
+                        submitComment={ (comment, taskId) => this.addTaskComment(comment, taskId) }
+                        switchGoalNavFilter={ (e, t) => this.switchGoalNavFilter(e, t) }
+                        switchTaskNavFilter={ (e, t) => this.switchTaskNavFilter(e, t) }
                         currUser={ currUser }
                         addBtnLink={ addBtnLink }
                         goals={ goals }
                         heading={ heading }
-                        navFilter={ targetNavFilter }
                         goalNavFilter={ targetGoalNavFilter }
+                        taskNavFilter={ targetTaskNavFilter }
                         searchResults={ searchResults }
-                        targetGoalCategoryId = { targetGoalCategoryId }
+                        targetGoalId = { targetGoalId }
                     />
                 </div>
             )} />

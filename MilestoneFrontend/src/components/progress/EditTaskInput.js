@@ -67,39 +67,39 @@ class EditTaskInput extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className='[ container ] c-edit-goal-form__section'>
-					<h4 className='c-edit-goal-form__section-heading'>
-						New Goal name
+				<div className='[ container ] c-edit-task-form__section'>
+					<h4 className='c-edit-task-form__section-heading'>
+						New Task name
 					</h4>
 					<FormControl
 						type='text'
 						value={ this.state.taskTitle }
 						onChange={ this.handleTitleChange }
-						placeholder='Type in your goal...'
+						placeholder='Type in your task...'
 					/>
 				</div>
 
-				<hr className='c-edit-goal-form__divider' />
+				<hr className='c-edit-task-form__divider' />
 
-				<div className='[ container ] c-edit-goal-form__section'>
-					<h4 className='c-edit-goal-form__section-heading'>
-						New Goal description
+				<div className='[ container ] c-edit-task-form__section'>
+					<h4 className='c-edit-task-form__section-heading'>
+						New Task description
 					</h4>
 					<FormControl
 						type='text'
 						value={ this.state.taskDescription }
 						onChange={ this.handleDescriptionChange }
-						placeholder='Describe your goal...'
+						placeholder='Describe your task...'
 					/>
 				</div>
 
-				<hr className='c-edit-goal-form__divider' />
+				<hr className='c-edit-task-form__divider' />
 				
-				<div className='[ container ] c-edit-goal-form__section'>
-					<h4 className='c-edit-goal-form__section-heading'>
+				<div className='[ container ] c-edit-task-form__section'>
+					<h4 className='c-edit-task-form__section-heading'>
 						New Due date
 					</h4>
-					<p className='c-edit-goal-form__section-sub-heading'>Optional</p>
+					<p className='c-edit-task-form__section-sub-heading'>Optional</p>
 					<DatePicker
 						customInput={ <WideDatepicker /> }
 						selected={ this.state.dueDate }
@@ -108,7 +108,7 @@ class EditTaskInput extends React.Component {
 					/>
 				</div>
 
-				<hr className='c-edit-goal-form__divider' />
+				<hr className='c-edit-task-form__divider' />
 			</div>							
 		)
 	}

@@ -14,12 +14,13 @@ import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 /////////////////////////////////////////
 /// Standard Components
 import ProgressHeading from './ProgressHeading';
-import GoalCategories from './GoalCategories';
-import UpcomingGoals from './UpcomingGoals';
-import NewGoal from './NewGoal';
+import Goals from './Goals';
+import ProgressSearchResults from './ProgressSearchResults';
+import UpcomingTasks from './UpcomingTasks';
+import NewTask from './NewTask';
 import EditTask from './EditTask';
-import NewGoalCategory from './NewGoalCategory';
-import GoalExpandedComments from './GoalExpandedComments';
+import NewGoal from './NewGoal';
+import TaskExpandedComments from './TaskExpandedComments';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -40,46 +41,47 @@ const Progress = (props) => {
 	return (
 		<div className='l-progress-content'>
 			<Switch>
-				<Route path='/Progress/Goals/Search' render={() => (
+				<Route path='/progress/goals/search' render={() => (
 					<div>
 						{ heading('Search Results', props.goalNavFilter, props.switchGoalNavFilter) }
-						<GoalCategories
+						<ProgressSearchResults
 							goals={ props.searchResults }
+							navFilter={ props.goalNavFilter }
 							refreshUser={() => props.refreshUser() }
-							changeGoalCategory = { (e, i, t) => props.changeGoalCategory(e, i, t) }
+							changeGoalFocus={ (e, goalId, goalTitle) => props.changeGoalFocus(e, goalId, goalTitle) }
 						/>
 					</div>
 				)} />
-				<Route path='/Progress/Goals/NewGoal/:id' render={() => (
+				<Route path='/progress/goals/newtask/:id' render={() => (
 					<div>
-						<NewGoal 
-							addGoal={ (title, date, description, targetCategoryId) => { props.addGoal(title, date, description, targetCategoryId) }}
-							targetGoalCategoryId = { props.targetGoalCategoryId }
+						<NewTask 
+							addTask={ (title, date, description, targetCategoryId) => { props.addTask(title, date, description, targetCategoryId) }}
+							targetGoalId = { props.targetGoalId }
 						/>
 					</div>
 				)} />
-				<Route path='/Progress/Goals/EditGoal/:id' render={() => (
+				<Route path='/progress/goals/edittask/:id' render={() => (
 					<div>
 						<EditTask
 							updateTask={ (title, date, description, targetCategoryId) => { props.updateTask(title, date, description, targetCategoryId) }}
 							goals={ props.goals }
-							targetGoalCategoryId = { props.targetGoalCategoryId }
+							targetGoalId = { props.targetGoalId }
 							updateTask={ (title, date, description, targetGoalId, targetTaskId) => props.updateTask(title, date, description, targetGoalId, targetTaskId) }
 						/>
 					</div>
 				)} />
-				<Route path='/Progress/Goals/NewCategory' render={() => (
+				<Route path='/progress/goals/newgoal' render={() => (
 					<div>
-						<NewGoalCategory 
+						<NewGoal
 							currUser={ props.currUser }
 							refreshUser={() => props.refreshUser() }
-							addGoalCategory={ (o) => props.addGoalCategory(o) }
+							addGoal={ (o) => props.addGoal(o) }
 						/>
 					</div>
 				)} />
-				<Route path='/Progress/Goals/Comments/:id' render={() => (
+				<Route path='/progress/goals/comments/:id' render={() => (
 					<div>
-						<GoalExpandedComments
+						<TaskExpandedComments
 							currUser={ props.currUser }
 							goals={ props.goals }
 							submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
@@ -88,32 +90,34 @@ const Progress = (props) => {
 						/>
 					</div>
 				)} />
-				<Route path='/Progress/Goals/:id' render={() => (
+				<Route path='/progress/goals/:id' render={() => (
 					<div>
-						{ heading(props.heading, props.goalNavFilter, props.switchGoalNavFilter) }
-						<UpcomingGoals
-							targetGoalCategoryId={ props.targetGoalCategoryId }
+						{ heading(props.heading, props.taskNavFilter, props.switchTaskNavFilter) }
+						<UpcomingTasks
+							targetGoalId={ props.targetGoalId }
 							goals={ props.goals }
-							navFilter={ props.goalNavFilter }
+							navFilter={ props.taskNavFilter }
 							refreshUser={() => props.refreshUser() }
 							editTask={ (taskId) => props.editTask(taskId) }
 							markTaskComplete={ (taskId) => props.markTaskComplete(taskId) }
-							// updateCurrGoalCatId={ (i) => props.updateCurrGoalCatId(i) }
 						/>
 					</div>
 				)} />
-				<Route exact path='/Progress/Goals' render={() => (
+				<Route exact path='/progress/goals' render={() => (
 					<div>
-						{ heading('Goal Categories', props.navFilter, props.switchGoalCatNavFilter) }
-						<GoalCategories
+						{ heading('Goals', props.goalNavFilter, props.switchGoalNavFilter) }
+						<Goals
 							goals={ props.goals }
 							refreshUser={() => props.refreshUser() }
-							changeGoalCategory = { (e, i, t) => props.changeGoalCategory(e, i, t) }
+							changeGoalFocus = { (e, goalId, goalTitle) => props.changeGoalFocus(e, goalId, goalTitle) }
 						/>
 					</div>
 				)} />
-				<Route exact path='/Progress' render={(props) => (
-					<Redirect to='/Progress/Goals' />
+				<Route path='/Progress' render={(props) => (
+					<Redirect to='/progress/goals' />
+				)} />
+				<Route exact path='/progress' render={(props) => (
+					<Redirect to='/progress/goals' />
 				)} />
 			</Switch>
 		</div>

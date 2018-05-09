@@ -13,36 +13,36 @@ import { Redirect, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
-import Goal from './Goal';
+import Task from './Task';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/progress/UpcomingGoals.css';
+import '../../css/progress/UpcomingTasks.css';
 
 /////////////////////////////////////////
 /// Code
 
-const UpcomingGoals = (props) => {
+const UpcomingTasks = (props) => {
 	
 	let sortGoalTasks = props.goals.map((goal) => {
 		 return goal.tasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
 	});
-	let targetGoalCategoryId = props.targetGoalCategoryId;
-	// if (!targetGoalCategoryId) {
-	// 	targetGoalCategoryId = props.location.pathname.split(':id')[1];
-	// 	props.updateCurrGoalCatId(targetGoalCategoryId);
+	let targetGoalId = props.targetGoalId;
+	// if (!targetGoalId) {
+	// 	targetGoalId = props.location.pathname.split(':id')[1];
+	// 	props.updateCurrGoalCatId(targetGoalId);
 	// }
-	let goals = <Redirect to='/Progress/Goals/'></Redirect>; // <div></div>;
+	let tasks = <Redirect to='/progress/goals/'></Redirect>; // <div></div>;
 	let isActive = props.navFilter == "inProgress" ? true : false;
-	if (props.goals.length > 1 && targetGoalCategoryId) { // add else to get id from path
-		const targetGoalCategory = props.goals.filter(goal => goal.id == targetGoalCategoryId);
-		const filteredGoals = targetGoalCategory[0].tasks.filter((task) => task.active == isActive)
-		goals = filteredGoals.map((task) => {
+	if (props.goals.length > 1 && targetGoalId) { // add else to get id from path
+		const targetGoal = props.goals.filter(goal => goal.id == targetGoalId);
+		const filteredGoals = targetGoal[0].tasks.filter((task) => task.active == isActive)
+		tasks = filteredGoals.map((task) => {
 			return (
-				<Goal
-					goalCategory={ targetGoalCategory[0] }
-					goal={ task } 
-					id={ task.id }
+				<Task
+					goal={ targetGoal[0] }
+					task={ task } 
+					taskId={ task.id }
 					key={ task.id }
 					submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
 					editTask={ (taskId) => props.editTask(taskId) }
@@ -54,10 +54,10 @@ const UpcomingGoals = (props) => {
 
 	return (
 		<div className='[ container ] l-upcoming-goals'>
-			{ goals }
+			{ tasks }
 		</div>
 	);
 
 }
 
-export default withRouter(UpcomingGoals);
+export default withRouter(UpcomingTasks);

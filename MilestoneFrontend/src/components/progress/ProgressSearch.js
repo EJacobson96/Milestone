@@ -17,7 +17,6 @@ import '../../css/progress/ProgressSearch.css';
 /// Code
 
 function ProgressSearch(props) {
-    // console.log(props);
     return (
         <div className="c-progress-form">
             <form className="[ form-inline ] c-progress-search">

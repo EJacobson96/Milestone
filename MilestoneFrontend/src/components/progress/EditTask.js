@@ -9,7 +9,7 @@ import { withRouter, Redirect } from 'react-router-dom';
 /// Dev Notes
 
 	/*
-	 * This component is has state in order to manage the goal input and
+	 * This component is has state in order to manage the task input and
 	 * pass it back to the controller. Other state should be kept to a
 	 * minimum.
 	 */
@@ -32,12 +32,12 @@ class EditTask extends React.Component {
 	constructor (props) {
 		super(props);
 
-		const shouldRender = this.props.targetGoalCategoryId;
+		const shouldRender = this.props.targetGoalId;
 		let goalId;
 		let taskId;
 		let currTask;
 		if (shouldRender) {
-			goalId = this.props.targetGoalCategoryId;
+			goalId = this.props.targetGoalId;
 			taskId = this.props.location.pathname.split(':id')[1];
 			currTask = this.props.goals.filter((goal) => goal.id == goalId)[0]
 				.tasks.filter((task) => task.id == taskId)[0];
@@ -59,7 +59,7 @@ class EditTask extends React.Component {
 	}
 
 	goBack() {
-		this.props.history.replace('/Progress/Goals/:id' + this.props.location.pathname.split(':id')[1]);
+		this.props.history.replace('/progress/goals/:id' + this.props.location.pathname.split(':id')[1]);
 		this.props.history.goBack()
 	}
 
@@ -82,27 +82,16 @@ class EditTask extends React.Component {
 	}
 	
 	render() {
-		// const shouldRender = this.props.targetGoalCategoryId;
-		// let goalId;
-		// let taskId;
-		// let currTask;
-		// if (shouldRender) {
-		// 	goalId = this.props.targetGoalCategoryId;
-		// 	taskId = this.props.location.pathname.split(':id')[1];
-		// 	currTask = this.props.goals.filter((goal) => goal.id == goalId)[0]
-		// 		.tasks.filter((task) => task.id == taskId)[0];
-		// }
-
 		return (
 			this.state.shouldRender ?
-			<div className='l-edit-goal'>
+			<div className='l-edit-task'>
 				<HeaderBar 
-					text={ 'Edit Goal' }
+					text={ 'Edit Task' }
 				/>
-				<div className='c-edit-goal-form'>
+				<div className='c-edit-task-form'>
 					<form>
 						<FormGroup
-							controlId={ this.props.controlId ? this.props.controlId : 'editGoalForm' }
+							controlId={ this.props.controlId ? this.props.controlId : 'editTaskForm' }
 						>
 							<EditTaskInput 
 								handleDateChange={ (d) => this.handleDateChange(d) }
@@ -111,12 +100,12 @@ class EditTask extends React.Component {
 								task={ this.state.currTask }
 							/>
 
-							<div className='[ container ] c-edit-goal-form__section'>
-								<div className='c-edit-goal-form__button-wrapper'>
-									<Button className='c-edit-goal-form__button--approve' onClick={ (e) => { this.props.updateTask(this.state.goalTitle, this.state.dueDate, this.state.goalDescription, this.state.goalId, this.state.taskId) } }>
+							<div className='[ container ] c-edit-task-form__section'>
+								<div className='c-edit-task-form__button-wrapper'>
+									<Button className='c-edit-task-form__button--approve' onClick={ (e) => { this.props.updateTask(this.state.goalTitle, this.state.dueDate, this.state.goalDescription, this.state.goalId, this.state.taskId) } }>
 										Save
 									</Button>
-									<Button className='c-edit-goal-form__button--deny' onClick={ () => { this.goBack() } }>
+									<Button className='c-edit-task-form__button--deny' onClick={ () => { this.goBack() } }>
 										Cancel
 									</Button>
 								</div>
@@ -126,7 +115,7 @@ class EditTask extends React.Component {
 				</div>
 			</div>
 			: // ELSE
-			<Redirect to='/Progress/Goals'></Redirect>
+			<Redirect to='/progress/goals'></Redirect>
 		)
 	}
 }

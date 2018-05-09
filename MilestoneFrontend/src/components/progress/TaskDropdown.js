@@ -17,10 +17,8 @@ import { Dropdown, MenuItem, FormControl } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/progress/GoalDropdown.css';
+import '../../css/progress/TaskDropdown.css';
 import threeDotImg from '../../img/task3dot.png';
-// import fakeuser from '../../img/fakeuser.png';
-
 
 /////////////////////////////////////////
 /// Code
@@ -75,7 +73,7 @@ class CustomMenu extends React.Component {
 		const { value } = this.state;
 	
 		return (
-			<div className="dropdown-menu c-goal-dropdown__dropdown-menu" style={{ padding: '' }}>
+			<div className="dropdown-menu c-task-dropdown__dropdown-menu" style={{ padding: '' }}>
 				<ul className="list-unstyled">
 					{React.Children.toArray(children).filter(
 					child => !value.trim() || child.props.children.indexOf(value) !== -1
@@ -86,7 +84,7 @@ class CustomMenu extends React.Component {
 	}
 }
   
-class GoalDropdown extends React.Component {
+class TaskDropdown extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 
@@ -96,18 +94,18 @@ class GoalDropdown extends React.Component {
 
 	render() {
 		return (
-			<Dropdown className='c-goal-dropdown' id='goal-dropdown'>
+			<Dropdown className='c-task-dropdown' id='task-dropdown'>
 				<CustomToggle bsRole="toggle">
-					<img src={ threeDotImg } className='c-goal-dropdown__img' />
+					<img src={ threeDotImg } className='c-task-dropdown__img' />
 				</CustomToggle>
 			
 				<CustomMenu bsRole="menu">
-					<MenuItem eventKey="1" className='c-goal-dropdown__menu-li' onClick={ () => this.props.editTask() }>
-						Edit Goal
+					<MenuItem eventKey="1" className='c-task-dropdown__menu-li' onClick={ () => this.props.editTask() }>
+						Edit Task
 					</MenuItem>
-					<hr className='c-goal-dropdown__divider' />
-					<MenuItem eventKey="2" className='c-goal-dropdown__menu-li' onClick={ () => this.props.markTaskComplete() }>
-						Mark Goal Complete
+					<hr className='c-task-dropdown__divider' />
+					<MenuItem eventKey="2" className='c-task-dropdown__menu-li' onClick={ () => this.props.markTaskComplete() }>
+						Mark Task Complete
 					</MenuItem>
 				</CustomMenu>
 			</Dropdown>
@@ -115,4 +113,4 @@ class GoalDropdown extends React.Component {
 	}
 }
 
-export default GoalDropdown;
+export default TaskDropdown;
