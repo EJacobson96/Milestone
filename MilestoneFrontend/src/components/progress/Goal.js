@@ -16,11 +16,17 @@ import '../../css/progress/Goal.css';
 
 const Goal = (props) => {
     const linkToGoalId = '/progress/goals/:id' + props.goalId;
-    let numberOfTasks = props.numberOfTasks + ' Task';
-    if (props.numberOfTasks > 1) {
-        numberOfTasks += 's';
-    } else if (props.numberOfTasks === 0) {
-        numberOfTasks = 'No goals';
+    let numTasks = 0;
+    for (let i = 0; i < props.goal.tasks.length; i++) {
+        if (props.goal.tasks[i].active === true) {
+            numTasks++;
+        }
+    }
+    let numTasksText = numTasks + ' Active Task';
+    if (numTasks > 1) {
+        numTasksText += 's';
+    } else if (numTasks === 0) {
+        numTasksText = 'No tasks';
     }
 
     return (
@@ -28,7 +34,7 @@ const Goal = (props) => {
             <Link to={ linkToGoalId } onClick={ (e) => props.changeGoalFocus(e, props.goalId, props.goalTitle) }>
                 <div className="c-goal__category-info">
                     <p className="c-goal__category-title">{ props.goalTitle }</p>
-                    <p className="c-goal__number-of-goals">{ numberOfTasks }</p>
+                    <p className="c-goal__number-of-goals">{ numTasksText }</p>
                 </div>
             </Link>
         </div>

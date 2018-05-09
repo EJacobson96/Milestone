@@ -57,14 +57,24 @@ class NavBar extends React.Component {
             // console.log(notifications.length);
             if (notifications > 0) {
                 // console.log("hello");
-                displayNotifications = <Badge>{notifications}</Badge>
+                displayNotifications = <Badge className='c-navbar__notification-counter-badge'>{notifications}</Badge>
             }
         }
         return (
             <div className="c-navbar">
-                <Button bsSize="lg" onClick={(e) => this.openSideBar(e)} className="c-navbar__btn">
+                {/* <Button bsSize="lg" onClick={(e) => this.openSideBar(e)} className="c-navbar__btn">
                     <Glyphicon glyph="menu-hamburger" />
-                </Button>
+                </Button> */}
+                <Link to='/Network'>
+                    <Button bsSize="lg" className="c-navbar__btn">
+                        <i className="fas fa-comments c-navbar__font-awesome-icon"></i>
+                    </Button>             
+                </Link>
+                <Link to='/progress'>
+                    <Button bsSize="lg" className="c-navbar__btn">
+                        <i className="fas fa-flag c-navbar__font-awesome-icon"></i>
+                    </Button>
+                </Link>
                 <div className="c-navbar__logo-wrapper">
                     <Link to="/Network">
                         <div className="c-navbar-logo-container">
@@ -72,12 +82,14 @@ class NavBar extends React.Component {
                         </div>
                     </Link>
                 </div>
-                <Link to="/Notifications" className="c-navbar__btn">
-                    <Glyphicon glyph="bell" />
-                    {displayNotifications}
+                <Link to="/Notifications" className="c-navbar__btn c-navbar__notification-btn">
+                    <Button bsSize="lg" className="c-navbar__btn">
+                        <i className="fas fa-bell c-navbar__font-awesome-icon"></i>
+                        {displayNotifications}
+                    </Button>
                 </Link>
                 <Button bsSize="lg" className="c-navbar__btn">
-                    <Glyphicon glyph="user" />                
+                    <i className="fas fa-user c-navbar__font-awesome-icon"></i>
                 </Button>
             </div>
         );

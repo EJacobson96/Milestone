@@ -18,6 +18,8 @@ import Axios from 'axios';
      *          - Finished for tasks, needs route for goals
      *      + Resources on tasks.
      *      + Two way goal approval. [REQUIRES ROUTE?]
+     *          - Includes 'pending' message on both goals & tasks, and maybe a pending tab.
+     *          - Remove goals/tasks if either side denies?
 	 */
 
 /////////////////////////////////////////

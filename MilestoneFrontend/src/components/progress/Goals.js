@@ -38,6 +38,7 @@ class Goals extends React.Component {
         const goals = this.props.goals.map((goal) => {
             return (
                 <Goal
+                    goal={ goal }
                     goalTitle={ goal.title }
                     status={ goal.active ? "Active" : "Finished" }
                     numberOfTasks={ goal.tasks.length }
