@@ -56,7 +56,7 @@ const Task = (props) => {
 	}
 	let numResources = "NO RESOURCES";
 	if (props.task.resources !== null) {
-		if (props.task.comments.length > 0) {
+		if (props.task.resources.length > 0) {
 			numResources = props.task.resources.length + " RESOURCE";
 			if (props.task.resources.length > 1) {
 				numResources += "S"
