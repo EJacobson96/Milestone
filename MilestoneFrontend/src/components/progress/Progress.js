@@ -17,6 +17,7 @@ import ProgressHeading from './ProgressHeading';
 import GoalCategories from './GoalCategories';
 import UpcomingGoals from './UpcomingGoals';
 import NewGoal from './NewGoal';
+import EditTask from './EditTask';
 import NewGoalCategory from './NewGoalCategory';
 import GoalExpandedComments from './GoalExpandedComments';
 
@@ -52,8 +53,18 @@ const Progress = (props) => {
 				<Route path='/Progress/Goals/NewGoal/:id' render={() => (
 					<div>
 						<NewGoal 
-							addGoal={ (t,dd,d,c) => { props.addGoal(t,dd,d,c) }}
+							addGoal={ (title, date, description, targetCategoryId) => { props.addGoal(title, date, description, targetCategoryId) }}
 							targetGoalCategoryId = { props.targetGoalCategoryId }
+						/>
+					</div>
+				)} />
+				<Route path='/Progress/Goals/EditGoal/:id' render={() => (
+					<div>
+						<EditTask
+							updateTask={ (title, date, description, targetCategoryId) => { props.updateTask(title, date, description, targetCategoryId) }}
+							goals={ props.goals }
+							targetGoalCategoryId = { props.targetGoalCategoryId }
+							updateTask={ (title, date, description, targetGoalId, targetTaskId) => props.updateTask(title, date, description, targetGoalId, targetTaskId) }
 						/>
 					</div>
 				)} />
@@ -72,6 +83,8 @@ const Progress = (props) => {
 							currUser={ props.currUser }
 							goals={ props.goals }
 							submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
+							editTask={ (taskId) => props.editTask(taskId) }
+							markTaskComplete={ (taskId) => props.markTaskComplete(taskId) }
 						/>
 					</div>
 				)} />
@@ -83,6 +96,8 @@ const Progress = (props) => {
 							goals={ props.goals }
 							navFilter={ props.goalNavFilter }
 							refreshUser={() => props.refreshUser() }
+							editTask={ (taskId) => props.editTask(taskId) }
+							markTaskComplete={ (taskId) => props.markTaskComplete(taskId) }
 							// updateCurrGoalCatId={ (i) => props.updateCurrGoalCatId(i) }
 						/>
 					</div>

@@ -45,6 +45,8 @@ const UpcomingGoals = (props) => {
 					id={ task.id }
 					key={ task.id }
 					submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
+					editTask={ (taskId) => props.editTask(taskId) }
+					markTaskComplete={ (taskId) => props.markTaskComplete(taskId) }
 				/>
 			);
 		});

@@ -48,6 +48,8 @@ const GoalExpandedComments = (props) => {
 				id={ targetGoal.id }
 				submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
 				showComments={ true }
+				editTask={ (taskId) => props.editTask(taskId) }
+				markTaskComplete={ (taskId) => props.markTaskComplete(taskId) }
 			/>
 		</div>
 		:

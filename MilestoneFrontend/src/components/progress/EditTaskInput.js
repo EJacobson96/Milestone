@@ -21,18 +21,19 @@ import WideDatepicker from './WideDatepicker';
 /////////////////////////////////////////
 /// Images & Styles
 
-// import '../../css/progress/NewGoal.css';
+// import '../../css/progress/editGoal.css';
 
 /////////////////////////////////////////
 /// Code
 
-class NewGoalInput extends React.Component {
+class EditTaskInput extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
-			startDate: moment(),
-			goalTitle: '',
-			goalDescription: ''
+			// startDate: this.props.task.dueDate,
+			dueDate: this.props.task.dueDate === '0001-01-01T00:00:00Z' ? null : moment(this.props.task.dueDate),
+			taskTitle: this.props.task.title,
+			taskDescription: this.props.task.description,
 		};
 		this.handleDateChange = this.handleDateChange.bind(this);
 		this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -49,7 +50,7 @@ class NewGoalInput extends React.Component {
 
 	handleTitleChange(e) {
 		this.setState({
-			goalTitle: e.target.value
+			taskTitle: e.target.value
 		});
 
 		this.props.handleTitleChange(e.target.value);
@@ -57,7 +58,7 @@ class NewGoalInput extends React.Component {
 
 	handleDescriptionChange(e) {
 		this.setState({
-			goalDescription: e.target.value
+			taskDescription: e.target.value
 		});
 
 		this.props.handleDescriptionChange(e.target.value);
@@ -66,51 +67,51 @@ class NewGoalInput extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className='[ container ] c-new-goal-form__section'>
-					<h4 className='c-new-goal-form__section-heading'>
-						Goal name
+				<div className='[ container ] c-edit-goal-form__section'>
+					<h4 className='c-edit-goal-form__section-heading'>
+						New Goal name
 					</h4>
 					<FormControl
 						type='text'
-						value={ this.state.goalTitle }
+						value={ this.state.taskTitle }
 						onChange={ this.handleTitleChange }
 						placeholder='Type in your goal...'
 					/>
 				</div>
 
-				<hr className='c-new-goal-form__divider' />
+				<hr className='c-edit-goal-form__divider' />
 
-				<div className='[ container ] c-new-goal-form__section'>
-					<h4 className='c-new-goal-form__section-heading'>
-						Goal description
+				<div className='[ container ] c-edit-goal-form__section'>
+					<h4 className='c-edit-goal-form__section-heading'>
+						New Goal description
 					</h4>
 					<FormControl
 						type='text'
-						value={ this.state.goalDescription }
+						value={ this.state.taskDescription }
 						onChange={ this.handleDescriptionChange }
 						placeholder='Describe your goal...'
 					/>
 				</div>
 
-				<hr className='c-new-goal-form__divider' />
+				<hr className='c-edit-goal-form__divider' />
 				
-				<div className='[ container ] c-new-goal-form__section'>
-					<h4 className='c-new-goal-form__section-heading'>
-						Due date
+				<div className='[ container ] c-edit-goal-form__section'>
+					<h4 className='c-edit-goal-form__section-heading'>
+						New Due date
 					</h4>
-					<p className='c-new-goal-form__section-sub-heading'>Optional</p>
+					<p className='c-edit-goal-form__section-sub-heading'>Optional</p>
 					<DatePicker
 						customInput={ <WideDatepicker /> }
 						selected={ this.state.dueDate }
-						onChange={ this.handleDateChange } 
+						onChange={ this.handleDateChange }
 						withPortal
 					/>
 				</div>
 
-				<hr className='c-new-goal-form__divider' />
+				<hr className='c-edit-goal-form__divider' />
 			</div>							
 		)
 	}
 }
 
-export default NewGoalInput;
+export default EditTaskInput;

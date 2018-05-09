@@ -7,7 +7,7 @@
     z-index: 1;
 }
 
-.container {
+.c-navbar__desktop-nav-container {
   display: flex;
   align-items: center;
 }

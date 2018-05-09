@@ -1,14 +1,13 @@
 /////////////////////////////////////////
 /// Package imports
 
-import React from 'react';
+import React, { ReactDOM } from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
-import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, DropdownButton, Dropdown, MenuItem } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Dev Notes
-
 	/*
 	 * 
 	 */
@@ -17,6 +16,7 @@ import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 /// Standard Components
 
 import GoalComments from './GoalComments';
+import GoalDropdown from './GoalDropdown';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -29,6 +29,14 @@ import commentBubble from '../../img/comment.png';
 
 const Goal = (props) => {
 
+	function editTask() {
+		props.editTask(props.goal.id);
+	}
+
+	function markTaskComplete() {
+		props.markTaskComplete(props.goal.id);
+	}
+
 	let dueDateSpan;
 	if (props.goal.dueDate != '0001-01-01T00:00:00Z') {
 		let dueDate = <Moment format='MM/DD/YY'>{ props.goal.dueDate }</Moment>
@@ -36,11 +44,25 @@ const Goal = (props) => {
 	} else {
 		dueDateSpan = <span className='c-goal__due-date'>{ props.goalCategory.title }</span>
 	}
+	let numComments = "NO COMMENTS";
+	if (props.goal.comments.length > 0) {
+		numComments = props.goal.comments.length + " COMMENT";
+		if (props.goal.comments.length > 1) {
+			numComments += "S"
+		}
+	}
+
 	return (
 		<div className='c-goal'>
 				<div className='c-goal__header'>
 					<img src={ fakeuser } className='c-goal__sp-avatar' />
 					{ dueDateSpan }
+					<GoalDropdown 
+						markTaskComplete={ () => markTaskComplete() }
+						editTask={ () => editTask() }
+					/>
+
+
 				</div>
 				<div className='c-goal__body'>
 					<p className='c-goal__title'> { props.goal.title }</p>
@@ -50,7 +72,7 @@ const Goal = (props) => {
 					<Link to={ '/Progress/Goals/Comments/:id' + props.id }>
 						<div className='c-goal__footer__comments-link'>
 							<img src={ commentBubble } className='c-goal__footer__comments-link-icon' />
-							<span className='c-goal__footer__comments-link-text'>COMMENTS</span>
+							<span className='c-goal__footer__comments-link-text'>{ numComments }</span>
 						</div>
 					</Link>
 					<div className='c-goal__footer__resources-link'>
