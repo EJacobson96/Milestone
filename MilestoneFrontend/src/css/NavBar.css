@@ -11,6 +11,10 @@
     z-index: 1;
 }
 
+.c-navbar a:hover, a:active {
+    text-decoration: none;
+}
+
 .c-navbar__logo-wrapper {
     flex: 1;
     height: 100%;
@@ -33,6 +37,7 @@
     /* max-width: 30px; */
     height: 100%;
     padding: .2em 0;
+    flex-grow: 1;
 }
 
 .c-navbar__btn {
@@ -49,6 +54,18 @@
     border: none;
 }
 
+.c-navbar__notification-btn {
+    max-width: Calc(1em + 32px);    /* To match the other buttons on mobile. */
+}
+
+.c-navbar__font-awesome-icon {
+    color: white;
+    font-size: 1em;
+}
+
+.c-navbar__notification-counter-badge {
+    left: -10px;
+}
 
 /**  Currently Unused  **/
 

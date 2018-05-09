@@ -8,8 +8,8 @@ import { FormGroup, FormControl, ControlLabel, Glyphicon } from 'react-bootstrap
 /// Dev Notes
 
 	/*
-	 * This component has state in order to manage the goal inputs and to
-	 * add and keep track of initial goals to pass back to the controller. 
+	 * This component has state in order to manage the task inputs and to
+	 * add and keep track of initial task to pass back to the controller. 
 	 * Other state should be kept to a minimum.
 	 */
 
@@ -19,13 +19,13 @@ import { FormGroup, FormControl, ControlLabel, Glyphicon } from 'react-bootstrap
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/progress/GoalComments.css';
+import '../../css/progress/TaskComments.css';
 import fakeuser from '../../img/fakeuser.png';
 
 /////////////////////////////////////////
 /// Code
 
-class GoalComments extends React.Component {
+class TaskComments extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
@@ -47,7 +47,7 @@ class GoalComments extends React.Component {
 	handleCommentSubmit(e) {
 		e.preventDefault();
 		if (this.state.commentValue !== "") {
-			this.props.submitComment(this.state.commentValue, this.props.id);
+			this.props.submitComment(this.state.commentValue, this.props.taskId);
 		}
 		this.setState({
 			commentValue: ""
@@ -55,20 +55,21 @@ class GoalComments extends React.Component {
 	}
 	
 	render() {
-		console.log(this.props.goal.comments);
-		console.log(this.props.currUser);
+		// console.log(this.props.task.comments);
+		// console.log(this.props.currUser);
 
 		let comments = "";
-		if (this.props.goal.comments) {
-			comments = this.props.goal.comments.map((comment) => {
+		if (this.props.task.comments) {
+			comments = this.props.task.comments.map((comment) => {
+				// If comment came from current user; NEED BLOCK FOR OTHER USERS WHEN APPLICABLE!
 				if (comment.creator == this.props.currUser.id) {
 					return (
-						<div className='c-goal-comments__comment-from-user'>
-							<div className='c-goal-comments__comment-from-user__avatar-flex-box'>
-								<img src={ fakeuser } className='c-goal-comments__user-avatar' />
+						<div className='c-task-comments__comment-from-user'>
+							<div className='c-task-comments__comment-from-user__avatar-flex-box'>
+								<img src={ fakeuser } className='c-task-comments__user-avatar' />
 							</div>
-							<div className='c-goal-comments__comment-from-user__text-flex-box'>
-								<p className='c-goal-comments__comment-from-user__text'>{ comment.textBody }</p>
+							<div className='c-task-comments__comment-from-user__text-flex-box'>
+								<p className='c-task-comments__comment-from-user__text'>{ comment.textBody }</p>
 							</div>
 						</div>
 					)
@@ -76,17 +77,17 @@ class GoalComments extends React.Component {
 			});
 		}
 		return (
-			<div className={ 'c-goal-comments' } id={ 'comments-id-' + this.props.id }>
+			<div className={ 'c-task-comments' } id={ 'comments-id-' + this.props.taskId }>
 				{ comments }
 
-				<div className='c-goal-comments__input-wrapper'>
-					<div className='c-goal-comments__avatar-flex-block'>
-						<img src={ fakeuser } className='c-goal-comments__user-avatar' />
+				<div className='c-task-comments__input-wrapper'>
+					<div className='c-task-comments__avatar-flex-block'>
+						<img src={ fakeuser } className='c-task-comments__user-avatar' />
 					</div>
-					<div className='c-goal-comments__input-flex-block'>
+					<div className='c-task-comments__input-flex-block'>
 						<form onSubmit={ (e) => this.handleCommentSubmit(e) }>
 							<FormGroup
-								controlId="goalCommentInput"
+								controlId="taskCommentInput"
 								// validationState={this.getValidationState()}
 							>
 								<div className="input-group">
@@ -95,7 +96,7 @@ class GoalComments extends React.Component {
 										value={ this.state.commentValue }
 										placeholder="Comment..."
 										onChange={ (e) => this.handleCommentChange(e) }
-										className='c-goal-comments__input'
+										className='c-task-comments__input'
 										autoComplete='off'
 									/>
 									<span className="input-group-addon" id="basic-addon1">
@@ -112,4 +113,4 @@ class GoalComments extends React.Component {
 	}
 }
 
-export default GoalComments;
+export default TaskComments;
