@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/mail"
 	"strings"
+	"time"
 
-	"github.com/EJacobson96/Milestone/server/gateway/models/notifications"
 	"github.com/EJacobson96/Milestone/server/gateway/models/status"
 	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/mgo.v2/bson"
@@ -35,30 +35,49 @@ type User struct {
 	Program       string          `json:"program"`
 	Availability  []*Availability `json:"availability"`
 	//AreasOfExpertise 	[]*
-	Notifications   []*notifications.Notification `json:"notifications"`
-	PendingRequests []*notifications.Request      `json:"pendingRequests"`
-	Connections     []*User                       `json:"connections"`
-	AccountType     string                        `json:"accountType"`
-	UserStatus      *status.Status                `json:"userStatus"`
-	Address         *Address                      `json:"address"`
+	Notifications   []*Notification `json:"notifications"`
+	PendingRequests []*Request      `json:"pendingRequests"`
+	Connections     []*ShortUser    `json:"connections"`
+	AccountType     string          `json:"accountType"`
+	UserStatus      *status.Status  `json:"userStatus"`
+	Address         *Address        `json:"address"`
 }
 
-//Credentials represents user sign-in credentials
-type Credentials struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+type ShortUser struct {
+	ID        string `json:"id" bson:"_id"`
+	Email     string `json:"email"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	FullName  string `json:"fullName"`
+}
+
+type Notification struct {
+	Sender       string    `json:"sender"`
+	TimeSent     time.Time `json:"timeSent"`
+	Read         bool      `json:"read"`
+	Body         string    `json:"body"`
+	ContentType  string    `json:"contentType"`
+	ContentRoute string    `json:"contentRoute"`
+}
+
+type Request struct {
+	Sender      string    `json:"sender"`
+	TimeSent    time.Time `json:"timeSent"`
+	Type        string    `json:"type"`
+	Body        string    `json:"body"`
+	ContentType string    `json:"contentType"`
 }
 
 type UpdateRequests struct {
-	PendingRequests []*notifications.Request `json:"pendingRequests"`
+	PendingRequests []*Request `json:"pendingRequests"`
 }
 
 type UpdateConnections struct {
-	Connections []*User `json:"connections"`
+	Connections []*ShortUser `json:"connections"`
 }
 
 type UpdateNotifications struct {
-	Notifications []*notifications.Notification `json:"notifications"`
+	Notifications []*Notification `json:"notifications"`
 }
 
 //NewUser represents a new user signing up for an account
@@ -78,10 +97,16 @@ type NewUser struct {
 	Program       string          `json:"program"`
 	Availability  []*Availability `json:"availability"`
 	//AreasOfExpertise 	[]*
-	Connections []*User        `json:"connections"`
+	Connections []*ShortUser   `json:"connections"`
 	AccountType string         `json:"accountType"`
 	UserStatus  *status.Status `json:"userStatus"`
 	Address     *Address       `json:"address"`
+}
+
+//Credentials represents user sign-in credentials
+type Credentials struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 //Updates represents allowed updates to a user profile
