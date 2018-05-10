@@ -67,14 +67,14 @@ var UserController = {
         );
     },
 
-    addConnection: function (id, userConnections) {
+    addConnection: function (id, connections) {
         return Axios.patch(
             'https://milestoneapi.eric-jacobson.me/connections?id=' + id, 
             {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
-                Connections: userConnections
+                // headers: {
+                //     'Authorization' : localStorage.getItem('Authorization')
+                // },
+                Connections: connections
             })
             .then(response => {
                 return response.data;
@@ -86,6 +86,7 @@ var UserController = {
     },
 
     updateUserRequests: function (id, requests) {
+        // console.log(id);
         return Axios.patch(
             'https://milestoneapi.eric-jacobson.me/requests?id=' + id,
             {
@@ -100,20 +101,18 @@ var UserController = {
             .catch(error => {
                 console.log(error);
             });
+        
     },
 
-    postNotification: function (conversation, message) {
+    postNotification: function (notifications, id) {
+        console.log(notifications + " " + id);
         return Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/notifications',
+            'https://milestoneapi.eric-jacobson.me/notifications?id=' + id,
             {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
-                Read: false,
-                Body: message,
-                ContentType: "new message",
-                ContentID: conversation.id,
-                Users: conversation.Users,
+                // headers: {
+                //     'Authorization' : localStorage.getItem('Authorization')
+                // },
+                Notifications: notifications
             })
             .then(response => {
                 return response.data;

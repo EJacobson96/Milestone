@@ -38,7 +38,7 @@ var MessageController = {
 
     postConversation: function (id, message, filteredUsers) {
         return Axios.post(
-            'https://milestoneapi.eric-jacobson.me/conversations?id=' + this.props.user.id, 
+            'https://milestoneapi.eric-jacobson.me/conversations?id=' + id, 
             {
                 headers: {
                     'Authorization' : localStorage.getItem('Authorization')

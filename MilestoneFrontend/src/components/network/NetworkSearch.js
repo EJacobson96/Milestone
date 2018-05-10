@@ -28,13 +28,10 @@ class NetworkSearch extends Component {
         let input = document.getElementById('networkSearch');
 		let search = input.value;
 		this.props.handleSearch(search);
-		console.log(input.value);
 		input.value = '';
-		console.log("whats going on");
     }
 
     render() {
-		console.log(this.props);
         return (
 			<div className="c-network-form">
 				<form className="[ form-inline ] c-network-search">

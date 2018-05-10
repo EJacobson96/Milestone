@@ -59,13 +59,15 @@ class Network extends Component {
     }
 
     setMessageData(search, id) {
-        this.props.messageController.getMessages(search, id)
+        if (id) {
+            this.props.messageController.getMessages(search, id)
             .then(data => {
                 this.setState({
                     messageContent: data,
                     contentType: 'messages'
                 });
             })
+        }
     }
 
     setUserConnections(search, id) {
@@ -115,6 +117,7 @@ class Network extends Component {
         </div>;
         var firstMessage = [];
         if (this.state.currUser && this.state.messageContent) {
+            console.log(this.state.currUser);
             return (
                 <div className="l-network-content">
                     <Switch>

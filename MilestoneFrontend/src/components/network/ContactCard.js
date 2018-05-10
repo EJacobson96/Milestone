@@ -57,8 +57,8 @@ class ContactCard extends React.Component {
             })
     }
 
-    setUserRequests(currUserID, currUserRequests, otherUserID, otherUserRequests) {
-        this.props.userController.updateUserRequests(currUserID, currUserRequests)
+    setUserRequests(message, currentUser, currUserRequests, otherUserID, otherUserRequests) {
+        this.props.userController.updateUserRequests(currentUser.id, currUserRequests)
         .then(data => {
             this.setState({
                 currUser: data,
@@ -67,6 +67,13 @@ class ContactCard extends React.Component {
                 .then(data => {
                     this.setState({
                         contactInfo: data,
+                    }, () => {
+                        console.log(message)
+                        if (message) {
+                            console.log("hello " + message)
+                            this.postNotification(currentUser, currentUser.id, message, "connection", 
+                                "/Network/Contacts/Profile/:id" + currentUser.id, otherUserID);
+                        }
                     })
                 })
             });
@@ -77,52 +84,94 @@ class ContactCard extends React.Component {
         var currUserRequests = this.state.currUser.pendingRequests;
         var otherUserRequests = this.state.contactInfo.pendingRequests;
         var newRequest = {
+            Sender: "" + this.state.contactInfo.id,
+            TimeSent: new Date(),
             Type: "sent",
-            User: this.state.contactInfo.id,
             ContentType: "Connection",
-            FullName: this.state.contactInfo.fullName,
-            Email: this.state.contactInfo.Email
         };
         currUserRequests.push(newRequest);
         newRequest = {
+            Sender: "" + this.state.currUser.id,
+            TimeSent: new Date(),
             Type: "received",
-            User: this.state.currUser.id,
             ContentType: "Connection",
-            FullName: this.state.currUser.fullName,
-            Email: this.state.currUser.Email
         };
         otherUserRequests.push(newRequest);
-        this.setUserRequests(this.state.currUser.id, currUserRequests, this.state.contactInfo.id, otherUserRequests);
+        this.setUserRequests(this.state.currUser.fullName + " would like to connect with you.", this.state.currUser, 
+            currUserRequests, this.state.contactInfo.id, otherUserRequests);
     }
 
     approveRequest() {
         var userConnections = this.state.currUser.connections;
-        userConnections.push(this.state.contactInfo);
+        var otherConnections = this.state.contactInfo.connections;
+        otherConnections.push({
+            ID: this.state.currUser.id + "",
+            Email: this.state.currUser.email,
+            FirstName: this.state.currUser.firstName,
+            LastName: this.state.currUser.lastName,
+            FullName: this.state.currUser.fullName
+        });
+        userConnections.push({
+            ID: this.state.contactInfo.id + "",
+            Email: this.state.contactInfo.email,
+            FirstName: this.state.contactInfo.firstName,
+            LastName: this.state.contactInfo.lastName,
+            FullName: this.state.contactInfo.fullName
+        });
         this.props.userController.addConnection(this.state.currUser.id, userConnections)
             .then(data => {
-                this.removeRequests();
+                console.log("Adding connection: " + data)
+                this.props.userController.addConnection(this.state.contactInfo.id, otherConnections)
+                .then(data => {
+                    console.log("Adding connection: " + data + "removing connection");
+                    this.removeRequests(this.state.currUser.fullName + " has accepted your invitiation to connect.");
+                })
             })
     }
 
-    removeRequests() {
-        var currUserRequests = this.state.currUser.pendingRequests;
-        var otherUserRequests = this.state.contactInfo.pendingRequests;
-        currUserRequests = currUserRequests.filter(request => {
-            return request.user !== this.state.contactInfo.id;
+    removeRequests(message) {
+        var currUserRequests;
+        var otherUserRequests;
+        currUserRequests = this.state.currUser.pendingRequests.filter(request => {
+            return request.sender !== "" + this.state.contactInfo.id;
         });
-        otherUserRequests = otherUserRequests.filter(request => {
-            return request.user !== this.state.currUser.id;
+        otherUserRequests = this.state.contactInfo.pendingRequests.filter(request => {
+            return request.sender !== "" + this.state.currUser.id;
         });
-        this.setUserRequests(this.state.currUser.id, currUserRequests, this.state.contactInfo.id, otherUserRequests);
+        this.setUserRequests(message, this.state.currUser, currUserRequests, this.state.contactInfo.id, otherUserRequests);
+    }
+
+    postNotification(currentUser, creatorID, message, contentType, route, user) {
+        var notifications = [];
+        var receiver;
+        if (this.state.contactInfo) {
+            receiver = this.state.contactInfo.id;
+            notifications = this.state.contactInfo.notifications
+        }
+        var newNotification = {
+            Sender: "" + currentUser.id,
+            TimeSent: new Date(),
+            Read: false,
+            Body: message,
+            ContentType: contentType,
+            ContentRoute: route,
+        }
+        notifications.push(newNotification);
+        if (receiver) {
+            this.props.userController.postNotification(notifications, receiver)
+            .then(data => {
+                console.log(data);
+            })
+        }
     }
 
     pendingRequest(contactID) {
         if (this.state.currUser) {
             var requests = this.state.currUser.pendingRequests;
             for (let i = 0; i < requests.length; i++) {
-                if (requests[i].type === "sent" && requests[i].user === contactID) {
+                if (requests[i].type === "sent" && requests[i].sender === "" + contactID) {
                     return "sent"
-                } else if (requests[i].type === "received" && requests[i].user === contactID) {
+                } else if (requests[i].type === "received" && requests[i].sender === "" + contactID) {
                     return "received"
                 }
             }
@@ -166,7 +215,7 @@ class ContactCard extends React.Component {
             else if (requestType === "received") {
 				contactUser = <div className='c-request-profile__button-wrapper'>
 					            <Button className='c-request-profile__button c-request-profile__button--approve' onClick={ () => { this.approveRequest() } }>Confirm</Button>
-					            <Button className='c-request-profile__button c-request-profile__button--deny' onClick={ () => { this.removeRequests() } }>Delete Request</Button>
+					            <Button className='c-request-profile__button c-request-profile__button--deny' onClick={ () => { this.removeRequests("") } }>Delete Request</Button>
 				              </div>
             } else if (requestType === "sent") {
                 contactUser = <div>
