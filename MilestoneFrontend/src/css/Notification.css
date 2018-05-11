@@ -25,7 +25,6 @@
     border-bottom: none;
     align-items: center;
     padding: .8em 0 .8em 0;
-    /* background-color: rgba(253, 120, 109, .5); */
 }
 
 .c-notification-card-read {
@@ -46,7 +45,7 @@
 
 .c-notification-details {
     display: flex;
-    width: 95%;
+    width: 80%;
 }
 
 .c-notfication-details-body {
@@ -56,11 +55,6 @@
     width: 70%;
     margin-right: .5em;
 }
-
-/* .c-notification-details p {
-    padding: 0;
-    margin: 0;
-} */
 
 .c-notification-user-avatar img {
     width: 75%;

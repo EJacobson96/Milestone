@@ -47,24 +47,17 @@ class NavBar extends React.Component {
         var notifications = 0;
         var displayNotifications;
         if (this.state.userData) {
-            // console.log(this.state.userData);
             for (let i = 0; i < this.state.userData.notifications.length; i++) {
-                // console.log(this.state.userData.notifications[i].read);
                 if (this.state.userData.notifications[i].read == false) {
                     notifications += 1;
                 }
             }
-            // console.log(notifications.length);
             if (notifications > 0) {
-                console.log("hello");
                 displayNotifications = <Badge className="c-notification-badge">{notifications}</Badge>
             }
         }
         return (
             <div className="c-navbar">
-                {/* <Button bsSize="lg" onClick={(e) => this.openSideBar(e)} className="c-navbar__btn">
-                    <Glyphicon glyph="menu-hamburger" />
-                </Button> */}
                 <Link to="/Network" className="c-navbar__logo-wrapper">
                     <img src={ logo } className="c-navbar__logo-img" alt="Milestone Logo" />
                 </Link>
