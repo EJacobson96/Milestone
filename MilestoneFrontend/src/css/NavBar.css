@@ -11,6 +11,10 @@
     height: 8vh;
 }
 
+.c-navbar a:hover, a:active {
+    text-decoration: none;
+}
+
 .c-navbar__logo-wrapper {
     flex-basis: 50px;
     display: flex;
@@ -76,6 +80,18 @@
     height: 100%;
 } */
 
+.c-navbar__notification-btn {
+    max-width: Calc(1em + 32px);    /* To match the other buttons on mobile. */
+}
+
+.c-navbar__font-awesome-icon {
+    color: white;
+    font-size: 1em;
+}
+
+.c-navbar__notification-counter-badge {
+    left: -10px;
+}
 
 /**  Currently Unused  **/
 

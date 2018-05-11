@@ -1,9 +1,9 @@
-.c-goal-categories {
+.c-goals {
 	padding-top: 10px;
 }
 
 @media (max-width: 480px) {
-	.c-goal-categories {
+	.c-goals {
 		width: 320px;
 		margin: 0 auto;
 	}

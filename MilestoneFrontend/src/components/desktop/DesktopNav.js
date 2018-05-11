@@ -54,7 +54,7 @@ class DesktopNav extends React.Component {
     }
     return (
       <div className="c-navbar">
-        <div className="container">
+        <div className="container c-navbar__desktop-nav-container">
           <Link to="/Network">
             <img src={logo} className="milestoneLogo" alt="Milestone Logo" />
           </Link>

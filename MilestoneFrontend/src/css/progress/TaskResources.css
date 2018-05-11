@@ -1,0 +1,108 @@
+.c-task-resources {
+	min-height: 50px;
+	background-color: #FD776C;
+	border-radius: 0 0 8px 8px;
+	/* display: flex; */
+}
+
+.c-task-resources__input-wrapper {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding-top: 1em;
+}
+
+.c-task-resources__form-group {
+	background-color: rgb(155, 213, 233);
+	padding: 20px 0;
+	border-radius: 8px;
+}
+
+.c-task-resources__user-avatar {
+	height: 25px;
+	border-radius: 50%;
+}
+
+.c-task-resources__input {
+	min-width: 60vw;
+	border-top-right-radius: 4px !important;	/* !important ONLY to override a VERY stubborn Bootstrap. */
+	border-top-left-radius: 4px !important;		/* !important ONLY to override a VERY stubborn Bootstrap. */
+	border-bottom-right-radius: 4px !important;	/* !important ONLY to override a VERY stubborn Bootstrap. */
+	border-bottom-left-radius: 4px !important;	/* !important ONLY to override a VERY stubborn Bootstrap. */
+}
+
+.c-task-resources__input--resource-title-input {
+	
+}
+
+.c-task-resources__input--resource-url-input {
+	margin-top: 10px;
+	margin-bottom: 20px !important;				/* !important ONLY to override a VERY stubborn Bootstrap. */
+}
+
+.c-task-resources__input-flex-block {
+	flex-grow: 1;
+	padding-top: 0.5em;
+}
+
+.c-task-resources__avatar-flex-block {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.c-task-resources__resource {
+	display: flex;
+	min-height: 34px;	/* Matches bootstrap input above */
+	align-items: center;
+	padding-top: 20px;
+}
+
+.c-task-resources__resource_avatar-flex-box {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.c-task-resources__user-avatar {
+	
+}
+
+.c-task-resources__resource__text-flex-box {
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+	background-color: white;
+	border-radius: 4px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.c-task-resources__resource__text {
+	font-size: 14px;	/* Matches bootstrap input above */
+	padding-left: 12px;	/* Matches bootstrap input above */
+	margin: 6px 0;
+	/*padding-top: 6px;	/* Matches bootstrap input above */
+}
+
+.c-task-resources__input-inner-block {
+	width: 80%;
+	margin-left: 10%;
+}
+
+.c-task-resources__toggle-input-btn-flex-wrapper {
+	display: flex;
+	justify-content: center;
+	/* align-items: center; */
+}
+
+.c-task-resources__toggle-input-btn {
+	margin: 15px auto;
+	background-color: #6FCF97;
+	border: 0px;
+	/* color: white; */
+}
+
+.c-task-resources__save-resource-btn {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}

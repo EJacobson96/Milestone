@@ -47,14 +47,14 @@ class NavBar extends React.Component {
         var notifications = 0;
         var displayNotifications;
         if (this.state.userData) {
-            console.log(this.state.userData);
+            // console.log(this.state.userData);
             for (let i = 0; i < this.state.userData.notifications.length; i++) {
-                console.log(this.state.userData.notifications[i].read);
+                // console.log(this.state.userData.notifications[i].read);
                 if (this.state.userData.notifications[i].read == false) {
                     notifications += 1;
                 }
             }
-            console.log(notifications.length);
+            // console.log(notifications.length);
             if (notifications > 0) {
                 console.log("hello");
                 displayNotifications = <Badge className="c-notification-badge">{notifications}</Badge>
