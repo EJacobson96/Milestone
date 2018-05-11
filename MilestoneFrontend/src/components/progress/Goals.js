@@ -15,16 +15,16 @@ import Axios from 'axios';
 
 /////////////////////////////////////////
 /// Standard Components
-import GoalCategory from './GoalCategory';
+import Goal from './Goal';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/progress/GoalCategories.css';
+import '../../css/progress/Goals.css';
 
 /////////////////////////////////////////
 /// Code
 
-class GoalCategories extends React.Component {
+class Goals extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -35,25 +35,26 @@ class GoalCategories extends React.Component {
 	}
 
     render() {
-        const goalCategories = this.props.goals.map((goal) => {
+        const goals = this.props.goals.map((goal) => {
             return (
-                <GoalCategory
-                    title={ goal.title }
+                <Goal
+                    goal={ goal }
+                    goalTitle={ goal.title }
                     status={ goal.active ? "Active" : "Finished" }
-                    numberOfGoals={ goal.tasks.length }
-                    id={ goal.id }
+                    numberOfTasks={ goal.tasks.length }
+                    goalId={ goal.id }
                     key={ goal.id }
-                    changeGoalCategory = { (e, i, t) => this.props.changeGoalCategory(e, i, t) }
+                    changeGoalFocus={ (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
                 />
             );
         });
         
         return (
-            <div className="c-goal-categories">
-                { goalCategories }
+            <div className="c-goals">
+                { goals }
             </div>
         )
     }
 }
 
-export default GoalCategories;
+export default Goals;

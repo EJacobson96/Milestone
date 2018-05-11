@@ -1,51 +1,55 @@
-.c-goal-comments {
+.c-task-comments {
 	min-height: 50px;
 	background-color: #FD776C;
 	border-radius: 0 0 8px 8px;
 	/* display: flex; */
 }
 
-.c-goal-comments__input-wrapper {
+.c-task-comments__input-wrapper {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 	padding-top: 1em;
 }
 
-.c-goal-comments__user-avatar {
+.c-task-comments__user-avatar {
 	height: 25px;
 	border-radius: 50%;
 }
 
-.c-goal-comments__input {
+.c-task-comments__input {
 	min-width: 60vw;
 }
 
-.c-goal-comments__input-flex-block {
+.c-task-comments__input-flex-block {
 	flex-grow: 1;
 	margin-right: 20px;
 	/* margin-bottom: -0.5em; */
 	padding-top: 0.5em;
 }
 
-.c-goal-comments__avatar-flex-block {
+.c-task-comments__avatar-flex-block {
 	margin-left: 10px;
 	margin-right: 10px;
 }
 
-.c-goal-comments__comment-from-user {
+.c-task-comments__comment-from-user {
 	display: flex;
 	min-height: 34px;	/* Matches bootstrap input above */
 	align-items: center;
 	padding-top: 20px;
 }
 
-.c-goal-comments__comment-from-user__avatar-flex-box {
+.c-task-comments__comment-from-user__avatar-flex-box {
 	margin-left: 10px;
 	margin-right: 10px;
 }
 
-.c-goal-comments__comment-from-user__text-flex-box {
+.c-task-comments__user-avatar {
+	
+}
+
+.c-task-comments__comment-from-user__text-flex-box {
 	display: flex;
 	align-items: center;
 	flex-grow: 1;
@@ -54,7 +58,7 @@
 	margin-right: 20px;
 }
 
-.c-goal-comments__comment-from-user__text {
+.c-task-comments__comment-from-user__text {
 	font-size: 14px;	/* Matches bootstrap input above */
 	padding-left: 12px;	/* Matches bootstrap input above */
 	margin: 6px 0;

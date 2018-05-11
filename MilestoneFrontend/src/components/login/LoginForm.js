@@ -45,15 +45,7 @@ class LoginForm extends Component {
             userLoggedIn: this.props.userLoggedIn
         });
     }
-  
-    // getValidationState() {
-    //     const length = this.state.userEmail.length;
-    //     if (length > 10) return 'success';
-    //     else if (length > 5) return 'warning';
-    //     else if (length > 0) return 'error';
-    //     return null;
-    // }
-  
+
     handleEmail(e) {
       this.setState({ userEmail: e.target.value });
     }
@@ -74,19 +66,13 @@ class LoginForm extends Component {
             .then(response => {
                 console.log(response.headers);
                 localStorage.setItem('Authorization', response.headers.authorization);
-                // if (response.status < 300) {
-                //     localStorage.setItem('Authorization', response.headers("Authorization"));
-                // }
-                // console.log(response);
                 return response.data;
             })
             .then(data => {
-                // console.log(data);
-                // console.log(typeof(data));
                 this.setState({
                     userData: data
                 });
-                this.props.logIn(true);
+                this.props.logIn();
             })
             .catch(error => {
                 console.log(error);
@@ -96,10 +82,8 @@ class LoginForm extends Component {
   
     render() {
         return this.props.userLoggedIn ? (
-            // <Redirect to="/"/>
             <Redirect to={{
                 pathname: '/'
-                // state: { user: this.state.userData }
               }}/>
         ) : (
             <div className="c-login">

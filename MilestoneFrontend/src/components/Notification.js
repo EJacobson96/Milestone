@@ -36,7 +36,7 @@ class Notification extends React.Component {
         var notifications;
         if (this.state && this.state.user) {
             var count = 0;
-            notifications = this.state.user.notifications.slice(0).reverse().map((notification) => {
+            notifications = (this.props.isDropdown ? this.state.user.notifications.slice(0, 5) : this.state.user.notifications).slice(0).reverse().map((notification) => {
                 var body;
                 var time;
                 var read;
@@ -89,7 +89,7 @@ class Notification extends React.Component {
         }
         return (
             <div className="l-notifications">
-                <h1 className="c-notifications-header">Notifications</h1>
+                <h1 className={this.props.isDropdown ? "c-notifications-dropdown-header" : "c-notifications-header"}>Notifications</h1>
                 {notifications}
             </div>
         );

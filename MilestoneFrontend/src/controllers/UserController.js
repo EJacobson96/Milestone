@@ -123,6 +123,28 @@ var UserController = {
         );
     },
 
+    logOut: function () {
+        Axios.delete(
+            'https://milestoneapi.eric-jacobson.me/sessions/mine',
+            {
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                }
+            })
+            .then(response => {
+
+                localStorage.removeItem('Authorization', response.headers.authorization);
+                // if (response.status < 300) {
+                //     localStorage.setItem('Authorization', response.headers("Authorization"));
+                // }
+                // console.log(response);
+                return response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    }
 };
 
 export default UserController;
