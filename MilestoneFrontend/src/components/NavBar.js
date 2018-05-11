@@ -33,7 +33,7 @@ class NavBar extends React.Component {
         
         this.props.openSideBar();
     }
-    
+      
     setUserData() {
         this.props.userController.getUser()
         .then((data) => {
@@ -56,8 +56,8 @@ class NavBar extends React.Component {
             }
             // console.log(notifications.length);
             if (notifications > 0) {
-                // console.log("hello");
-                displayNotifications = <Badge className='c-navbar__notification-counter-badge'>{notifications}</Badge>
+                console.log("hello");
+                displayNotifications = <Badge className="c-notification-badge">{notifications}</Badge>
             }
         }
         return (
@@ -65,31 +65,21 @@ class NavBar extends React.Component {
                 {/* <Button bsSize="lg" onClick={(e) => this.openSideBar(e)} className="c-navbar__btn">
                     <Glyphicon glyph="menu-hamburger" />
                 </Button> */}
-                <Link to='/Network'>
-                    <Button bsSize="lg" className="c-navbar__btn">
-                        <i className="fas fa-comments c-navbar__font-awesome-icon"></i>
-                    </Button>             
+                <Link to="/Network" className="c-navbar__logo-wrapper">
+                    <img src={ logo } className="c-navbar__logo-img" alt="Milestone Logo" />
                 </Link>
-                <Link to='/progress'>
-                    <Button bsSize="lg" className="c-navbar__btn">
-                        <i className="fas fa-flag c-navbar__font-awesome-icon"></i>
-                    </Button>
+                <Link className="c-navbar__link" to='/Network'>
+                    <i className="fas fa-comments"></i>
                 </Link>
-                <div className="c-navbar__logo-wrapper">
-                    <Link to="/Network">
-                        <div className="c-navbar-logo-container">
-                            <img src={ logo } className="c-navbar__logo-img" alt="Milestone Logo" />
-                        </div>
-                    </Link>
-                </div>
-                <Link to="/Notifications" className="c-navbar__btn c-navbar__notification-btn">
-                    <Button bsSize="lg" className="c-navbar__btn">
-                        <i className="fas fa-bell c-navbar__font-awesome-icon"></i>
-                        {displayNotifications}
-                    </Button>
+                <Link className="c-navbar__link" to='/Progress'>
+                    <i className="fas fa-flag"></i>
+                </Link>
+                <Link to="/Notifications" className="c-navbar__link c-nav-notifiactions">
+                    <i class="fas fa-bell"></i>
+                    {displayNotifications}
                 </Link>
                 <Button bsSize="lg" className="c-navbar__btn">
-                    <i className="fas fa-user c-navbar__font-awesome-icon"></i>
+                    <i class="fas fa-user"></i>             
                 </Button>
             </div>
         );

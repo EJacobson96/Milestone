@@ -1,13 +1,14 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Glyphicon, Button, Badge } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Images & Styles
 import logo from '../../img/logo.png';
 import '../../css/DesktopNav.css';
+import Notification from '../Notification.js';
 
 /////////////////////////////////////////
 /// Code
@@ -31,9 +32,15 @@ class DesktopNav extends React.Component {
     })
   }
 
+  logOut(e) {
+    this.props.userController.logOut();
+    this.props.history.push('/login');
+  }
+
   render() {
     var notifications = 0;
     var displayNotifications;
+    var notificationComponent;
     if (this.state && this.state.user) {
       for (let i = 0; i < this.state.user.notifications.length; i++) {
         if (this.state.user.notifications[i].read == false) {
@@ -41,8 +48,9 @@ class DesktopNav extends React.Component {
         }
       }
       if (notifications > 0) {
-        displayNotifications = <Badge>{notifications}</Badge>
+        displayNotifications = <Badge className="c-notification-badge" >{notifications}</Badge>
       }
+      notificationComponent = <Notification userController = { this.props.userController } isDropdown = {true}/>
     }
     return (
       <div className="c-navbar">
@@ -59,24 +67,39 @@ class DesktopNav extends React.Component {
             <p>Calendar</p>
           </Link> */}
           <Link className="navLink" to='/Progress'>
-            <i className="far fa-flag"></i>
+            <i className="fas fa-flag"></i>
             <p>Progress</p>
           </Link>
           {/* <Link className="navLink" to='/Requests'>
             <i className="far fa-paper-plane"></i>
             <p>Requests</p>
           </Link> */}
-          <Link to="/Notifications" className="c-navbar__btn c-link-notifications">
-            <Glyphicon glyph="bell" />
-            {displayNotifications}
-          </Link>
-          <Button bsSize="lg" className="c-navbar__btn">
-            <Glyphicon glyph="user" />
-          </Button>
+          <div className="dropdown dropleft notificationDropdown">
+            <Button className="c-navbar__btn c-link-notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-bell"></i>
+              {displayNotifications}
+            </Button>
+            <div className="dropdown-menu p-4">
+              {notificationComponent}
+              <div className="text-center mt-2">
+                <Link to='/Notifications'>See All</Link>
+              </div>
+            </div>
+          </div>
+          <div className="dropdown userDropdown">
+            <Button bsSize="lg" className="c-navbar__btn dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-user"></i>    
+            </Button>
+            <div className="dropdown-menu">
+              <a className="dropdown-item" href="#">Profile</a>
+              <div className="dropdown-divider"></div>
+              <button className="dropdown-item" onClick={(e) => this.logOut(e)}>Log Out</button>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 }
 
-export default DesktopNav;
+export default withRouter(DesktopNav);

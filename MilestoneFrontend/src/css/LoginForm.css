@@ -116,9 +116,12 @@
 		border-radius: 5px;
 	}
 	.c-login-form__footer {
-		max-width: 400px;
-		position: static;
-		margin: 0 auto;
+		position: fixed;
+		left: 0;
+		right: 0;
+	}
+	.c-login-form__footer img {
+		width: 50px;
 	}
 	.c-login-header {
 		flex-basis: 25px;
