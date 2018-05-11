@@ -13,16 +13,16 @@ var ErrUserNotFound = errors.New("user not found")
 type Store interface {
 
 	//UpdateConnections adds a connection for a user and returns the connection list
-	UpdateConnections(userID bson.ObjectId, update *UpdateConnections) (*User, error)
+	UpdateConnections(updates *UpdateConnections, userID bson.ObjectId) (*User, error)
 
 	//AddNotification adds a notification for a user and returns it
-	UpdateNotifications(update *UpdateNotifications, userID bson.ObjectId) (*User, error)
+	UpdateNotifications(updates *UpdateNotifications, userID bson.ObjectId) (*User, error)
 
 	//AddConnection adds a connection for a user and returns the connection list
-	AddConnection(userID bson.ObjectId, connection *User) ([]*User, error)
+	// AddConnection(userID bson.ObjectId, connection *User) ([]*User, error)
 
 	//UpdateRequests adds a request for a user and returns it
-	UpdateRequests(update *UpdateRequests, userID bson.ObjectId) (*User, error)
+	UpdateRequests(updates *UpdateRequests, userID bson.ObjectId) (*User, error)
 
 	//GetAllUsers returns every single user
 	GetAllUsers() ([]*User, error)

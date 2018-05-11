@@ -54,7 +54,7 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 		// 	http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
 		// 	return
 		// }
-		connections := []*users.User{}
+		connections := []*users.ShortUser{}
 		query := r.URL.Query().Get("q")
 		userID := r.URL.Query().Get("id")
 		user, err := c.UsersStore.GetByID(bson.ObjectIdHex(userID))
@@ -64,7 +64,7 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 		}
 		//filters out users based on user input
 		for _, user := range user.Connections {
-			if strings.Contains(strings.ToLower(user.GetFullName()), strings.TrimSpace(strings.ToLower(query))) {
+			if strings.Contains(strings.ToLower(user.FullName), strings.TrimSpace(strings.ToLower(query))) {
 				connections = append(connections, user)
 			}
 		}
@@ -85,7 +85,7 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 			return
 		}
 		userID := r.URL.Query().Get("id")
-		connections, err := c.UsersStore.UpdateConnections(bson.ObjectIdHex(userID), update)
+		connections, err := c.UsersStore.UpdateConnections(update, bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error adding connection: %v", err), http.StatusInternalServerError)
 			return
@@ -177,7 +177,7 @@ func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Req
 			http.Error(w, fmt.Sprintf("error decoding notification: %v", err), http.StatusInternalServerError)
 			return
 		}
-		notificationsList, err := c.UsersStore.UpdateNotifications(update, bson.ObjectIdHex((userID)))
+		notificationsList, err := c.UsersStore.UpdateNotifications(update, bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error adding notification: %v", err), http.StatusInternalServerError)
 		}

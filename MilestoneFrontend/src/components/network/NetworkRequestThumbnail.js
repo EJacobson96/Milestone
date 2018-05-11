@@ -17,24 +17,38 @@ class NetworkRequestThumbnail extends React.Component {
     constructor(props) {
         super(props);
     
-    }
+	}
+	
+	componentDidMount() {
+		if (this.props.id) {
+			this.props.userController.getContact(this.props.id)
+			.then((data) => {
+				this.setState({
+					user: data
+				})
+			})
+		}
+	}
 
     render() {
+		var fullName;
+		if (this.state && this.state.user) {
+			fullName = this.state.user.fullName
+		}
 		return (
 			<Link 
 				to={{
 					pathname: this.props.path
 				}}
 				className='c-network-request-thumbnail-link-wrapper' 
-				key={ this.props.id }
 			>
-				<div className="c-network-request-thumbnail" key={ this.props.id } >
+				<div className="c-network-request-thumbnail">
 					<div className="c-network-request-thumbnail__user-img">
 						<img src={ fakeuser } alt=''/>
 					</div>
 					<div className="c-network-request-thumbnail__details">
 						<p className="c-network-request-thumbnail__details__full-name">
-							{ this.props.fullName }
+							{ fullName }
 						</p>
 					</div>
 					<div className='c-network-request-thumbnail__button-wrapper'>

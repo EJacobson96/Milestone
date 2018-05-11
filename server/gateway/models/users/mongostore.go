@@ -1,7 +1,6 @@
 package users
 
 import (
-	"errors"
 	"fmt"
 
 	"gopkg.in/mgo.v2"
@@ -71,27 +70,27 @@ func (s *MongoStore) GetByUserName(username string) (*User, error) {
 	return user, nil
 }
 
-func (s *MongoStore) AddConnection(userID bson.ObjectId, newConnection *User) ([]*User, error) {
-	user := &User{}
-	col := s.session.DB(s.dbname).C(s.colname)
-	err := col.FindId(userID).One(&user)
-	if err != nil {
-		return nil, fmt.Errorf("error finding user: %v", err)
-	}
-	for _, connection := range user.Connections {
-		if connection == newConnection {
-			return nil, errors.New("connection already exists")
-		}
-	}
-	user.Connections = append(user.Connections, newConnection)
-	_, err = col.UpsertId(userID, bson.M{"$addToSet": bson.M{"connections": newConnection}})
-	if err != nil {
-		return nil, fmt.Errorf("error inserting new connection: %v", err)
-	}
-	return user.Connections, nil
-}
+// func (s *MongoStore) AddConnection(userID bson.ObjectId, newConnection *User) ([]*User, error) {
+// 	user := &User{}
+// 	col := s.session.DB(s.dbname).C(s.colname)
+// 	err := col.FindId(userID).One(&user)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("error finding user: %v", err)
+// 	}
+// 	for _, connection := range user.Connections {
+// 		if connection == newConnection {
+// 			return nil, errors.New("connection already exists")
+// 		}
+// 	}
+// 	user.Connections = append(user.Connections, newConnection)
+// 	_, err = col.UpsertId(userID, bson.M{"$addToSet": bson.M{"connections": newConnection}})
+// 	if err != nil {
+// 		return nil, fmt.Errorf("error inserting new connection: %v", err)
+// 	}
+// 	return user.Connections, nil
+// }
 
-func (s *MongoStore) UpdateConnections(userID bson.ObjectId, update *UpdateConnections) (*User, error) {
+func (s *MongoStore) UpdateConnections(update *UpdateConnections, userID bson.ObjectId) (*User, error) {
 	user := &User{}
 	change := mgo.Change{
 		Update: bson.M{"$set": update},
@@ -99,7 +98,7 @@ func (s *MongoStore) UpdateConnections(userID bson.ObjectId, update *UpdateConne
 	col := s.session.DB(s.dbname).C(s.colname)
 	_, err := col.FindId(userID).Apply(change, &User{})
 	if err != nil {
-		return nil, fmt.Errorf("error updating user: %v", err)
+		return nil, fmt.Errorf("error applying changes to connections: %v", err)
 	}
 	err = col.FindId(userID).One(&user)
 	if err != nil {
@@ -116,7 +115,7 @@ func (s *MongoStore) UpdateNotifications(update *UpdateNotifications, userID bso
 	col := s.session.DB(s.dbname).C(s.colname)
 	_, err := col.FindId(userID).Apply(change, &User{})
 	if err != nil {
-		return nil, fmt.Errorf("error updating user: %v", err)
+		return nil, fmt.Errorf("error applying changes to notifications: %v", err)
 	}
 	err = col.FindId(userID).One(&user)
 	if err != nil {
@@ -133,7 +132,7 @@ func (s *MongoStore) UpdateRequests(update *UpdateRequests, userID bson.ObjectId
 	col := s.session.DB(s.dbname).C(s.colname)
 	_, err := col.FindId(userID).Apply(change, &User{})
 	if err != nil {
-		return nil, fmt.Errorf("error updating user: %v", err)
+		return nil, fmt.Errorf("error applying changes to requests: %v", err)
 	}
 	err = col.FindId(userID).One(&user)
 	if err != nil {

@@ -38,24 +38,29 @@
 
 .c-notification-user-avatar {
     display: flex;
-    justify-content: center;
     align-items: center;
     margin-left: .6em;
-    flex-basis: 18%;
+    flex-basis: 20%;
     max-width: 200px;
+}
+
+.c-notification-details {
+    display: flex;
+    width: 95%;
 }
 
 .c-notfication-details-body {
     text-overflow: ellipsis;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     overflow: hidden;
-    width: 98%;
+    width: 70%;
+    margin-right: .5em;
 }
 
-.c-notification-details p {
+/* .c-notification-details p {
     padding: 0;
     margin: 0;
-}
+} */
 
 .c-notification-user-avatar img {
     width: 75%;

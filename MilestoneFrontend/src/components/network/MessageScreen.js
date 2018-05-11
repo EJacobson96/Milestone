@@ -53,7 +53,7 @@ class MessageScreen extends React.Component {
     componentWillReceiveProps(nextProps) {
         var currID = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         var nextID = nextProps.match.params.id.substring(3, nextProps.match.params.id.length)
-        if (currID !== nextID) {
+        if (currID !== nextID && nextID) {
             this.props.messageController.getSpecificConversation(nextID)
             .then(data => {
                 this.setUserData(data);
@@ -67,10 +67,12 @@ class MessageScreen extends React.Component {
 
     renderConversations() {
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
-        this.props.messageController.getSpecificConversation(id)
-        .then(data => {
-            this.setUserData(data);
-        })
+        if (id) {
+            this.props.messageController.getSpecificConversation(id)
+            .then(data => {
+                this.setUserData(data);
+            })
+        }
     }
 
     setUserData(currConversation) {
@@ -83,24 +85,30 @@ class MessageScreen extends React.Component {
             })
     }
 
-    postNotification(conversation, message) {
-        this.props.userController.postNotification(conversation, message)
-            .then(data => {
-                this.setState({
-                    conversation: conversation
-                });
-            })
-    }
+    // postNotification(conversation, message) {
+    //     console.log(conversation.Users);
+    //     var users = [];
+
+    //     this.props.userController.postNotification(this.state.currUser.id, message, "new message", 
+    //         "/Network/Messages/Conversation/:id" + conversation.id, conversation.Users)
+    //         .then(data => {
+    //             this.setState({
+    //                 conversation: conversation
+    //             });
+    //         })
+    // }
 
     handleSubmit(e) {
         e.preventDefault();
         var input = this.textInput.value;
         this.textInput.value = "";
-        this.props.messageController.postMessage(this.state.currUser.id, this.state.conversation.id, input)
-        .then(data => {
-            console.log(data);
-            this.postNotification(data, input);
-        })
+        if (input && this.state.currUser.id && this.state.conversation.id) {
+            this.props.messageController.postMessage(this.state.currUser.id, this.state.conversation.id, input)
+            .then(data => {
+                console.log(data);
+                // this.postNotification(data, input);
+            })
+        }
     }
 
     render() {
@@ -135,7 +143,6 @@ class MessageScreen extends React.Component {
             });
             displayMessages = messages;
             displayMembers = <h3 className="c-messages-screen-header">{members}</h3>
-            console.log(displayMessages);
         }
         return (
             <div className="c-messages-screen-wrapper">

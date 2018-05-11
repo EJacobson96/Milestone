@@ -35,8 +35,6 @@ class Messages extends React.Component {
                     contentType={this.props.contentType}
                     handleSearch={this.props.handleSearch}
                 />
-                console.log(this.props.handleSearch);
-                console.log(this.props.contentType);
             }
             messagesCount = <h4 className={this.props.content.length === 0 ? " c-message-count-border" : " c-messages-count" }>Messages ({this.props.content.length})</h4>;
             conversations = this.props.content.map((conversation, i) => {

@@ -16,6 +16,11 @@ import '../../css/Contacts.css';
 /// Code
 
 class Contacts extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        };
+    }
 
     render() {
         var connections, 
@@ -33,8 +38,6 @@ class Contacts extends React.Component {
                     contentType={this.props.contentType}
                     handleSearch={this.props.handleSearch}
                 />
-                console.log(this.props.handleSearch);
-                console.log(this.props.contentType);
             }
             if(this.props.currUser.pendingRequests.length > 0 && this.props.showRequests) {
                 var count = 0;
@@ -51,15 +54,17 @@ class Contacts extends React.Component {
                                           </h4>;
             }
             if (this.props.showRequests) {
+                console.log(this.props.showRequests);
+                var count = 0;
                 requests = this.props.currUser.pendingRequests.map((request) => {
+                    count++;
                     if (request.type === "received") {
                         return (
                             <NetworkRequestThumbnail 
-                                path = { '/Network/Contacts/Profile/:id' + request.user }
-                                id = { request.user }
-                                key = { request.user }
-                                fullName = { request.fullName }
-                                email = { request.email }
+                                path = { '/Network/Contacts/Profile/:id' + request.sender }
+                                id = { request.sender }
+                                key = { count }
+                                userController={this.props.userController}
                             />
                         );
                     }

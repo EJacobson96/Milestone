@@ -25,6 +25,7 @@ class Notification extends React.Component {
       setUserData() {
         this.props.userController.getUser()
         .then((data) => {
+            console.log(data);
           this.setState({
             user: data,
           })
@@ -35,14 +36,13 @@ class Notification extends React.Component {
         var notifications;
         if (this.state && this.state.user) {
             var count = 0;
-            notifications = (this.props.isDropdown ? this.state.user.notifications.slice(0, 5) : this.state.user.notifications).map((notification) => {
+            notifications = (this.props.isDropdown ? this.state.user.notifications.slice(0, 5) : this.state.user.notifications).slice(0).reverse().map((notification) => {
                 var body;
                 var time;
                 var read;
                 count++;
-                switch (notification.contentType) {
-                    case "new message":
-                        body = 'Bob sent you a message: "' + notification.body + '"';
+                if (notification.contentType) {
+                    body = notification.body;
                 }
                 switch (notification.read) {
                     case true:
@@ -69,7 +69,7 @@ class Notification extends React.Component {
                 return (
                     <Link 
                     to={{
-                        pathname: "",
+                        pathname: notification.contentRoute,
                     }}
                     className='c-notification-card-link-wrapper' 
                     key={count}
