@@ -38,7 +38,7 @@ class Main extends Component {
                 <Route path='/Calendar' render={(props) => (
                     <Placeholder />
                 )} />
-                <Route path='/Progress' render={(props) => (
+                <Route path='/progress' render={(props) => (
                     <ProgressController />
                 )} />
                 <Route path='/Requests' render={(props) => (

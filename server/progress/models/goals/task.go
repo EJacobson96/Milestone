@@ -3,37 +3,35 @@ package goals
 import (
 	"errors"
 	"time"
-
-	"gopkg.in/mgo.v2/bson"
 )
 
 type Task struct {
-	ID          bson.ObjectId `json:"id" bson:"_id"`
-	GoalID      bson.ObjectId `json:"goalID"`
-	CreatorID   bson.ObjectId `json:"creatorID"`
-	Title       string        `json:"title"`
-	Description string        `json:"description"`
-	DueDate     time.Time     `json:"dueDate"`
-	Active      bool          `json:"active"`
-	Completed   bool          `json:"completed"`
-	Comments    []*Comment    `json:"comments"`
-	Resources   []*Resource   `json:"resources"`
+	// ID          bson.ObjectId `json:"id" bson:"_id"`
+	GoalID      string      `json:"goalID"`
+	CreatorID   string      `json:"creatorID"`
+	Title       string      `json:"title"`
+	Description string      `json:"description"`
+	DueDate     time.Time   `json:"dueDate"`
+	Active      bool        `json:"active"`
+	Completed   bool        `json:"completed"`
+	Comments    []*Comment  `json:"comments"`
+	Resources   []*Resource `json:"resources"`
 }
 
 type NewTask struct {
-	GoalID      bson.ObjectId `json:"goalID"`
-	CreatorID   bson.ObjectId `json:"creatorID"`
-	Title       string        `json:"title"`
-	Description string        `json:"description"`
-	DueDate     time.Time     `json:"dueDate"`
-	Comments    []*Comment    `json:"comments"`
-	Resources   []*Resource   `json:"resources"`
+	GoalID      string      `json:"goalID"`
+	CreatorID   string      `json:"creatorID"`
+	Title       string      `json:"title"`
+	Description string      `json:"description"`
+	DueDate     time.Time   `json:"dueDate"`
+	Comments    []*Comment  `json:"comments"`
+	Resources   []*Resource `json:"resources"`
 }
 
 type Comment struct {
-	Creator   bson.ObjectId `json:"creator"`
-	TextBody  string        `json:"textBody"`
-	CreatedAt time.Time     `json:"createdAt"`
+	Creator   string    `json:"creator"`
+	TextBody  string    `json:"textBody"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 type Resource struct {
@@ -54,7 +52,7 @@ func (nt *NewTask) Validate() error {
 
 func (nt *NewTask) ToTask() *Task {
 	return &Task{
-		ID:          bson.NewObjectId(),
+		// ID:          bson.NewObjectId(),
 		GoalID:      nt.GoalID,
 		CreatorID:   nt.CreatorID,
 		Title:       nt.Title,

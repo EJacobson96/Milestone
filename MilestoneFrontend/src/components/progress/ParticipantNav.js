@@ -24,7 +24,7 @@ class ParticipantNav extends Component {
 
     componentDidMount() {
         var links = document.querySelectorAll(".c-network-nav a");
-        if (this.props.location.pathname.includes("/goals")) {
+        if (this.props.location.pathname.includes("/resources")) {
             links[1].className = "c-network-nav__link--active-link";
             links[0].className = "c-network-nav__link--non-active-link";
         } else {
@@ -36,7 +36,7 @@ class ParticipantNav extends Component {
     componentWillReceiveProps(nextProp) {
         if (nextProp.location.pathname !== this.props.location.pathname) {
             var links = document.querySelectorAll(".c-network-nav a");
-            if (nextProp.location.pathname.includes("/goals")) {
+            if (nextProp.location.pathname.includes("/resources")) {
                 links[1].className = "c-network-nav__link--active-link";
                 links[0].className = "c-network-nav__link--non-active-link";
             } else {
@@ -49,10 +49,10 @@ class ParticipantNav extends Component {
         return (
 			<ul className="c-network-nav">
 				<li role="presentation" className="c-network-nav__link">
-					<Link to="/progress/goals/people" className="" onClick={(e) => this.renderMessages(e)}>PEOPLE</Link>
+					<Link to="/progress/people" className="" >PEOPLE</Link>
 				</li>
 				<li role="presentation" className="c-network-nav__link">
-					<Link to="/progress/goals/resources" className="" onClick={(e) => this.renderContacts(e)}>RESOURCES</Link>
+					<Link to="/progress/resources" className="" >RESOURCES</Link>
 				</li>
 			</ul>
         );

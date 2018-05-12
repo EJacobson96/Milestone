@@ -5,6 +5,7 @@ import React from 'react';
 /////////////////////////////////////////
 /// Images & Styles
 import '../../css/ParticipantCard.css';
+import fakeuser from '../../img/fakeuser.png';
 
 /////////////////////////////////////////
 /// Code
@@ -20,8 +21,11 @@ class ParticipantCard extends React.Component {
 
     render() {
         return (
-            <div className="">
-                
+            <div className="c-participant-card">
+            	<div className="c-participant-card-image">
+					<img src={ fakeuser } alt=''/>
+				</div>
+                <h4 className="c-participant-card-name">{ this.props.fullName }</h4>
             </div>
         );
     }

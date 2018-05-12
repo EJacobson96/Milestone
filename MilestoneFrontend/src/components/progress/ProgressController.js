@@ -454,7 +454,7 @@ class ProgressController extends Component {
         const targetGoalId = this.state.currentGoalId; // Save me to localStorage!
         if (this.state && this.state.user) {
             return (
-                <Route path='/Progress' render={(props) => (
+                <Route path='/progress' render={(props) => (
                     <div>
                         <Progress
                             addTask={ (t,dd,d,c) => this.addTask(t,dd,d,c) }

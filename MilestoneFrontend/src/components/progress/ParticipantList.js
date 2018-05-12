@@ -6,6 +6,7 @@ import React from 'react';
 /// Images & Styles
 import '../../css/ParticipantList.css';
 import ParticipantHeading from './ParticipantHeading';
+import ParticipantCard from './ParticipantCard';
 
 /////////////////////////////////////////
 /// Code
@@ -20,13 +21,21 @@ class ParticipantList extends React.Component {
     }
 
     componentDidMount() {
-        console.log("hello")
+        console.log(this.props.connections)
     }
 
     render() {
+        var connectionList = this.props.connections.map((connection) => {
+            return (
+                <ParticipantCard 
+                    id={ connection.id }
+                    fullName={ connection.fullName }
+                />
+            )
+        })
         return (
-            <div className="">
-                <ParticipantHeading/>
+            <div className="c-participant-list">
+                { connectionList }
             </div>
         );
     }

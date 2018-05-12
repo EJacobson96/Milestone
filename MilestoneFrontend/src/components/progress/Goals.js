@@ -33,7 +33,11 @@ class Goals extends React.Component {
 	componentWillMount() {
         console.log("hello");
 		this.props.refreshUser();
-	}
+    }
+    
+    componentWillReceiveProps() {
+        
+    }
 
     render() {
         const goals = this.props.goals.map((goal) => {
