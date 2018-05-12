@@ -64,7 +64,7 @@ class NavBar extends React.Component {
                 <Link className="c-navbar__link" to='/Network'>
                     <i className="fas fa-comments"></i>
                 </Link>
-                <Link className="c-navbar__link" to='/Progress'>
+                <Link className="c-navbar__link" to='/progress'>
                     <i className="fas fa-flag"></i>
                 </Link>
                 <Link to="/Notifications" className="c-navbar__link c-nav-notifiactions">

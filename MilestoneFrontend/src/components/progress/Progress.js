@@ -26,11 +26,12 @@ import TaskExpandedResources from './TaskExpandedResources';
 /////////////////////////////////////////
 /// Images & Styles
 import '../../css/progress/Progress.css';
+import ParticipantList from './ParticipantList';
 
 /////////////////////////////////////////
 /// Code
 
-const Progress = (props) => {
+function Progress (props) {
 	const heading = (heading, navFilter, switchFunc) => 	<ProgressHeading
 										heading = { heading }
 										handleSearch={ (e) => props.handleSearch(e) }
@@ -42,7 +43,12 @@ const Progress = (props) => {
 	return (
 		<div className='l-progress-content'>
 			<Switch>
-				<Route path='/progress/goals/search' render={() => (
+			<Route exact path='/progress/goals/people' render={() => (
+					<div>
+						<ParticipantList />
+					</div>
+				)} />
+				<Route exact path='/progress/goals/search' render={() => (
 					<div>
 						{ heading('Search Results', props.goalNavFilter, props.switchGoalNavFilter) }
 						<ProgressSearchResults
@@ -53,7 +59,7 @@ const Progress = (props) => {
 						/>
 					</div>
 				)} />
-				<Route path='/progress/goals/newtask/:id' render={() => (
+				<Route exact path='/progress/goals/newtask/:id' render={() => (
 					<div>
 						<NewTask 
 							addTask={ (title, date, description, targetCategoryId) => { props.addTask(title, date, description, targetCategoryId) }}
@@ -61,7 +67,7 @@ const Progress = (props) => {
 						/>
 					</div>
 				)} />
-				<Route path='/progress/goals/edittask/:id' render={() => (
+				<Route exact path='/progress/goals/edittask/:id' render={() => (
 					<div>
 						<EditTask
 							updateTask={ (title, date, description, targetCategoryId) => { props.updateTask(title, date, description, targetCategoryId) }}
@@ -71,7 +77,7 @@ const Progress = (props) => {
 						/>
 					</div>
 				)} />
-				<Route path='/progress/goals/newgoal' render={() => (
+				<Route exact path='/progress/goals/newgoal' render={() => (
 					<div>
 						<NewGoal
 							currUser={ props.currUser }
@@ -80,7 +86,7 @@ const Progress = (props) => {
 						/>
 					</div>
 				)} />
-				<Route path='/progress/goals/comments/:id' render={() => (
+				<Route exact path='/progress/goals/comments/:id' render={() => (
 					<div>
 						<TaskExpandedComments
 							currUser={ props.currUser }
@@ -91,7 +97,7 @@ const Progress = (props) => {
 						/>
 					</div>
 				)} />
-				<Route path='/progress/goals/resources/:id' render={() => (
+				<Route exact path='/progress/goals/resources/:id' render={() => (
 					<div>
 						<TaskExpandedResources
 							currUser={ props.currUser }
@@ -102,7 +108,7 @@ const Progress = (props) => {
 						/>
 					</div>
 				)} />
-				<Route path='/progress/goals/:id' render={() => (
+				<Route exact path='/progress/goals/:id' render={() => (
 					<div>
 						{ heading(props.heading, props.taskNavFilter, props.switchTaskNavFilter) }
 						<UpcomingTasks
@@ -117,19 +123,36 @@ const Progress = (props) => {
 				)} />
 				<Route exact path='/progress/goals' render={() => (
 					<div>
-						{ heading('Goals', props.goalNavFilter, props.switchGoalNavFilter) }
-						<Goals
-							goals={ props.goals }
-							refreshUser={() => props.refreshUser() }
-							changeGoalFocus = { (e, goalId, goalTitle) => props.changeGoalFocus(e, goalId, goalTitle) }
-						/>
+						{/* {props.currUser.accountType = "participant" ? <ParticipantList /> :
+							<div> */}
+								{heading('Goals', props.goalNavFilter, props.switchGoalNavFilter)}
+								<Goals
+									goals={ props.goals }
+									refreshUser={() => props.refreshUser() }
+									changeGoalFocus = { (e, goalId, goalTitle) => props.changeGoalFocus(e, goalId, goalTitle) }
+								/> 
+							{/* </div>
+						} */}
+
 					</div>
 				)} />
-				<Route path='/Progress' render={(props) => (
-					<Redirect to='/progress/goals' />
-				)} />
-				<Route exact path='/progress' render={(props) => (
-					<Redirect to='/progress/goals' />
+				{/* <Route path='/Progress' render={() => (
+					<div>
+						{console.log(props.user.accountType == "participant")}
+						{props.user.accountType == "participant" ? 
+							<Redirect to='/progress/goals/people' /> :
+							<Redirect to='/progress/goals' />
+						}
+					</div>
+				)} /> */}
+				<Route exact path='/progress' render={() => (
+					<div>
+						{console.log(props)}
+						{props.user.accountType == "participant" ? 
+							<Redirect to='/progress/goals/people' /> :
+							<Redirect to='/progress/goals' />
+						}
+					</div>
 				)} />
 			</Switch>
 		</div>

@@ -68,6 +68,10 @@ class ProgressController extends Component {
         this.getCurrentUser();
     }
 
+    componentWillReceiveProps() {
+        this.getCurrentUser();
+    }
+
     addTask(title, date, description, targetGoalId) {
         let newTask = {
             GoalID: targetGoalId,
@@ -240,6 +244,7 @@ class ProgressController extends Component {
     }
 
     getCurrentUser() {
+        console.log("here")
         Axios.get(
             'https://milestoneapi.eric-jacobson.me/users/me', 
             {
@@ -252,10 +257,11 @@ class ProgressController extends Component {
             })
             .then(data => {
                 this.setState({
-                    currUser: data
+                    currUser: data,
+                    user: data
+                }, () => {
+                    this.getCurrentGoals(data.id);
                 });
-                
-                this.getCurrentGoals(data.id);
             })
             .catch(error => {
                 console.log(error);
@@ -446,36 +452,40 @@ class ProgressController extends Component {
         const goals = this.state.goalData;
         const searchResults = this.state.searchResults;
         const targetGoalId = this.state.currentGoalId; // Save me to localStorage!
-
-        return (
-            <Route path='/Progress' render={(props) => (
-                <div>
-                    <Progress
-                        addTask={ (t,dd,d,c) => this.addTask(t,dd,d,c) }
-                        addGoal={ (o) => this.addGoal(o) }
-                        changeGoalFocus = { (e, goalId, goalTitle) => this.changeGoalFocus(e, goalId, goalTitle) }
-                        refreshUser={ () => this.getCurrentUser() }
-                        handleSearch={ (e) => this.handleSearch(e) }
-                        editTask={ (taskId) => this.editTask(taskId) }
-                        updateTask={ (title, date, description, targetGoalId, targetTaskId) => this.updateTask(title, date, description, targetGoalId, targetTaskId) }
-                        markTaskComplete={ (taskId) => this.markTaskComplete(taskId) }
-                        submitComment={ (comment, taskId) => this.addTaskComment(comment, taskId) }
-                        submitResource={ (resourceName, resourceUrl, taskId) => this.addTaskResource(resourceName, resourceUrl, taskId) }
-                        switchGoalNavFilter={ (e, t) => this.switchGoalNavFilter(e, t) }
-                        switchTaskNavFilter={ (e, t) => this.switchTaskNavFilter(e, t) }
-                        currUser={ currUser }
-                        addBtnLink={ addBtnLink }
-                        goals={ goals }
-                        heading={ heading }
-                        goalNavFilter={ targetGoalNavFilter }
-                        taskNavFilter={ targetTaskNavFilter }
-                        searchResults={ searchResults }
-                        targetGoalId = { targetGoalId }
-                    />
-                </div>
-            )} />
-        )
-
+        if (this.state && this.state.user) {
+            return (
+                <Route path='/Progress' render={(props) => (
+                    <div>
+                        <Progress
+                            addTask={ (t,dd,d,c) => this.addTask(t,dd,d,c) }
+                            addGoal={ (o) => this.addGoal(o) }
+                            changeGoalFocus = { (e, goalId, goalTitle) => this.changeGoalFocus(e, goalId, goalTitle) }
+                            refreshUser={ () => this.getCurrentUser() }
+                            handleSearch={ (e) => this.handleSearch(e) }
+                            editTask={ (taskId) => this.editTask(taskId) }
+                            updateTask={ (title, date, description, targetGoalId, targetTaskId) => this.updateTask(title, date, description, targetGoalId, targetTaskId) }
+                            markTaskComplete={ (taskId) => this.markTaskComplete(taskId) }
+                            submitComment={ (comment, taskId) => this.addTaskComment(comment, taskId) }
+                            submitResource={ (resourceName, resourceUrl, taskId) => this.addTaskResource(resourceName, resourceUrl, taskId) }
+                            switchGoalNavFilter={ (e, t) => this.switchGoalNavFilter(e, t) }
+                            switchTaskNavFilter={ (e, t) => this.switchTaskNavFilter(e, t) }
+                            user = { this.state.user }
+                            currUser={ currUser }
+                            addBtnLink={ addBtnLink }
+                            goals={ goals }
+                            heading={ heading }
+                            goalNavFilter={ targetGoalNavFilter }
+                            taskNavFilter={ targetTaskNavFilter }
+                            searchResults={ searchResults }
+                            targetGoalId = { targetGoalId }
+                        />
+                    </div>
+                )} />
+            )
+        } else {
+            return <p></p>
+        }
     }
+
 }
 export default withRouter(ProgressController);
