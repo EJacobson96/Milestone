@@ -74,8 +74,8 @@ class ProgressController extends Component {
 
     addTask(title, date, description, targetGoalId) {
         let newTask = {
-            GoalID: targetGoalId,
-            CreatorID: this.state.currUser.id,
+            GoalID: targetGoalId.toString(),
+            CreatorID: this.state.currUser.id.toString(),
             Title: title,
             Description: description
         }
@@ -103,7 +103,7 @@ class ProgressController extends Component {
                 this.props.history.replace('/progress/goals');
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             }
         );
     }
@@ -144,7 +144,7 @@ class ProgressController extends Component {
         // Create the comment object
         let currDate = new Date().toISOString();
         let newCommentStruct = {
-            creator: this.state.currUser.id,
+            creator: this.state.currUser.id.toString(),
             textBody: comment,
             createdAt: currDate
         }

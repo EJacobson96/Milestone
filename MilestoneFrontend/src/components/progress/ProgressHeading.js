@@ -23,11 +23,13 @@ const ProgressHeading = (props) => {
 					handleSearch={ (e) => props.handleSearch(e) }
 					addBtnLink={ props.addBtnLink }
 				/>
-				<h1 className="c-progress-header">{ props.heading }</h1>
-				<ProgressNav
-					navFilter={ props.navFilter }
-					switchFilter={ (e, t) => props.switchFilter(e, t) }
-				/>
+				<div>
+					<h1 className="c-progress-header">{ props.heading }</h1>
+					<ProgressNav
+						navFilter={ props.navFilter }
+						switchFilter={ (e, t) => props.switchFilter(e, t) }
+					/>
+				</div>
 			</div>
 		</div>
 	)

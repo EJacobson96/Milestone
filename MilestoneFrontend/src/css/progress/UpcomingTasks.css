@@ -12,3 +12,10 @@
 .l-upcoming-goals {
 	margin-top: 20px;
 }
+
+@media(min-width: 769px) {
+	.l-upcoming-goals {
+		display: flex;
+		flex-wrap: wrap;
+	}
+}
