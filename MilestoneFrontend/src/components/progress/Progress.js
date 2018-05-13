@@ -190,7 +190,7 @@ class Progress extends React.Component {
 								/>
 							</div>
 						)} />
-						<Route path='/progress/goals' render={() => (
+						<Route path='/progress/people/goals/:id' render={() => (
 							<div>
 								{/* {this.props.currUser.accountType = "participant" ? <ParticipantList /> :
 									<div> */}

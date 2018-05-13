@@ -1,6 +1,7 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -21,12 +22,14 @@ class ParticipantCard extends React.Component {
 
     render() {
         return (
-            <div className="c-participant-card">
-            	<div className="c-participant-card-image">
-					<img src={ fakeuser } alt=''/>
-				</div>
-                <h4 className="c-participant-card-name">{ this.props.fullName }</h4>
-            </div>
+            <Link to={"/progress/people/goals/:id" + this.props.id}  className="c-participant-card-wrapper">
+                <div className="c-participant-card">
+                    <div className="c-participant-card-image">
+                        <img src={ fakeuser } alt=''/>
+                    </div>
+                    <h4 className="c-participant-card-name">{ this.props.fullName }</h4>
+                </div>
+            </Link>
         );
     }
 }

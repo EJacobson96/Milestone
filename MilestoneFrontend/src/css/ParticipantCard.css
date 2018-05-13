@@ -7,6 +7,10 @@
     background-color: white;
 }
 
+.c-participant-card-wrapper {
+    
+}
+
 .c-participant-card-image {
     display: flex;
     justify-content: center;
