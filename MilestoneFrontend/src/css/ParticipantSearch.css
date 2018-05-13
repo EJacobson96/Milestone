@@ -1,0 +1,19 @@
+.c-participant-form .c-participant-search {
+	display: flex;
+	margin: .8em 0 0 .7em;
+}
+
+@media(min-width: 789px) {
+	.c-participant-form .c-participant-search {
+		margin-bottom: 1em;
+    }
+    .c-participant-form {
+        flex-basis: 70%;
+        align-self: flex-end;
+        margin: 0;
+    }
+    .c-participant-form .c-participant-search {
+        margin: 0 .7em 0 2em;
+        width: 50%;
+    }
+}

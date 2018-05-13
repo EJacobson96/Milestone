@@ -99,7 +99,7 @@ class Progress extends React.Component {
 		}
 		if (this.state.connections) {
 			return (
-				<div className='l-progress-content'>
+				<div className='l-progress-content container'>
 					<Switch>
 						<Route exact path='/progress/people' render={() => (
 							<div>

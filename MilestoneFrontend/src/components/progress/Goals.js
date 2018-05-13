@@ -74,7 +74,7 @@ class Goals extends React.Component {
     render() {
         var goals;
         if (this.state.goals) {
-            goals = this.props.goals.map((goal) => {
+            goals = this.state.goals.map((goal) => {
                 return (
                     <Goal
                         goal={ goal }

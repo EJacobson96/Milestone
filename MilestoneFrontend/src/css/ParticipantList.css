@@ -3,3 +3,10 @@
     flex-direction: column;
     margin-top: 1em;
 }
+
+@media(min-width: 769px) {
+    .c-participant-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}

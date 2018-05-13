@@ -21,13 +21,40 @@ class ParticipantCard extends React.Component {
     }
 
     render() {
+        console.log(this.props.taskCount);
+        console.log(this.props.goalCount);
+        var showGoals;
+        var tasks;
+        var goals;
+        if (this.props.goalCount !== 0) {
+            switch (this.props.taskCount) {
+                case 1: 
+                    tasks = this.props.taskCount + ' Task'
+                    break;
+                default: 
+                    tasks = this.props.taskCount + ' Tasks'
+            }
+            switch (this.props.goalCount) {
+                case 1: 
+                    goals = this.props.goalCount + ' Goal '
+                    break;
+                default: 
+                    goals = this.props.goalCount + ' Goals '
+            }
+            showGoals = <p className="goals-tasks">{goals} {tasks}</p>
+        } else {
+            showGoals = <p className="goals-tasks">No Goals</p>
+        }
         return (
             <Link to={"/progress/people/goals/:id" + this.props.id}  className="c-participant-card-wrapper">
                 <div className="c-participant-card">
                     <div className="c-participant-card-image">
                         <img src={ fakeuser } alt=''/>
                     </div>
-                    <h4 className="c-participant-card-name">{ this.props.fullName }</h4>
+                    <div className="c-name-goals-tasks">
+                        <h3 className="c-participant-card-name">{ this.props.fullName }</h3>
+                        {showGoals}
+                    </div>
                 </div>
             </Link>
         );
