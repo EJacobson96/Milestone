@@ -33,7 +33,7 @@ const UpcomingTasks = (props) => {
 	// 	props.updateCurrGoalCatId(targetGoalId);
 	// }
 	let tasks = <Redirect to='/progress/goals/'></Redirect>; // <div></div>;
-	let isActive = props.navFilter == "inProgress" ? true : false;
+	let isActive = props.navFilter == "inProgress" ? false : true;
 	if (props.goals.length > 1 && targetGoalId) { // add else to get id from path
 		const targetGoal = props.goals.filter(goal => goal.id == targetGoalId);
 		const filteredGoals = targetGoal[0].tasks.filter((task) => task.active == isActive)

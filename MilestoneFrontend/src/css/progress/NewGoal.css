@@ -1,10 +1,3 @@
-.l-new-goal {
-}
-
-.c-new-goal-form {
-
-}
-
 .c-new-goal-form__section {
 	margin-top: 10px;
 	margin-bottom: 20px;
@@ -44,4 +37,21 @@
 .c-new-goal-form__button--deny {
     padding: .5em 1.5em;
     background-color: white;
+}
+
+@media(min-width: 769px) {
+    .c-new-goal-form__section {
+        width: 100%;
+    }
+    .c-new-goal-form-fields {
+        width: 50%;
+        margin: 0 auto;
+    }
+    .c-new-goal-form__divider {
+        display: none;
+    }
+
+    .c-new-goal-form__section-heading {
+        margin-top: 30px;
+    }
 }

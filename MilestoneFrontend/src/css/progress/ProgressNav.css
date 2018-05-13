@@ -37,3 +37,16 @@
 	font-size: 2.5vh;
 }
 
+@media(min-width: 769px) {
+	.c-progress-nav span {
+		padding: .5em 0;
+		font-size: 1.25em;
+	}
+
+	.c-progress-nav {
+	  padding: 15px;
+	  width: 400px;
+	  flex-basis: 30%;
+	}
+}
+

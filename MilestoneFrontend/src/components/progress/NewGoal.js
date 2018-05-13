@@ -110,38 +110,39 @@ class NewGoal extends React.Component {
 						<FormGroup
 							controlId={ 'newGoalForm' }
 						>
-							<div className='[ container ] c-new-goal-form__section'>
-								<h4 className='c-new-goal-form__section-heading'>
-									Who would you like to work with?
-								</h4>
-								<ServiceProviderPicker 
-									currUser={ this.props.currUser }
-									handleServiceProviderSelection= { (i,s) => this.handleServiceProviderSelection(i,s) }
-								/>
+							<div className="c-new-goal-form-fields">
+								<div className='[ container ] c-new-goal-form__section'>
+									<h4 className='c-new-goal-form__section-heading'>
+										Who would you like to work with?
+									</h4>
+									<ServiceProviderPicker 
+										currUser={ this.props.currUser }
+										handleServiceProviderSelection= { (i,s) => this.handleServiceProviderSelection(i,s) }
+									/>
+								</div>
+
+								<hr className='c-new-goal-form__divider' />
+
+								<div className='[ container ] c-new-goal-form__section'>
+									<h4 className='c-new-goal-form__section-heading'>
+										Goal name
+									</h4>
+									<FormControl
+										type='text'
+										value={ this.state.goalName }
+										placeholder='Type in your goal...'
+										onChange={ (e) => this.handleGoalNameChange(e) }
+									/>
+								</div>
+
+								<hr className='c-new-goal-form__divider' />
+
+								{/* <NewGoalInput 
+									handleDateChange={ (d) => this.handleDateChange(d) }
+									handleTitleChange={ (t) => this.handleTitleChange(t) }
+									handleDescriptionChange={ (d) => this.handleDescriptionChange(d) }
+								/> */}
 							</div>
-
-							<hr className='c-new-goal-form__divider' />
-
-							<div className='[ container ] c-new-goal-form__section'>
-								<h4 className='c-new-goal-form__section-heading'>
-									Goal name
-								</h4>
-								<FormControl
-									type='text'
-									value={ this.state.goalName }
-									placeholder='Type in your goal...'
-									onChange={ (e) => this.handleGoalNameChange(e) }
-								/>
-							</div>
-
-							<hr className='c-new-goal-form__divider' />
-
-							{/* <NewGoalInput 
-								handleDateChange={ (d) => this.handleDateChange(d) }
-								handleTitleChange={ (t) => this.handleTitleChange(t) }
-								handleDescriptionChange={ (d) => this.handleDescriptionChange(d) }
-							/> */}
-
 							<div className='[ container ] c-new-goal-form__section'>
 								<div className='c-new-goal-form__button-wrapper'>
 									<Button className='c-new-goal-form__button--approve' onClick={ () => { this.addGoal() } }>Save</Button>
