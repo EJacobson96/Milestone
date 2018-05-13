@@ -9,7 +9,7 @@ import { Glyphicon, Button } from 'react-bootstrap';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/ParticipantHeading.css';
+import '../../css/ParticipantSearch.css';
 
 /////////////////////////////////////////
 /// Code
@@ -25,7 +25,7 @@ class ParticipantSearch extends React.Component {
 
     handleSearch(e) {
         e.preventDefault();
-        let input = document.getElementById('networkSearch');
+        let input = document.getElementById('participantSearch');
 		let search = input.value;
 		this.props.handleSearch(search);
 		input.value = '';
@@ -33,10 +33,10 @@ class ParticipantSearch extends React.Component {
 
 	render() {
 		return (
-			<div className="c-network-form">
-				<form className="[ form-inline ] c-network-search">
-					<input id="networkSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
-					<Button className="btn btn-outline-success my-2 my-sm-0 c-network-button" onClick={(e) => this.handleSearch(e)}>
+			<div className="c-participant-form">
+				<form className="[ form-inline ] c-participant-search">
+					<input id="participantSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
+					<Button className="btn btn-outline-success my-2 my-sm-0 c-participant-button" onClick={(e) => this.handleSearch(e)}>
 						<Glyphicon glyph="search" /> 
 					</Button>
 				</form>

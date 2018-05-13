@@ -34,7 +34,7 @@ class ParticipantHeading extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className='l-progress-content__head'>
+				<div className='l-participant-content__head'>
 					{/* <h1 className="c-progress-header">{ props.heading }</h1> */}
 					<ParticipantNav 
 						

@@ -46,25 +46,40 @@ class ParticipantList extends React.Component {
     }
 
     render() {
-        var connectionList = this.props.connections.map((connection) => {
-            return (
-                <ParticipantCard 
-                    key={ connection.id }
-                    id={ connection.id }
-                    fullName={ connection.fullName }
-                />
-            )
-        })
-        if (this.state.goals) {
-            console.log(this.state.goals);
-            return (
-                <div className="c-participant-list">
-                    { connectionList }
-                </div>
-            );
-        } else {
-            return <p></p>
+        var connectionList;
+        var goalCount;
+            if (this.state.goals) {
+                // console.log(this.state.goals);
+                var taskCount = 0;
+                connectionList = this.props.connections.map((connection) => {
+                    if (this.state.goals[connection.id]) {
+                        goalCount = this.state.goals[connection.id].length;
+                        for (let i = 0; i < this.state.goals[connection.id].length; i++) {
+                            console.log(this.state.goals[connection.id][i]);
+                            taskCount += this.state.goals[connection.id][i].tasks.length;
+                        }
+                    }
+
+                    console.log(taskCount);
+                    // console.log(taskCount);
+                    // console.log(this.state.goals['' + connection.id]);
+                    return (
+                        <ParticipantCard 
+                            key={ connection.id }
+                            id={ connection.id }
+                            fullName={ connection.fullName }
+                            goalCount={ goalCount }
+                            taskCount = { taskCount }
+                        />
+                    )
+            })
         }
+
+        return (
+            <div className="c-participant-list">
+                { connectionList }
+            </div>
+        );
     }
 }
 
