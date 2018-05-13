@@ -65,7 +65,7 @@ class NewTaskInput extends React.Component {
 	
 	render() {
 		return (
-			<div>
+			<div className="c-new-task-form-fields">
 				<div className='[ container ] c-new-task-form__section'>
 					<h4 className='c-new-task-form__section-heading'>
 						Task name

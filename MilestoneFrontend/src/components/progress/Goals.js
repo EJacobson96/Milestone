@@ -36,6 +36,7 @@ class Goals extends React.Component {
 
     render() {
         const goals = this.props.goals.map((goal) => {
+            console.log(goal);
             return (
                 <Goal
                     goal={ goal }

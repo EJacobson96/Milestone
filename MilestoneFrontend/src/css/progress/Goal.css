@@ -73,3 +73,38 @@
 	padding-top: 50%;
 	position: relative;
 }
+
+@media (min-width: 769px) {
+	.c-goal {
+		display: flex;
+		flex-basis: 352.5px;
+		box-sizing: border-box;
+		height: 225px;
+		align-items: center;
+		box-shadow: 0 0 15px rgba(0,0,0,0.25);
+	}
+
+	.c-goal a {
+		margin: auto;
+	}
+	.c-goal__category-title {
+		position: static;
+		transform: unset;
+		top: unset;
+		font-size: 2em;
+	}
+	.c-goal__category-status {
+		position: static;
+		transform: unset;
+	}
+	.c-goal__number-of-goals {
+		position: static;
+		transform: unset;
+		margin-top: 10px;
+		font-size: 1em;
+	}
+	.c-goal__category-info {
+		padding-top: 0;
+		position: static;
+	}
+}

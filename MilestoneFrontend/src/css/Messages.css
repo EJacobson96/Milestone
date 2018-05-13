@@ -1,9 +1,9 @@
 .l-conversations .c-contact-card-link-wrapper:last-child .c-conversation-card {
-    border-bottom: 1px solid #9C9B9B;
+    border-bottom: 1px solid #808080;
 }
 
 .c-conversation-card {
-    border-top: 1px solid #9C9B9B;
+    border-top: 1px solid #808080;
     padding: 1em 0 1em 0;
     display: flex;
     background-color: white;
@@ -79,17 +79,17 @@
         height: 73.5vh;
         overflow: scroll;
         background-color: white;
-        border: 1px solid #9C9B9B;
+        border: 1px solid #808080;
     }
     .c-conversation-card {
-        border-top: 1px solid #9C9B9B;
+        border-top: 1px solid #808080;
     }
     .c-messages-container {
-        border-right: 1px solid #9C9B9B;
+        border-right: 1px solid #808080;
     }
     .c-messages-header-wrapper {
-        border-bottom: 1px solid #9C9B9B !important;
-        border-right: 1px solid #9C9B9B;
+        border-bottom: 1px solid #808080 !important;
+        border-right: 1px solid #808080;
     }
     .c-messages-count {
         text-align: center;
@@ -100,7 +100,7 @@
     }
     .c-message-count-border {
         border-bottom: none;
-        border-bottom: 1px solid #9C9B9B;
+        border-bottom: 1px solid 808080;
         margin-left: 1em;
         padding: 11px 0;
         margin: 0;

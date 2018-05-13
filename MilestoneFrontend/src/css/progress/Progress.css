@@ -17,3 +17,28 @@
 .c-progress-header {
 	margin-left: 15px;
 }
+
+.l-progress-content.container {
+	padding-right: 0;
+	padding-left: 0;
+}
+
+@media(min-width: 769px) {
+	.l-progress-content {
+		padding-top: 0;
+		margin-top: 125px;
+		border: 1px solid #808080;
+		min-height: 80vh;
+		background-color: white;
+		box-shadow: 0 0 15px rgba(0,0,0,0.25);
+	}
+	.c-progress-header {
+		margin-bottom: 0;
+		margin-left: 40px;
+	}
+	.l-progress-content__head {
+		display: flex;
+		flex-direction: row-reverse;
+		border-bottom: 1px solid #ccc;
+	}
+}

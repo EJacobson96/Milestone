@@ -40,7 +40,7 @@ const Progress = (props) => {
 									/>
 
 	return (
-		<div className='l-progress-content'>
+		<div className='l-progress-content container'>
 			<Switch>
 				<Route path='/progress/goals/search' render={() => (
 					<div>
