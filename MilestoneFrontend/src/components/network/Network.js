@@ -117,7 +117,7 @@ class Network extends Component {
         </div>;
         var firstMessage = [];
         if (this.state.currUser && this.state.messageContent) {
-            console.log(this.state.currUser);
+            // console.log(this.state.currUser);
             return (
                 <div className="l-network-content">
                     <Switch>

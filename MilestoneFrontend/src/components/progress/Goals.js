@@ -2,6 +2,7 @@
 /// Package imports
 
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
 
 /////////////////////////////////////////
@@ -31,24 +32,62 @@ class Goals extends React.Component {
     }
 
 	componentWillMount() {
-		this.props.refreshUser();
-	}
+        this.props.refreshUser();
+        var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
+        Axios.get(
+            'https://milestoneapi.eric-jacobson.me/goals?id=' + id)
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                this.setState({
+                    goals: data
+                })
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );  
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        var currID = this.props.match.params.id.substring(3, this.props.match.params.id.length)
+        var nextID = nextProps.match.params.id.substring(3, nextProps.match.params.id.length)
+        if (currID !== nextID && nextID) {
+            Axios.get(
+                'https://milestoneapi.eric-jacobson.me/goals?id=' + nextID)
+                .then(response => {
+                    return response.data;
+                })
+                .then(data => {
+                    this.setState({
+                        goals: data
+                    })
+                })
+                .catch(error => {
+                    console.log(error);
+                }
+            );  
+        }
+    }
 
     render() {
-        const goals = this.props.goals.map((goal) => {
-            console.log(goal);
-            return (
-                <Goal
-                    goal={ goal }
-                    goalTitle={ goal.title }
-                    status={ goal.active ? "Active" : "Finished" }
-                    numberOfTasks={ goal.tasks.length }
-                    goalId={ goal.id }
-                    key={ goal.id }
-                    changeGoalFocus={ (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
-                />
-            );
-        });
+        var goals;
+        if (this.state.goals) {
+            goals = this.props.goals.map((goal) => {
+                return (
+                    <Goal
+                        goal={ goal }
+                        goalTitle={ goal.title }
+                        status={ goal.active ? "Active" : "Finished" }
+                        numberOfTasks={ goal.tasks.length }
+                        goalId={ goal.id }
+                        key={ goal.id }
+                        changeGoalFocus={ (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
+                    />
+                );
+            });
+        }
         
         return (
             <div className="c-goals">
@@ -58,4 +97,4 @@ class Goals extends React.Component {
     }
 }
 
-export default Goals;
+export default withRouter(Goals);

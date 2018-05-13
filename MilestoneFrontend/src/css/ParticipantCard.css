@@ -1,0 +1,30 @@
+.c-participant-card {
+    display: flex;
+    flex: 1;
+    border: 1px solid #9C9B9B;
+    align-items: center;
+	padding: 1.5em 0 1.5em 0;
+    background-color: white;
+}
+
+.c-participant-card-wrapper {
+    
+}
+
+.c-participant-card-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .6em;
+    flex-basis: 18%;
+    /* max-width: 200px; */
+}
+
+.c-participant-card-image img {
+    width: 75%;
+    border-radius: 50%;
+}
+
+.c-participant-card-name {
+    margin-left: 1em;
+}
