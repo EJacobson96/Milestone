@@ -40,7 +40,7 @@ class ParticipantHeading extends React.Component {
 						
 					/>
 					<ParticipantSearch 
-						handleSearch={this.props.handleSearch}
+						handleSearch={ this.props.handleSearch }
 					/>
 						{/* contentType={this.state.contentType}
 						handleSearch={(e) => this.handleSearch(e)} */}

@@ -73,8 +73,6 @@ const Task = (props) => {
 						markTaskComplete={ () => markTaskComplete() }
 						editTask={ () => editTask() }
 					/>
-
-
 				</div>
 				<div className='c-task__body'>
 					<p className='c-task__title'> { props.task.title }</p>

@@ -54,7 +54,7 @@ class Contacts extends React.Component {
                                           </h4>;
             }
             if (this.props.showRequests) {
-                console.log(this.props.showRequests);
+                // console.log(this.props.showRequests);
                 var count = 0;
                 requests = this.props.currUser.pendingRequests.map((request) => {
                     count++;

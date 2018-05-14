@@ -49,7 +49,7 @@ class ParticipantNav extends Component {
         return (
 			<ul className="c-participant-nav">
 				<li role="presentation" className="c-participant-nav__link">
-					<Link to="/progress/people" className="" >PEOPLE</Link>
+					<Link to="/progress/provider/participants" className="" >PEOPLE</Link>
 				</li>
 				<li role="presentation" className="c-participant-nav__link">
 					<Link to="/progress/resources" className="" >RESOURCES</Link>

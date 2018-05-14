@@ -21,11 +21,9 @@ class ParticipantCard extends React.Component {
     }
 
     render() {
-        console.log(this.props.taskCount);
-        console.log(this.props.goalCount);
-        var showGoals;
-        var tasks;
-        var goals;
+        let showGoals;
+        let tasks;
+        let goals;
         if (this.props.goalCount !== 0) {
             switch (this.props.taskCount) {
                 case 1: 
@@ -46,7 +44,7 @@ class ParticipantCard extends React.Component {
             showGoals = <p className="goals-tasks">No Goals</p>
         }
         return (
-            <Link to={"/progress/people/goals/:id" + this.props.id}  className="c-participant-card-wrapper">
+            <Link to={"/progress/provider/participants/goals/:id" + this.props.id} onClick={ () => this.props.getCurrentGoals(this.props.id) } className="c-participant-card-wrapper">
                 <div className="c-participant-card">
                     <div className="c-participant-card-image">
                         <img src={ fakeuser } alt=''/>
