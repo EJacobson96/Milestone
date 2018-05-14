@@ -41,15 +41,13 @@ class Progress extends React.Component {
             value: ''
 		};
 
-		this.handleSearch = this.handleSearch.bind(this);
+		this.handleProviderSearch = this.handleProviderSearch.bind(this);
 	}
 
-    handleSearch(search) {
-        if (this.props.location.pathname.includes("/people")) {
-			this.props.setConnections(search);
-        } else {
-
-        }
+    handleProviderSearch(search) {
+        if (this.props.location.pathname.includes("/provider")) {
+			this.props.getConnections(search);
+        } 
 	}
 
 	render() {
@@ -68,7 +66,7 @@ class Progress extends React.Component {
 		if (isServiceProvider) {
 			participantHeader = <ParticipantHeading 
 									user={ this.props.user } 
-									handleSearch={ (e) => this.handleSearch(e) }
+									handleSearch={ (search) => this.handleProviderSearch(search) }
 								/>
 			if (this.props.participantUserId) {
 				participantName = this.props.connections.filter(

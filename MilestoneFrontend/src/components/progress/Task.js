@@ -46,7 +46,7 @@ const Task = (props) => {
 		dueDateSpan = <span className='c-task__due-date'>{ props.goal.title }</span>
 	}
 	let numComments = "NO COMMENTS";
-	if (props.task.comments !== null) {
+	if (props.task.comments !== null && props.task.comments !== undefined) {
 		if (props.task.comments.length > 0) {
 			numComments = props.task.comments.length + " COMMENT";
 			if (props.task.comments.length > 1) {
@@ -55,7 +55,7 @@ const Task = (props) => {
 		}
 	}
 	let numResources = "NO RESOURCES";
-	if (props.task.resources !== null) {
+	if (props.task.resources !== null && props.task.resources !== undefined) {
 		if (props.task.resources.length > 0) {
 			numResources = props.task.resources.length + " RESOURCE";
 			if (props.task.resources.length > 1) {

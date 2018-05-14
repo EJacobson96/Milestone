@@ -24,13 +24,6 @@ class ParticipantHeading extends React.Component {
 		};
 	}
 
-	componentDidMount() {
-	}
-
-	componentWillReceiveProps() {
-
-	}
-
 	render() {
 		return (
 			<div>
@@ -40,7 +33,7 @@ class ParticipantHeading extends React.Component {
 						
 					/>
 					<ParticipantSearch 
-						handleSearch={ this.props.handleSearch }
+						handleSearch={ (search) => this.props.handleSearch(search) }
 					/>
 						{/* contentType={this.state.contentType}
 						handleSearch={(e) => this.handleSearch(e)} */}

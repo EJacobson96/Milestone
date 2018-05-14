@@ -107,7 +107,6 @@ class ProgressController extends Component {
         let currGoalCatTasks = currGoalCat.tasks;
         currGoalCatTasks.push(newTask);
         currGoalCat.tasks = currGoalCatTasks;
-        console.log(currGoalCat);
 
         // Push it to the server
         Axios.patch(
@@ -117,10 +116,14 @@ class ProgressController extends Component {
                 return response.data;
             })
             .then(data => {
-                console.log(data);
                 this.getCurrentUser();
-                this.props.history.push('/progress/goals/:id' + targetGoalId);
                 this.props.history.replace('/progress/goals');
+                
+                if (this.state.isServiceProvider) {
+                    this.props.history.push('/progress/provider/participants/goals/tasks/:goalid' + targetGoalId);
+                } else {
+                    this.props.history.push('/progress/goals/:id' + targetGoalId);
+                }
             })
             .catch(error => {
                 console.error(error);
@@ -511,6 +514,7 @@ class ProgressController extends Component {
                             addGoal={ (o) => this.addGoal(o) }
                             changeGoalFocus = { (e, goalId, goalTitle) => this.changeGoalFocus(e, goalId, goalTitle) }
                             getCurrentGoals={ (id) => this.getCurrentGoals(id) }
+                            getConnections={ (search) => this.getConnections(search) }
                             handleSearch={ (e) => this.handleSearch(e) }
                             editTask={ (taskId) => this.editTask(taskId) }
                             markTaskComplete={ (taskId) => this.markTaskComplete(taskId) }
