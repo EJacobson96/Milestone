@@ -24,7 +24,9 @@ class ParticipantSearch extends React.Component {
 	}
 
     handleSearch(e) {
-        e.preventDefault();
+		if (e) {
+			e.preventDefault();
+		}
         let input = document.getElementById('participantSearch');
 		let search = input.value;
 		this.props.handleSearch(search);
@@ -34,7 +36,7 @@ class ParticipantSearch extends React.Component {
 	render() {
 		return (
 			<div className="c-participant-form">
-				<form className="[ form-inline ] c-participant-search">
+				<form className="[ form-inline ] c-participant-search" onSubmit={ (e) => this.handleSearch(e) }>
 					<input id="participantSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
 					<Button className="btn btn-outline-success my-2 my-sm-0 c-participant-button" onClick={(e) => this.handleSearch(e)}>
 						<Glyphicon glyph="search" /> 

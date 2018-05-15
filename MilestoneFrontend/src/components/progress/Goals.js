@@ -33,48 +33,48 @@ class Goals extends React.Component {
 
 	componentWillMount() {
         this.props.refreshUser();
-        var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
-        Axios.get(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + id)
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.setState({
-                    goals: data
-                })
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );  
+        // var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
+        // Axios.get(
+        //     'https://milestoneapi.eric-jacobson.me/goals?id=' + id)
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .then(data => {
+        //         this.setState({
+        //             goals: data
+        //         })
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     }
+        // );  
     }
     
-    componentWillReceiveProps(nextProps) {
-        var currID = this.props.match.params.id.substring(3, this.props.match.params.id.length)
-        var nextID = nextProps.match.params.id.substring(3, nextProps.match.params.id.length)
-        if (currID !== nextID && nextID) {
-            Axios.get(
-                'https://milestoneapi.eric-jacobson.me/goals?id=' + nextID)
-                .then(response => {
-                    return response.data;
-                })
-                .then(data => {
-                    this.setState({
-                        goals: data
-                    })
-                })
-                .catch(error => {
-                    console.log(error);
-                }
-            );  
-        }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     var currID = this.props.match.params.id.substring(3, this.props.match.params.id.length)
+    //     var nextID = nextProps.match.params.id.substring(3, nextProps.match.params.id.length)
+    //     if (currID !== nextID && nextID) {
+    //         Axios.get(
+    //             'https://milestoneapi.eric-jacobson.me/goals?id=' + nextID)
+    //             .then(response => {
+    //                 return response.data;
+    //             })
+    //             .then(data => {
+    //                 this.setState({
+    //                     goals: data
+    //                 })
+    //             })
+    //             .catch(error => {
+    //                 console.log(error);
+    //             }
+    //         );  
+    //     }
+    // }
 
     render() {
-        var goals;
-        if (this.state.goals) {
-            goals = this.state.goals.map((goal) => {
+        let goals;
+        if (this.props.goals) {
+            goals = this.props.goals.map((goal) => {
                 return (
                     <Goal
                         goal={ goal }

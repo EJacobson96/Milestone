@@ -2,7 +2,7 @@
 /// Dev Notes
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -15,7 +15,13 @@ import '../../css/progress/Goal.css';
 /// Code
 
 const Goal = (props) => {
-    const linkToGoalId = '/progress/goals/:id' + props.goalId;
+    // console.log(props.goal);
+    var linkToGoalId
+    if (props.location.pathname.includes('provider')) {
+        linkToGoalId = '/progress/provider/participants/goals/tasks/:goalid' + props.goalId;
+    } else {
+        linkToGoalId = '/progress/goals/:id' + props.goalId;
+    }
     let numTasks = 0;
     for (let i = 0; i < props.goal.tasks.length; i++) {
         if (props.goal.tasks[i].active === true) {
@@ -41,4 +47,4 @@ const Goal = (props) => {
     );
 }
 
-export default Goal;
+export default withRouter(Goal);

@@ -76,7 +76,7 @@ class DesktopNav extends React.Component {
           </Link> */}
           <div className="dropdown dropleft notificationDropdown">
             <Button className="c-navbar__btn c-link-notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-bell"></i>
+              <i className="fas fa-bell"></i>
               {displayNotifications}
             </Button>
             <div className="dropdown-menu p-4">
@@ -88,7 +88,7 @@ class DesktopNav extends React.Component {
           </div>
           <div className="dropdown userDropdown">
             <Button bsSize="lg" className="c-navbar__btn dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-user"></i>    
+              <i className="fas fa-user"></i>    
             </Button>
             <div className="dropdown-menu">
               <a className="dropdown-item" href="#">Profile</a>

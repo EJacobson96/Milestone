@@ -55,8 +55,7 @@ class TaskComments extends React.Component {
 	}
 	
 	render() {
-		// console.log(this.props.task.comments);
-		// console.log(this.props.currUser);
+		console.log(this.props.task);
 
 		let comments = "";
 		if (this.props.task.comments) {
@@ -64,12 +63,23 @@ class TaskComments extends React.Component {
 				// If comment came from current user; NEED BLOCK FOR OTHER USERS WHEN APPLICABLE!
 				if (comment.creator == this.props.currUser.id) {
 					return (
-						<div className='c-task-comments__comment-from-user'>
-							<div className='c-task-comments__comment-from-user__avatar-flex-box'>
+						<div className='c-task-comments__comment'>
+							<div className='c-task-comments__comment__avatar-flex-box'>
 								<img src={ fakeuser } className='c-task-comments__user-avatar' />
 							</div>
 							<div className='c-task-comments__comment-from-user__text-flex-box'>
-								<p className='c-task-comments__comment-from-user__text'>{ comment.textBody }</p>
+								<p className='c-task-comments__comment__text'>{ comment.textBody }</p>
+							</div>
+						</div>
+					)
+				} else {
+					return (
+						<div className='c-task-comments__comment'>
+							<div className='c-task-comments__comment-from-other__text-flex-box'>
+								<p className='c-task-comments__comment__text'>{ comment.textBody }</p>
+							</div>
+							<div className='c-task-comments__comment__avatar-flex-box'>
+								<img src={ fakeuser } className='c-task-comments__user-avatar' />
 							</div>
 						</div>
 					)
@@ -79,7 +89,6 @@ class TaskComments extends React.Component {
 		return (
 			<div className={ 'c-task-comments' } id={ 'comments-id-' + this.props.taskId }>
 				{ comments }
-
 				<div className='c-task-comments__input-wrapper'>
 					<div className='c-task-comments__avatar-flex-block'>
 						<img src={ fakeuser } className='c-task-comments__user-avatar' />

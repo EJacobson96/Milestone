@@ -68,11 +68,11 @@ class NavBar extends React.Component {
                     <i className="fas fa-flag"></i>
                 </Link>
                 <Link to="/Notifications" className="c-navbar__link c-nav-notifiactions">
-                    <i class="fas fa-bell"></i>
+                    <i className="fas fa-bell"></i>
                     {displayNotifications}
                 </Link>
                 <Button bsSize="lg" className="c-navbar__btn">
-                    <i class="fas fa-user"></i>             
+                    <i className="fas fa-user"></i>             
                 </Button>
             </div>
         );

@@ -99,7 +99,9 @@ class MessageScreen extends React.Component {
     // }
 
     handleSubmit(e) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         var input = this.textInput.value;
         this.textInput.value = "";
         if (input && this.state.currUser.id && this.state.conversation.id) {
@@ -155,14 +157,16 @@ class MessageScreen extends React.Component {
                         ref={(el) => { this.messagesEnd = el; }}>
                     </div>                    
                 </div>
-                <FormGroup controlId="formControlsTextarea" className="c-messages-input-form">
-                    <div className="input-group c-messages-input-group">
-                        <FormControl inputRef={input => this.textInput = input} componentClass="input" placeholder="Message..." className="messageInput"/>
-                        <span className="input-group-addon" id="basic-addon1">
-                            <Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleSubmit(e)} />
-                        </span>
-                    </div>
-                </FormGroup>
+                <form onSubmit={ (e) => this.handleSubmit(e) }>
+                    <FormGroup controlId="formControlsTextarea" className="c-messages-input-form">
+                        <div className="input-group c-messages-input-group">
+                            <FormControl inputRef={input => this.textInput = input} componentClass="input" placeholder="Message..." className="messageInput"/>
+                            <span className="input-group-addon" id="basic-addon1">
+                                <Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleSubmit(e)} />
+                            </span>
+                        </div>
+                    </FormGroup>
+                </form>
             </div>
         );
     }
