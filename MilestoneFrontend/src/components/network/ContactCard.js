@@ -2,7 +2,7 @@
 /// Pre-baked Component
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -25,7 +25,6 @@ class ContactCard extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.state);
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         if (id !== "") {
             this.setContactData(id);
@@ -38,6 +37,7 @@ class ContactCard extends React.Component {
         if (currID !== nextID && nextID !== "") {
             this.setContactData(nextID);
         }
+        console.log(this.props.messageContent);
     }
 
     setContactData(id) {
@@ -68,9 +68,7 @@ class ContactCard extends React.Component {
                     this.setState({
                         contactInfo: data,
                     }, () => {
-                        console.log(message)
                         if (message) {
-                            console.log("hello " + message)
                             this.postNotification(currentUser, currentUser.id, message, "connection", 
                                 "/Network/Contacts/Profile/:id" + currentUser.id, otherUserID);
                         }
@@ -191,24 +189,50 @@ class ContactCard extends React.Component {
         }
     }
 
+    handleMessaging(e) {
+        e.preventDefault();
+        console.log(this.props.messageContent)
+        let conversations = this.props.messageContent;
+        let existing = false;
+        let conversationID;
+        for (let i = 0; i < conversations.length; i++) {
+            for (let j = 0; j < conversations[i].members.length; j++) {
+                if (conversations[i].members[j].id == this.state.contactInfo.id) {
+                    existing = true;
+                    conversationID = conversations[i].id;
+                }
+            }
+        }
+        if (existing) {
+            this.props.history.push('/Network/Messages/Conversation/:id' + conversationID)
+        } else {
+            this.props.history.push('/Network/Messages/New/' + this.state.contactInfo.id)
+        }
+    }
+
     render() {
         var name, 
         email,
         contactUser,
-        requestType;
+        requestType,
+        phoneNum;
         if (this.state && this.state.contactInfo) {
             name = <HeaderBar
                         text={this.state.contactInfo.fullName}
                     />
+            phoneNum = this.state.contactInfo.phone;
             email = this.state.contactInfo.email;
             requestType = this.pendingRequest(this.state.contactInfo.id);
             if (this.isConnected(this.state.contactInfo.id)) {
+
                 contactUser = <div className='c-contact-profile__contact-icons'>
                                 <div className='c-contact-profile__contact-icons__phone'>
                                     <a href="tel:5555555555"><img src={phone} alt="phone icon"/></a>
                                 </div>
                                 <div className='c-contact-profile__contact-icons__msg'> 
-                                    <img src={message} alt="messaging icon"/>
+                                    <Link to="" className="c-profile-messaging-button" onClick={ (e) => { this.handleMessaging(e) } }>
+                                        <img src={message} alt="messaging icon"/> 
+                                    </Link>
                                 </div>
                               </div>
             } 
@@ -241,12 +265,9 @@ class ContactCard extends React.Component {
                         </div>
                         <div className='c-contact-profile__profile-info'>
                             <p className='c-contact-profile__field-label'><strong>Email: </strong>{ email }</p>
-                            <h5>Description: </h5>
+                            {/* <h5>Description: </h5> */}
                             <p>
-                                Dolore do eiusmod sit qui veniam cillum. Cupidatat qui excepteur magna ea laboris. 
-                                Consequat tempor dolor eiusmod consectetur. Id aliquip voluptate ea minim non pariatur 
-                                minim aliqua pariatur reprehenderit pariatur sint. Mollit cillum ea adipisicing velit eu 
-                                voluptate ipsum velit fugiat sint minim est minim elit.
+                                <strong>Phone Number: {phoneNum}</strong>
                             </p>
                         </div>
                     </div>

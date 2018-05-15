@@ -24,6 +24,7 @@ import '../../css/Network.css';
 
 /////////////////////////////////////////
 /// Code
+const websocket = new WebSocket("wss://milestoneapi.eric-jacobson.me/ws");
 
 class Network extends Component {
     constructor(props) {
@@ -40,6 +41,12 @@ class Network extends Component {
 
     componentDidMount() {
         this.setUserData();
+        websocket.addEventListener("message", function(event) { 
+            var data = JSON.parse(event.data);
+            if (this.state.currUser && data.payload.id == this.state.currUser.id) {
+                this.setUserData();
+            }
+        }.bind(this));  
     }
 
     componentWillReceiveProps() {
@@ -52,6 +59,7 @@ class Network extends Component {
                 this.setState({
                     currUser: data,
                 }, () => {
+                    //bugs out sometime
                     this.setMessageData('', data.id);
                     this.setUserConnections('', data.id);
                 })
@@ -65,6 +73,10 @@ class Network extends Component {
                 this.setState({
                     messageContent: data,
                     contentType: 'messages'
+                }, () => {
+                    if (this.props.location.pathname === "/Network/Messages/Conversation/:id" && data[0]) {
+                        this.props.history.push("/Network/Messages/Conversation/:id" + data[0].id)
+                    }
                 });
             })
         }
@@ -117,7 +129,6 @@ class Network extends Component {
         </div>;
         var firstMessage = [];
         if (this.state.currUser && this.state.messageContent) {
-            // console.log(this.state.currUser);
             return (
                 <div className="l-network-content">
                     <Switch>
@@ -205,6 +216,7 @@ class Network extends Component {
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
                                     <ContactCard
+                                        messageContent={this.state.messageContent}
                                         userController={this.props.userController}
                                     />
                                 </MediaQuery>
@@ -225,6 +237,7 @@ class Network extends Component {
                                                 handleSearch={(e) => this.handleSearch(e)}
                                             />
                                             <ContactCard
+                                                messageContent={this.state.messageContent}
                                                 userController={this.props.userController}
                                             />
                                         </div>
@@ -264,6 +277,7 @@ class Network extends Component {
                                                 userController={this.props.userController}
                                             />
                                             <ContactCard
+                                                messageContent={this.state.messageContent}
                                                 userController={this.props.userController}
                                             />
                                         </div>

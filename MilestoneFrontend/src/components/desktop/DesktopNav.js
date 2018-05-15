@@ -12,15 +12,23 @@ import Notification from '../Notification.js';
 
 /////////////////////////////////////////
 /// Code
+const websocket = new WebSocket("wss://milestoneapi.eric-jacobson.me/ws");
 
 class DesktopNav extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+    };
   }
 
   componentDidMount() {
     this.setUserData();
+    websocket.addEventListener("message", function(event) { 
+      var data = JSON.parse(event.data);
+      if (this.state.currUser && data.payload.id == this.state.currUser.id) {
+          this.setUserData();
+      }
+    }.bind(this)); 
   }
 
   setUserData() {
@@ -32,6 +40,38 @@ class DesktopNav extends React.Component {
     })
   }
 
+  clearNetwork() {
+    let notifications = this.state.user.notifications;
+    for (let i = 0; i < notifications.length; i++) {
+      if (notifications[i].contentType === "new message") {
+        notifications[i].read = true;
+      }
+    }
+    this.props.userController.postNotification(notifications, this.state.user.id)
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          user: data,
+        })
+      });
+  }
+
+  clearNotifications() {
+    let notifications = this.state.user.notifications;
+    for (let i = 0; i < notifications.length; i++) {
+      if (notifications[i].contentType === "connection") {
+        notifications[i].read = true;
+      }
+    }
+    this.props.userController.postNotification(notifications, this.state.user.id)
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          user: data,
+        })
+      });
+  }
+
   logOut(e) {
     this.props.userController.logOut();
     this.props.history.push('/login');
@@ -39,17 +79,29 @@ class DesktopNav extends React.Component {
 
   render() {
     var notifications = 0;
+    var networkAlerts = 0;
     var displayNotifications;
+    // var displayNetworkBadge;
     var notificationComponent;
     if (this.state && this.state.user) {
       for (let i = 0; i < this.state.user.notifications.length; i++) {
-        if (this.state.user.notifications[i].read == false) {
+        if (this.state.user.notifications[i].read == false && this.state.user.notifications[i].contentType == "connection") {
           notifications += 1;
         }
       }
+      // for (let i = 0; i < this.state.user.notifications.length; i++) {
+      //   console.log("test");
+      //   if (this.state.user.notifications[i].read == false && this.state.user.notifications[i].contentType == "new message") {
+      //     networkAlerts += 1;
+      //   }
+      // }
+      console.log(networkAlerts);
       if (notifications > 0) {
         displayNotifications = <Badge className="c-notification-badge" >{notifications}</Badge>
       }
+      // if (networkAlerts > 0) {
+      //   displayNetworkBadge = <Badge className="c-notification-badge" >{networkAlerts}</Badge>
+      // }
       notificationComponent = <Notification userController = { this.props.userController } isDropdown = {true}/>
     }
     return (
@@ -59,7 +111,10 @@ class DesktopNav extends React.Component {
             <img src={logo} className="milestoneLogo" alt="Milestone Logo" />
           </Link>
           <Link className="navLink" to='/Network'>
-            <i className="fas fa-comments"></i>
+            {/* <div className="c-navbar__btn c-link-notifications"> */}
+              <i className="fas fa-comments"></i>
+              {/* {displayNetworkBadge} */}
+            {/* </div> */}
             <p>Network</p>
           </Link>
           {/* <Link className="navLink" to='/Calendar'>
@@ -75,7 +130,8 @@ class DesktopNav extends React.Component {
             <p>Requests</p>
           </Link> */}
           <div className="dropdown dropleft notificationDropdown">
-            <Button className="c-navbar__btn c-link-notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <Button className="c-navbar__btn c-link-notifications" data-toggle="dropdown" 
+                aria-haspopup="true" aria-expanded="false" onClick={(e) => this.clearNotifications(e)}>
               <i className="fas fa-bell"></i>
               {displayNotifications}
             </Button>

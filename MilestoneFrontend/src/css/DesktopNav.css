@@ -23,6 +23,20 @@
     width: 400px;
     background-color: #EBECED;
 }
+
+.c-link-notifications {
+    display: flex;
+    padding: 0;
+}
+
+.c-notification-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: auto;
+    background-color: red;
+}
+
 .dropdown .c-link-notifications {
     display: flex;
 }

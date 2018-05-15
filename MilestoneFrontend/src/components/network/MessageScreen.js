@@ -16,7 +16,8 @@ const websocket = new WebSocket("wss://milestoneapi.eric-jacobson.me/ws");
 class MessageScreen extends React.Component {
     constructor(props) {
         super(props);
-    
+        this.state = {
+        };
     }
 
     componentDidMount() {
@@ -38,7 +39,7 @@ class MessageScreen extends React.Component {
         this.scrollToBottom();
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
-            if (data.payload.contentType === "new message") {
+            if (this.state.currUser && data.payload.id == this.state.currUser.id) {
                 this.renderConversations();
             }
         }.bind(this));  
@@ -85,18 +86,29 @@ class MessageScreen extends React.Component {
             })
     }
 
-    // postNotification(conversation, message) {
-    //     console.log(conversation.Users);
-    //     var users = [];
-
-    //     this.props.userController.postNotification(this.state.currUser.id, message, "new message", 
-    //         "/Network/Messages/Conversation/:id" + conversation.id, conversation.Users)
-    //         .then(data => {
-    //             this.setState({
-    //                 conversation: conversation
-    //             });
-    //         })
-    // }
+    postNotification(conversation, message) {
+        // console.log(conversation.members + " " + message);
+        for (let i = 0; i < conversation.members.length; i++) {
+            this.props.userController.getContact(conversation.members[0].id)
+            .then((data) => {
+                let notifications = data.notifications;
+                let newNotification = {
+                    Sender: "" + this.state.currUser.id,
+                    TimeSent: new Date(),
+                    Read: false,
+                    Body: message,
+                    ContentType: "new message",
+                    ContentRoute: "/Network/Messages/Conversation/:id" + conversation.id,
+                }
+                console.log(newNotification);
+                notifications.push(newNotification);
+                this.props.userController.postNotification(notifications, data.id)
+                .then((data) => {
+                    console.log(data);
+                })
+            });
+        }
+    }
 
     handleSubmit(e) {
         if (e) {
@@ -107,8 +119,11 @@ class MessageScreen extends React.Component {
         if (input && this.state.currUser.id && this.state.conversation.id) {
             this.props.messageController.postMessage(this.state.currUser.id, this.state.conversation.id, input)
             .then(data => {
-                console.log(data);
-                // this.postNotification(data, input);
+                this.setState({
+                    conversation: data
+                }, () => {
+                    this.postNotification(data, input);
+                });
             })
         }
     }
