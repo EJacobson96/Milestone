@@ -204,6 +204,7 @@ class Progress extends React.Component {
 										navFilter={ this.props.goalNavFilter }
 										refreshUser={() => this.props.refreshUser() }
 										changeGoalFocus={ (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
+										isServiceProvider={ isServiceProvider }
 									/>
 								</div>
 							)} />
@@ -279,6 +280,9 @@ class Progress extends React.Component {
 									/>
 								</div>
 							)} />
+							{/* <Route path='/progress/goals/:id' render={() => (
+								<Redirect to={ '/progress/provider/participants/goals/tasks/:goalid' + this.props.participantUserId } />
+							)} /> */}
 							<Route path='/Progress' render={() => (
 								<Redirect to='/progress/provider/participants' />
 							)} />

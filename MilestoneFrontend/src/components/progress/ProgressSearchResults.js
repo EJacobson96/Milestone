@@ -46,6 +46,7 @@ class ProgressSearchResults extends React.Component {
                     goalId={ goal.id }
                     key={ goal.id }
                     changeGoalFocus={ (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
+                    isServiceProvider={ this.props.isServiceProvider }
                 />
             );
         });
