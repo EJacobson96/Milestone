@@ -73,6 +73,9 @@ class ProgressController extends Component {
     }
 
     addGoal(goal) {
+        if (this.state.isServiceProvider) {
+            goal.UserID = this.state.participantUserId;
+        }
         Axios.post(
             'https://milestoneapi.eric-jacobson.me/goals',
             goal)
