@@ -13,15 +13,15 @@ import Axios from 'axios';
 	 * //TODO: 
      *      + A "No Results Found" message upon an empty search. [low priority]
      *      + A "No goals yet!" message upon opening a empty goal category. [low priority]
-     *      + Any necessary adjustments for desktop components.
+     *      + Any necessary adjustments for desktop components. [IN PROGRESS]
      *      + Three-dot dropdown menu on each goal w/ 'Delete', 'Rename' & 'Mark complete' [REQUIRES ROUTE]
      *          - Finished for tasks, needs route for goals
      *          - Maybe make it so finished tasks can be 'unfinished'?
      *      + Show who resources came from.
+     *      + Show who comments came from.
      *      + Two way goal approval. [REQUIRES ROUTE?]
      *          - Includes 'pending' message on both goals & tasks, and maybe a pending tab.
      *          - Remove goals/tasks if either side denies?
-     *      + TaskComments needs a block of code for displaying comments from users other than the current user
 	 */
 
 /////////////////////////////////////////
