@@ -69,8 +69,10 @@ class Progress extends React.Component {
 									handleSearch={ (search) => this.handleProviderSearch(search) }
 								/>
 			if (this.props.participantUserId) {
-				participantName = this.props.connections.filter(
-					(connection) => connection.id === this.props.participantUserId)[0].fullName;
+				let participantNameFilter = this.props.connections.filter((connection) => connection.id === this.props.participantUserId);
+				if (participantNameFilter.length > 0) {
+					participantName = participantNameFilter[0].fullName;
+				}
 			}
 		}
 
