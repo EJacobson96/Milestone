@@ -214,11 +214,13 @@ class ContactCard extends React.Component {
         var name, 
         email,
         contactUser,
-        requestType;
+        requestType,
+        phoneNum;
         if (this.state && this.state.contactInfo) {
             name = <HeaderBar
                         text={this.state.contactInfo.fullName}
                     />
+            phoneNum = this.state.contactInfo.phone;
             email = this.state.contactInfo.email;
             requestType = this.pendingRequest(this.state.contactInfo.id);
             if (this.isConnected(this.state.contactInfo.id)) {
@@ -263,12 +265,9 @@ class ContactCard extends React.Component {
                         </div>
                         <div className='c-contact-profile__profile-info'>
                             <p className='c-contact-profile__field-label'><strong>Email: </strong>{ email }</p>
-                            <h5>Description: </h5>
+                            {/* <h5>Description: </h5> */}
                             <p>
-                                Dolore do eiusmod sit qui veniam cillum. Cupidatat qui excepteur magna ea laboris. 
-                                Consequat tempor dolor eiusmod consectetur. Id aliquip voluptate ea minim non pariatur 
-                                minim aliqua pariatur reprehenderit pariatur sint. Mollit cillum ea adipisicing velit eu 
-                                voluptate ipsum velit fugiat sint minim est minim elit.
+                                <strong>Phone Number: {phoneNum}</strong>
                             </p>
                         </div>
                     </div>
