@@ -43,8 +43,7 @@ class Network extends Component {
         this.setUserData();
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
-            console.log(data.payload.id === this.state.currUser.id);
-            if (data.payload.id == this.state.currUser.id) {
+            if (this.state.currUser && data.payload.id == this.state.currUser.id) {
                 this.setUserData();
             }
         }.bind(this));  
@@ -79,8 +78,6 @@ class Network extends Component {
                         this.props.history.push("/Network/Messages/Conversation/:id" + data[0].id)
                     }
                 });
-                console.log(this.props);
-
             })
         }
     }
@@ -132,7 +129,6 @@ class Network extends Component {
         </div>;
         var firstMessage = [];
         if (this.state.currUser && this.state.messageContent) {
-            // console.log(this.state.currUser);
             return (
                 <div className="l-network-content">
                     <Switch>

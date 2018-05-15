@@ -105,7 +105,6 @@ var UserController = {
     },
 
     postNotification: function (notifications, id) {
-        console.log(notifications + " " + id);
         return Axios.patch(
             'https://milestoneapi.eric-jacobson.me/notifications?id=' + id,
             {

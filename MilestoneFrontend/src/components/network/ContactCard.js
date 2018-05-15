@@ -2,7 +2,7 @@
 /// Pre-baked Component
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -189,7 +189,8 @@ class ContactCard extends React.Component {
         }
     }
 
-    handleMessaging() {
+    handleMessaging(e) {
+        e.preventDefault();
         console.log(this.props.messageContent)
         let conversations = this.props.messageContent;
         let existing = false;
@@ -221,14 +222,15 @@ class ContactCard extends React.Component {
             email = this.state.contactInfo.email;
             requestType = this.pendingRequest(this.state.contactInfo.id);
             if (this.isConnected(this.state.contactInfo.id)) {
+
                 contactUser = <div className='c-contact-profile__contact-icons'>
                                 <div className='c-contact-profile__contact-icons__phone'>
                                     <a href="tel:5555555555"><img src={phone} alt="phone icon"/></a>
                                 </div>
                                 <div className='c-contact-profile__contact-icons__msg'> 
-                                    <Button onClick={ () => { this.handleMessaging() } }>
+                                    <Link to="" className="c-profile-messaging-button" onClick={ (e) => { this.handleMessaging(e) } }>
                                         <img src={message} alt="messaging icon"/> 
-                                    </Button>
+                                    </Link>
                                 </div>
                               </div>
             } 

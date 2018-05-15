@@ -16,7 +16,8 @@ const websocket = new WebSocket("wss://milestoneapi.eric-jacobson.me/ws");
 class MessageScreen extends React.Component {
     constructor(props) {
         super(props);
-    
+        this.state = {
+        };
     }
 
     componentDidMount() {
@@ -38,9 +39,7 @@ class MessageScreen extends React.Component {
         this.scrollToBottom();
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
-            console.log(data.payload.id === this.state.currUser.id);
-            if (data.payload.id == this.state.currUser.id) {
-                console.log(data.payload)
+            if (this.state.currUser && data.payload.id == this.state.currUser.id) {
                 this.renderConversations();
             }
         }.bind(this));  
@@ -101,8 +100,12 @@ class MessageScreen extends React.Component {
                     ContentType: "new message",
                     ContentRoute: "/Network/Messages/Conversation/:id" + conversation.id,
                 }
+                console.log(newNotification);
                 notifications.push(newNotification);
-                this.props.userController.postNotification(notifications, data.id);
+                this.props.userController.postNotification(notifications, data.id)
+                .then((data) => {
+                    console.log(data);
+                })
             });
         }
     }
