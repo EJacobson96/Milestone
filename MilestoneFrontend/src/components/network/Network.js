@@ -40,11 +40,9 @@ class Network extends Component {
     }
 
     componentDidMount() {
-        console.log("here did ");
         this.setUserData();
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
-            console.log("websockets")
             console.log(data.payload.id === this.state.currUser.id);
             if (data.payload.id == this.state.currUser.id) {
                 this.setUserData();
@@ -222,6 +220,7 @@ class Network extends Component {
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
                                     <ContactCard
+                                        messageContent={this.state.messageContent}
                                         userController={this.props.userController}
                                     />
                                 </MediaQuery>
@@ -242,6 +241,7 @@ class Network extends Component {
                                                 handleSearch={(e) => this.handleSearch(e)}
                                             />
                                             <ContactCard
+                                                messageContent={this.state.messageContent}
                                                 userController={this.props.userController}
                                             />
                                         </div>
@@ -281,6 +281,7 @@ class Network extends Component {
                                                 userController={this.props.userController}
                                             />
                                             <ContactCard
+                                                messageContent={this.state.messageContent}
                                                 userController={this.props.userController}
                                             />
                                         </div>

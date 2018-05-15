@@ -25,7 +25,6 @@ class ContactCard extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.state);
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         if (id !== "") {
             this.setContactData(id);
@@ -38,6 +37,7 @@ class ContactCard extends React.Component {
         if (currID !== nextID && nextID !== "") {
             this.setContactData(nextID);
         }
+        console.log(this.props.messageContent);
     }
 
     setContactData(id) {
@@ -68,9 +68,7 @@ class ContactCard extends React.Component {
                     this.setState({
                         contactInfo: data,
                     }, () => {
-                        console.log(message)
                         if (message) {
-                            console.log("hello " + message)
                             this.postNotification(currentUser, currentUser.id, message, "connection", 
                                 "/Network/Contacts/Profile/:id" + currentUser.id, otherUserID);
                         }
@@ -191,6 +189,26 @@ class ContactCard extends React.Component {
         }
     }
 
+    handleMessaging() {
+        console.log(this.props.messageContent)
+        let conversations = this.props.messageContent;
+        let existing = false;
+        let conversationID;
+        for (let i = 0; i < conversations.length; i++) {
+            for (let j = 0; j < conversations[i].members.length; j++) {
+                if (conversations[i].members[j].id == this.state.contactInfo.id) {
+                    existing = true;
+                    conversationID = conversations[i].id;
+                }
+            }
+        }
+        if (existing) {
+            this.props.history.push('/Network/Messages/Conversation/:id' + conversationID)
+        } else {
+            this.props.history.push('/Network/Messages/New/' + this.state.contactInfo.id)
+        }
+    }
+
     render() {
         var name, 
         email,
@@ -208,7 +226,9 @@ class ContactCard extends React.Component {
                                     <a href="tel:5555555555"><img src={phone} alt="phone icon"/></a>
                                 </div>
                                 <div className='c-contact-profile__contact-icons__msg'> 
-                                    <img src={message} alt="messaging icon"/>
+                                    <Button onClick={ () => { this.handleMessaging() } }>
+                                        <img src={message} alt="messaging icon"/> 
+                                    </Button>
                                 </div>
                               </div>
             } 

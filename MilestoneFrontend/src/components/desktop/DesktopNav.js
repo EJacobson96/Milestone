@@ -12,15 +12,24 @@ import Notification from '../Notification.js';
 
 /////////////////////////////////////////
 /// Code
+const websocket = new WebSocket("wss://milestoneapi.eric-jacobson.me/ws");
 
 class DesktopNav extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+    };
   }
 
   componentDidMount() {
     this.setUserData();
+    websocket.addEventListener("message", function(event) { 
+      var data = JSON.parse(event.data);
+      console.log(data.payload);
+      if (this.state.currUser && data.payload.id == this.state.currUser.id) {
+          this.setUserData();
+      }
+    }.bind(this)); 
   }
 
   setUserData() {
@@ -35,7 +44,9 @@ class DesktopNav extends React.Component {
   clearNotifications() {
     let notifications = this.state.user.notifications;
     for (let i = 0; i < notifications.length; i++) {
-      notifications[i].read = true;
+      if (notifications[i].contentType === "connection") {
+        notifications[i].read = true;
+      }
     }
     this.props.userController.postNotification(notifications, this.state.user.id)
       .then((data) => {

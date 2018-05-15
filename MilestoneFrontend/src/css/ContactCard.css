@@ -32,6 +32,16 @@
     width: 25%;
 }
 
+.c-contact-profile__contact-icons__msg button {
+    background-color: #EBECED;
+    border-color: #EBECED;
+}
+
+/* .c-contact-profile__contact-icons__msg button:hover {
+    background-color: #EBECED;
+    border-color: #EBECED;
+} */
+
 .c-contact-profile__profile-info {
     margin: 0 3em 1em 3em;
 }

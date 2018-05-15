@@ -38,7 +38,6 @@ class MessageScreen extends React.Component {
         this.scrollToBottom();
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
-            console.log("websockets")
             console.log(data.payload.id === this.state.currUser.id);
             if (data.payload.id == this.state.currUser.id) {
                 console.log(data.payload)

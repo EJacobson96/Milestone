@@ -22,6 +22,9 @@ class Contacts extends React.Component {
         };
     }
 
+    componentDidMount() {
+    }
+
     render() {
         var connections, 
             requests, 
