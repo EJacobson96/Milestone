@@ -17,6 +17,7 @@ type Goal struct {
 	Tasks            []*Task         `json:"tasks"`
 	DueDate          time.Time       `json:"dueDate"`
 	Active           bool            `json:"active"`
+	Completed        bool            `json:"completed"`
 }
 
 type NewGoal struct {
@@ -30,11 +31,12 @@ type NewGoal struct {
 }
 
 type UpdateGoal struct {
-	Title    string    `json:"title"`
-	Category string    `json:"category"`
-	Tasks    []*Task   `json:"tasks"`
-	DueDate  time.Time `json:"dueDate"`
-	Active   bool      `json:"active"`
+	Title     string    `json:"title"`
+	Category  string    `json:"category"`
+	Tasks     []*Task   `json:"tasks"`
+	DueDate   time.Time `json:"dueDate"`
+	Active    bool      `json:"active"`
+	Completed bool      `json:"completed"`
 }
 
 func (ng *NewGoal) Validate() error {
@@ -60,5 +62,6 @@ func (ng *NewGoal) ToGoal() *Goal {
 		Category:         ng.Category,
 		DueDate:          ng.DueDate,
 		Active:           true,
+		Completed:        false,
 	}
 }

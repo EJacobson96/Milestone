@@ -36,55 +36,58 @@ class Notification extends React.Component {
         var notifications;
         if (this.state && this.state.user) {
             var count = 0;
-            notifications = (this.props.isDropdown ? this.state.user.notifications.slice(0, 5) : this.state.user.notifications).slice(0).reverse().map((notification) => {
-                var body;
-                var time;
-                var read;
-                count++;
-                if (notification.contentType) {
-                    body = notification.body;
-                }
-                switch (notification.read) {
-                    case true:
-                        read = "c-notification-card-read"
-                    case false: 
-                        read = "c-notification-card-not-read"
-                }
-                time = notification.timeSent;
-                if (moment(time).calendar().startsWith('Today')) {
-                    if (moment(time).format('hh:mm A').startsWith('0')) {
-                        time = moment(time).format('h:mm A');
-                    } else {
-                        time = moment(time).format('hh:mm A');
+            notifications = (this.props.isDropdown ? this.state.user.notifications.slice(0, 5) : 
+                    this.state.user.notifications).slice(0).reverse().map((notification) => {
+                if (notification.contentType !== "new message") {
+                    var body;
+                    var time;
+                    var read;
+                    count++;
+                    if (notification.contentType) {
+                        body = notification.body;
                     }
-                } else if (moment(time).calendar().startsWith('Yesterday')) {
-                    time = 'Yesterday';
-                } else {
-                    if (moment(time).format('MM/DD/YYYY').startsWith('0')){
-                        time = moment(time).format('M/DD/YYYY');
-                    } else {
-                        time = moment(time).format('MM/DD/YYYY');
+                    switch (notification.read) {
+                        case true:
+                            read = "c-notification-card-read"
+                        case false: 
+                            read = "c-notification-card-not-read"
                     }
+                    time = notification.timeSent;
+                    if (moment(time).calendar().startsWith('Today')) {
+                        if (moment(time).format('hh:mm A').startsWith('0')) {
+                            time = moment(time).format('h:mm A');
+                        } else {
+                            time = moment(time).format('hh:mm A');
+                        }
+                    } else if (moment(time).calendar().startsWith('Yesterday')) {
+                        time = 'Yesterday';
+                    } else {
+                        if (moment(time).format('MM/DD/YYYY').startsWith('0')){
+                            time = moment(time).format('M/DD/YYYY');
+                        } else {
+                            time = moment(time).format('MM/DD/YYYY');
+                        }
+                    }
+                    return (
+                        <Link 
+                        to={{
+                            pathname: notification.contentRoute,
+                        }}
+                        className='c-notification-card-link-wrapper' 
+                        key={count}
+                        >
+                            <div className={"c-notification-card " + read}>
+                                <div className="c-notification-user-avatar">
+                                    <img src={fakeuser} alt="User Avatar" />
+                                </div>
+                                <div className="c-notification-details">
+                                    <p className="c-notfication-details-body">{body}</p>
+                                    <p>{time}</p>
+                                </div>
+                            </div>
+                        </Link>
+                    );
                 }
-                return (
-                    <Link 
-                    to={{
-                        pathname: notification.contentRoute,
-                    }}
-                    className='c-notification-card-link-wrapper' 
-                    key={count}
-                    >
-                        <div className={"c-notification-card " + read}>
-                            <div className="c-notification-user-avatar">
-                                <img src={fakeuser} alt="User Avatar" />
-                            </div>
-                            <div className="c-notification-details">
-                                <p className="c-notfication-details-body">{body}</p>
-                                <p>{time}</p>
-                            </div>
-                        </div>
-                    </Link>
-                );
             });
         }
         return (
