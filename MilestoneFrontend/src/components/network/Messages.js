@@ -73,7 +73,7 @@ class Messages extends React.Component {
                 return (
                     <Link 
                         to={{
-                            pathname: "/Network/Messages/Conversation/:id" + conversation.id,
+                            pathname: "/network/messages/conversation/:id" + conversation.id,
                         }}
                         className='c-contact-card-link-wrapper'  
                         key={conversation.id}

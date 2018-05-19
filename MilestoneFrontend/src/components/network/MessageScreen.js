@@ -11,7 +11,7 @@ import '../../css/MessageScreen.css';
 
 /////////////////////////////////////////
 /// Code
-const websocket = new WebSocket("wss://milestoneapi.eric-jacobson.me/ws");
+const websocket = new WebSocket("wss://api.milestoneapp.org/ws");
 
 class MessageScreen extends React.Component {
     constructor(props) {
@@ -98,7 +98,7 @@ class MessageScreen extends React.Component {
                     Read: false,
                     Body: message,
                     ContentType: "new message",
-                    ContentRoute: "/Network/Messages/Conversation/:id" + conversation.id,
+                    ContentRoute: "/network/messages/conversation/:id" + conversation.id,
                 }
                 console.log(newNotification);
                 notifications.push(newNotification);

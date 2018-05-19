@@ -76,21 +76,26 @@ class ProgressController extends Component {
         if (this.state.isServiceProvider) {
             goal.UserID = this.state.participantUserId;
         }
-        Axios.post(
-            'https://api.milestoneapp.org/goals',
-            goal)
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                this.getCurrentUser();
-                this.props.history.push('/progress/goals');
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );    
+        // Axios.post(
+        //     'https://api.milestoneapp.org/goals',
+        //     goal)
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .then(data => {
+        //         console.log(data);
+        //         this.getCurrentUser();
+        //         this.props.history.push('/progress/goals');
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     }
+        // );    
+        this.props.goalController.addGoal(goal)
+        .then((data) => {
+            this.getCurrentUser();
+            this.props.history.push('/progress/goals');
+        });
     }
 
     addTask(title, date, description, targetGoalId) {
@@ -112,26 +117,37 @@ class ProgressController extends Component {
         currGoalCat.tasks = currGoalCatTasks;
 
         // Push it to the server
-        Axios.patch(
-            'https://api.milestoneapp.org/goals?id=' + targetGoalId,
-            currGoalCat)
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.getCurrentUser();
-                this.props.history.replace('/progress/goals');
+        // Axios.patch(
+        //     'https://api.milestoneapp.org/goals?id=' + targetGoalId,
+        //     currGoalCat)
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .then(data => {
+        //         this.getCurrentUser();
+        //         this.props.history.replace('/progress/goals');
                 
-                if (this.state.isServiceProvider) {
-                    this.props.history.push('/progress/provider/participants/goals/tasks/:goalid' + targetGoalId);
-                } else {
-                    this.props.history.push('/progress/goals/:id' + targetGoalId);
-                }
-            })
-            .catch(error => {
-                console.error(error);
+        //         if (this.state.isServiceProvider) {
+        //             this.props.history.push('/progress/provider/participants/goals/tasks/:goalid' + targetGoalId);
+        //         } else {
+        //             this.props.history.push('/progress/goals/:id' + targetGoalId);
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     }
+        // );
+        this.props.goalController.updateGoal(targetGoalId, currGoalCat)
+        .then((data) => {
+            this.getCurrentUser();
+            this.props.history.replace('/progress/goals');
+            
+            if (this.state.isServiceProvider) {
+                this.props.history.push('/progress/provider/participants/goals/tasks/:goalid' + targetGoalId);
+            } else {
+                this.props.history.push('/progress/goals/:id' + targetGoalId);
             }
-        );
+        });
     }
 
     addTaskComment(comment, taskId) {
@@ -170,20 +186,24 @@ class ProgressController extends Component {
         console.log(currGoalCat);
 
         // Push it to the server
-        Axios.patch(
-            'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
-            currGoalCat)
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                this.getCurrentUser();
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        ); 
+        // Axios.patch(
+        //     'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
+        //     currGoalCat)
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .then(data => {
+        //         console.log(data);
+        //         this.getCurrentUser();
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     }
+        // ); 
+        this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
+        .then((data) => {
+            this.getCurrentUser();
+        });
     }
 
     addTaskResource(resourceName, resourceUrl, taskId) {
@@ -222,20 +242,24 @@ class ProgressController extends Component {
         console.log(currGoalCat);
 
         // Push it to the server
-        Axios.patch(
-            'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
-            currGoalCat)
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                this.getCurrentUser();
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        ); 
+        // Axios.patch(
+        //     'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
+        //     currGoalCat)
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .then(data => {
+        //         console.log(data);
+        //         this.getCurrentUser();
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     }
+        // ); 
+        this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
+        .then((data) => {
+            this.getCurrentUser();
+        });
     }
 
     changeGoalFocus(e, targetCategoryId, targetHeading) {
@@ -260,72 +284,101 @@ class ProgressController extends Component {
 	
 	getConnections(search) {
 		// console.log(this.props);
-		Axios.get(
-			'https://api.milestoneapp.org/connections?q=' + search + "&id=" + this.state.currUser.id,
-			{
-				headers: {
-					'Authorization': localStorage.getItem('Authorization')
-				}
-			})
-			.then(response => {
-				return response.data;
-			})
-			.then(data => {
-				// console.log(data);
-				this.setState({
-					connections: data
-				})
-			})
-			.catch(error => {
-				console.log(error);
-			});
+		// Axios.get(
+		// 	'https://api.milestoneapp.org/connections?q=' + search + "&id=" + this.state.currUser.id,
+		// 	{
+		// 		headers: {
+		// 			'Authorization': localStorage.getItem('Authorization')
+		// 		}
+		// 	})
+		// 	.then(response => {
+		// 		return response.data;
+		// 	})
+		// 	.then(data => {
+		// 		// console.log(data);
+		// 		this.setState({
+		// 			connections: data
+		// 		})
+		// 	})
+		// 	.catch(error => {
+		// 		console.log(error);
+        // 	});
+        this.props.userController.getUserConnections(search, this.state.currUser.id)
+        .then((data) => {
+            this.setState({
+                connections: data
+            })
+        });
 	}
 
     getCurrentUser() {
-        Axios.get(
-            'https://api.milestoneapp.org/users/me', 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.setState({
-                    currUser: data,
-                    user: data,
-                    isParticipant: data.accountType === "participant",
-                    isServiceProvider: data.accountType === "service provider"
-                }, () => {
-                    if (data.accountType === "participant") {
-                        this.getCurrentGoals(data.id);
-                    } else {
-                        this.getConnections('');
-                    }
-                });
-            })
-            .catch(error => {
-                console.log(error);
+        // Axios.get(
+        //     'https://api.milestoneapp.org/users/me', 
+        //     {
+        //         headers: {
+        //             'Authorization' : localStorage.getItem('Authorization')
+        //         }    
+        //     })
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .then(data => {
+        //         this.setState({
+        //             currUser: data,
+        //             user: data,
+        //             isParticipant: data.accountType === "participant",
+        //             isServiceProvider: data.accountType === "service provider"
+        //         }, () => {
+        //             if (data.accountType === "participant") {
+        //                 this.getCurrentGoals(data.id);
+        //             } else {
+        //                 this.getConnections('');
+        //             }
+        //         });
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     });
+        this.props.userController.getUser()
+        .then((data) => {
+            this.setState({
+                currUser: data,
+                user: data,
+                isParticipant: data.accountType === "participant",
+                isServiceProvider: data.accountType === "service provider"
+            }, () => {
+                if (data.accountType === "participant") {
+                    this.getCurrentGoals(data.id);
+                } else {
+                    this.getConnections('');
+                }
             });
+        });
     }
 
     getCurrentGoals(id) {
-        Axios.get(
-            'https://api.milestoneapp.org/goals?id=' + id,
-            { })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.setState({
-                    allGoalData: data,
-                    participantUserId: id
-                });
+        // Axios.get(
+        //     'https://api.milestoneapp.org/goals?id=' + id,
+        //     { })
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .then(data => {
+        //         this.setState({
+        //             allGoalData: data,
+        //             participantUserId: id
+        //         });
 
-                this.sortGoals(data);
+        //         this.sortGoals(data);
+        //     });
+        this.props.goalController.getGoals(id, "")
+        .then((data) => {
+            this.setState({
+                allGoalData: data,
+                participantUserId: id
             });
+            this.sortGoals(data);
+        });
     }
 
     editTask(taskId) {
@@ -343,19 +396,27 @@ class ProgressController extends Component {
             id = this.state.participantUserId
         }
 
-        Axios.get(
-            'https://api.milestoneapp.org/goals?id=' + id + '&q=' + search,
-            { })
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.setState({
-                    searchResults: data
-                });
-                console.log(data);
-                this.props.history.push('/progress/goals/search?q=' + search);
+        // Axios.get(
+        //     'https://api.milestoneapp.org/goals?id=' + id + '&q=' + search,
+        //     { })
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .then(data => {
+        //         this.setState({
+        //             searchResults: data
+        //         });
+        //         console.log(data);
+        //         this.props.history.push('/progress/goals/search?q=' + search);
+        //     });
+        this.props.goalController.getGoals(id, search)
+        .then((data) => {
+            this.setState({
+                searchResults: data
             });
+            this.props.history.push('/progress/goals/search?q=' + search);
+        });
+
     }
 
     markTaskComplete(taskId) {
@@ -381,20 +442,24 @@ class ProgressController extends Component {
         currGoalCat.tasks = currTasks;
 
         // Push it to the server
-        Axios.patch(
-            'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
-            currGoalCat)
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                this.getCurrentUser();
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );  
+        // Axios.patch(
+        //     'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
+        //     currGoalCat)
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .then(data => {
+        //         console.log(data);
+        //         this.getCurrentUser();
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     }
+        // );  
+        this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
+        .then((data) => {
+            this.getCurrentUser();
+        });
     }
 
     sortGoals(goalData) {
@@ -474,21 +539,26 @@ class ProgressController extends Component {
         currGoalCat.tasks = currTasks;
 
         // Push it to the server
-        Axios.patch(
-            'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
-            currGoalCat)
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                console.log(data);
-                this.getCurrentUser();
-                this.props.history.push('/progress/goals/:id' + targetGoalId);
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );  
+        // Axios.patch(
+        //     'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
+        //     currGoalCat)
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .then(data => {
+        //         console.log(data);
+        //         this.getCurrentUser();
+        //         this.props.history.push('/progress/goals/:id' + targetGoalId);
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     }
+        // );  
+        this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
+        .then((data) => {
+            this.getCurrentUser();
+            this.props.history.push('/progress/goals/:id' + targetGoalId);
+        });
     }
 
     render() {

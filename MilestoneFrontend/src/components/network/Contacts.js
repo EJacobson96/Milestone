@@ -64,7 +64,7 @@ class Contacts extends React.Component {
                     if (request.type === "received") {
                         return (
                             <NetworkRequestThumbnail 
-                                path = { '/Network/Contacts/Profile/:id' + request.sender }
+                                path = { '/network/contacts/profile/:id' + request.sender }
                                 id = { request.sender }
                                 key = { count }
                                 userController={this.props.userController}
@@ -83,7 +83,7 @@ class Contacts extends React.Component {
                 // }
                 return (
                     <ContactThumbnail
-                        path={ this.props.isDesktopInvitation ? "/Network/Contacts/Connect/Profile/:id" + connection.id : "/Network/Contacts/Profile/:id" + connection.id }
+                        path={ this.props.isDesktopInvitation ? "/network/contacts/connect/profile/:id" + connection.id : "/network/contacts/profile/:id" + connection.id }
                         id={ connection.id }
                         key={ connection.id }
                         fullName={ connection.fullName }

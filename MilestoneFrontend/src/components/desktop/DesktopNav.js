@@ -12,7 +12,7 @@ import Notification from '../Notification.js';
 
 /////////////////////////////////////////
 /// Code
-const websocket = new WebSocket("wss://milestoneapi.eric-jacobson.me/ws");
+const websocket = new WebSocket("wss://api.milestoneapp.org/ws");
 
 class DesktopNav extends React.Component {
   constructor(props) {
@@ -107,10 +107,10 @@ class DesktopNav extends React.Component {
     return (
       <div className="c-navbar">
         <div className="container c-navbar__desktop-nav-container">
-          <Link to="/Network">
+          <Link to="/network">
             <img src={logo} className="milestoneLogo" alt="Milestone Logo" />
           </Link>
-          <Link className="navLink" to='/Network'>
+          <Link className="navLink" to='/network'>
             {/* <div className="c-navbar__btn c-link-notifications"> */}
               <i className="fas fa-comments"></i>
               {/* {displayNetworkBadge} */}
@@ -121,7 +121,7 @@ class DesktopNav extends React.Component {
             <i className="far fa-calendar"></i>
             <p>Calendar</p>
           </Link> */}
-          <Link className="navLink" to='/Progress'>
+          <Link className="navLink" to='/progress'>
             <i className="fas fa-flag"></i>
             <p>Progress</p>
           </Link>
@@ -138,7 +138,7 @@ class DesktopNav extends React.Component {
             <div className="dropdown-menu p-4">
               {notificationComponent}
               <div className="text-center mt-2">
-                <Link to='/Notifications'>See All</Link>
+                <Link to='/notifications'>See All</Link>
               </div>
             </div>
           </div>

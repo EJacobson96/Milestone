@@ -70,7 +70,7 @@ class ContactCard extends React.Component {
                     }, () => {
                         if (message) {
                             this.postNotification(currentUser, currentUser.id, message, "connection", 
-                                "/Network/Contacts/Profile/:id" + currentUser.id, otherUserID);
+                                "/network/contacts/profile/:id" + currentUser.id, otherUserID);
                         }
                     })
                 })
@@ -204,9 +204,9 @@ class ContactCard extends React.Component {
             }
         }
         if (existing) {
-            this.props.history.push('/Network/Messages/Conversation/:id' + conversationID)
+            this.props.history.push('/network/messages/conversation/:id' + conversationID)
         } else {
-            this.props.history.push('/Network/Messages/New/' + this.state.contactInfo.id)
+            this.props.history.push('/network/messages/new/' + this.state.contactInfo.id)
         }
     }
 

@@ -41,16 +41,16 @@ class NetworkSearch extends Component {
 					</Button>
 					
 					{
-						this.props.location.pathname.includes("Contacts") &&
-						<Link to="/Network/Contacts/Connect">
+						this.props.location.pathname.includes("contacts") &&
+						<Link to="/network/contacts/connect">
 							<Button className="btn btn-outline-success my-2 my-sm-0 plus c-network-button">
 								<Glyphicon glyph="plus" /> 
 							</Button>
 						</Link>
 					}
 					{
-						this.props.location.pathname.includes("Messages") && 
-						<Link to='/Network/Messages/New'>
+						this.props.location.pathname.includes("messages") && 
+						<Link to='/network/messages/new'>
 							<Button className="btn btn-outline-success my-2 my-sm-0 plus c-network-button">
 								<Glyphicon glyph="plus" /> 
 							</Button>

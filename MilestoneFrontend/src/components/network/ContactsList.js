@@ -29,7 +29,7 @@ class ContactsList extends React.Component {
 
     getQuery() {
         var searchQuery = this.props.location.pathname;
-        if (searchQuery.includes('Contacts')) {
+        if (searchQuery.includes('contacts')) {
             searchQuery = searchQuery.substring(31, searchQuery.length)
         } else {
             searchQuery = searchQuery.substring(22, searchQuery.length)
@@ -45,7 +45,7 @@ class ContactsList extends React.Component {
                 return (
                     <Link 
                         to={{
-                            pathname: '/Network/Messages/New/' + query +  ' ' + contact.id,
+                            pathname: '/network/messages/new/' + query +  ' ' + contact.id,
                         }}
                         className='c-contact-card-list-link-wrapper' 
                         key={ contact.id }

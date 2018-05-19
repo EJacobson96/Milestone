@@ -24,7 +24,7 @@ import '../../css/Network.css';
 
 /////////////////////////////////////////
 /// Code
-const websocket = new WebSocket("wss://milestoneapi.eric-jacobson.me/ws");
+const websocket = new WebSocket("wss://api.milestoneapp.org/ws");
 
 class Network extends Component {
     constructor(props) {
@@ -59,7 +59,7 @@ class Network extends Component {
                 this.setState({
                     currUser: data,
                 }, () => {
-                    //bugs out sometime
+                    //bugs out when session ends but bearer token still remains
                     this.setMessageData('', data.id);
                     this.setUserConnections('', data.id);
                 })
@@ -132,13 +132,13 @@ class Network extends Component {
             return (
                 <div className="l-network-content">
                     <Switch>
-                        <Route path='/Network/Messages/New/Contacts' render={(props) => (
+                        <Route path='/network/messages/new/contacts' render={(props) => (
                             <ContactsList
                                 user={this.state.currUser}
                                 userController={this.props.userController}
                             />
                         )} />
-                        <Route path='/Network/Messages/New/' render={(props) => (
+                        <Route path='/network/messages/new/' render={(props) => (
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
                                     <NewMessage
@@ -167,7 +167,7 @@ class Network extends Component {
                                 </MediaQuery>
                             </div>
                         )} />
-                        <Route path='/Network/Messages/Conversation/:id' render={(props) => (
+                        <Route path='/network/messages/conversation/:id' render={(props) => (
                             <div>
                                 <MediaQuery query="(max-device-width: 768px)">
                                     <MessageScreen
@@ -199,7 +199,7 @@ class Network extends Component {
                                 </MediaQuery>
                             </div>
                         )} />
-                        <Route exact path="/Network/Messages" render={(props) => (
+                        <Route exact path="/network/messages" render={(props) => (
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
                                     <div>
@@ -208,11 +208,11 @@ class Network extends Component {
                                     </div>
                                 </MediaQuery>
                                 <MediaQuery query="(min-width: 769px)">
-                                    <Redirect to={"/Network/Messages/Conversation/:id" + (this.state.messageContent.length > 0 ? this.state.messageContent[0].id : '')} />
+                                    <Redirect to={"/network/messages/conversation/:id" + (this.state.messageContent.length > 0 ? this.state.messageContent[0].id : '')} />
                                 </MediaQuery>
                             </div>
                         )} />
-                        <Route exact path='/Network/Contacts/Profile/:id' render={(props) => (
+                        <Route exact path='/network/contacts/profile/:id' render={(props) => (
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
                                     <ContactCard
@@ -247,7 +247,7 @@ class Network extends Component {
                             </div>
 
                         )} />
-                        <Route exact path="/Network/Contacts/Connect" render={(props) => (
+                        <Route exact path="/network/contacts/connect" render={(props) => (
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
                                     <NetworkConnect
@@ -258,14 +258,14 @@ class Network extends Component {
                                     />
                                 </MediaQuery>
                                 <MediaQuery query="(min-width: 769px)">
-                                    <Redirect to='/Network/Contacts/Connect/Profile/:id' />
+                                    <Redirect to='/network/contacts/connect/profile/:id' />
                                 </MediaQuery>
                             </div>
                         )} />
-                        <Route exact path='/Network/Contacts/Connect/Profile/:id' render={(props) => (
+                        <Route exact path='/network/contacts/connect/profile/:id' render={(props) => (
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
-                                    <Redirect to="/Network/Contacts/Connect" />
+                                    <Redirect to="/network/contacts/connect" />
                                 </MediaQuery>
                                 <MediaQuery query="(min-width: 769px)">
                                     <div className="container">
@@ -285,7 +285,7 @@ class Network extends Component {
                                 </MediaQuery>
                             </div>
                         )} />
-                        <Route exact path="/Network/Contacts" render={(props) => (
+                        <Route exact path="/network/contacts" render={(props) => (
                             <div>
                                 <MediaQuery query="(max-width: 768px)">
                                     <div>
@@ -299,12 +299,12 @@ class Network extends Component {
                                     </div>
                                 </MediaQuery>
                                 <MediaQuery query="(min-width: 769px)">
-                                    <Redirect to={"/Network/Contacts/Profile/:id"} />
+                                    <Redirect to={"/network/contacts/profile/:id"} />
                                 </MediaQuery>
                             </div>
                         )} />
-                        <Route exact path="/Network" render={(props) => (
-                            <Redirect to="/Network/Messages" />
+                        <Route exact path="/network" render={(props) => (
+                            <Redirect to="/network/messages" />
                         )} />
                     </Switch>
                 </div>
