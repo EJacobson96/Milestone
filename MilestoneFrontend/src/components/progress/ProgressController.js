@@ -77,7 +77,7 @@ class ProgressController extends Component {
             goal.UserID = this.state.participantUserId;
         }
         Axios.post(
-            'https://milestoneapi.eric-jacobson.me/goals',
+            'https://api.milestoneapp.org/goals',
             goal)
             .then(response => {
                 return response.data;
@@ -113,7 +113,7 @@ class ProgressController extends Component {
 
         // Push it to the server
         Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + targetGoalId,
+            'https://api.milestoneapp.org/goals?id=' + targetGoalId,
             currGoalCat)
             .then(response => {
                 return response.data;
@@ -171,7 +171,7 @@ class ProgressController extends Component {
 
         // Push it to the server
         Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalId,
+            'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
             currGoalCat)
             .then(response => {
                 return response.data;
@@ -223,7 +223,7 @@ class ProgressController extends Component {
 
         // Push it to the server
         Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalId,
+            'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
             currGoalCat)
             .then(response => {
                 return response.data;
@@ -261,7 +261,7 @@ class ProgressController extends Component {
 	getConnections(search) {
 		// console.log(this.props);
 		Axios.get(
-			'https://milestoneapi.eric-jacobson.me/connections?q=' + search + "&id=" + this.state.currUser.id,
+			'https://api.milestoneapp.org/connections?q=' + search + "&id=" + this.state.currUser.id,
 			{
 				headers: {
 					'Authorization': localStorage.getItem('Authorization')
@@ -283,7 +283,7 @@ class ProgressController extends Component {
 
     getCurrentUser() {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/users/me', 
+            'https://api.milestoneapp.org/users/me', 
             {
                 headers: {
                     'Authorization' : localStorage.getItem('Authorization')
@@ -313,7 +313,7 @@ class ProgressController extends Component {
 
     getCurrentGoals(id) {
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + id,
+            'https://api.milestoneapp.org/goals?id=' + id,
             { })
             .then(response => {
                 return response.data;
@@ -344,7 +344,7 @@ class ProgressController extends Component {
         }
 
         Axios.get(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + id + '&q=' + search,
+            'https://api.milestoneapp.org/goals?id=' + id + '&q=' + search,
             { })
             .then(response => {
                 return response.data;
@@ -382,7 +382,7 @@ class ProgressController extends Component {
 
         // Push it to the server
         Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalId,
+            'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
             currGoalCat)
             .then(response => {
                 return response.data;
@@ -475,7 +475,7 @@ class ProgressController extends Component {
 
         // Push it to the server
         Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/goals?id=' + this.state.currentGoalId,
+            'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
             currGoalCat)
             .then(response => {
                 return response.data;

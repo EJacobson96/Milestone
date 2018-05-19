@@ -58,7 +58,7 @@ class LoginForm extends Component {
         e.preventDefault();
 
         Axios.post(
-            'https://milestoneapi.eric-jacobson.me/sessions', 
+            'https://api.milestoneapp.org/sessions', 
             {
                 "Email": this.state.userEmail,
                 "Password": this.state.userPassword

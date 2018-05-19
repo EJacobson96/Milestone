@@ -4,7 +4,7 @@ import Axios from 'axios';
 var UserController = {
     getUser: function () {
         return Axios.get(
-            'https://milestoneapi.eric-jacobson.me/users/me',
+            'https://api.milestoneapp.org/users/me',
             {
                 headers: {
                     'Authorization': localStorage.getItem('Authorization')
@@ -20,7 +20,7 @@ var UserController = {
 
     getUserConnections: function (search, id) {
         return Axios.get(
-            'https://milestoneapi.eric-jacobson.me/connections?q=' + search + "&id=" + id,
+            'https://api.milestoneapp.org/connections?q=' + search + "&id=" + id,
             {
                 headers: {
                     'Authorization': localStorage.getItem('Authorization')
@@ -36,7 +36,7 @@ var UserController = {
 
     getContact: function (id) {
         return Axios.get(
-            'https://milestoneapi.eric-jacobson.me/contact/?id=' + id,
+            'https://api.milestoneapp.org/contact/?id=' + id,
             {
                 headers: {
                     'Authorization': localStorage.getItem('Authorization')
@@ -52,7 +52,7 @@ var UserController = {
 
     searchForConnections: function (userType, searchQuery) {
         return Axios.get(
-            'https://milestoneapi.eric-jacobson.me/' + userType + '?q=' + searchQuery,  
+            'https://api.milestoneapp.org/' + userType + '?q=' + searchQuery,  
             {
                 // headers: {
                 //     'Authorization' : localStorage.getItem('Authorization')
@@ -69,7 +69,7 @@ var UserController = {
 
     addConnection: function (id, connections) {
         return Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/connections?id=' + id, 
+            'https://api.milestoneapp.org/connections?id=' + id, 
             {
                 // headers: {
                 //     'Authorization' : localStorage.getItem('Authorization')
@@ -88,7 +88,7 @@ var UserController = {
     updateUserRequests: function (id, requests) {
         // console.log(id);
         return Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/requests?id=' + id,
+            'https://api.milestoneapp.org/requests?id=' + id,
             {
                 // headers: {
                 //     'Authorization' : localStorage.getItem('Authorization')
@@ -106,7 +106,7 @@ var UserController = {
 
     postNotification: function (notifications, id) {
         return Axios.patch(
-            'https://milestoneapi.eric-jacobson.me/notifications?id=' + id,
+            'https://api.milestoneapp.org/notifications?id=' + id,
             {
                 // headers: {
                 //     'Authorization' : localStorage.getItem('Authorization')
@@ -124,7 +124,7 @@ var UserController = {
 
     logOut: function () {
         Axios.delete(
-            'https://milestoneapi.eric-jacobson.me/sessions/mine',
+            'https://api.milestoneapp.org/sessions/mine',
             {
                 headers: {
                     'Authorization' : localStorage.getItem('Authorization')

@@ -7,7 +7,7 @@ import Axios from 'axios';
 var ConnectionController = {
     getContact: function (id) {
         return Axios.get(
-            'https://milestoneapi.eric-jacobson.me/contact/?id=' + id, 
+            'https://api.milestoneapp.org/contact/?id=' + id, 
             {
                 headers: {
                     'Authorization' : localStorage.getItem('Authorization')
