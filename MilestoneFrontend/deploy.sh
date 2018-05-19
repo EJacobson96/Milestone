@@ -12,4 +12,4 @@ docker push ejacobson96/$CILENT_CONTAINER
 
 # SSH into the client droplet and execute the client deployment script
 echo "SSH-ing into the client droplet..."
-ssh root@milestone.eric-jacobson.me 'bash -s' < run.sh
+ssh root@138.68.226.41 'bash -s' < run.sh

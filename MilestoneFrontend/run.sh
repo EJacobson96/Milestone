@@ -16,4 +16,8 @@ fi
 docker image prune -f
 
 # Run the new client container
-docker run -d -p 80:80 -p 443:443 -v /etc/letsencrypt:/etc/letsencrypt:ro --name $CLIENT_CONTAINER ejacobson96/$CLIENT_CONTAINER
+docker run -d \
+-p 80:80 -p 443:443 \
+-v /etc/letsencrypt:/etc/letsencrypt:ro \
+--name $CLIENT_CONTAINER \
+ejacobson96/$CLIENT_CONTAINER
