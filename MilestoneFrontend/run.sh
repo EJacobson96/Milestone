@@ -7,13 +7,14 @@ echo "Pulling newest version of the container..."
 docker pull ejacobson96/$CLIENT_CONTAINER
 
 # Remove the client container if it already exists
-if [ "$(docker ps -aq --filter name=$CLIENT_CONTAINER)" ]; then
+if [ "$(docker ps -aq --filter name=milestone-client)" ]; then
     echo "Removing the client container..."
-    docker rm -f $CLIENT_CONTAINER
+    docker rm -f milestone-client
 fi
 
 # Clean up old images
 docker image prune -f
 
 # Run the new client container
-docker run -d -p 80:80 -p 443:443 -v /etc/letsencrypt:/etc/letsencrypt:ro --name $CLIENT_CONTAINER ejacobson96/$CLIENT_CONTAINER
+docker run -d -p 80:80 -p 443:443 -v /etc/letsencrypt:/etc/letsencrypt:ro \
+--name milestone-client ejacobson96/milestone-client
