@@ -16,7 +16,7 @@ import Network from './network/Network';
 import Notification from './Notification';
 import ProgressController from './progress/ProgressController';
 import Placeholder from './Placeholder';
-
+import Profile from './Profile';
 /////////////////////////////////////////
 /// Images & Styles
 import '../css/LoginForm.css';
@@ -48,6 +48,9 @@ class Main extends Component {
                     <Notification 
                         userController = { this.props.userController }
                      />
+                )} />
+                <Route path='/profile' render={(props) => (
+                    <Profile />
                 )} />
                 <Route exact path="/" render={(props) => (
                     <Redirect to="/Network" />

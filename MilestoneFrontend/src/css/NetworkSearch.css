@@ -6,5 +6,17 @@
 @media(min-width: 789px) {
 	.c-network-form .c-network-search {
 		margin-bottom: 1em;
+		flex: 1;
+		display: flex;
+		flex-wrap: nowrap;
+		width: 100%;
+	}
+
+	.c-network-form #networkSearch {
+		flex: 1;
+	}
+
+	.c-network-form {
+		width: 100%;
 	}
 }
