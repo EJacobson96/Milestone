@@ -75,22 +75,28 @@ class ProgressController extends Component {
     addGoal(goal) {
         if (this.state.isServiceProvider) {
             goal.UserID = this.state.participantUserId;
+        } else {
+            let connections = this.state.currUser.connections;
+            for (let i = 0; i < connections.length; i++) {
+                this.props.userController.getContact(connections[i].id)
+                .then((data) => {
+                    var notifications = data.notifications;
+                    var newNotification = {
+                        Sender: "" + this.state.currUser.id,
+                        TimeSent: new Date(),
+                        Read: false,
+                        Body: this.state.currUser.fullName +  " has created a new goal.",
+                        ContentType: "goal",
+                        ContentRoute: "/progress/provider/participants/goals/:id" + this.state.currUser.id,
+                    }
+                    notifications.push(newNotification);
+                    this.props.userController.postNotification(notifications, data.id)
+                    .then(data => {
+                        console.log(data);
+                    })
+                });
+            }
         }
-        // Axios.post(
-        //     'https://api.milestoneapp.org/goals',
-        //     goal)
-        //     .then(response => {
-        //         return response.data;
-        //     })
-        //     .then(data => {
-        //         console.log(data);
-        //         this.getCurrentUser();
-        //         this.props.history.push('/progress/goals');
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     }
-        // );    
         this.props.goalController.addGoal(goal)
         .then((data) => {
             this.getCurrentUser();
@@ -115,28 +121,29 @@ class ProgressController extends Component {
         let currGoalCatTasks = currGoalCat.tasks;
         currGoalCatTasks.push(newTask);
         currGoalCat.tasks = currGoalCatTasks;
-
+        if (this.state.isParticipant) {
+            let connections = this.state.currUser.connections;
+            for (let i = 0; i < connections.length; i++) {
+                this.props.userController.getContact(connections[i].id)
+                .then((data) => {
+                    var notifications = data.notifications;
+                    var newNotification = {
+                        Sender: "" + this.state.currUser.id,
+                        TimeSent: new Date(),
+                        Read: false,
+                        Body: this.state.currUser.fullName +  " has created a new task.",
+                        ContentType: "goal",
+                        ContentRoute: "/progress/provider/participants/goals/tasks/:goalid" + targetGoalId.toString(),
+                    }
+                    notifications.push(newNotification);
+                    this.props.userController.postNotification(notifications, data.id)
+                    .then(data => {
+                        console.log(data);
+                    })
+                });
+            }
+        }
         // Push it to the server
-        // Axios.patch(
-        //     'https://api.milestoneapp.org/goals?id=' + targetGoalId,
-        //     currGoalCat)
-        //     .then(response => {
-        //         return response.data;
-        //     })
-        //     .then(data => {
-        //         this.getCurrentUser();
-        //         this.props.history.replace('/progress/goals');
-                
-        //         if (this.state.isServiceProvider) {
-        //             this.props.history.push('/progress/provider/participants/goals/tasks/:goalid' + targetGoalId);
-        //         } else {
-        //             this.props.history.push('/progress/goals/:id' + targetGoalId);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error(error);
-        //     }
-        // );
         this.props.goalController.updateGoal(targetGoalId, currGoalCat)
         .then((data) => {
             this.getCurrentUser();
@@ -186,20 +193,6 @@ class ProgressController extends Component {
         console.log(currGoalCat);
 
         // Push it to the server
-        // Axios.patch(
-        //     'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
-        //     currGoalCat)
-        //     .then(response => {
-        //         return response.data;
-        //     })
-        //     .then(data => {
-        //         console.log(data);
-        //         this.getCurrentUser();
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     }
-        // ); 
         this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
         .then((data) => {
             this.getCurrentUser();
@@ -242,20 +235,6 @@ class ProgressController extends Component {
         console.log(currGoalCat);
 
         // Push it to the server
-        // Axios.patch(
-        //     'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
-        //     currGoalCat)
-        //     .then(response => {
-        //         return response.data;
-        //     })
-        //     .then(data => {
-        //         console.log(data);
-        //         this.getCurrentUser();
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     }
-        // ); 
         this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
         .then((data) => {
             this.getCurrentUser();
@@ -283,26 +262,6 @@ class ProgressController extends Component {
     }
 	
 	getConnections(search) {
-		// console.log(this.props);
-		// Axios.get(
-		// 	'https://api.milestoneapp.org/connections?q=' + search + "&id=" + this.state.currUser.id,
-		// 	{
-		// 		headers: {
-		// 			'Authorization': localStorage.getItem('Authorization')
-		// 		}
-		// 	})
-		// 	.then(response => {
-		// 		return response.data;
-		// 	})
-		// 	.then(data => {
-		// 		// console.log(data);
-		// 		this.setState({
-		// 			connections: data
-		// 		})
-		// 	})
-		// 	.catch(error => {
-		// 		console.log(error);
-        // 	});
         this.props.userController.getUserConnections(search, this.state.currUser.id)
         .then((data) => {
             this.setState({
@@ -312,33 +271,6 @@ class ProgressController extends Component {
 	}
 
     getCurrentUser() {
-        // Axios.get(
-        //     'https://api.milestoneapp.org/users/me', 
-        //     {
-        //         headers: {
-        //             'Authorization' : localStorage.getItem('Authorization')
-        //         }    
-        //     })
-        //     .then(response => {
-        //         return response.data;
-        //     })
-        //     .then(data => {
-        //         this.setState({
-        //             currUser: data,
-        //             user: data,
-        //             isParticipant: data.accountType === "participant",
-        //             isServiceProvider: data.accountType === "service provider"
-        //         }, () => {
-        //             if (data.accountType === "participant") {
-        //                 this.getCurrentGoals(data.id);
-        //             } else {
-        //                 this.getConnections('');
-        //             }
-        //         });
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
         this.props.userController.getUser()
         .then((data) => {
             this.setState({
@@ -357,20 +289,6 @@ class ProgressController extends Component {
     }
 
     getCurrentGoals(id) {
-        // Axios.get(
-        //     'https://api.milestoneapp.org/goals?id=' + id,
-        //     { })
-        //     .then(response => {
-        //         return response.data;
-        //     })
-        //     .then(data => {
-        //         this.setState({
-        //             allGoalData: data,
-        //             participantUserId: id
-        //         });
-
-        //         this.sortGoals(data);
-        //     });
         this.props.goalController.getGoals(id, "")
         .then((data) => {
             this.setState({
@@ -395,20 +313,6 @@ class ProgressController extends Component {
         if (this.props.location.pathname.includes('provider')) {
             id = this.state.participantUserId
         }
-
-        // Axios.get(
-        //     'https://api.milestoneapp.org/goals?id=' + id + '&q=' + search,
-        //     { })
-        //     .then(response => {
-        //         return response.data;
-        //     })
-        //     .then(data => {
-        //         this.setState({
-        //             searchResults: data
-        //         });
-        //         console.log(data);
-        //         this.props.history.push('/progress/goals/search?q=' + search);
-        //     });
         this.props.goalController.getGoals(id, search)
         .then((data) => {
             this.setState({
@@ -442,20 +346,6 @@ class ProgressController extends Component {
         currGoalCat.tasks = currTasks;
 
         // Push it to the server
-        // Axios.patch(
-        //     'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
-        //     currGoalCat)
-        //     .then(response => {
-        //         return response.data;
-        //     })
-        //     .then(data => {
-        //         console.log(data);
-        //         this.getCurrentUser();
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     }
-        // );  
         this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
         .then((data) => {
             this.getCurrentUser();
@@ -539,21 +429,6 @@ class ProgressController extends Component {
         currGoalCat.tasks = currTasks;
 
         // Push it to the server
-        // Axios.patch(
-        //     'https://api.milestoneapp.org/goals?id=' + this.state.currentGoalId,
-        //     currGoalCat)
-        //     .then(response => {
-        //         return response.data;
-        //     })
-        //     .then(data => {
-        //         console.log(data);
-        //         this.getCurrentUser();
-        //         this.props.history.push('/progress/goals/:id' + targetGoalId);
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     }
-        // );  
         this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
         .then((data) => {
             this.getCurrentUser();
@@ -601,6 +476,7 @@ class ProgressController extends Component {
                             currUser={ currUser }
                             connections={ connections }
                             goals={ goals }
+                            goalController={ this.props.goalController }
                             goalNavFilter={ targetGoalNavFilter }
                             heading={ heading }
                             isParticipant={ isParticipant }

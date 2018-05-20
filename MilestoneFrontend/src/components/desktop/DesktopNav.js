@@ -59,7 +59,7 @@ class DesktopNav extends React.Component {
   clearNotifications() {
     let notifications = this.state.user.notifications;
     for (let i = 0; i < notifications.length; i++) {
-      if (notifications[i].contentType === "connection") {
+      if (notifications[i].contentType === "connection" || notifications[i].contentType === "goal") {
         notifications[i].read = true;
       }
     }
@@ -85,7 +85,8 @@ class DesktopNav extends React.Component {
     var notificationComponent;
     if (this.state && this.state.user) {
       for (let i = 0; i < this.state.user.notifications.length; i++) {
-        if (this.state.user.notifications[i].read == false && this.state.user.notifications[i].contentType == "connection") {
+        if (this.state.user.notifications[i].read == false && (this.state.user.notifications[i].contentType == "connection"
+                                                                  || this.state.user.notifications[i].contentType == "goal")) {
           notifications += 1;
         }
       }

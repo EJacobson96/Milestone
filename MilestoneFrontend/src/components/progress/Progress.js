@@ -147,6 +147,7 @@ class Progress extends React.Component {
 									<UpcomingTasks
 										targetGoalId={ this.props.targetGoalId }
 										goals={ this.props.goals }
+										goalController={ this.props.goalController }
 										navFilter={ this.props.taskNavFilter }
 										refreshUser={() => this.props.refreshUser() }
 										editTask={ (taskId) => this.props.editTask(taskId) }
@@ -262,6 +263,7 @@ class Progress extends React.Component {
 									{ heading(participantName, this.props.goalNavFilter, this.props.switchGoalNavFilter) }
 									<Goals
 										goals={ this.props.goals }
+										getCurrentGoals={ this.props.getCurrentGoals }
 										refreshUser={() => this.props.refreshUser() }
 										changeGoalFocus = { (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
 									/> 
@@ -273,6 +275,8 @@ class Progress extends React.Component {
 									<UpcomingTasks
 										targetGoalId={ this.props.targetGoalId }
 										goals={ this.props.goals }
+										goalController={ this.props.goalController }
+										getCurrentGoals={ this.props.getCurrentGoals }
 										navFilter={ this.props.taskNavFilter }
 										refreshUser={() => this.props.refreshUser() }
 										editTask={ (taskId) => this.props.editTask(taskId) }
