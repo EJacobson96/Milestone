@@ -17,19 +17,6 @@
 	flex-basis: 40px;
 }
 
-.topNav {
-	/* padding-bottom: .7em;
-	background-color: #FCFCFC; */
-}
-/* 
-.c-network-header {
-	padding: 1.5em 0;
-	font-size: 3vh;
-	text-align: center;
-	background-color: #FAFAFA;
-	margin: 0;
-} */
-
 .plus {
 	margin: 0 .7em;
 }
@@ -75,5 +62,11 @@
 		margin: auto;
 		box-shadow: 0 0 15px rgba(0,0,0,0.25);
 		border-radius: 4px;
+	}
+	.l-network-content .c-network-button {
+		flex-basis: unset;
+	}
+	.l-network-content input {
+		flex: unset;
 	}
 }

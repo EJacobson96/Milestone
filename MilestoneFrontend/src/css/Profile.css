@@ -1,0 +1,53 @@
+.c-profile-container {
+    display: flex;
+    height: 100vh;
+    max-width: 350px;
+}
+.c-profile {
+    flex: 1;
+    margin: auto;
+    background-color: white;
+    padding: 3em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.c-profile img {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.c-profile h1 {
+    text-align: center;
+}
+
+.c-profile input[type=text] {
+    margin-left: 20px;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.c-profile input[type=text]:disabled {
+    border: none;
+    background-color: white;
+}
+
+.c-edit-button {
+    display: block;
+    margin: 2em auto 0;
+}
+
+.c-profile input[type=text].c-username {
+    font-size: 2em;
+    width: 100%;
+    text-align: center;
+    margin: 15px 0 5px;
+}
