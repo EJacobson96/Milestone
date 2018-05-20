@@ -75,6 +75,23 @@ class ProgressController extends Component {
     addGoal(goal) {
         if (this.state.isServiceProvider) {
             goal.UserID = this.state.participantUserId;
+            this.props.userController.getContact(goal.UserID)
+            .then((data) => {
+                var notifications = data.notifications;
+                var newNotification = {
+                    Sender: "" + this.state.currUser.id,
+                    TimeSent: new Date(),
+                    Read: false,
+                    Body: this.state.currUser.fullName +  " has created a new goal.",
+                    ContentType: "goal",
+                    ContentRoute: "/progress/provider/participants/goals/:id" + this.state.currUser.id,
+                }
+                notifications.push(newNotification);
+                this.props.userController.postNotification(notifications, data.id)
+                .then(data => {
+                    console.log(data);
+                })
+            });
         } else {
             let connections = this.state.currUser.connections;
             for (let i = 0; i < connections.length; i++) {
@@ -142,6 +159,24 @@ class ProgressController extends Component {
                     })
                 });
             }
+        } else if (this.state.isServiceProvider) {
+            this.props.userController.getContact(currGoalCat.userID)
+            .then((data) => {
+                var notifications = data.notifications;
+                var newNotification = {
+                    Sender: "" + this.state.currUser.id,
+                    TimeSent: new Date(),
+                    Read: false,
+                    Body: this.state.currUser.fullName +  " has created a new task.",
+                    ContentType: "goal",
+                    ContentRoute: "/progress/provider/participants/goals/tasks/:goalid" + targetGoalId.toString(),
+                }
+                notifications.push(newNotification);
+                this.props.userController.postNotification(notifications, data.id)
+                .then(data => {
+                    console.log(data);
+                })
+            });
         }
         // Push it to the server
         this.props.goalController.updateGoal(targetGoalId, currGoalCat)
