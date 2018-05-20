@@ -20,7 +20,8 @@ class NetworkConnect extends React.Component {
         this.handleSearch = this.handleSearch.bind(this);
     }
 
-    handleSearch(event) {
+    handleSearch(e) {
+        e.preventDefault();
         var input = document.getElementById('networkConnectionSearch');
         var userType = 'participants';
         var searchQuery = input.value;
@@ -48,7 +49,7 @@ class NetworkConnect extends React.Component {
         return (
             <div className="newInvitation">
                 <h3 className="c-contact-connections-header">New Invitation</h3>
-                <form onSubmit={this.handleSearch} className="[ form-inline ] c-connections-search">
+                <form onSubmit={ (e) => this.handleSearch(e)} className="[ form-inline ] c-connections-search">
 					<input id="networkConnectionSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
 					<Button className="btn btn-outline-success my-2 my-sm-0" onClick={(e) => this.handleSearch(e)}>
 						<Glyphicon glyph="search" /> 

@@ -34,7 +34,7 @@ class NetworkSearch extends Component {
     render() {
         return (
 			<div className="c-network-form">
-				<form className="[ form-inline ] c-network-search">
+				<form onSubmit={ (e) => this.handleSearch(e)} className="[ form-inline ] c-network-search">
 					<input id="networkSearch" className="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
 					<Button className="btn btn-outline-success my-2 my-sm-0 c-network-button" onClick={(e) => this.handleSearch(e)}>
 						<Glyphicon glyph="search" /> 
