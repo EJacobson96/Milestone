@@ -37,7 +37,6 @@ class ContactCard extends React.Component {
         if (currID !== nextID && nextID !== "") {
             this.setContactData(nextID);
         }
-        console.log(this.props.messageContent);
     }
 
     setContactData(id) {

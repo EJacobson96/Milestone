@@ -87,26 +87,27 @@ class MessageScreen extends React.Component {
     }
 
     postNotification(conversation, message) {
-        // console.log(conversation.members + " " + message);
         for (let i = 0; i < conversation.members.length; i++) {
-            this.props.userController.getContact(conversation.members[0].id)
-            .then((data) => {
-                let notifications = data.notifications;
-                let newNotification = {
-                    Sender: "" + this.state.currUser.id,
-                    TimeSent: new Date(),
-                    Read: false,
-                    Body: message,
-                    ContentType: "new message",
-                    ContentRoute: "/network/messages/conversation/:id" + conversation.id,
-                }
-                console.log(newNotification);
-                notifications.push(newNotification);
-                this.props.userController.postNotification(notifications, data.id)
+            if (conversation.members[i].id !== this.state.currUser.id) {
+                this.props.userController.getContact(conversation.members[i].id)
                 .then((data) => {
-                    console.log(data);
-                })
-            });
+                    let notifications = data.notifications;
+                    let newNotification = {
+                        Sender: "" + this.state.currUser.id,
+                        TimeSent: new Date(),
+                        Read: false,
+                        Body: message,
+                        ContentType: "message",
+                        ContentRoute: "/network/messages/conversation/:id" + conversation.id,
+                    }
+                    console.log(newNotification);
+                    notifications.push(newNotification);
+                    this.props.userController.postNotification(notifications, data.id)
+                    .then((data) => {
+                        console.log(data);
+                    })
+                });
+            }
         }
     }
 

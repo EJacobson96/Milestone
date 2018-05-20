@@ -43,13 +43,12 @@ class DesktopNav extends React.Component {
   clearNetwork() {
     let notifications = this.state.user.notifications;
     for (let i = 0; i < notifications.length; i++) {
-      if (notifications[i].contentType === "new message") {
+      if (notifications[i].contentType === "message") {
         notifications[i].read = true;
       }
     }
     this.props.userController.postNotification(notifications, this.state.user.id)
       .then((data) => {
-        console.log(data);
         this.setState({
           user: data,
         })
@@ -65,7 +64,6 @@ class DesktopNav extends React.Component {
     }
     this.props.userController.postNotification(notifications, this.state.user.id)
       .then((data) => {
-        console.log(data);
         this.setState({
           user: data,
         })
@@ -81,28 +79,24 @@ class DesktopNav extends React.Component {
     var notifications = 0;
     var networkAlerts = 0;
     var displayNotifications;
-    // var displayNetworkBadge;
+    var displayNetworkBadge;
     var notificationComponent;
     if (this.state && this.state.user) {
       for (let i = 0; i < this.state.user.notifications.length; i++) {
-        if (this.state.user.notifications[i].read == false && (this.state.user.notifications[i].contentType == "connection"
-                                                                  || this.state.user.notifications[i].contentType == "goal")) {
-          notifications += 1;
-        }
+        if (this.state.user.notifications[i].read == false) {
+          if (this.state.user.notifications[i].contentType == "connection" || this.state.user.notifications[i].contentType == "goal") {
+            notifications += 1;
+          } else if (this.state.user.notifications[i].contentType == "message") {
+            networkAlerts += 1;
+          }
+        } 
       }
-      // for (let i = 0; i < this.state.user.notifications.length; i++) {
-      //   console.log("test");
-      //   if (this.state.user.notifications[i].read == false && this.state.user.notifications[i].contentType == "new message") {
-      //     networkAlerts += 1;
-      //   }
-      // }
-      console.log(networkAlerts);
       if (notifications > 0) {
         displayNotifications = <Badge className="c-notification-badge" >{notifications}</Badge>
       }
-      // if (networkAlerts > 0) {
-      //   displayNetworkBadge = <Badge className="c-notification-badge" >{networkAlerts}</Badge>
-      // }
+      if (networkAlerts > 0) {
+        displayNetworkBadge = <Badge className="c-notification-badge" >{networkAlerts}</Badge>
+      }
       notificationComponent = <Notification userController = { this.props.userController } isDropdown = {true}/>
     }
     return (
@@ -111,11 +105,11 @@ class DesktopNav extends React.Component {
           <Link to="/network">
             <img src={logo} className="milestoneLogo" alt="Milestone Logo" />
           </Link>
-          <Link className="navLink" to='/network'>
-            {/* <div className="c-navbar__btn c-link-notifications"> */}
+          <Link className="navLink" to='/network' onClick={(e) => this.clearNetwork(e)}>
+            <div className="c-navbar__btn c-link-notifications">
               <i className="fas fa-comments"></i>
-              {/* {displayNetworkBadge} */}
-            {/* </div> */}
+              {displayNetworkBadge}
+            </div>
             <p>Network</p>
           </Link>
           {/* <Link className="navLink" to='/Calendar'>
