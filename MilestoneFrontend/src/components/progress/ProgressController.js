@@ -84,7 +84,7 @@ class ProgressController extends Component {
                     Read: false,
                     Body: this.state.currUser.fullName +  " has created a new goal.",
                     ContentType: "goal",
-                    ContentRoute: "/progress/provider/participants/goals/:id" + this.state.currUser.id,
+                    ContentRoute: "/progress/goals",
                 }
                 notifications.push(newNotification);
                 this.props.userController.postNotification(notifications, data.id)
@@ -169,7 +169,7 @@ class ProgressController extends Component {
                     Read: false,
                     Body: this.state.currUser.fullName +  " has created a new task.",
                     ContentType: "goal",
-                    ContentRoute: "/progress/provider/participants/goals/tasks/:goalid" + targetGoalId.toString(),
+                    ContentRoute: "/progress/goals/:id" + targetGoalId.toString(),
                 }
                 notifications.push(newNotification);
                 this.props.userController.postNotification(notifications, data.id)
