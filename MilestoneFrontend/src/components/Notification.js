@@ -50,7 +50,7 @@ class Notification extends React.Component {
         if (this.state && this.state.user) {
             var count = 0;
             var numOfNotifications = this.state.user.notifications.length;
-            notifications = (this.props.isDropdown ? this.getLast5() : 
+            notifications = (this.props.isDropdown ? this.getLast5().reverse() : 
                     this.state.user.notifications).slice(0).reverse().map((notification) => {
                 if (notification.contentType !== "message" && notification.contentType !== "new message") {
                     var body;
