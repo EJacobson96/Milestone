@@ -36,7 +36,7 @@ class ParticipantList extends React.Component {
         var connections = this.props.connections;
         for (let i = 0; i < connections.length; i++) {
             Axios.get(
-                'https://milestoneapi.eric-jacobson.me/goals?id=' + connections[i].id)
+                'https://api.milestoneapp.org/goals?id=' + connections[i].id)
                 .then(response => {
                     return response.data;
                 })

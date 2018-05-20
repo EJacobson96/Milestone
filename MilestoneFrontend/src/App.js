@@ -15,6 +15,7 @@ import Main from './components/Main';
 //Controllers
 import UserController from './controllers/UserController'
 import MessageController from './controllers/MessageController'
+import GoalController from './controllers/GoalController'
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -35,6 +36,7 @@ class App extends Component {
 		};
 		this.getUserController = this.getUserController.bind(this);
 		this.getMessagecontroller = this.getMessagecontroller.bind(this);
+		this.getGoalController = this.getGoalController.bind(this);
 		this.toggleSideBar = this.toggleSideBar.bind(this);
 	}
 
@@ -44,6 +46,10 @@ class App extends Component {
 
 	getMessagecontroller() {
 		return MessageController;
+	}
+
+	getGoalController() {
+		return GoalController;
 	}
 
 	logIn() {
@@ -117,6 +123,7 @@ class App extends Component {
 							<Main 
 								messageController = { this.getMessagecontroller() }
 								userController = { this.getUserController() }
+								goalController = { this.getGoalController() }
 								userLoggedIn = { this.state.userLoggedIn }
 							/>
 						)} />

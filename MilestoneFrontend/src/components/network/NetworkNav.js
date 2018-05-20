@@ -35,7 +35,7 @@ class NetworkNav extends Component {
 
     componentDidMount() {
         var links = document.querySelectorAll(".c-network-nav a");
-        if (this.props.location.pathname.includes("/Contacts")) {
+        if (this.props.location.pathname.includes("/contacts")) {
             links[1].className = "c-network-nav__link--active-link";
             links[0].className = "c-network-nav__link--non-active-link";
         } else {
@@ -47,7 +47,7 @@ class NetworkNav extends Component {
     componentWillReceiveProps(nextProp) {
         if (nextProp.location.pathname !== this.props.location.pathname) {
             var links = document.querySelectorAll(".c-network-nav a");
-            if (nextProp.location.pathname.includes("/Contacts")) {
+            if (nextProp.location.pathname.includes("/contacts")) {
                 links[1].className = "c-network-nav__link--active-link";
                 links[0].className = "c-network-nav__link--non-active-link";
             } else {
@@ -61,10 +61,10 @@ class NetworkNav extends Component {
         return (
 			<ul className="c-network-nav">
 				<li role="presentation" className="c-network-nav__link">
-					<Link to="/Network/Messages" className="" onClick={(e) => this.renderMessages(e)}>Messages</Link>
+					<Link to="/network/messages" className="" onClick={(e) => this.renderMessages(e)}>Messages</Link>
 				</li>
 				<li role="presentation" className="c-network-nav__link">
-					<Link to="/Network/Contacts" className="" onClick={(e) => this.renderContacts(e)}>People</Link>
+					<Link to="/network/contacts" className="" onClick={(e) => this.renderContacts(e)}>People</Link>
 				</li>
 			</ul>
         );

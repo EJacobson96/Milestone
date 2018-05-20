@@ -58,16 +58,16 @@ class NavBar extends React.Component {
         }
         return (
             <div className="c-navbar">
-                <Link to="/Network" className="c-navbar__logo-wrapper">
+                <Link to="/network" className="c-navbar__logo-wrapper">
                     <img src={ logo } className="c-navbar__logo-img" alt="Milestone Logo" />
                 </Link>
-                <Link className="c-navbar__link" to='/Network'>
+                <Link className="c-navbar__link" to='/network'>
                     <i className="fas fa-comments"></i>
                 </Link>
                 <Link className="c-navbar__link" to='/progress'>
                     <i className="fas fa-flag"></i>
                 </Link>
-                <Link to="/Notifications" className="c-navbar__link c-nav-notifiactions">
+                <Link to="/notifications" className="c-navbar__link c-nav-notifiactions">
                     <i className="fas fa-bell"></i>
                     {displayNotifications}
                 </Link>

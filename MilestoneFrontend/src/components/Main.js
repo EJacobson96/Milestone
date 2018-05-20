@@ -29,28 +29,31 @@ class Main extends Component {
     render() {
         return this.props.userLoggedIn ? (
             <Switch>
-                <Route path='/Network' render={(props) => (
+                <Route path='/network' render={(props) => (
                     <Network 
                         messageController = { this.props.messageController }
                         userController = { this.props.userController }
                     />
                 )} />
-                <Route path='/Calendar' render={(props) => (
+                <Route path='/calendar' render={(props) => (
                     <Placeholder />
                 )} />
                 <Route path='/progress' render={(props) => (
-                    <ProgressController />
+                    <ProgressController 
+                        goalController= { this.props.goalController }
+                        userController = { this.props.userController }
+                    />
                 )} />
-                <Route path='/Requests' render={(props) => (
+                <Route path='/requests' render={(props) => (
                     <Placeholder />
                 )} />
-                <Route path='/Notifications' render={(props) => (
+                <Route path='/notifications' render={(props) => (
                     <Notification 
                         userController = { this.props.userController }
                      />
                 )} />
                 <Route exact path="/" render={(props) => (
-                    <Redirect to="/Network" />
+                    <Redirect to="/network" />
                 )} />
             </Switch>
         ) : (

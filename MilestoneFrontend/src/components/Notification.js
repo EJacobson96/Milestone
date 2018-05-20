@@ -32,13 +32,27 @@ class Notification extends React.Component {
         })
       }
 
+    getLast5() {
+        var notifications = [];
+        for (let i = this.state.user.notifications.length - 1; i >= 0; i--) {
+            if (notifications.length === 5) {
+                return notifications;
+            } else if (this.state.user.notifications[i].contentType !== "message" && 
+                            this.state.user.notifications[i].contentType !== "new message") {
+                notifications.push(this.state.user.notifications[i]);
+            }
+        }
+        return notifications
+    }
+
     render() {
         var notifications;
         if (this.state && this.state.user) {
             var count = 0;
-            notifications = (this.props.isDropdown ? this.state.user.notifications.slice(0, 5) : 
+            var numOfNotifications = this.state.user.notifications.length;
+            notifications = (this.props.isDropdown ? this.getLast5() : 
                     this.state.user.notifications).slice(0).reverse().map((notification) => {
-                if (notification.contentType !== "new message") {
+                if (notification.contentType !== "message" && notification.contentType !== "new message") {
                     var body;
                     var time;
                     var read;

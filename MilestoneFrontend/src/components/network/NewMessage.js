@@ -160,7 +160,7 @@ class NewMessage extends Component {
         if (this.state.newConversation && this.state.newConversation.length !== 0) {
             this.props.messageController.postConversation(this.props.user.id, message, filteredUsers)
                 .then(data => {
-                    this.props.history.push('/Network/Messages/Conversation/:id' + data.id);
+                    this.props.history.push('/network/messages/conversation/:id' + data.id);
                 })
         }
     }
@@ -175,8 +175,8 @@ class NewMessage extends Component {
             searchQuery: "",
         }, () => {
             console.log(this.props)
-            this.props.history.push('/Network/Messages/New/');
-            this.props.location.pathname = '/Network/Messages/New/';
+            this.props.history.push('/network/messages/new/');
+            this.props.location.pathname = '/network/messages/new/';
         });
     }
 
@@ -194,7 +194,7 @@ class NewMessage extends Component {
 			conversationList = this.state.existingConversationsList.map((conversation) => {
 				return (
 					<NewMessageThumbnail
-						path={ '/Network/Messages/Conversation/:id' + conversation.id }
+						path={ '/network/messages/conversation/:id' + conversation.id }
                         id={ conversation.id }
                         key={ conversation.id }
                         members = { conversation.members }
@@ -216,7 +216,7 @@ class NewMessage extends Component {
                         <Button className="btn btn-outline-success my-2 my-sm-0 c-new-message-button" onClick={(e) => this.clearInput(e)}>Clear</Button>
                         <Link 
                             to={{
-                        	    pathname: '/Network/Messages/New/Contacts/' + this.state.searchQuery
+                        	    pathname: '/network/messages/new/contacts/' + this.state.searchQuery
                             }}
                             user={this.state.currUser}
                         > 

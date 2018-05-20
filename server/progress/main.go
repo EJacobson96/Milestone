@@ -29,8 +29,8 @@ func main() {
 		GoalsStore: mongostore,
 	}
 
-	http.HandleFunc("/goals", context.GoalHandler)  //handles getting goals, inserting goals, updating and deleting goals
-	http.HandleFunc("/goals/", context.GoalHandler) //handles getting a specific goal
+	http.HandleFunc("/goals", context.GoalHandler)          //handles getting goals, inserting goals, updating and deleting goals
+	http.HandleFunc("/goals/", context.SpecificGoalHandler) //handles getting a specific goal
 	// http.HandleFunc("/tasks", context.TaskHandler) //handles adding new tasks to a goal
 
 	log.Printf("server is listening at http://%s...", addr)

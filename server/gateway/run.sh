@@ -7,8 +7,8 @@ export NETWORK=milestonenetwork
 docker pull ejacobson96/milestoneapi
 #removes any existing instances running called milestoneapi
 docker rm -f milestoneapi
-docker rm -f milestone-redis
-docker rm -f milestone-mongo
+# docker rm -f milestone-redis
+# docker rm -f milestone-mongo
 docker rm -f messagingService
 docker rm -f goalService
 
@@ -25,8 +25,8 @@ if ! [ "$(docker network ls | grep $NETWORK)" ]; then
     docker network create $NETWORK
 fi
 
-docker run --name milestone-redis -d --network $NETWORK redis
-docker run --name milestone-mongo -d --network $NETWORK mongo
+# docker run --name milestone-redis -d --network $NETWORK redis
+# docker run --name milestone-mongo -d --network $NETWORK mongo
 
 docker pull ejacobson96/messaging
 docker pull ejacobson96/progress
