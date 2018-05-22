@@ -150,7 +150,7 @@ class ProgressController extends Component {
                         Read: false,
                         Body: this.state.currUser.fullName +  " has created a new task.",
                         ContentType: "goal",
-                        ContentRoute: "/progress/provider/participants/goals/tasks/:goalid" + targetGoalId.toString(),
+                        ContentRoute: "/progress/provider/participants/goals/tasks/:id" + targetGoalId.toString(),
                     }
                     notifications.push(newNotification);
                     this.props.userController.postNotification(notifications, data.id)
@@ -173,9 +173,9 @@ class ProgressController extends Component {
                 }
                 notifications.push(newNotification);
                 this.props.userController.postNotification(notifications, data.id)
-                .then(data => {
-                    console.log(data);
-                })
+                // .then(data => {
+                //     console.log(data);
+                // })
             });
         }
         // Push it to the server
@@ -185,7 +185,7 @@ class ProgressController extends Component {
             this.props.history.replace('/progress/goals');
             
             if (this.state.isServiceProvider) {
-                this.props.history.push('/progress/provider/participants/goals/tasks/:goalid' + targetGoalId);
+                this.props.history.push('/progress/provider/participants/goals/tasks/:id' + targetGoalId);
             } else {
                 this.props.history.push('/progress/goals/:id' + targetGoalId);
             }
@@ -194,10 +194,11 @@ class ProgressController extends Component {
 
     addTaskComment(comment, taskId) {
         // Get a copy of the current Goal Category
-        let currGoalCat = this.state.goalData
-            .filter((goal) => goal.id == this.state.currentGoalId)[0];
+        console.log(this.state.currentGoalId);
+        let currGoal = this.state.goalData
+            .filter((goal) => goal.id === this.state.currentGoalId)[0];
         // Get a copy of the current Goal Category's tasks
-        let currTasks = currGoalCat.tasks;
+        let currTasks = currGoal.tasks;
         // Get the current task and it's index to be replaced later
         let currTask;
         let currTaskIndex = -1;
@@ -223,12 +224,12 @@ class ProgressController extends Component {
         commentArray.push(newCommentStruct);
         currTask.comments = commentArray;
         currTasks[currTaskIndex] = currTask;
-        currGoalCat.tasks = currTasks;
+        currGoal.tasks = currTasks;
 
-        console.log(currGoalCat);
+        console.log(currGoal);
 
         // Push it to the server
-        this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
+        this.props.goalController.updateGoal(this.state.currentGoalId, currGoal)
         .then((data) => {
             this.getCurrentUser();
         });
@@ -301,7 +302,7 @@ class ProgressController extends Component {
         .then((data) => {
             this.setState({
                 connections: data
-            })
+            });
         });
 	}
 
@@ -335,7 +336,7 @@ class ProgressController extends Component {
     }
 
     editTask(taskId) {
-        console.log('edit ' + taskId);
+        // console.log('edit ' + taskId);
         this.props.history.push('/progress/goals/edittask/:id' + taskId);
     }
 
@@ -361,10 +362,10 @@ class ProgressController extends Component {
     markTaskComplete(taskId) {
         console.log('mark ' + taskId + ' complete');
         // Get a copy of the current Goal Category
-        let currGoalCat = this.state.goalData
+        let currGoal = this.state.goalData
             .filter((goal) => goal.id == this.state.currentGoalId)[0];
         // Get a copy of the current Goal Category's tasks
-        let currTasks = currGoalCat.tasks;
+        let currTasks = currGoal.tasks;
         // Get the current task and it's index to be replaced later
         let currTask;
         let currTaskIndex = -1;
@@ -374,22 +375,22 @@ class ProgressController extends Component {
                 currTaskIndex = i;
             }
         }
-        currTask.active = false;
+        currTask.completed = true;
 
         // Replace the current task; replace the Goal Category's tasks
         currTasks[currTaskIndex] = currTask;
-        currGoalCat.tasks = currTasks;
+        currGoal.tasks = currTasks;
 
         // Push it to the server
-        this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
+        this.props.goalController.updateGoal(this.state.currentGoalId, currGoal)
         .then((data) => {
             this.getCurrentUser();
         });
     }
 
     sortGoals(goalData) {
-        let activeGoalData = goalData.filter((goal) => goal.active == true);
-        let completedGoalData = goalData.filter((goal) => goal.active == false);
+        let activeGoalData = goalData.filter((goal) => goal.completed === false);
+        let completedGoalData = goalData.filter((goal) => goal.completed === true);
         this.setState({
             activeGoalData: activeGoalData,
             completedGoalData: completedGoalData
@@ -474,7 +475,8 @@ class ProgressController extends Component {
     render() {
         var addBtnLink = this.state.addBtnLink;
         if (this.props.location.pathname.endsWith('progress/goals') || 
-            this.props.location.pathname.endsWith('progress/goals/')) {
+            this.props.location.pathname.endsWith('progress/goals/') ||
+            this.props.location.pathname.includes('/progress/provider/participants/goals/:id')) {
             addBtnLink = '/progress/goals/newgoal'
         }
         const currUser = this.state.currUser;
@@ -488,7 +490,7 @@ class ProgressController extends Component {
         const isParticipant = this.state.isParticipant;
         const isServiceProvider = this.state.isServiceProvider;
         const participantUserId = this.state.participantUserId;
-        // if (this.state && this.state.user) {
+        if (this.state && this.state.user) {
             return (
                 <Route path='/progress' render={(props) => (
                     <div>
@@ -510,7 +512,7 @@ class ProgressController extends Component {
                             addBtnLink={ addBtnLink }
                             currUser={ currUser }
                             connections={ connections }
-                            goals={ goals }
+                            goals={ this.state.goalData }
                             goalController={ this.props.goalController }
                             goalNavFilter={ targetGoalNavFilter }
                             heading={ heading }
@@ -525,10 +527,10 @@ class ProgressController extends Component {
                     </div>
                 )} />
             )
-        // } else {
-            // return <p></p>
-        // }
+        } else {
+            return <p></p>
+        }
     }
-
 }
+
 export default withRouter(ProgressController);

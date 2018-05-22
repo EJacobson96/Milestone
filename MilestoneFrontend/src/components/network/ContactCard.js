@@ -29,6 +29,7 @@ class ContactCard extends React.Component {
         if (id !== "") {
             this.setContactData(id);
         }
+        console.log(this.props.match);
     }
 
     componentWillReceiveProps(nextProps) {

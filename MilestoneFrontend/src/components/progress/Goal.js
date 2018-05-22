@@ -18,7 +18,7 @@ const Goal = (props) => {
     // console.log(props.goal);
     var linkToGoalId;
     if (props.location.pathname.includes('provider') || props.isServiceProvider) {
-        linkToGoalId = '/progress/provider/participants/goals/tasks/:goalid' + props.goalId;
+        linkToGoalId = '/progress/provider/participants/goals/tasks/:id' + props.goalId;
     } else {
         linkToGoalId = '/progress/goals/:id' + props.goalId;
     }

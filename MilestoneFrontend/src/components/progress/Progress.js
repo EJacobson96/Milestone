@@ -51,6 +51,7 @@ class Progress extends React.Component {
 	}
 
 	render() {
+		console.log(this.props);
 		const isParticipant = this.props.isParticipant;
 		const isServiceProvider = this.props.isServiceProvider;
 		const heading = (heading, navFilter, switchFunc) => 	<ProgressHeading
@@ -145,6 +146,7 @@ class Progress extends React.Component {
 								<div>
 									{ heading(this.props.heading, this.props.taskNavFilter, this.props.switchTaskNavFilter) }
 									<UpcomingTasks
+										changeGoalFocus={ (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
 										targetGoalId={ this.props.targetGoalId }
 										goals={ this.props.goals }
 										goalController={ this.props.goalController }
@@ -175,8 +177,7 @@ class Progress extends React.Component {
 					</div>
 				);
 	
-			} else if(isServiceProvider) { // User is Service Provider
-
+			} else if (isServiceProvider) { // User is Service Provider
 				return (
 					<div className='l-progress-content container'>
 						<Switch>
@@ -269,10 +270,11 @@ class Progress extends React.Component {
 									/> 
 								</div>
 							)} />
-							<Route path='/progress/provider/participants/goals/tasks/:goalid' render={() => (
+							<Route path='/progress/provider/participants/goals/tasks/:id' render={() => (
 								<div>
 									{ heading(this.props.heading, this.props.taskNavFilter, this.props.switchTaskNavFilter) }
 									<UpcomingTasks
+										changeGoalFocus={ (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
 										targetGoalId={ this.props.targetGoalId }
 										goals={ this.props.goals }
 										goalController={ this.props.goalController }
@@ -281,12 +283,11 @@ class Progress extends React.Component {
 										refreshUser={() => this.props.refreshUser() }
 										editTask={ (taskId) => this.props.editTask(taskId) }
 										markTaskComplete={ (taskId) => this.props.markTaskComplete(taskId) }
+										isServiceProvider={ isServiceProvider }
+										getConnections={ () => this.props.getConnections('') }
 									/>
 								</div>
 							)} />
-							{/* <Route path='/progress/goals/:id' render={() => (
-								<Redirect to={ '/progress/provider/participants/goals/tasks/:goalid' + this.props.participantUserId } />
-							)} /> */}
 							<Route path='/Progress' render={() => (
 								<Redirect to='/progress/provider/participants' />
 							)} />
