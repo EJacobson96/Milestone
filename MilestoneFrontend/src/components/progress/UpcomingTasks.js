@@ -20,7 +20,7 @@ import Task from './Task';
 import '../../css/progress/UpcomingTasks.css';
 
 /////////////////////////////////////////
-/// Code
+// /// Code
 
 class UpcomingTasks extends React.Component {
     constructor(props) {
@@ -33,14 +33,17 @@ class UpcomingTasks extends React.Component {
 		console.log(this.props);
 		var id = this.props.location.pathname.split(':id')[1];
 		if (this.props.location.pathname.includes('provider')) {
-			id = this.props.location.pathname.split(':goalid')[1];
+			id = this.props.location.pathname.split(':id')[1];
 		}
 		if (id) {
 			this.props.goalController.getSpecificGoal(id)
 			.then((data) => {
 				this.setState({
 					currGoal: data
-				})
+				});
+				if(!this.props.targetGoalId) {
+					this.props.changeGoalFocus(null, id, data.title);
+				}
 			});
 		}
 	}
@@ -56,45 +59,86 @@ class UpcomingTasks extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.goals)
+		console.log(this.props);
 		let sortGoalTasks = this.props.goals.map((goal) => {
 			return goal.tasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
-	   });
-	   let targetGoalId = this.props.location.pathname.split(':id')[1];
-	   if (this.props.location.pathname.includes('provider')) {
-		   targetGoalId = this.props.location.pathname.split(':goalid')[1];
-	   }
-	   // let tasks = <Redirect to='/progress/goals/'></Redirect>; 
-	   let tasks;
-	   let isActive = this.props.navFilter == "inProgress" ? true : false;
-	   if (this.state.currGoal && targetGoalId) { // add else to get id from path
-			console.log(this.state.currGoal);
-		   const targetGoal = this.props.goals.filter(goal => goal.id == targetGoalId);
-		//    if (targetGoal && targetGoal[0]) {
-		// 	   const filteredGoals = targetGoal[0].tasks.filter((task) => task.active == isActive)
-			const filteredGoals = this.state.currGoal.tasks.filter((task) => task.active == isActive)
-			   tasks = filteredGoals.map((task) => {
-				   return (
-					   <Task
-						   goal={ this.state.currGoal }
-						   task={ task } 
-						   taskId={ task.id }
-						   key={ task.id }
-						   editTask={ (taskId) => this.props.editTask(taskId) }
-						   markTaskComplete={ (taskId) => this.props.markTaskComplete(taskId) }
-					   />
-				   );
-			   });
-		//    }
-	   }
+		});
+		let targetGoalId = this.props.location.pathname.split(':id')[1];
+		if (this.props.location.pathname.includes('provider')) {
+			targetGoalId = this.props.location.pathname.split(':id')[1];
+		}
+		// let tasks = <Redirect to='/progress/goals/'></Redirect>; 
+		const targetGoal = this.props.goals.filter(goal => goal.id == targetGoalId);
+		let tasks;
+		let isComplete = this.props.navFilter === "completed" ? true : false;
+		if (this.state.currGoal && targetGoalId) { // add else to get id from path
+			let targetGoal;
+			console.log(this.props.goals);
+			if (this.props.goals.length > 0) {
+				targetGoal = this.props.goals.filter(goal => goal.id === targetGoalId)[0];
+			} else {
+				targetGoal = this.state.currGoal;
+			}
+			const filteredTasks = targetGoal.tasks.filter((task) => task.completed === isComplete);
+			tasks = filteredTasks.map((task) => {
+				return (
+					<Task
+						goal={ targetGoal }
+						task={ task } 
+						taskId={ task.id }
+						key={ task.id }
+						editTask={ (taskId) => this.props.editTask(taskId) }
+						markTaskComplete={ (taskId) => this.props.markTaskComplete(taskId) }
+					/>
+				);
+			});
+	   	}
 		return (
 			<div className='[ container ] l-upcoming-goals'>
 				{ tasks }
 			</div>
 		);
 	}
-
-
 }
 
 export default withRouter(UpcomingTasks);
+
+// const UpcomingTasks = (props) => {
+// 	console.log(props);
+// 	let sortGoalTasks = props.goals.map((goal) => {
+// 		 return goal.tasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
+// 	});
+// 	let targetGoalId = props.location.pathname.split(':id')[1];
+// 	if (props.location.pathname.includes('provider')) {
+// 		targetGoalId = props.location.pathname.split(':id')[1];
+// 	}
+// 	let tasks = <Redirect to='/progress/goals/'></Redirect>; // <div></div>;
+// 	let isComplete = props.navFilter === "completed" ? true : false;
+// 	if (props.goals && targetGoalId) { // add else to get id from path
+// 		const targetGoal = props.goals.filter(goal => goal.id == targetGoalId);
+// 		if (targetGoal) {
+// 			console.log(targetGoal[0]);
+// 			const filteredGoals = targetGoal[0].tasks.filter((task) => task.completed === isComplete);
+// 			tasks = filteredGoals.map((task) => {
+// 				return (
+// 					<Task
+// 						goal={ targetGoal[0] }
+// 						task={ task } 
+// 						taskId={ task.id }
+// 						key={ task.id }
+// 						editTask={ (taskId) => props.editTask(taskId) }
+// 						markTaskComplete={ (taskId) => props.markTaskComplete(taskId) }
+// 					/>
+// 				);
+// 			});
+// 		}
+// 	}
+
+// 	return (
+// 		<div className='[ container ] l-upcoming-goals'>
+// 			{ tasks }
+// 		</div>
+// 	);
+// }
+
+// export default withRouter(UpcomingTasks);
