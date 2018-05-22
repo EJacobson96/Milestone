@@ -30,7 +30,6 @@ class UpcomingTasks extends React.Component {
 
 	componentDidMount() {
 		this.props.refreshUser();
-		console.log(this.props);
 		var id = this.props.location.pathname.split(':id')[1];
 		if (this.props.location.pathname.includes('provider')) {
 			id = this.props.location.pathname.split(':id')[1];
@@ -41,8 +40,11 @@ class UpcomingTasks extends React.Component {
 				this.setState({
 					currGoal: data
 				});
-				if(!this.props.targetGoalId) {
+				if (!this.props.targetGoalId) {
 					this.props.changeGoalFocus(null, id, data.title);
+				}
+				if (this.props.isServiceProvider) {
+					this.props.getConnections();
 				}
 			});
 		}
@@ -59,7 +61,6 @@ class UpcomingTasks extends React.Component {
 	}
 
 	render() {
-		console.log(this.props);
 		let sortGoalTasks = this.props.goals.map((goal) => {
 			return goal.tasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
 		});
@@ -73,7 +74,6 @@ class UpcomingTasks extends React.Component {
 		let isComplete = this.props.navFilter === "completed" ? true : false;
 		if (this.state.currGoal && targetGoalId) { // add else to get id from path
 			let targetGoal;
-			console.log(this.props.goals);
 			if (this.props.goals.length > 0) {
 				targetGoal = this.props.goals.filter(goal => goal.id === targetGoalId)[0];
 			} else {

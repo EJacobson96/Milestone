@@ -51,6 +51,7 @@ class Progress extends React.Component {
 	}
 
 	render() {
+		console.log(this.props);
 		const isParticipant = this.props.isParticipant;
 		const isServiceProvider = this.props.isServiceProvider;
 		const heading = (heading, navFilter, switchFunc) => 	<ProgressHeading
@@ -282,6 +283,8 @@ class Progress extends React.Component {
 										refreshUser={() => this.props.refreshUser() }
 										editTask={ (taskId) => this.props.editTask(taskId) }
 										markTaskComplete={ (taskId) => this.props.markTaskComplete(taskId) }
+										isServiceProvider={ isServiceProvider }
+										getConnections={ () => this.props.getConnections('') }
 									/>
 								</div>
 							)} />

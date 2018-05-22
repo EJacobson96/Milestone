@@ -26,6 +26,7 @@ import '../../css/progress/TaskExpandedComments.css';
 /// Code
 
 const TaskExpandedComments = (props) => {
+	console.log(props);
 	const targetTaskId = props.location.pathname.split(':id')[1];
 	let targetTask = false;
 	let targetGoal = null;

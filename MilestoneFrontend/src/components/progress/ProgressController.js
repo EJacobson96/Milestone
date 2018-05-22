@@ -302,7 +302,7 @@ class ProgressController extends Component {
         .then((data) => {
             this.setState({
                 connections: data
-            })
+            });
         });
 	}
 
@@ -473,8 +473,6 @@ class ProgressController extends Component {
     }
 
     render() {
-        console.log(this.state);
-
         var addBtnLink = this.state.addBtnLink;
         if (this.props.location.pathname.endsWith('progress/goals') || 
             this.props.location.pathname.endsWith('progress/goals/') ||
