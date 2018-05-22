@@ -93,6 +93,7 @@ class TaskDropdown extends React.Component {
 	}
 
 	render() {
+		let markTaskText = this.props.task.completed === false ? ("Mark Task Complete") : ("Mark Task Incomplete");
 		return (
 			<Dropdown className='c-task-dropdown' id='task-dropdown'>
 				<CustomToggle bsRole="toggle">
@@ -105,8 +106,13 @@ class TaskDropdown extends React.Component {
 					</MenuItem>
 					<hr className='c-task-dropdown__divider' />
 					<MenuItem eventKey="2" className='c-task-dropdown__menu-li' onClick={ () => this.props.markTaskComplete() }>
-						Mark Task Complete
+						{ markTaskText }
 					</MenuItem>
+					{ this.props.isServiceProvider && this.props.task.active === false ? (
+					<MenuItem eventKey="3" className='c-task-dropdown__menu-li' onClick={ () => this.props.markTaskActive() }>
+						Approve Task
+					</MenuItem>	
+					) : null }
 				</CustomMenu>
 			</Dropdown>
 		)

@@ -38,6 +38,10 @@ const Task = (props) => {
 		props.markTaskComplete(props.task.id);
 	}
 
+	function markTaskActive() {
+		props.markTaskActive(props.task.id);
+	}
+
 	let dueDateSpan;
 	if (props.task.dueDate != '0001-01-01T00:00:00Z') {
 		let dueDate = <Moment format='MM/DD/YY'>{ props.task.dueDate }</Moment>
@@ -63,16 +67,24 @@ const Task = (props) => {
 			}
 		}
 	}
-
+	console.log(props.task);
 	return (
 		<div className='c-task'>
 				<div className='c-task__header'>
 					<img src={ fakeuser } className='c-task__sp-avatar' />
 					{ dueDateSpan }
-					<TaskDropdown 
+					<TaskDropdown
+						task={ props.task }
+						markTaskActive={ () => markTaskActive() }
 						markTaskComplete={ () => markTaskComplete() }
 						editTask={ () => editTask() }
+						isServiceProvider={ props.isServiceProvider }
 					/>
+					{ !props.task.active ? (
+					<div className='c-task__header__pending-flag'>
+						<p className='c-task__header__pending-flag-text'>PENDING</p>
+					</div>
+					) : null }
 				</div>
 				<div className='c-task__body'>
 					<p className='c-task__title'> { props.task.title }</p>

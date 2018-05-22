@@ -122,13 +122,15 @@ class ProgressController extends Component {
     }
 
     addTask(title, date, description, targetGoalId) {
+        let isActive = this.state.isServiceProvider ? true : false;
         let newTask = {
             GoalID: targetGoalId.toString(),
             CreatorID: this.state.currUser.id.toString(),
             Title: title,
             Description: description,
             id: this.generateUUID(),
-            active: true
+            completed: false,
+            active: isActive
         }
         if (date) {
             newTask["dueDate"] = date
@@ -359,6 +361,35 @@ class ProgressController extends Component {
 
     }
 
+    markTaskActive(taskId) {
+        console.log('mark ' + taskId + ' active');
+        // Get a copy of the current Goal Category
+        let currGoal = this.state.goalData
+            .filter((goal) => goal.id == this.state.currentGoalId)[0];
+        // Get a copy of the current Goal Category's tasks
+        let currTasks = currGoal.tasks;
+        // Get the current task and it's index to be replaced later
+        let currTask;
+        let currTaskIndex = -1;
+        for (let i = 0; i < currTasks.length; i++) {
+            if (currTasks[i].id == taskId) {
+                currTask = currTasks[i];
+                currTaskIndex = i;
+            }
+        }
+        currTask.active = true;
+
+        // Replace the current task; replace the Goal Category's tasks
+        currTasks[currTaskIndex] = currTask;
+        currGoal.tasks = currTasks;
+
+        // Push it to the server
+        this.props.goalController.updateGoal(this.state.currentGoalId, currGoal)
+        .then((data) => {
+            this.getCurrentUser();
+        });
+    }
+
     markTaskComplete(taskId) {
         console.log('mark ' + taskId + ' complete');
         // Get a copy of the current Goal Category
@@ -375,7 +406,7 @@ class ProgressController extends Component {
                 currTaskIndex = i;
             }
         }
-        currTask.completed = true;
+        currTask.completed = !currTask.completed;
 
         // Replace the current task; replace the Goal Category's tasks
         currTasks[currTaskIndex] = currTask;
@@ -502,6 +533,7 @@ class ProgressController extends Component {
                             getConnections={ (search) => this.getConnections(search) }
                             handleSearch={ (e) => this.handleSearch(e) }
                             editTask={ (taskId) => this.editTask(taskId) }
+                            markTaskActive={ (taskId) => this.markTaskActive(taskId)    }
                             markTaskComplete={ (taskId) => this.markTaskComplete(taskId) }
                             refreshUser={ () => this.getCurrentUser() }
                             submitComment={ (comment, taskId) => this.addTaskComment(comment, taskId) }
