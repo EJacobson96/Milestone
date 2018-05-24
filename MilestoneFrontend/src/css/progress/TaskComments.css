@@ -1,6 +1,6 @@
 .c-task-comments {
 	min-height: 50px;
-	background-color: #FD776C;
+	background-color: rgb(59, 143, 76);
 	border-radius: 0 0 8px 8px;
 	/* display: flex; */
 }

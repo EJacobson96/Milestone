@@ -6,7 +6,12 @@
     font-size: 4vh;
     font-weight: 400;
 }
-
+.c-contact-card-list-link-wrapper {
+    color: black;
+}
+.c-contact-card-list-link-wrapper:hover {
+    color: black;
+}
 @media(min-width: 769px) {
     .c-contact-list {
         flex-basis: 30%;

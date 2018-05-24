@@ -11,14 +11,9 @@
 	text-align: center;
 }
 
-.c-participant-nav__link--non-active-link {
-	border-bottom: 2px solid #808080;
-	border-bottom: none;
-}
-
 .c-participant-nav .c-participant-nav__link--active-link {
-	color: #687D6C;
-	border-bottom: 2px solid #687D6C;
+	color: #589c64;
+	border-bottom: 2px solid #589c64;
 }
 
 .c-participant-nav a {

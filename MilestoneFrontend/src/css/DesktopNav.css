@@ -57,6 +57,10 @@
     color: white;
 }
 
+.navLink:hover {
+    color: rgb(96, 187, 48);
+}
+
 i {
     display: block;
     width: 100%;

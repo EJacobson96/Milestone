@@ -1,14 +1,14 @@
-.c-profile-container * {
+/* .c-profile-container * {
     box-sizing: border-box;
 }
 .c-profile-container {
-    display: flex;
+    display: block;
     height: 100vh;
     max-width: 350px;
-}
+} */
 .c-profile {
-    flex: 1;
-    margin: 100px auto;
+    max-width: 450px;
+    margin: 100px auto 0;
     background-color: white;
     padding: 3em;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
@@ -20,23 +20,16 @@
     margin: 0 auto;
     width: 100%;
     border-radius: 50%;
+    max-width: 250px;
 }
 
 .c-profile h1 {
     text-align: center;
 }
 
-.c-profile input[type=text] {
-    margin: 0 0 0 0;
-}
-
 .c-profile input[type=file] {
     border:  none;
     box-shadow: none;
-}
-
-.c-profile input{
-    margin-top: 1em;
 }
 
 .hide {
@@ -58,9 +51,6 @@
     margin: 2em auto 0;
 }
 
-.c-profile input[type=text].c-username {
-    font-size: 2em;
+h2 {
     text-align: center;
-    margin: 15px 0 5px;
-    padding: 15px;
 }
