@@ -11,9 +11,20 @@
 	text-align: center;
 }
 
+<<<<<<< HEAD
 .c-participant-nav .c-participant-nav__link--active-link {
 	color: #589c64;
 	border-bottom: 2px solid #589c64;
+=======
+.c-participant-nav__link--non-active-link {
+	border-bottom: 2px solid #808080;
+	border-bottom: none;
+}
+
+.c-participant-nav .c-participant-nav__link--active-link {
+	color: #687D6C;
+	border-bottom: 2px solid #687D6C;
+>>>>>>> ede1a216c6503be6fe2d236f08700de30701eded
 }
 
 .c-participant-nav a {

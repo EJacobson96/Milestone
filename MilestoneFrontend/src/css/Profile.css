@@ -31,7 +31,6 @@
     border:  none;
     box-shadow: none;
 }
-
 .hide {
     display: none;
 }
@@ -53,4 +52,5 @@
 
 h2 {
     text-align: center;
+
 }

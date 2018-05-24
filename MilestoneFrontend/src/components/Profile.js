@@ -71,12 +71,20 @@ class Profile extends React.Component {
 
     render() {
         return (
+<<<<<<< HEAD
             <div className="container">
+=======
+            <div className="container c-profile-container">
+>>>>>>> ede1a216c6503be6fe2d236f08700de30701eded
                 <form className="c-profile">
                     <div>
                         <img src={this.state.currUserPhotoUrl}/>
                         <input type="file" name="PhotoURL" className="hide form-control" />
+<<<<<<< HEAD
                         <h2>{this.state.currUserFullName}</h2>
+=======
+                        <input type="text" name="" className="c-username form-control" value={this.state.currUserFullName} onChange={(event) => this.handleInputChange(event, 'currUserFullName')} disabled />
+>>>>>>> ede1a216c6503be6fe2d236f08700de30701eded
                     </div>
                     {
                         this.state.currUserAddress && 
