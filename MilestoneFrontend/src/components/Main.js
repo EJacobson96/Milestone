@@ -53,7 +53,9 @@ class Main extends Component {
                      />
                 )} />
                 <Route path='/profile' render={(props) => (
-                    <Profile />
+                    <Profile 
+                        userController= { this.props.userController }
+                    />
                 )} />
                 <Route exact path="/" render={(props) => (
                     <Redirect to="/network" />
