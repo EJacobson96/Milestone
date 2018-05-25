@@ -103,13 +103,13 @@ var UserController = {
         
     },
 
-    updateUser: function (email, firstName, lastName, phoneNum) {
+    updateUser: function (id, email, firstName, lastName, phoneNum) {
         return Axios.patch(
-            'https://api.milestoneapp.org/users/me',
+            'https://api.milestoneapp.org/users/me?id=' + id,
             {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
+                // headers: {
+                //     'Authorization' : localStorage.getItem('Authorization')
+                // },
                 Email: email,
                 FirstName: firstName,
                 LastName: lastName,
