@@ -1,7 +1,6 @@
 package users
 
 import (
-	"bytes"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
@@ -20,14 +19,14 @@ var bcryptCost = 13
 
 //User represents a user account in the database
 type User struct {
-	ID              bson.ObjectId   `json:"id" bson:"_id"`
-	Email           string          `json:"email"`
-	PassHash        []byte          `json:"-"` //stored, but not encoded to clients
-	FirstName       string          `json:"firstName"`
-	LastName        string          `json:"lastName"`
-	FullName        string          `json:"fullName"`
-	PhotoURL        string          `json:"photoURL"`
-	Image           bytes.Buffer    `json:"image"`
+	ID        bson.ObjectId `json:"id" bson:"_id"`
+	Email     string        `json:"email"`
+	PassHash  []byte        `json:"-"` //stored, but not encoded to clients
+	FirstName string        `json:"firstName"`
+	LastName  string        `json:"lastName"`
+	FullName  string        `json:"fullName"`
+	PhotoURL  string        `json:"photoURL"`
+	// Image           bytes.Buffer    `json:"image"`
 	RaceEthnicity   string          `json:"raceEthnicity"`
 	Gender          string          `json:"gender"`
 	DOB             string          `json:"dob"`
@@ -71,11 +70,12 @@ type Request struct {
 
 //Updates represents allowed updates to a user profile
 type UpdateUser struct {
-	Email     string       `json:"email"`
-	FirstName string       `json:"firstName"`
-	LastName  string       `json:"lastName"`
-	FullName  string       `json:"fullName"`
-	Image     bytes.Buffer `json:"image"`
+	Email     string   `json:"email"`
+	FirstName string   `json:"firstName"`
+	LastName  string   `json:"lastName"`
+	FullName  string   `json:"fullName"`
+	Phone     []string `json:"phone"`
+	// Image     bytes.Buffer `json:"image"`
 }
 
 type UpdateRequests struct {

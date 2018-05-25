@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"time"
 
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/EJacobson96/Milestone/server/gateway/models/users"
 	"github.com/EJacobson96/Milestone/server/gateway/sessions"
 )
@@ -62,14 +64,14 @@ func (c *HandlerContext) UsersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *HandlerContext) UsersMeHandler(w http.ResponseWriter, r *http.Request) {
-	sessionState := &SessionState{}
-	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
-		return
-	}
 	switch r.Method {
 	case "GET":
+		sessionState := &SessionState{}
+		sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+			return
+		}
 		err = c.SessionsStore.Save(sessionID, sessionState)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
@@ -86,23 +88,16 @@ func (c *HandlerContext) UsersMeHandler(w http.ResponseWriter, r *http.Request) 
 		}
 	case "PATCH":
 		updates := &users.UpdateUser{}
-		// decoder := json.NewDecoder(r.Body)
-		// err := decoder.Decode(updates)
-		// if err != nil {
-		// 	http.Error(w, fmt.Sprintf("error decoding updates: %v", err), http.StatusInternalServerError)
-		// 	return
-		// }
-		// r.ParseMultipartForm(32 << 20)
-		// file, handler, err := r.FormFile("uploadavatar")
-		// if err != nil {
-		// 	http.Error(w, fmt.Sprintf("error in forming file: %v", err), http.StatusInternalServerError)
-		// 	return
-		// }
-		// defer file.Close()
-
-		user, err := c.UsersStore.UpdateUser(sessionState.User.ID, updates)
+		userID := r.URL.Query().Get("id")
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(updates)
 		if err != nil {
-			http.Error(w, fmt.Sprintf("error applying updates: %v", err), http.StatusBadRequest)
+			http.Error(w, fmt.Sprintf("error decoding user updates: %v", err), http.StatusInternalServerError)
+			return
+		}
+		user, err := c.UsersStore.UpdateUser(bson.ObjectIdHex(userID), updates)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error applying user updates: %v", err), http.StatusBadRequest)
 			return
 		}
 
