@@ -53,7 +53,13 @@ class NewGoal extends React.Component {
 			Creator: this.props.currUser.id,
 			Title: this.state.goalName,
 			Category: "Education",
-			ServiceProviders: this.state.selectedProviders
+			ServiceProviders: this.state.selectedProviders,
+			active: false
+		}
+		if (this.props.isServiceProvider) {
+			goal.active = true;
+		} else {
+			goal.active = false;
 		}
 
 		this.props.addGoal(goal);

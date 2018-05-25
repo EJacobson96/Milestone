@@ -73,6 +73,7 @@ class ProgressController extends Component {
     }
 
     addGoal(goal) {
+        console.log(goal);
         if (this.state.isServiceProvider) {
             goal.UserID = this.state.participantUserId;
             this.props.userController.getContact(goal.UserID)
@@ -361,6 +362,38 @@ class ProgressController extends Component {
 
     }
 
+    markGoalActive(goalId) { 
+        console.log('Mark ' + goalId + ' active');
+        // Get a copy of the current Goal
+        let currGoal = this.state.allGoalData
+            .filter((goal) => goal.id === goalId)[0];
+
+        // Swap the goal's completed status
+        currGoal.active = !currGoal.active;
+
+        // // Push it to the server
+        this.props.goalController.updateGoal(goalId, currGoal)
+        .then((data) => {
+            this.getCurrentUser();
+        });
+    }
+
+    markGoalComplete(goalId) {
+        console.log('Mark ' + goalId + ' complete');
+        // Get a copy of the current Goal
+        let currGoal = this.state.allGoalData
+            .filter((goal) => goal.id === goalId)[0];
+
+        // Swap the goal's completed status
+        currGoal.completed = !currGoal.completed;
+
+        // // Push it to the server
+        this.props.goalController.updateGoal(goalId, currGoal)
+        .then((data) => {
+            this.getCurrentUser();
+        });
+    }
+
     markTaskActive(taskId) {
         console.log('mark ' + taskId + ' active');
         // Get a copy of the current Goal Category
@@ -473,6 +506,14 @@ class ProgressController extends Component {
         return newMsLocalStore;
     }
 
+    updateGoal(goal) {
+        this.props.goalController.updateGoal(goal.id, goal)
+        .then((data) => {
+            this.getCurrentUser();
+            this.props.history.replace('/progress/goals');
+        });
+    }
+
     updateTask(title, date, description, targetGoalId, targetTaskId) {
         // Find goal and get task to update
         let currGoalCat = this.state.goalData
@@ -516,6 +557,7 @@ class ProgressController extends Component {
         const targetGoalNavFilter = this.state.currentNavFilter;
         const targetTaskNavFilter = this.state.currentTaskNavFilter;
         const goals = this.state.goalData;
+        const allGoals = this.state.allGoalData;
         const searchResults = this.state.searchResults;
         const targetGoalId = this.state.currentGoalId; // Save me to localStorage!
         const isParticipant = this.state.isParticipant;
@@ -533,6 +575,8 @@ class ProgressController extends Component {
                             getConnections={ (search) => this.getConnections(search) }
                             handleSearch={ (e) => this.handleSearch(e) }
                             editTask={ (taskId) => this.editTask(taskId) }
+                            markGoalActive={ (goalId) => this.markGoalActive(goalId) }
+                            markGoalComplete={ (goalId) => this.markGoalComplete(goalId) }
                             markTaskActive={ (taskId) => this.markTaskActive(taskId)    }
                             markTaskComplete={ (taskId) => this.markTaskComplete(taskId) }
                             refreshUser={ () => this.getCurrentUser() }
@@ -541,7 +585,9 @@ class ProgressController extends Component {
                             switchGoalNavFilter={ (e, t) => this.switchGoalNavFilter(e, t) }
                             switchTaskNavFilter={ (e, t) => this.switchTaskNavFilter(e, t) }
                             updateTask={ (title, date, description, targetGoalId, targetTaskId) => this.updateTask(title, date, description, targetGoalId, targetTaskId) }
+                            updateGoal={ (goal) => this.updateGoal(goal) }
                             addBtnLink={ addBtnLink }
+                            allGoals={ allGoals }
                             currUser={ currUser }
                             connections={ connections }
                             goals={ this.state.goalData }

@@ -67,7 +67,6 @@ const Task = (props) => {
 			}
 		}
 	}
-	console.log(props.task);
 	return (
 		<div className='c-task'>
 				<div className='c-task__header'>

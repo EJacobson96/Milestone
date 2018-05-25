@@ -20,6 +20,7 @@ import UpcomingTasks from './UpcomingTasks';
 import NewTask from './NewTask';
 import EditTask from './EditTask';
 import NewGoal from './NewGoal';
+import EditGoal from './EditGoal';
 import TaskExpandedComments from './TaskExpandedComments';
 import TaskExpandedResources from './TaskExpandedResources';
 import ParticipantList from './ParticipantList';
@@ -51,6 +52,8 @@ class Progress extends React.Component {
 	}
 
 	render() {
+		console.log(this.props);
+
 		const isParticipant = this.props.isParticipant;
 		const isServiceProvider = this.props.isServiceProvider;
 		const heading = (heading, navFilter, switchFunc) => 	<ProgressHeading
@@ -116,6 +119,18 @@ class Progress extends React.Component {
 										currUser={ this.props.currUser }
 										refreshUser={() => this.props.refreshUser() }
 										addGoal={ (o) => this.props.addGoal(o) }
+										isServiceProvider={ isServiceProvider }
+									/>
+								</div>
+							)} />
+							<Route exact path='/progress/goals/editgoal/:id' render={() => (
+								<div>
+									<EditGoal
+										goals={ this.props.allGoals }
+										currUser={ this.props.currUser }
+										refreshUser={() => this.props.refreshUser() }
+										editGoal={ (goal) => this.props.updateGoal(goal) }
+										isServiceProvider={ isServiceProvider }
 									/>
 								</div>
 							)} />
@@ -161,9 +176,13 @@ class Progress extends React.Component {
 								<div>
 									{heading('Goals', this.props.goalNavFilter, this.props.switchGoalNavFilter)}
 									<Goals
+										allGoals={ this.props.allGoals }
+										navFilter={ this.props.goalNavFilter }
 										goals={ this.props.goals }
 										refreshUser={() => this.props.refreshUser() }
 										changeGoalFocus = { (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
+										markGoalActive={ (goalId) => this.props.markGoalActive(goalId) }
+										markGoalComplete={ (goalId) => this.props.markGoalComplete(goalId) }
 									/> 
 								</div>
 							)} />
@@ -234,6 +253,7 @@ class Progress extends React.Component {
 										currUser={ this.props.currUser }
 										refreshUser={() => this.props.refreshUser() }
 										addGoal={ (o) => this.props.addGoal(o) }
+										isServiceProvider={ isServiceProvider }
 									/>
 								</div>
 							)} />
@@ -265,10 +285,15 @@ class Progress extends React.Component {
 								<div>
 									{ heading(participantName, this.props.goalNavFilter, this.props.switchGoalNavFilter) }
 									<Goals
+										allGoals={ this.props.allGoals }
+										navFilter={ this.props.goalNavFilter }
 										goals={ this.props.goals }
 										getCurrentGoals={ this.props.getCurrentGoals }
 										refreshUser={() => this.props.refreshUser() }
 										changeGoalFocus = { (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
+										markGoalActive={ (goalId) => this.props.markGoalActive(goalId) }
+										markGoalComplete={ (goalId) => this.props.markGoalComplete(goalId) }
+										isServiceProvider={ isServiceProvider }
 									/> 
 								</div>
 							)} />
