@@ -93,6 +93,7 @@ class App extends Component {
 						)} />
 						<Route path ='/' render={(props) => (
 							<Main 
+								currUser={ this.state.currUser }
 								messageController = { this.getMessagecontroller() }
 								userController = { this.getUserController() }
 								goalController = { this.getGoalController() }

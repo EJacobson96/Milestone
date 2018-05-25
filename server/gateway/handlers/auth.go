@@ -85,25 +85,28 @@ func (c *HandlerContext) UsersMeHandler(w http.ResponseWriter, r *http.Request) 
 			return
 		}
 	case "PATCH":
-		updates := &users.Updates{}
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(updates)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error decoding updates: %v", err), http.StatusInternalServerError)
-			return
-		}
-		err = c.UsersStore.Update(sessionState.User.ID, updates)
+		updates := &users.UpdateUser{}
+		// decoder := json.NewDecoder(r.Body)
+		// err := decoder.Decode(updates)
+		// if err != nil {
+		// 	http.Error(w, fmt.Sprintf("error decoding updates: %v", err), http.StatusInternalServerError)
+		// 	return
+		// }
+		// r.ParseMultipartForm(32 << 20)
+		// file, handler, err := r.FormFile("uploadavatar")
+		// if err != nil {
+		// 	http.Error(w, fmt.Sprintf("error in forming file: %v", err), http.StatusInternalServerError)
+		// 	return
+		// }
+		// defer file.Close()
+
+		user, err := c.UsersStore.UpdateUser(sessionState.User.ID, updates)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error applying updates: %v", err), http.StatusBadRequest)
 			return
 		}
 
-		err = sessionState.User.ApplyUpdates(updates)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error applying updates to cache: %v", err), http.StatusBadRequest)
-			return
-		}
-		err = json.NewEncoder(w).Encode(sessionState.User)
+		err = json.NewEncoder(w).Encode(user)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
 			return

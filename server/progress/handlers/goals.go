@@ -101,25 +101,91 @@ func (c *HandlerContext) SpecificGoalHandler(w http.ResponseWriter, r *http.Requ
 	}
 }
 
-// func (c *HandlerContext) TaskHandler(w http.ResponseWriter, r *http.Request) {
-// 	switch r.Method {
-// 	case "POST":
-// 		newTask := &goals.NewTask{}
-// 		decoder := json.NewDecoder(r.Body)
-// 		err := decoder.Decode(newTask)
-// 		if err != nil {
-// 			http.Error(w, fmt.Sprintf("error decoding new task: %v", err), http.StatusInternalServerError)
-// 			return
-// 		}
-// 		tasks, err := c.GoalsStore.InsertTask(newTask)
-// 		err = json.NewEncoder(w).Encode(tasks)
-// 		if err != nil {
-// 			http.Error(w, fmt.Sprintf("error encoding tasks to JSON: %v", err), http.StatusInternalServerError)
-// 			return
-// 		}
-// 	default:
-// 		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
-// 		return
+func (c *HandlerContext) ResourceHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		userID := r.URL.Query().Get("id")
+		resources, err := c.ResourceStore.GetResources(bson.ObjectIdHex(userID))
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error getting resources from database: %v", err), http.StatusBadRequest)
+			return
+		}
+		err = json.NewEncoder(w).Encode(resources)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding resources to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+	case "POST":
+		newResourceCategory := &goals.NewResourceCategory{}
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(newResourceCategory)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding resource category: %v", err), http.StatusInternalServerError)
+			return
+		}
+		resourceCategory, err := c.ResourceStore.InsertResource(newResourceCategory)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error inserting resource category into database: %v", err), http.StatusBadRequest)
+			return
+		}
+		err = json.NewEncoder(w).Encode(resourceCategory)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding resource category to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+	case "PATCH":
+		update := &goals.UpdateResourceCategory{}
+		resourceID := r.URL.Query().Get("id")
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(update)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding resource category: %v", err), http.StatusInternalServerError)
+		}
+		resource, err := c.ResourceStore.UpdateResource(update, bson.ObjectIdHex(resourceID))
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error updating resource category: %v", err), http.StatusInternalServerError)
+			return
+		}
+		err = json.NewEncoder(w).Encode(resource)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding resource category to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+	case "DELETE":
+		resourceID := r.URL.Query().Get("id")
+		resource := &goals.ResourceCategory{}
+		resource, err := c.ResourceStore.DeleteResource(bson.ObjectIdHex(resourceID))
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error deleting resource category from database: %v", err), http.StatusBadRequest)
+			return
+		}
+		err = json.NewEncoder(w).Encode(resource)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding resource category to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+	default:
+		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+		return
+	}
+}
 
-// 	}
-// }
+func (c *HandlerContext) SpecificResourceHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		resourceID := r.URL.Query().Get("id")
+		resource, err := c.ResourceStore.GetSpecificResource(bson.ObjectIdHex(resourceID))
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error getting resource category from database: %v", err), http.StatusBadRequest)
+			return
+		}
+		err = json.NewEncoder(w).Encode(resource)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error encoding resource category to JSON: %v", err), http.StatusInternalServerError)
+			return
+		}
+	default:
+		http.Error(w, "wrong type of method", http.StatusMethodNotAllowed)
+		return
+	}
+}
