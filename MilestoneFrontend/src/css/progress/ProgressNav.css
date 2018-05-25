@@ -15,23 +15,14 @@
 }
 
 .c-progress-nav__link--active-link {
-<<<<<<< HEAD
-	color: #589c64;
-	border-bottom: 2px solid #589c64;
+	color: #FD786D;
+	border-bottom: 2px solid #FD786D;
 }
 
 .c-progress-nav__link--active-link span {
-	color: #589c64;
-=======
-	color: #47624C;
-	border-bottom: 2px solid #47624C;
-}
+	color: #FD786D;
 
-.c-progress-nav__link--active-link span {
-	color: #47624C;
->>>>>>> ede1a216c6503be6fe2d236f08700de30701eded
 }
-
 .c-progress-nav span {
 	padding: 1em 0 1em 0;
 	text-decoration: none;

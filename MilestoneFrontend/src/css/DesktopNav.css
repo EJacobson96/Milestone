@@ -1,5 +1,5 @@
 .c-navbar {
-    background-color: #47624C;
+    background-color: #FD786D;
     width: 100%;
     top: 0;
     position: fixed;
@@ -55,13 +55,10 @@
 .navLink {
     margin: 5px 10px 0;
     color: white;
-<<<<<<< HEAD
 }
 
 .navLink:hover {
     color: rgb(96, 187, 48);
-=======
->>>>>>> ede1a216c6503be6fe2d236f08700de30701eded
 }
 
 i {

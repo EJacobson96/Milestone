@@ -12,7 +12,7 @@
 .c-login-header {
 	color: white;
 	font-size: 5vh;
-	background-color: #47624C;
+	background-color: #FD786D;
 	text-align: center;
 	flex: 1;
 	margin: 0;
@@ -38,7 +38,7 @@
 .c-login-form__btn {
 	color: white;
 	font-size: 3vh;
-	background-color: #47624C;
+	background-color: #FD786D;
 	border: none;
 	margin-top: .5em;
 	width: 100%;
@@ -50,7 +50,7 @@
 }
 
 .c-login-form__btn:active {
-	background-color: #47624C;
+	background-color: #FD786D;
 	opacity: .5;
 }
 

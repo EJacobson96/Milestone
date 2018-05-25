@@ -1,6 +1,6 @@
 .c-task-resources {
 	min-height: 50px;
-	background-color: rgb(59, 143, 76);
+	background-color: #FD786D;
 	border-radius: 0 0 8px 8px;
 	/* display: flex; */
 }
@@ -96,7 +96,7 @@
 
 .c-task-resources__toggle-input-btn {
 	margin: 15px auto;
-	background-color: #6FCF97;
+	background-color: #FD786D;
 	border: 0px;
 	/* color: white; */
 }
