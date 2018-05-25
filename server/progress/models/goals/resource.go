@@ -32,6 +32,8 @@ type UpdateResourceCategory struct {
 func (nr *NewResourceCategory) Validate() error {
 	if len(nr.Title) == 0 {
 		return errors.New("Error: no title set")
+	} else if len(nr.UserID) == 0 {
+		return errors.New("Error: no userID present")
 	}
 	return nil
 }

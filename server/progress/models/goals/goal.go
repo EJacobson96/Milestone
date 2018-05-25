@@ -27,6 +27,7 @@ type NewGoal struct {
 	Title            string          `json:"title"`
 	Category         string          `json:"category"`
 	Tasks            []*Task         `json:"tasks"`
+	Active           bool            `json:"active"`
 	DueDate          time.Time       `json:"dueDate"`
 }
 
@@ -61,7 +62,7 @@ func (ng *NewGoal) ToGoal() *Goal {
 		Title:            ng.Title,
 		Category:         ng.Category,
 		DueDate:          ng.DueDate,
-		Active:           true,
+		Active:           ng.Active,
 		Completed:        false,
 	}
 }

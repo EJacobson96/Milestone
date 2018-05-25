@@ -1,6 +1,7 @@
 package users
 
 import (
+	"bytes"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
@@ -19,22 +20,22 @@ var bcryptCost = 13
 
 //User represents a user account in the database
 type User struct {
-	ID            bson.ObjectId   `json:"id" bson:"_id"`
-	Email         string          `json:"email"`
-	PassHash      []byte          `json:"-"` //stored, but not encoded to clients
-	FirstName     string          `json:"firstName"`
-	LastName      string          `json:"lastName"`
-	FullName      string          `json:"fullName"`
-	PhotoURL      string          `json:"photoURL"`
-	RaceEthnicity string          `json:"raceEthnicity"`
-	Gender        string          `json:"gender"`
-	DOB           string          `json:"dob"`
-	Phone         []string        `json:"phone"`
-	Facebook      string          `json:"facebook"`
-	Organization  string          `json:"organization"`
-	Program       string          `json:"program"`
-	Availability  []*Availability `json:"availability"`
-	//AreasOfExpertise 	[]*
+	ID              bson.ObjectId   `json:"id" bson:"_id"`
+	Email           string          `json:"email"`
+	PassHash        []byte          `json:"-"` //stored, but not encoded to clients
+	FirstName       string          `json:"firstName"`
+	LastName        string          `json:"lastName"`
+	FullName        string          `json:"fullName"`
+	PhotoURL        string          `json:"photoURL"`
+	Image           bytes.Buffer    `json:"image"`
+	RaceEthnicity   string          `json:"raceEthnicity"`
+	Gender          string          `json:"gender"`
+	DOB             string          `json:"dob"`
+	Phone           []string        `json:"phone"`
+	Facebook        string          `json:"facebook"`
+	Organization    string          `json:"organization"`
+	Program         string          `json:"program"`
+	Availability    []*Availability `json:"availability"`
 	Notifications   []*Notification `json:"notifications"`
 	PendingRequests []*Request      `json:"pendingRequests"`
 	Connections     []*ShortUser    `json:"connections"`
@@ -68,6 +69,15 @@ type Request struct {
 	ContentType string    `json:"contentType"`
 }
 
+//Updates represents allowed updates to a user profile
+type UpdateUser struct {
+	Email     string       `json:"email"`
+	FirstName string       `json:"firstName"`
+	LastName  string       `json:"lastName"`
+	FullName  string       `json:"fullName"`
+	Image     bytes.Buffer `json:"image"`
+}
+
 type UpdateRequests struct {
 	PendingRequests []*Request `json:"pendingRequests"`
 }
@@ -96,23 +106,16 @@ type NewUser struct {
 	Organization  string          `json:"organization"`
 	Program       string          `json:"program"`
 	Availability  []*Availability `json:"availability"`
-	//AreasOfExpertise 	[]*
-	Connections []*ShortUser   `json:"connections"`
-	AccountType string         `json:"accountType"`
-	UserStatus  *status.Status `json:"userStatus"`
-	Address     *Address       `json:"address"`
+	Connections   []*ShortUser    `json:"connections"`
+	AccountType   string          `json:"accountType"`
+	UserStatus    *status.Status  `json:"userStatus"`
+	Address       *Address        `json:"address"`
 }
 
 //Credentials represents user sign-in credentials
 type Credentials struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
-}
-
-//Updates represents allowed updates to a user profile
-type Updates struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
 }
 
 //Validate validates the new user and returns an error if
@@ -200,11 +203,11 @@ func (u *User) Authenticate(password string) error {
 
 //ApplyUpdates applies the updates to the user. An error
 //is returned if the updates are invalid
-func (u *User) ApplyUpdates(updates *Updates) error {
-	if len(updates.FirstName) == 0 || len(updates.LastName) == 0 {
-		return fmt.Errorf("FirstName must be non-zero-length")
-	}
-	u.FirstName = updates.FirstName
-	u.LastName = updates.LastName
-	return nil
-}
+// func (u *User) ApplyUpdates(updates *Updates) error {
+// 	if len(updates.FirstName) == 0 || len(updates.LastName) == 0 {
+// 		return fmt.Errorf("FirstName must be non-zero-length")
+// 	}
+// 	u.FirstName = updates.FirstName
+// 	u.LastName = updates.LastName
+// 	return nil
+// }

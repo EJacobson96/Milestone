@@ -174,7 +174,7 @@ func (c *HandlerContext) SpecificResourceHandler(w http.ResponseWriter, r *http.
 	switch r.Method {
 	case "GET":
 		resourceID := r.URL.Query().Get("id")
-		resource, err := c.ResourceStore.GetSpecificGoal(bson.ObjectIdHex(resourceID))
+		resource, err := c.ResourceStore.GetSpecificResource(bson.ObjectIdHex(resourceID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting resource category from database: %v", err), http.StatusBadRequest)
 			return

@@ -56,6 +56,7 @@ class Network extends Component {
     setUserData() {
         this.props.userController.getUser()
             .then(data => {
+                console.log(data);
                 this.setState({
                     currUser: data,
                 }, () => {

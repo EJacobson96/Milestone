@@ -118,7 +118,7 @@ func (s *MongoStore) InsertResource(newResource *NewResourceCategory) (*Resource
 	return resource, nil
 }
 
-//UpdateGoal updates a goal with new data
+//UpdateGoal updates a goal with new goal in the database
 func (s *MongoStore) UpdateGoal(update *UpdateGoal, goalID bson.ObjectId) (*Goal, error) {
 	goal := &Goal{}
 	change := mgo.Change{
