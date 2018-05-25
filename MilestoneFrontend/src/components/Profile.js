@@ -43,20 +43,23 @@ class Profile extends React.Component {
             input.disabled = true;
         })
         console.log(this.state);
-        // this.props.userController.updateUser()
-        // .then((data) => {
-        //     this.setState({
-        //         currUserPhotoUrl: user.photoURL,
-        //         currUserFullName: user.fullName,
-        //         currUserAddress: user.address,
-        //         currUserDob: user.dob,
-        //         currUserEmail: user.email,
-        //         currUserPhone: user.phone,
-        //         currUserOrganization: user.organization,
-        //     }, () => {
-        //         this.props.history.push("/profile");
-        //     });
-        // })
+        this.props.userController.updateUser(this.state.currUserEmail, this.state.currUserFirstName, 
+                                                this.state.currUserLastName, this.state.currUserPhone)
+        .then((data) => {
+            console.log(data);
+            this.setState({
+                currUserPhotoUrl: data.photoURL,
+                currUserFullName: data.fullName,
+                currUserAddress: data.address,
+                currUserDob: data.dob,
+                currUserEmail: data.email,
+                currUserPhone: data.phone,
+                currUserOrganization: data.organization,
+            })
+            // , () => {
+            //     this.props.history.push("/profile");
+            // });
+        })
     }
     
     componentDidMount() {

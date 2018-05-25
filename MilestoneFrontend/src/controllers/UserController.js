@@ -103,15 +103,17 @@ var UserController = {
         
     },
 
-    updateUser: function (id, updates) {
-        // console.log(id);
+    updateUser: function (email, firstName, lastName, phoneNum) {
         return Axios.patch(
-            'https://api.milestoneapp.org/requests?id=' + id,
+            'https://api.milestoneapp.org/users/me',
             {
-                // headers: {
-                //     'Authorization' : localStorage.getItem('Authorization')
-                // }
-                // PendingRequests: requests
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                },
+                Email: email,
+                FirstName: firstName,
+                LastName: lastName,
+                Phone: phoneNum,
             })
             .then(response => {
                 return response.data;
