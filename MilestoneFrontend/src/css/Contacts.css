@@ -89,7 +89,7 @@
         margin-left: 1em;
         font-size: 2.3vh;
     }
-    .c-contact-card-link-wrapper .c-contact-card:hover {
-        text-decoration: none;
+    .c-contact-card-link-wrapper:hover {
+        color: black;
     }
 }

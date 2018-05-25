@@ -1,7 +1,7 @@
 .c-goal {
 	display: inline-block;
 	/* background-color: rgb(245, 245, 245); */
-	background-color: #FD786D;
+	background-color: rgb(59, 143, 76);
 	height: 140px;
 	width: 140px;
 	margin: 10px;
@@ -20,7 +20,7 @@
 } */
 
 .c-goal__header-block {
-	background-color: #FD786D;
+	background-color: rgba(71, 98, 76, .5);
 	width: 100%;
 	height: 20px;
 	border-top-left-radius: 6px;
@@ -77,10 +77,11 @@
 @media (min-width: 769px) {
 	.c-goal {
 		display: flex;
-		flex-basis: 352.5px;
+		flex-basis: 21%;
 		box-sizing: border-box;
 		height: 225px;
 		align-items: center;
+		margin: 2%;
 		box-shadow: 0 0 15px rgba(0,0,0,0.25);
 	}
 

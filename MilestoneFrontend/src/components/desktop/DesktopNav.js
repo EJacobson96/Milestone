@@ -142,7 +142,7 @@ class DesktopNav extends React.Component {
               <i className="fas fa-user"></i>    
             </Button>
             <div className="dropdown-menu">
-              <a className="dropdown-item" href="#">Profile</a>
+              <Link className="dropdown-item" to="/profile">Profile</Link>
               <div className="dropdown-divider"></div>
               <button className="dropdown-item" onClick={(e) => this.logOut(e)}>Log Out</button>
             </div>

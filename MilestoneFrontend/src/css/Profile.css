@@ -1,0 +1,56 @@
+/* .c-profile-container * {
+    box-sizing: border-box;
+}
+.c-profile-container {
+    display: block;
+    height: 100vh;
+    max-width: 350px;
+} */
+.c-profile {
+    max-width: 450px;
+    margin: 100px auto 0;
+    background-color: white;
+    padding: 3em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.c-profile img {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 50%;
+    max-width: 250px;
+}
+
+.c-profile h1 {
+    text-align: center;
+}
+
+.c-profile input[type=file] {
+    border:  none;
+    box-shadow: none;
+}
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.c-profile input[type=text]:disabled {
+    border: none;
+    background-color: white;
+    box-shadow: none;
+}
+
+.c-edit-button {
+    display: block;
+    margin: 2em auto 0;
+}
+
+h2 {
+    text-align: center;
+
+}

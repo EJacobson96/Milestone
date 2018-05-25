@@ -11,13 +11,10 @@
 	text-align: center;
 }
 
-.c-participant-nav__link--non-active-link {
-	border-bottom: 2px solid #808080;
-}
-
 .c-participant-nav .c-participant-nav__link--active-link {
 	color: #FD786D;
 	border-bottom: 2px solid #FD786D;
+
 }
 
 .c-participant-nav a {

@@ -3,7 +3,7 @@
     width: 100%;
     top: 0;
     position: fixed;
-    height: 8vh;
+    height: 60px;
     z-index: 1;
 }
 
@@ -54,7 +54,11 @@
 
 .navLink {
     margin: 5px 10px 0;
-    color: black;
+    color: white;
+}
+
+.navLink:hover {
+    color: rgb(96, 187, 48);
 }
 
 i {
@@ -62,6 +66,7 @@ i {
     width: 100%;
     text-align: center;
     font-size: 2em;
+    color: white;
 }
 
 p {
