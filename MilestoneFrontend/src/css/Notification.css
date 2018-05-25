@@ -1,14 +1,12 @@
 .l-notifications .c-notification-card-link-wrapper:last-child .c-notification-card {
     border-bottom: 1px solid #9C9B9B;
-    /* border-bottom: 1.2px solid #73C9B1; */
 }
 
 .c-notifications-header { 
     text-align: center;
     margin: 10vh 0 .2em 0;
-    padding: .7em 0;
-    font-size: 3.4vh;
-    font-weight: 700;
+    padding: .3em 0;
+    font-size: 2.2em;
 }
 .c-notifications-dropdown-header {
     text-align: center;

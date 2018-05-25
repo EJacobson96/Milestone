@@ -16,4 +16,7 @@
         margin: 0 .7em 0 2em;
         width: 50%;
     }
+    .c-participant-plus {
+        margin-left: 5px;
+    }
 }

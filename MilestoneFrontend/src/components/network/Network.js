@@ -56,6 +56,7 @@ class Network extends Component {
     setUserData() {
         this.props.userController.getUser()
             .then(data => {
+                console.log(data);
                 this.setState({
                     currUser: data,
                 }, () => {
@@ -104,7 +105,7 @@ class Network extends Component {
     }
 
     handleSearch(search) {
-        if (this.props.location.pathname.includes("/Contacts")) {
+        if (this.props.location.pathname.includes("/contacts")) {
             this.props.userController.getUserConnections(search, this.state.currUser.id)
             .then(data => {
                 this.setState({

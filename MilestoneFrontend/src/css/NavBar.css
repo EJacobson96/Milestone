@@ -1,5 +1,3 @@
-/**  The navbar itself  **/
-
 .c-navbar {
     background-color: #FD786D;
     width: 100%;
@@ -9,6 +7,7 @@
     top: 0;
     position: fixed;
     height: 8vh;
+    z-index: 2;
 }
 
 .c-navbar a:hover, a:active {
@@ -30,6 +29,8 @@
 .c-navbar__link {
     color: black;
     padding: 5px;
+    color: black;
+    font-size: 2em;
 }
 
 .c-navbar__btn {
@@ -60,54 +61,86 @@
     background-color: red;
 }
 
-/* .c-navbar__logo-wrapper {
-    height: 100%;
-    margin: 0 auto 0 10px;
+@media (min-width: 769px) {
+    .c-navbar {
+        background-color: #FD786D;
+        width: 100%;
+        top: 0;
+        position: fixed;
+        height: 8vh;
+        z-index: 2;
+    } 
+    
+    .mt-2 {
+        margin-top: 1em !important;
+    }
+    
+    .c-navbar__desktop-nav-container {
+      display: flex;
+      align-items: center;
+    }
+    
+    .notificationDropdown {
+        margin-left: auto;
+    } 
+    .notificationDropdown .dropdown-menu {
+        width: 400px;
+        background-color: #EBECED;
+    } 
+
+    .userDropdown .dropdown-menu {
+        transform: translate3d(-150px, 40px, 0px) !important;
+    }
+
+    .notificationDropdown .dropdown-menu {
+        transform: translate3d(-395px, 40px, 0px) !important;
+        background-color: white;
+    }
+    
+    .c-link-notifications {
+        display: flex;
+        padding: 0;
+    }
+    
+    .dropdown .c-link-notifications {
+        display: flex;
+    }
+    
+    .dropdown .c-notification-badge {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: auto;
+        background-color: red;
+    }
+    
+    .milestoneLogo {
+        margin-right: 15px;
+    }
+    
+    .navLink {
+        margin: 5px 10px 0;
+        color: black;
+    }
+    
+    .navLink:hover {
+        color: rgb(96, 187, 48);
+    }
+    
+    i {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 2em;
+        color: black;
+    }
+    
+    p {
+        padding: 0;
+        margin: 0;
+    }
+    
+    .c-navbar {
+        height: 60px;
+    }  
 }
-
-.c-navbar__btn {
-    background: none;
-    border: none;
-    font-size: 4vh;
-    display: flex;
-    align-items: center;
-    color: black;
-}
-.mobileNavLink {
-    height: 100%;
-}
-.mobileNavLink div {
-    padding: 15px;
-    height: 100%;
-} */
-
-.c-navbar__notification-btn {
-    max-width: Calc(1em + 32px);    /* To match the other buttons on mobile. */
-}
-
-.c-navbar__font-awesome-icon {
-    color: white;
-    font-size: 1em;
-}
-
-.c-navbar__notification-counter-badge {
-    left: -10px;
-}
-
-/**  Currently Unused  **/
-
-/* Links inside the navbar */
-/* .c-navbar a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-} */
-
-/* Navbar links on mouse-over */
-/* .c-navbar a:hover {
-    background: #ddd;
-    color: black;
-}  */

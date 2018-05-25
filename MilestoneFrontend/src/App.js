@@ -7,8 +7,6 @@ import MediaQuery from 'react-responsive';
 /////////////////////////////////////////
 /// Standard Components
 import NavBar from './components/NavBar';
-import DesktopNav from './components/desktop/DesktopNav';
-import SideBar from './components/SideBar';
 import LoginForm from './components/login/LoginForm';
 import Main from './components/Main';
 
@@ -37,7 +35,6 @@ class App extends Component {
 		this.getUserController = this.getUserController.bind(this);
 		this.getMessagecontroller = this.getMessagecontroller.bind(this);
 		this.getGoalController = this.getGoalController.bind(this);
-		this.toggleSideBar = this.toggleSideBar.bind(this);
 	}
 
 	getUserController() {
@@ -64,13 +61,6 @@ class App extends Component {
 		}
 	}
 	
-	toggleSideBar(e) {
-		let toggle = !this.state.menuOpen;
-		this.setState({
-			menuOpen: toggle
-		})
-	}
-	
 	componentDidMount() {
 		if (localStorage.getItem('Authorization')) {
 			this.setState({
@@ -85,30 +75,12 @@ class App extends Component {
 		return (
 			<div className="App">
 				<div>
-				    <MediaQuery query="(min-device-width: 769px)">
-					    {
-							isLoggedIn &&
-							<DesktopNav 
-								userController={this.getUserController()}
-							/>
-						}
-					</MediaQuery>
-					<MediaQuery query="(max-device-width: 768px)">
-						{
-							isLoggedIn &&
-							<NavBar 
-								openSideBar={(e) => this.toggleSideBar(e)}
-								userController={this.getUserController()}
-							/>
-						}
-
-						{
-							displaySideBar &&
-							<SideBar 
-								closeSideBar={(e) => this.toggleSideBar(e)}
-							/>
-						}
-					</MediaQuery>
+					{
+						isLoggedIn &&
+						<NavBar 
+							userController={this.getUserController()}
+						/>
+					}
 				</div>
 
 				<div className="l-main">
@@ -121,6 +93,7 @@ class App extends Component {
 						)} />
 						<Route path ='/' render={(props) => (
 							<Main 
+								currUser={ this.state.currUser }
 								messageController = { this.getMessagecontroller() }
 								userController = { this.getUserController() }
 								goalController = { this.getGoalController() }

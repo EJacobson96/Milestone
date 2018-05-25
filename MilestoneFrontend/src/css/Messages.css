@@ -77,7 +77,7 @@
     .l-conversations {
         flex: 1;
         height: 73.5vh;
-        overflow: scroll;
+        overflow-y: scroll;
         background-color: white;
         border: 1px solid #808080;
     }

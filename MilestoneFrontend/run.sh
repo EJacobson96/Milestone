@@ -4,7 +4,7 @@ export CILENT_CONTAINER=milestone-client
 
 # Pull the newest version of the client
 echo "Pulling newest version of the container..."
-docker pull ejacobson96/$CLIENT_CONTAINER
+docker pull ejacobson96/milestone-client
 
 # Remove the client container if it already exists
 if [ "$(docker ps -aq --filter name=milestone-client)" ]; then

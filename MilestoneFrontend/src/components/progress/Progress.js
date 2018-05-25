@@ -25,6 +25,8 @@ import TaskExpandedComments from './TaskExpandedComments';
 import TaskExpandedResources from './TaskExpandedResources';
 import ParticipantList from './ParticipantList';
 import ParticipantHeading from './ParticipantHeading';
+import ResourceCategories from './ResourceCategories';
+import ResourceCategory from './ResourceCategory';
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -39,17 +41,44 @@ class Progress extends React.Component {
         super(props);
 
         this.state = {
-            value: ''
+			value: '',
+			ResourceCategories: []
 		};
 
 		this.handleProviderSearch = this.handleProviderSearch.bind(this);
+		// this.getResources = this.getResources.bind(this);
+	}
+
+	componentDidMount() {
+		// this.getResources()
+		// .then((data) => {
+		// 	this.setState({
+		// 		ResourceCategories: data
+		// 	})
+		// 	console.log(data);
+		// })
+
 	}
 
     handleProviderSearch(search) {
         if (this.props.location.pathname.includes("/provider")) {
 			this.props.getConnections(search);
-        } 
+        } else {
+			this.props.getResources(search);
+		}
 	}
+
+	// getResources() {
+    //     return Axios.get(
+    //         'https://api.milestoneapp.org/resources?id=' + this.props.currUser.id
+    //         )
+    //         .then(response => {
+    //             return response.data;
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         });
+    // }
 
 	render() {
 		// console.log(this.props);
@@ -64,13 +93,8 @@ class Progress extends React.Component {
 																	addBtnLink={ this.props.addBtnLink }
 																/>
 
-		let participantHeader;
 		let participantName = "";
 		if (isServiceProvider) {
-			participantHeader = <ParticipantHeading 
-									user={ this.props.user } 
-									handleSearch={ (search) => this.handleProviderSearch(search) }
-								/>
 			if (this.props.participantUserId) {
 				let participantNameFilter = this.props.connections.filter((connection) => connection.id === this.props.participantUserId);
 				if (participantNameFilter.length > 0) {
@@ -203,7 +227,10 @@ class Progress extends React.Component {
 						<Switch>
 							<Route exact path='/progress/provider/participants' render={() => (
 								<div>
-									{ participantHeader }
+									<ParticipantHeading 
+										user={ this.props.user } 
+										handleSearch={ (search) => this.handleProviderSearch(search) }
+									/>
 									<ParticipantList 
 										connections={ this.props.connections }
 										getCurrentGoals={ (id) => this.props.getCurrentGoals(id) }
@@ -211,11 +238,31 @@ class Progress extends React.Component {
 								</div>
 							)} />
 							<Route exact path='/progress/resources' render={() => (
+								<Redirect to='/progress/resources/categories' />
+							)} />
+							<Route exact path='/progress/resources/categories' render={() => (
 								<div>
-									{participantHeader}
-									{/* <ParticipantList 
-										connections={ this.state.connections }
-									/> */}
+									<ParticipantHeading 
+										user={ this.props.user } 
+										isResourceCategories={true}
+										handleSearch={ (search) => this.handleProviderSearch(search) }
+									/>
+									<ResourceCategories 
+										currUser={this.props.currUser} 
+										resourceCategories={this.props.resourceCategories}
+										getResources={(search) => this.props.getResources(search)}
+									/>
+								</div>
+							)} />
+							
+							<Route exact path='/progress/resources/categories/:id' render={() => (
+								<div>
+									<ParticipantHeading 
+										user={ this.props.user } 
+										isResources={true}
+										handleSearch={ (search) => this.handleProviderSearch(search) }
+									/>
+									<ResourceCategory />
 								</div>
 							)} />
 							<Route exact path='/progress/goals/search' render={() => (

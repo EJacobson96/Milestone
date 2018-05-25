@@ -12,7 +12,7 @@
 }
 
 .c-network-nav__link--non-active-link {
-	border-bottom: 2px solid #808080;
+	border-bottom: none;
 }
 
 .c-network-nav .c-network-nav__link--active-link {

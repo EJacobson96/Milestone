@@ -17,6 +17,18 @@ var GoalController = {
         );
     },
 
+    getResources: function (id) {
+        return Axios.get(
+            'https://api.milestoneapp.org/resources?id=' + id)
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    },
+
     getSpecificGoal: function (id) {
         return Axios.get(
             'https://api.milestoneapp.org/goals/?id=' + id)

@@ -303,7 +303,28 @@ class ProgressController extends Component {
                 connections: data
             });
         });
-	}
+    }
+    
+    getResources(search) {
+        console.log(this.state)
+        this.props.goalController.getResources(this.state.currUser.id)
+        .then((data) => {
+            console.log(data);
+            let filteredResources;
+            if (search) {
+                filteredResources = data.filter((category) => {
+                    return category.title.toLowerCase().includes(search.trim().toLowerCase());
+                })
+                this.setState({
+                    resourceCategories: filteredResources,
+                })
+            } else {
+                this.setState({
+                    resourceCategories: data,
+                })
+            }
+        })
+    }
 
     getCurrentUser() {
         this.props.userController.getUser()
@@ -318,6 +339,7 @@ class ProgressController extends Component {
                     this.getCurrentGoals(data.id);
                 } else {
                     this.getConnections('');
+                    this.getResources('');
                 }
             });
         });
@@ -608,6 +630,7 @@ class ProgressController extends Component {
                             allGoals={ allGoals }
                             currUser={ currUser }
                             connections={ connections }
+                            resourceCategories= {this.state.resourceCategories }
                             goals={ this.state.goalData }
                             goalController={ this.props.goalController }
                             goalNavFilter={ targetGoalNavFilter }
@@ -619,6 +642,7 @@ class ProgressController extends Component {
                             taskNavFilter={ targetTaskNavFilter }
                             targetGoalId = { targetGoalId }
                             user={ this.state.user }
+                            getResources={ (search) => this.getResources(search) }
                         />
                     </div>
                 )} />
