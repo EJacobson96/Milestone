@@ -71,7 +71,7 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container c-profile-container">
                 <form className="c-profile">
                     <div>
                         <img src={this.state.currUserPhotoUrl}/>

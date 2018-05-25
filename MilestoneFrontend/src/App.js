@@ -8,7 +8,6 @@ import MediaQuery from 'react-responsive';
 /// Standard Components
 import NavBar from './components/NavBar';
 import DesktopNav from './components/desktop/DesktopNav';
-import SideBar from './components/SideBar';
 import LoginForm from './components/login/LoginForm';
 import Main from './components/Main';
 
@@ -37,7 +36,6 @@ class App extends Component {
 		this.getUserController = this.getUserController.bind(this);
 		this.getMessagecontroller = this.getMessagecontroller.bind(this);
 		this.getGoalController = this.getGoalController.bind(this);
-		this.toggleSideBar = this.toggleSideBar.bind(this);
 	}
 
 	getUserController() {
@@ -62,13 +60,6 @@ class App extends Component {
 				userLoggedIn: false,
 			})
 		}
-	}
-	
-	toggleSideBar(e) {
-		let toggle = !this.state.menuOpen;
-		this.setState({
-			menuOpen: toggle
-		})
 	}
 	
 	componentDidMount() {
@@ -97,15 +88,7 @@ class App extends Component {
 						{
 							isLoggedIn &&
 							<NavBar 
-								openSideBar={(e) => this.toggleSideBar(e)}
 								userController={this.getUserController()}
-							/>
-						}
-
-						{
-							displaySideBar &&
-							<SideBar 
-								closeSideBar={(e) => this.toggleSideBar(e)}
 							/>
 						}
 					</MediaQuery>

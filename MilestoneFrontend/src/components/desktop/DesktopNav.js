@@ -112,18 +112,10 @@ class DesktopNav extends React.Component {
             </div>
             <p>Network</p>
           </Link>
-          {/* <Link className="navLink" to='/Calendar'>
-            <i className="far fa-calendar"></i>
-            <p>Calendar</p>
-          </Link> */}
           <Link className="navLink" to='/progress'>
             <i className="fas fa-flag"></i>
             <p>Progress</p>
           </Link>
-          {/* <Link className="navLink" to='/Requests'>
-            <i className="far fa-paper-plane"></i>
-            <p>Requests</p>
-          </Link> */}
           <div className="dropdown dropleft notificationDropdown">
             <Button className="c-navbar__btn c-link-notifications" data-toggle="dropdown" 
                 aria-haspopup="true" aria-expanded="false" onClick={(e) => this.clearNotifications(e)}>
