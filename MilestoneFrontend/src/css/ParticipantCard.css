@@ -20,9 +20,14 @@
     width: 75%;
     border-radius: 50%;
 }
-
+.c-name-goals-tasks {
+    flex: 1;
+    align-self: center;
+    margin-left: 10px;
+    color: black;
+}
 .c-participant-card-name {
-    margin-left: 1em;
+    margin: 0;
 }
 
 @media(min-width: 769px) {
@@ -36,20 +41,12 @@
         width: 85%;
     }
     .c-participant-card-image {
-        margin: 0 1.5em 0 4em;
+        margin-left: 4em;
     }
 
     .c-participant-card {
         height: 175px;
         display: flex;
-    }
-    .c-participant-card-name {
-        margin-left: 0;
-    }
-    .c-name-goals-tasks {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
     }
     .c-name-goals-tasks p {
         font-size: 1.3em;

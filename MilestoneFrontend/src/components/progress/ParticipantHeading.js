@@ -34,6 +34,8 @@ class ParticipantHeading extends React.Component {
 					/>
 					<ParticipantSearch 
 						handleSearch={ (search) => this.props.handleSearch(search) }
+						isResources={this.props.isResources}
+						isResourceCategories={this.props.isResourceCategories}
 					/>
 						{/* contentType={this.state.contentType}
 						handleSearch={(e) => this.handleSearch(e)} */}

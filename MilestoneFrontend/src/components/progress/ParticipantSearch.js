@@ -41,6 +41,18 @@ class ParticipantSearch extends React.Component {
 					<Button className="btn btn-outline-success my-2 my-sm-0 c-participant-button" onClick={(e) => this.handleSearch(e)}>
 						<Glyphicon glyph="search" /> 
 					</Button>
+					{
+						this.props.isResources &&
+						<Button className="btn c-participant-button c-participant-plus" data-toggle="modal" data-target="#newResource">
+							<Glyphicon glyph="plus" /> 
+						</Button>
+					}
+					{
+						this.props.isResourceCategories &&
+						<Button className="btn c-participant-button c-participant-plus" data-toggle="modal" data-target="#newResourceCategory">
+							<Glyphicon glyph="plus" /> 
+						</Button>
+					}
 				</form>
 			</div>
 		);
