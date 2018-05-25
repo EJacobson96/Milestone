@@ -139,6 +139,11 @@ func (s *MongoStore) UpdateGoal(update *UpdateGoal, goalID bson.ObjectId) (*Goal
 //UpdateResource updates a goal with new data
 func (s *MongoStore) UpdateResource(update *UpdateResourceCategory, resourceID bson.ObjectId) (*ResourceCategory, error) {
 	resource := &ResourceCategory{}
+	for i, resource := range update.Resources {
+		if len(resource.ID) == 0 {
+			update.Resources[i].ID = bson.NewObjectId()
+		}
+	}
 	change := mgo.Change{
 		Update: bson.M{"$set": update},
 	}
