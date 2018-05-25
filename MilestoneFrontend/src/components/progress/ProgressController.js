@@ -73,7 +73,7 @@ class ProgressController extends Component {
     }
 
     addGoal(goal) {
-        console.log(goal);
+        // console.log(goal);
         if (this.state.isServiceProvider) {
             goal.UserID = this.state.participantUserId;
             this.props.userController.getContact(goal.UserID)
@@ -195,11 +195,11 @@ class ProgressController extends Component {
         });
     }
 
-    addTaskComment(comment, taskId) {
+    addTaskComment(comment, taskId, goal) {
         // Get a copy of the current Goal Category
-        console.log(this.state.currentGoalId);
-        let currGoal = this.state.goalData
-            .filter((goal) => goal.id === this.state.currentGoalId)[0];
+        let currGoal = goal;
+        // this.state.goalData
+        //     .filter((goal) => goal.id === this.state.currentGoalId)[0];
         // Get a copy of the current Goal Category's tasks
         let currTasks = currGoal.tasks;
         // Get the current task and it's index to be replaced later
@@ -229,8 +229,6 @@ class ProgressController extends Component {
         currTasks[currTaskIndex] = currTask;
         currGoal.tasks = currTasks;
 
-        console.log(currGoal);
-
         // Push it to the server
         this.props.goalController.updateGoal(this.state.currentGoalId, currGoal)
         .then((data) => {
@@ -238,13 +236,13 @@ class ProgressController extends Component {
         });
     }
 
-    addTaskResource(resourceName, resourceUrl, taskId) {
+    addTaskResource(resourceName, resourceUrl, taskId, goal) {
         console.log(resourceName + ' ' + resourceUrl + ' for ' + taskId);
         // Get a copy of the current Goal
-        let currGoalCat = this.state.goalData
+        let currGoal = this.state.goalData
             .filter((goal) => goal.id == this.state.currentGoalId)[0];
         // Get a copy of the current Goal's tasks
-        let currTasks = currGoalCat.tasks;
+        let currTasks = currGoal.tasks;
         // Get the current task and it's index to be replaced later
         let currTask;
         let currTaskIndex = -1;
@@ -269,12 +267,10 @@ class ProgressController extends Component {
         resourceArray.push(newResourceStruct);
         currTask.resources = resourceArray;
         currTasks[currTaskIndex] = currTask;
-        currGoalCat.tasks = currTasks;
-
-        console.log(currGoalCat);
+        currGoal.tasks = currTasks;
 
         // Push it to the server
-        this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
+        this.props.goalController.updateGoal(this.state.currentGoalId, currGoal)
         .then((data) => {
             this.getCurrentUser();
         });
@@ -338,6 +334,16 @@ class ProgressController extends Component {
         });
     }
 
+    getSpecificGoal(goalId) {
+        this.props.goalController.getSpecificGoal(goalId)
+        .then((data) => {
+            this.setState({
+                heading: data.title
+            });
+            this.getCurrentGoals(data.userID);
+        });
+    }
+
     editTask(taskId) {
         // console.log('edit ' + taskId);
         this.props.history.push('/progress/goals/edittask/:id' + taskId);
@@ -394,11 +400,14 @@ class ProgressController extends Component {
         });
     }
 
-    markTaskActive(taskId) {
+    markTaskActive(taskId, goal) {
         console.log('mark ' + taskId + ' active');
         // Get a copy of the current Goal Category
-        let currGoal = this.state.goalData
-            .filter((goal) => goal.id == this.state.currentGoalId)[0];
+        let currGoal = goal;
+        if (!goal) {
+            currGoal = this.state.goalData
+                .filter((goal) => goal.id == this.state.currentGoalId)[0];
+        }
         // Get a copy of the current Goal Category's tasks
         let currTasks = currGoal.tasks;
         // Get the current task and it's index to be replaced later
@@ -423,11 +432,14 @@ class ProgressController extends Component {
         });
     }
 
-    markTaskComplete(taskId) {
+    markTaskComplete(taskId, goal) {
         console.log('mark ' + taskId + ' complete');
         // Get a copy of the current Goal Category
-        let currGoal = this.state.goalData
-            .filter((goal) => goal.id == this.state.currentGoalId)[0];
+        let currGoal = goal;
+        if (!goal) {
+            currGoal = this.state.goalData
+                .filter((goal) => goal.id == this.state.currentGoalId)[0];
+        }
         // Get a copy of the current Goal Category's tasks
         let currTasks = currGoal.tasks;
         // Get the current task and it's index to be replaced later
@@ -514,11 +526,12 @@ class ProgressController extends Component {
         });
     }
 
-    updateTask(title, date, description, targetGoalId, targetTaskId) {
+    updateTask(title, date, description, targetGoalId, targetTaskId, goal) {
         // Find goal and get task to update
-        let currGoalCat = this.state.goalData
-            .filter((goalCat) => goalCat.id == targetGoalId)[0];
-        let currTasks = currGoalCat.tasks;
+        // let currGoalCat = this.state.goalData
+        //     .filter((goalCat) => goalCat.id == targetGoalId)[0];
+        let currGoal = goal
+        let currTasks = currGoal.tasks;
         // Get the current task and it's index to be replaced later
         let currTask;
         let currTaskIndex = -1;
@@ -534,13 +547,17 @@ class ProgressController extends Component {
 
         // Replace the current task; replace the Goal Category's tasks
         currTasks[currTaskIndex] = currTask;
-        currGoalCat.tasks = currTasks;
+        currGoal.tasks = currTasks;
 
         // Push it to the server
-        this.props.goalController.updateGoal(this.state.currentGoalId, currGoalCat)
+        this.props.goalController.updateGoal(this.state.currentGoalId, currGoal)
         .then((data) => {
             this.getCurrentUser();
-            this.props.history.push('/progress/goals/:id' + targetGoalId);
+            if (this.state.isServiceProvider) {
+                this.props.history.push('/progress/provider/participants/goals/tasks/:id' + targetGoalId);
+            } else {
+                this.props.history.push('/progress/goals/:id' + targetGoalId);
+            }
         });
     }
 
@@ -573,18 +590,19 @@ class ProgressController extends Component {
                             changeGoalFocus = { (e, goalId, goalTitle) => this.changeGoalFocus(e, goalId, goalTitle) }
                             getCurrentGoals={ (id) => this.getCurrentGoals(id) }
                             getConnections={ (search) => this.getConnections(search) }
+                            getSpecificGoal={ (goalId) => this.getSpecificGoal(goalId) }
                             handleSearch={ (e) => this.handleSearch(e) }
                             editTask={ (taskId) => this.editTask(taskId) }
                             markGoalActive={ (goalId) => this.markGoalActive(goalId) }
                             markGoalComplete={ (goalId) => this.markGoalComplete(goalId) }
-                            markTaskActive={ (taskId) => this.markTaskActive(taskId)    }
-                            markTaskComplete={ (taskId) => this.markTaskComplete(taskId) }
+                            markTaskActive={ (taskId, goal) => this.markTaskActive(taskId, goal) }
+                            markTaskComplete={ (taskId, goal) => this.markTaskComplete(taskId, goal) }
                             refreshUser={ () => this.getCurrentUser() }
-                            submitComment={ (comment, taskId) => this.addTaskComment(comment, taskId) }
-                            submitResource={ (resourceName, resourceUrl, taskId) => this.addTaskResource(resourceName, resourceUrl, taskId) }
+                            submitComment={ (comment, taskId, goal) => this.addTaskComment(comment, taskId, goal) }
+                            submitResource={ (resourceName, resourceUrl, taskId, goal) => this.addTaskResource(resourceName, resourceUrl, taskId, goal) }
                             switchGoalNavFilter={ (e, t) => this.switchGoalNavFilter(e, t) }
                             switchTaskNavFilter={ (e, t) => this.switchTaskNavFilter(e, t) }
-                            updateTask={ (title, date, description, targetGoalId, targetTaskId) => this.updateTask(title, date, description, targetGoalId, targetTaskId) }
+                            updateTask={ (title, date, description, targetGoalId, targetTaskId, goal) => this.updateTask(title, date, description, targetGoalId, targetTaskId, goal) }
                             updateGoal={ (goal) => this.updateGoal(goal) }
                             addBtnLink={ addBtnLink }
                             allGoals={ allGoals }

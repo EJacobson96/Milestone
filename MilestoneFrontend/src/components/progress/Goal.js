@@ -37,17 +37,27 @@ const Goal = (props) => {
     } else {
         linkToGoalId = '/progress/goals/:id' + props.goalId;
     }
-    let numTasks = 0;
+    let numActiveTasks = 0;
+    let numPendingTasks = 0;
+    let numTotalTasksShown = 0;
     for (let i = 0; i < props.goal.tasks.length; i++) {
         if (props.goal.tasks[i].active === true && props.goal.tasks[i].completed === false) {
-            numTasks++;
+            numActiveTasks++;
+            numTotalTasksShown++;
+        }
+        if (props.goal.tasks[i].active === false && props.goal.tasks[i].completed === false) {
+            numPendingTasks++;
+            numTotalTasksShown++;
         }
     }
-    let numTasksText = numTasks + ' Active Task';
-    if (numTasks > 1) {
-        numTasksText += 's';
-    } else if (numTasks === 0) {
-        numTasksText = 'No tasks';
+    let numTasksText = numActiveTasks + " Active";
+    if (numPendingTasks > 0) {
+        numTasksText += ", " + numPendingTasks + " Pending";
+    }
+    if (numTotalTasksShown > 2 || numTotalTasksShown === 0) {
+        numTasksText += " Tasks";
+    } else {
+        numTasksText += " Task";
     }
 
     return (

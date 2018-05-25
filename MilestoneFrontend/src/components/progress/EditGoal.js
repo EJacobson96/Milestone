@@ -30,9 +30,14 @@ import '../../css/progress/EditGoal.css';
 class EditGoal extends React.Component {
 	constructor (props) {
 		super(props);
+
+		let selectedProviders = [];
+		if (props.isServiceProvider) {
+			selectedProviders = [props.currUser.id];
+		}
 		this.state = {
 			goalName: '',
-			selectedProviders: []
+			selectedProviders: selectedProviders
 		};
 		this.handleGoalNameChange = this.handleGoalNameChange.bind(this);
 	}
@@ -102,6 +107,8 @@ class EditGoal extends React.Component {
 							controlId={ 'editGoalForm' }
 						>
 							<div className="c-edit-goal-form-fields">
+							
+								{ !this.props.isServiceProvider ? (
 								<div className='[ container ] c-edit-goal-form__section'>
 									<h4 className='c-edit-goal-form__section-heading'>
 										Who would you like to work with?
@@ -112,6 +119,7 @@ class EditGoal extends React.Component {
 										selectedProviders={ this.state.selectedProviders }
 									/>
 								</div>
+								) : null }
 
 								<hr className='c-edit-goal-form__divider' />
 

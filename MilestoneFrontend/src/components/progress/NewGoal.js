@@ -34,9 +34,14 @@ import '../../css/progress/NewGoal.css';
 class NewGoal extends React.Component {
 	constructor (props) {
 		super(props);
+
+		let selectedProviders = [];
+		if (props.isServiceProvider) {
+			selectedProviders = [props.currUser.id];
+		}
 		this.state = {
 			goalName: '',
-			selectedProviders: []
+			selectedProviders: selectedProviders
 		};
 		this.handleDateChange = this.handleDateChange.bind(this);
 		this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -117,15 +122,17 @@ class NewGoal extends React.Component {
 							controlId={ 'newGoalForm' }
 						>
 							<div className="c-new-goal-form-fields">
-								<div className='[ container ] c-new-goal-form__section'>
-									<h4 className='c-new-goal-form__section-heading'>
-										Who would you like to work with?
-									</h4>
-									<ServiceProviderPicker 
-										currUser={ this.props.currUser }
-										handleServiceProviderSelection= { (i,s) => this.handleServiceProviderSelection(i,s) }
-									/>
-								</div>
+								{ !this.props.isServiceProvider ? (
+									<div className='[ container ] c-new-goal-form__section'>
+										<h4 className='c-new-goal-form__section-heading'>
+											Who would you like to work with?
+										</h4>
+										<ServiceProviderPicker 
+											currUser={ this.props.currUser }
+											handleServiceProviderSelection= { (i,s) => this.handleServiceProviderSelection(i,s) }
+										/>
+									</div>
+								) : null }
 
 								<hr className='c-new-goal-form__divider' />
 

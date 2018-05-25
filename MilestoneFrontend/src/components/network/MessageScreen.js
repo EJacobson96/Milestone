@@ -176,7 +176,12 @@ class MessageScreen extends React.Component {
                 <form onSubmit={ (e) => this.handleSubmit(e) }>
                     <FormGroup controlId="formControlsTextarea" className="c-messages-input-form">
                         <div className="input-group c-messages-input-group">
-                            <FormControl inputRef={input => this.textInput = input} componentClass="input" placeholder="Message..." className="messageInput"/>
+                            <FormControl 
+                                inputRef={input => this.textInput = input} 
+                                componentClass="input" placeholder="Message..." 
+                                className="messageInput"
+                                autoComplete='off'
+                            />
                             <span className="input-group-addon" id="basic-addon1">
                                 <Glyphicon glyph="circle-arrow-right" onClick={(e) => this.handleSubmit(e)} />
                             </span>

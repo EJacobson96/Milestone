@@ -93,7 +93,6 @@ class GoalDropdown extends React.Component {
 	}
 
 	render() {
-		console.log(this.props);
 		let markGoalText = this.props.goal.completed === false ? ("Mark Goal Complete") : ("Mark Goal Incomplete");
 		return (
 			<Dropdown className='c-goal-dropdown' id='goal-dropdown'>
