@@ -12,18 +12,6 @@ var ErrUserNotFound = errors.New("user not found")
 //Store represents a store for Users
 type Store interface {
 
-	//UpdateConnections adds a connection for a user and returns the connection list
-	UpdateConnections(updates *UpdateConnections, userID bson.ObjectId) (*User, error)
-
-	//AddNotification adds a notification for a user and returns it
-	UpdateNotifications(updates *UpdateNotifications, userID bson.ObjectId) (*User, error)
-
-	//AddConnection adds a connection for a user and returns the connection list
-	// AddConnection(userID bson.ObjectId, connection *User) ([]*User, error)
-
-	//UpdateRequests adds a request for a user and returns it
-	UpdateRequests(updates *UpdateRequests, userID bson.ObjectId) (*User, error)
-
 	//GetAllUsers returns every single user
 	GetAllUsers() ([]*User, error)
 
@@ -40,8 +28,20 @@ type Store interface {
 	//it into the database, and returns it
 	Insert(newUser *NewUser) (*User, error)
 
-	//Update applies UserUpdates to the given user ID
-	Update(userID bson.ObjectId, updates *Updates) error
+	//Update applies updates to the given user ID
+	UpdateUser(userID bson.ObjectId, updates *UpdateUser) (*User, error)
+
+	//UpdateConnections adds a connection for a user and returns the connection list
+	UpdateConnections(updates *UpdateConnections, userID bson.ObjectId) (*User, error)
+
+	//AddNotification adds a notification for a user and returns it
+	UpdateNotifications(updates *UpdateNotifications, userID bson.ObjectId) (*User, error)
+
+	//AddConnection adds a connection for a user and returns the connection list
+	// AddConnection(userID bson.ObjectId, connection *User) ([]*User, error)
+
+	//UpdateRequests adds a request for a user and returns it
+	UpdateRequests(updates *UpdateRequests, userID bson.ObjectId) (*User, error)
 
 	//Delete deletes the user with the given ID
 	Delete(userID bson.ObjectId) error

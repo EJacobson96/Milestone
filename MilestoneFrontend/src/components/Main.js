@@ -58,7 +58,7 @@ class Main extends Component {
                     />
                 )} />
                 <Route exact path="/" render={(props) => (
-                    <Redirect to="/network" />
+                    <Redirect to="/progress" />
                 )} />
             </Switch>
         ) : (

@@ -141,6 +141,24 @@ func (s *MongoStore) UpdateRequests(update *UpdateRequests, userID bson.ObjectId
 	return user, nil
 }
 
+//Update applies UserUpdates to the given user ID
+func (s *MongoStore) UpdateUser(userID bson.ObjectId, updates *UpdateUser) (*User, error) {
+	user := &User{}
+	change := mgo.Change{
+		Update: bson.M{"$set": updates},
+	}
+	col := s.session.DB(s.dbname).C(s.colname)
+	_, err := col.FindId(userID).Apply(change, &User{})
+	if err != nil {
+		return nil, fmt.Errorf("error updating user: %v", err)
+	}
+	err = col.FindId(userID).One(&user)
+	if err != nil {
+		return nil, fmt.Errorf("error finding user: %v", err)
+	}
+	return user, nil
+}
+
 //Insert converts the NewUser to a User, inserts
 //it into the database, and returns it
 func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
@@ -154,23 +172,6 @@ func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
 		return nil, fmt.Errorf("error inserting new user: %v", err)
 	}
 	return user, nil
-}
-
-//Update applies UserUpdates to the given user ID
-func (s *MongoStore) Update(userID bson.ObjectId, updates *Updates) error {
-	user := &User{}
-	err := user.ApplyUpdates(updates)
-	if err != nil {
-		return fmt.Errorf("error applying updates: %v", err)
-	}
-	change := mgo.Change{
-		Update: bson.M{"$set": updates},
-	}
-	col := s.session.DB(s.dbname).C(s.colname)
-	if _, err := col.FindId(userID).Apply(change, user); err != nil {
-		return fmt.Errorf("error updating user: %v", err)
-	}
-	return nil
 }
 
 //Delete deletes the user with the given ID

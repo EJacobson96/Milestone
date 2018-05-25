@@ -56,9 +56,10 @@ class ParticipantList extends React.Component {
     render() {
         let connectionList;
         let goalCount;
+        let taskCount;
         if (this.state.goals) {
-            let taskCount = 0;
             connectionList = this.props.connections.map((connection) => {
+                taskCount = 0;
                 if (this.state.goals[connection.id]) {
                     goalCount = this.state.goals[connection.id].length;
                     for (let i = 0; i < this.state.goals[connection.id].length; i++) {

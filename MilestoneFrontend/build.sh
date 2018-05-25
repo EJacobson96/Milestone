@@ -10,11 +10,11 @@ npm run build
 
 # Build the client Docker container image
 echo "Building Docker container..."
-docker build -t ejacobson96/$CILENT_CONTAINER .
+docker build -t ejacobson96/milestone-client .
 
-if [ "$(docker ps -aq --filter name=$CILENT_CONTAINER)" ]; then
+if [ "$(docker ps -aq --filter name=milestone-client)" ]; then
     echo "Removing client container..."
-    docker rm -f $CILENT_CONTAINER
+    docker rm -f milestone-client
 fi
 
 # Remove dangling images.

@@ -52,3 +52,9 @@
         font-size: 1.3em;
     }
 }
+
+@media(min-width: 969px) {
+    .c-participant-card-image {
+        margin: 0 1.5em 0 6em;
+    }
+}

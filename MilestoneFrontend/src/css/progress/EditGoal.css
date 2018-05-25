@@ -1,0 +1,57 @@
+.c-edit-goal-form__section {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+.c-edit-goal-form__section-heading {
+	margin-left: 5px;
+}
+
+.c-edit-goal-form__section-sub-heading {
+	font-size: 0.8em;
+	color: darkgray;
+	margin-left: 5px;
+}
+
+.c-edit-goal-form__divider {
+	border-top: 1px solid #979797;
+	margin-bottom: 0px;
+}
+
+.c-edit-goal-form__button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5em 1.5em;
+    margin-bottom: 1em;
+    font-size: 2.5vh;
+}
+
+.c-edit-goal-form__button--approve {
+    padding: .5em 1.5em;
+    margin-right: .5em;
+    background-color: #73C9B1;
+    color: white;
+}
+
+.c-edit-goal-form__button--deny {
+    padding: .5em 1.5em;
+    background-color: white;
+}
+
+@media(min-width: 769px) {
+    .c-edit-goal-form__section {
+        width: 100%;
+    }
+    .c-edit-goal-form-fields {
+        width: 50%;
+        margin: 0 auto;
+    }
+    .c-edit-goal-form__divider {
+        display: none;
+    }
+
+    .c-edit-goal-form__section-heading {
+        margin-top: 30px;
+    }
+}
