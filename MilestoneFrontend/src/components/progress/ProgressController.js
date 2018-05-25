@@ -326,6 +326,10 @@ class ProgressController extends Component {
         })
     }
 
+    deleteResourceCategory(id) {
+        return this.props.goalController.deleteResourceCategory(id)
+    }
+
     getCurrentUser() {
         this.props.userController.getUser()
         .then((data) => {
@@ -643,6 +647,7 @@ class ProgressController extends Component {
                             targetGoalId = { targetGoalId }
                             user={ this.state.user }
                             getResources={ (search) => this.getResources(search) }
+                            deleteResourceCategory= { (id) => this.deleteResourceCategory(id) }
                         />
                     </div>
                 )} />

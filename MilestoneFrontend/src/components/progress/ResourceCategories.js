@@ -16,11 +16,13 @@ class ResourceCategories extends Component {
 
     handleFormSubmit(event) {
         event.preventDefault();
-        let input = document.getElementById("titleInput").value;
+        let input = document.getElementById("titleInput");
+        let text = input.value;
+        input.value = "";
         Axios.post(
             'https://api.milestoneapp.org/resources',
             {
-                Title: input,
+                Title: text,
                 UserID: this.props.currUser.id
             })
             .then(response => {
@@ -29,15 +31,22 @@ class ResourceCategories extends Component {
             })
             .then(() => {
                 this.props.getResources();
-
             }) 
             .catch(error => {
                 console.log(error);
             });
     }
 
+    deleteResourceCategory(e, id) {
+        e.preventDefault();
+        console.log(this.props);
+        this.props.deleteResourceCategory(id)
+        .then((data) => {
+            this.props.getResources();
+        })
+    }
+
     componentDidMount() {
-        console.log("hello");
         this.setState({
             resourceCategories: this.props.resourceCategories
         })
@@ -50,8 +59,8 @@ class ResourceCategories extends Component {
                     this.props.resourceCategories.map((category) => {
                         return <div key={category.id} className="c-resource-category">
                                     <img className="c-category-dots" src={threeDotImg} id={category.id} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
-                                <div class="dropdown-menu categoryDropdown" aria-labelledby={category.id}>
-                                    <a class="dropdown-item" href="#">Delete</a>
+                                <div className="dropdown-menu categoryDropdown" aria-labelledby={category.id}>
+                                    <a onClick={(e) => this.deleteResourceCategory(e, category.id)} className="dropdown-item" href="#">Delete</a>
                                 </div>
                                 <Link to={`/progress/resources/categories/${category.id}`} className="c-category-link">
                                     <p>{category.title}</p>
@@ -59,7 +68,7 @@ class ResourceCategories extends Component {
                             </div>
                     })
                 }
-                <div className="modal fade" id="newResourceCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal fade" id="newResourceCategory" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -68,7 +77,7 @@ class ResourceCategories extends Component {
                             <div className="modal-body">
                                 <form> 
                                     <div className="form-group">
-                                        <label for="titleInput">Category Title</label>
+                                        <label htmlFor="titleInput">Category Title</label>
                                         <input className="form-control" id="titleInput" name="title" type="text" placeholder="Category Title"/>
                                     </div>
                                     <div className="c-modal-button-container">

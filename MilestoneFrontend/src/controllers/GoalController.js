@@ -41,6 +41,18 @@ var GoalController = {
         );
     },
 
+    getSpecificResource: function (id) {
+        return Axios.get(
+            'https://api.milestoneapp.org/resources/?id=' + id)
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    },
+
     addGoal: function (goal) {
         return Axios.post(
             'https://api.milestoneapp.org/goals',
@@ -58,6 +70,18 @@ var GoalController = {
         return Axios.patch(
             'https://api.milestoneapp.org/goals?id=' + targetGoalId,
             currGoal)
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                console.error(error);
+            }
+        );
+    },
+
+    deleteResourceCategory: function (resourceID) {
+        return Axios.delete(
+            'https://api.milestoneapp.org/resources?id=' + resourceID)
             .then(response => {
                 return response.data;
             })

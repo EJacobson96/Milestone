@@ -49,9 +49,9 @@ class Network extends Component {
         }.bind(this));  
     }
 
-    componentWillReceiveProps() {
-        this.setUserData();
-    }
+    // componentWillReceiveProps() {
+    //     this.setUserData();
+    // }
 
     setUserData() {
         this.props.userController.getUser()
