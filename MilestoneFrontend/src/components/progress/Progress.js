@@ -231,6 +231,7 @@ class Progress extends React.Component {
 										currUser={this.props.currUser} 
 										resourceCategories={this.props.resourceCategories}
 										getResources={(search) => this.props.getResources(search)}
+										deleteResourceCategory={(id) => this.props.deleteResourceCategory(id)}
 									/>
 								</div>
 							)} />
@@ -242,7 +243,9 @@ class Progress extends React.Component {
 										isResources={true}
 										handleSearch={ (search) => this.handleProviderSearch(search) }
 									/>
-									<ResourceCategory />
+									<ResourceCategory 
+										goalController ={ this.props.goalController }
+									/>
 								</div>
 							)} />
 							<Route exact path='/progress/goals/search' render={() => (
