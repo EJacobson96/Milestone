@@ -141,21 +141,6 @@ func (s *MongoStore) UpdateRequests(update *UpdateRequests, userID bson.ObjectId
 	return user, nil
 }
 
-//Insert converts the NewUser to a User, inserts
-//it into the database, and returns it
-func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
-	user, err := newUser.ToUser()
-	if err != nil {
-		return nil, err
-	}
-	col := s.session.DB(s.dbname).C(s.colname)
-	err = col.Insert(user)
-	if err != nil {
-		return nil, fmt.Errorf("error inserting new user: %v", err)
-	}
-	return user, nil
-}
-
 //Update applies UserUpdates to the given user ID
 func (s *MongoStore) UpdateUser(userID bson.ObjectId, updates *UpdateUser) (*User, error) {
 	user := &User{}
@@ -170,6 +155,21 @@ func (s *MongoStore) UpdateUser(userID bson.ObjectId, updates *UpdateUser) (*Use
 	err = col.FindId(userID).One(&user)
 	if err != nil {
 		return nil, fmt.Errorf("error finding user: %v", err)
+	}
+	return user, nil
+}
+
+//Insert converts the NewUser to a User, inserts
+//it into the database, and returns it
+func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
+	user, err := newUser.ToUser()
+	if err != nil {
+		return nil, err
+	}
+	col := s.session.DB(s.dbname).C(s.colname)
+	err = col.Insert(user)
+	if err != nil {
+		return nil, fmt.Errorf("error inserting new user: %v", err)
 	}
 	return user, nil
 }

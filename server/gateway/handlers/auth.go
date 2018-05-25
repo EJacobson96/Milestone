@@ -86,23 +86,15 @@ func (c *HandlerContext) UsersMeHandler(w http.ResponseWriter, r *http.Request) 
 		}
 	case "PATCH":
 		updates := &users.UpdateUser{}
-		// decoder := json.NewDecoder(r.Body)
-		// err := decoder.Decode(updates)
-		// if err != nil {
-		// 	http.Error(w, fmt.Sprintf("error decoding updates: %v", err), http.StatusInternalServerError)
-		// 	return
-		// }
-		// r.ParseMultipartForm(32 << 20)
-		// file, handler, err := r.FormFile("uploadavatar")
-		// if err != nil {
-		// 	http.Error(w, fmt.Sprintf("error in forming file: %v", err), http.StatusInternalServerError)
-		// 	return
-		// }
-		// defer file.Close()
-
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(updates)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error decoding user updates: %v", err), http.StatusInternalServerError)
+			return
+		}
 		user, err := c.UsersStore.UpdateUser(sessionState.User.ID, updates)
 		if err != nil {
-			http.Error(w, fmt.Sprintf("error applying updates: %v", err), http.StatusBadRequest)
+			http.Error(w, fmt.Sprintf("error applying user updates: %v", err), http.StatusBadRequest)
 			return
 		}
 
