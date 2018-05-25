@@ -55,8 +55,6 @@ class TaskComments extends React.Component {
 	}
 	
 	render() {
-		console.log(this.props);
-
 		let comments = "";
 		if (this.props.task.comments) {
 			comments = this.props.task.comments.map((comment) => {

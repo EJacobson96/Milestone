@@ -20,6 +20,7 @@ import UpcomingTasks from './UpcomingTasks';
 import NewTask from './NewTask';
 import EditTask from './EditTask';
 import NewGoal from './NewGoal';
+import EditGoal from './EditGoal';
 import TaskExpandedComments from './TaskExpandedComments';
 import TaskExpandedResources from './TaskExpandedResources';
 import ParticipantList from './ParticipantList';
@@ -80,7 +81,8 @@ class Progress extends React.Component {
     // }
 
 	render() {
-		console.log(this.props);
+		// console.log(this.props);
+
 		const isParticipant = this.props.isParticipant;
 		const isServiceProvider = this.props.isServiceProvider;
 		const heading = (heading, navFilter, switchFunc) => 	<ProgressHeading
@@ -128,10 +130,9 @@ class Progress extends React.Component {
 							<Route exact path='/progress/goals/edittask/:id' render={() => (
 								<div>
 									<EditTask
-										updateTask={ (title, date, description, targetCategoryId) => { this.props.updateTask(title, date, description, targetCategoryId) }}
-										goals={ this.props.goals }
+										goals={ this.props.allGoals }
 										targetGoalId = { this.props.targetGoalId }
-										updateTask={ (title, date, description, targetGoalId, targetTaskId) => this.props.updateTask(title, date, description, targetGoalId, targetTaskId) }
+										updateTask={ (title, date, description, targetGoalId, targetTaskId, goal) => this.props.updateTask(title, date, description, targetGoalId, targetTaskId, goal) }
 									/>
 								</div>
 							)} />
@@ -141,6 +142,18 @@ class Progress extends React.Component {
 										currUser={ this.props.currUser }
 										refreshUser={() => this.props.refreshUser() }
 										addGoal={ (o) => this.props.addGoal(o) }
+										isServiceProvider={ isServiceProvider }
+									/>
+								</div>
+							)} />
+							<Route exact path='/progress/goals/editgoal/:id' render={() => (
+								<div>
+									<EditGoal
+										goals={ this.props.allGoals }
+										currUser={ this.props.currUser }
+										refreshUser={() => this.props.refreshUser() }
+										editGoal={ (goal) => this.props.updateGoal(goal) }
+										isServiceProvider={ isServiceProvider }
 									/>
 								</div>
 							)} />
@@ -148,8 +161,8 @@ class Progress extends React.Component {
 								<div>
 									<TaskExpandedComments
 										currUser={ this.props.currUser }
-										goals={ this.props.goals }
-										submitComment={ (comment, taskId) => this.props.submitComment(comment, taskId) }
+										goals={ this.props.allGoals }
+										submitComment={ (comment, taskId, goal) => this.props.submitComment(comment, taskId, goal) }
 										editTask={ (taskId) => this.props.editTask(taskId) }
 										markTaskComplete={ (taskId) => this.props.markTaskComplete(taskId) }
 									/>
@@ -159,8 +172,8 @@ class Progress extends React.Component {
 								<div>
 									<TaskExpandedResources
 										currUser={ this.props.currUser }
-										goals={ this.props.goals }
-										submitResource={ (resourceName, resourceUrl, taskId) => this.props.submitResource(resourceName, resourceUrl, taskId) }
+										goals={ this.props.allGoals }
+										submitResource={ (resourceName, resourceUrl, taskId, goal) => this.props.submitResource(resourceName, resourceUrl, taskId, goal) }
 										editTask={ (taskId) => this.props.editTask(taskId) }
 										markTaskComplete={ (taskId) => this.props.markTaskComplete(taskId) }
 									/>
@@ -168,16 +181,19 @@ class Progress extends React.Component {
 							)} />
 							<Route path='/progress/goals/:id' render={() => (
 								<div>
-									{ heading(this.props.heading, this.props.taskNavFilter, this.props.switchTaskNavFilter) }
+									{/* { heading(this.props.heading, this.props.taskNavFilter, this.props.switchTaskNavFilter) } */}
 									<UpcomingTasks
+										heading={ (text) => heading(text, this.props.taskNavFilter, this.props.switchTaskNavFilter) }
 										changeGoalFocus={ (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
+										getSpecificGoal={ (goalId) => this.props.getSpecificGoal(goalId) }
 										targetGoalId={ this.props.targetGoalId }
-										goals={ this.props.goals }
+										goals={ this.props.allGoals }
 										goalController={ this.props.goalController }
 										navFilter={ this.props.taskNavFilter }
 										refreshUser={() => this.props.refreshUser() }
 										editTask={ (taskId) => this.props.editTask(taskId) }
-										markTaskComplete={ (taskId) => this.props.markTaskComplete(taskId) }
+										markTaskComplete={ (taskId, goal) => this.props.markTaskComplete(taskId, goal) }
+										isParticipant={ isParticipant }
 									/>
 								</div>
 							)} />
@@ -185,9 +201,13 @@ class Progress extends React.Component {
 								<div>
 									{heading('Goals', this.props.goalNavFilter, this.props.switchGoalNavFilter)}
 									<Goals
-										goals={ this.props.goals }
+										allGoals={ this.props.allGoals }
+										navFilter={ this.props.goalNavFilter }
+										goals={ this.props.allGoals }
 										refreshUser={() => this.props.refreshUser() }
 										changeGoalFocus = { (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
+										markGoalActive={ (goalId) => this.props.markGoalActive(goalId) }
+										markGoalComplete={ (goalId) => this.props.markGoalComplete(goalId) }
 									/> 
 								</div>
 							)} />
@@ -268,10 +288,9 @@ class Progress extends React.Component {
 							<Route exact path='/progress/goals/edittask/:id' render={() => (
 								<div>
 									<EditTask
-										updateTask={ (title, date, description, targetCategoryId) => { this.props.updateTask(title, date, description, targetCategoryId) }}
-										goals={ this.props.goals }
+										goals={ this.props.allGoals }
 										targetGoalId = { this.props.targetGoalId }
-										updateTask={ (title, date, description, targetGoalId, targetTaskId) => this.props.updateTask(title, date, description, targetGoalId, targetTaskId) }
+										updateTask={ (title, date, description, targetGoalId, targetTaskId, goal) => this.props.updateTask(title, date, description, targetGoalId, targetTaskId, goal) }
 									/>
 								</div>
 							)} />
@@ -281,6 +300,18 @@ class Progress extends React.Component {
 										currUser={ this.props.currUser }
 										refreshUser={() => this.props.refreshUser() }
 										addGoal={ (o) => this.props.addGoal(o) }
+										isServiceProvider={ isServiceProvider }
+									/>
+								</div>
+							)} />
+							<Route exact path='/progress/goals/editgoal/:id' render={() => (
+								<div>
+									<EditGoal
+										goals={ this.props.allGoals }
+										currUser={ this.props.currUser }
+										refreshUser={() => this.props.refreshUser() }
+										editGoal={ (goal) => this.props.updateGoal(goal) }
+										isServiceProvider={ isServiceProvider }
 									/>
 								</div>
 							)} />
@@ -288,10 +319,12 @@ class Progress extends React.Component {
 								<div>
 									<TaskExpandedComments
 										currUser={ this.props.currUser }
-										goals={ this.props.goals }
-										submitComment={ (comment, taskId) => this.props.submitComment(comment, taskId) }
+										goals={ this.props.allGoals }
+										submitComment={ (comment, taskId, goal) => this.props.submitComment(comment, taskId, goal) }
 										editTask={ (taskId) => this.props.editTask(taskId) }
 										markTaskComplete={ (taskId) => this.props.markTaskComplete(taskId) }
+										markTaskActive={ (taskId) => this.props.markTaskActive(taskId) }
+										isServiceProvider={ isServiceProvider }
 									/>
 								</div>
 							)} />
@@ -299,8 +332,8 @@ class Progress extends React.Component {
 								<div>
 									<TaskExpandedResources
 										currUser={ this.props.currUser }
-										goals={ this.props.goals }
-										submitResource={ (resourceName, resourceUrl, taskId) => this.props.submitResource(resourceName, resourceUrl, taskId) }
+										goals={ this.props.allGoals }
+										submitResource={ (resourceName, resourceUrl, taskId, goal) => this.props.submitResource(resourceName, resourceUrl, taskId, goal) }
 										editTask={ (taskId) => this.props.editTask(taskId) }
 										markTaskComplete={ (taskId) => this.props.markTaskComplete(taskId) }
 									/>
@@ -310,26 +343,34 @@ class Progress extends React.Component {
 								<div>
 									{ heading(participantName, this.props.goalNavFilter, this.props.switchGoalNavFilter) }
 									<Goals
-										goals={ this.props.goals }
+										allGoals={ this.props.allGoals }
+										navFilter={ this.props.goalNavFilter }
+										goals={ this.props.allGoals }
 										getCurrentGoals={ this.props.getCurrentGoals }
 										refreshUser={() => this.props.refreshUser() }
 										changeGoalFocus = { (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
+										markGoalActive={ (goalId) => this.props.markGoalActive(goalId) }
+										markGoalComplete={ (goalId) => this.props.markGoalComplete(goalId) }
+										isServiceProvider={ isServiceProvider }
 									/> 
 								</div>
 							)} />
 							<Route path='/progress/provider/participants/goals/tasks/:id' render={() => (
 								<div>
-									{ heading(this.props.heading, this.props.taskNavFilter, this.props.switchTaskNavFilter) }
+									{/* { heading(this.props.heading, this.props.taskNavFilter, this.props.switchTaskNavFilter) } */}
 									<UpcomingTasks
+										heading={ (text) => heading(text, this.props.taskNavFilter, this.props.switchTaskNavFilter) }
 										changeGoalFocus={ (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
+										getSpecificGoal={ (goalId) => this.props.getSpecificGoal(goalId) }
 										targetGoalId={ this.props.targetGoalId }
-										goals={ this.props.goals }
+										goals={ this.props.allGoals }
 										goalController={ this.props.goalController }
 										getCurrentGoals={ this.props.getCurrentGoals }
 										navFilter={ this.props.taskNavFilter }
 										refreshUser={() => this.props.refreshUser() }
 										editTask={ (taskId) => this.props.editTask(taskId) }
-										markTaskComplete={ (taskId) => this.props.markTaskComplete(taskId) }
+										markTaskActive={ (taskId, goal) => this.props.markTaskActive(taskId, goal) }
+										markTaskComplete={ (taskId, goal) => this.props.markTaskComplete(taskId, goal) }
 										isServiceProvider={ isServiceProvider }
 										getConnections={ () => this.props.getConnections('') }
 									/>

@@ -84,7 +84,7 @@ class LoginForm extends Component {
         return this.props.userLoggedIn ? (
             <Redirect to={{
                 pathname: '/'
-              }}/>
+            }}/>
         ) : (
             <div className="c-login">
                 <h1 className="c-login-header">

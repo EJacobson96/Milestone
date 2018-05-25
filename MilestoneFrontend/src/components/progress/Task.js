@@ -35,7 +35,11 @@ const Task = (props) => {
 	}
 
 	function markTaskComplete() {
-		props.markTaskComplete(props.task.id);
+		props.markTaskComplete(props.task.id, props.goal);
+	}
+
+	function markTaskActive() {
+		props.markTaskActive(props.task.id, props.goal);
 	}
 
 	let dueDateSpan;
@@ -63,20 +67,27 @@ const Task = (props) => {
 			}
 		}
 	}
-
 	return (
 		<div className='c-task'>
 				<div className='c-task__header'>
 					<img src={ fakeuser } className='c-task__sp-avatar' />
 					{ dueDateSpan }
-					<TaskDropdown 
+					<TaskDropdown
+						task={ props.task }
+						markTaskActive={ () => markTaskActive() }
 						markTaskComplete={ () => markTaskComplete() }
 						editTask={ () => editTask() }
+						isServiceProvider={ props.isServiceProvider }
 					/>
+					{ !props.task.active ? (
+					<div className='c-task__header__pending-flag'>
+						<p className='c-task__header__pending-flag-text'>PENDING</p>
+					</div>
+					) : null }
 				</div>
 				<div className='c-task__body'>
-					<p className='c-task__title'> { props.task.title }</p>
-					<p className='c-task__description'> { props.task.description }</p>
+					<p className='c-task__title'> { props.task.title ? props.task.title : props.task.Title }</p>
+					<p className='c-task__description'> { props.task.description ? props.task.description : props.task.Description }</p>
 				</div>
 				<div className='c-task__footer'>
 					<Link to={ '/progress/goals/comments/:id' + props.taskId }>
@@ -96,7 +107,7 @@ const Task = (props) => {
 						currUser={ props.currUser }
 						taskId={ props.taskId }
 						task={ props.task }
-						submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
+						submitComment={ (comment, taskId) => props.submitComment(comment, taskId, props.goal) }
 					/> }
 					{ props.showResources === true &&
 					<TaskResources

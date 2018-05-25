@@ -54,10 +54,10 @@ var GoalController = {
         ); 
     },
 
-    updateGoal: function (targetGoalId, currGoalCat) {
+    updateGoal: function (targetGoalId, currGoal) {
         return Axios.patch(
             'https://api.milestoneapp.org/goals?id=' + targetGoalId,
-            currGoalCat)
+            currGoal)
             .then(response => {
                 return response.data;
             })

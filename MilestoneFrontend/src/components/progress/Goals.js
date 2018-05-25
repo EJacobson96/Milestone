@@ -39,13 +39,15 @@ class Goals extends React.Component {
         } 
     }
     
-    componentWillReceiveProps(nextProps) {
-    }
+    // componentWillReceiveProps(nextProps) {
+    // }
 
     render() {
         let goals;
-        if (this.props.goals) {
-            goals = this.props.goals.map((goal) => {
+        if (this.props.allGoals) {
+            let isCompletedFilter = this.props.navFilter === "completed";
+            let filteredGoals = this.props.allGoals.filter((goal) => goal.completed === isCompletedFilter);
+            goals = filteredGoals.map((goal) => {
                 return (
                     <Goal
                         goal={ goal }
@@ -55,6 +57,9 @@ class Goals extends React.Component {
                         goalId={ goal.id }
                         key={ goal.id }
                         changeGoalFocus={ (e, goalId, goalTitle) => this.props.changeGoalFocus(e, goalId, goalTitle) }
+                        markGoalActive={ (goalId) => this.props.markGoalActive(goalId) }
+                        markGoalComplete={ (goalId) => this.props.markGoalComplete(goalId) }
+                        isServiceProvider={ this.props.isServiceProvider }
                     />
                 );
             });

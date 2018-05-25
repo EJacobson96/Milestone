@@ -26,7 +26,6 @@ import '../../css/progress/TaskExpandedComments.css';
 /// Code
 
 const TaskExpandedComments = (props) => {
-	console.log(props);
 	const targetTaskId = props.location.pathname.split(':id')[1];
 	let targetTask = false;
 	let targetGoal = null;
@@ -47,7 +46,7 @@ const TaskExpandedComments = (props) => {
 				goal={ targetGoal }
 				task={ targetTask } 
 				taskId={ targetTask.id }
-				submitComment={ (comment, taskId) => props.submitComment(comment, taskId) }
+				submitComment={ (comment, taskId, goal) => props.submitComment(comment, taskId, goal) }
 				showComments={ true }
 				editTask={ (taskId) => props.editTask(taskId) }
 				markTaskComplete={ (taskId) => props.markTaskComplete(taskId) }
