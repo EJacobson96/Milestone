@@ -69,6 +69,11 @@ class Profile extends React.Component {
         })
     }
 
+    logOut(e) {
+        this.props.userController.logOut();
+        this.props.history.push('/login');
+      }
+
     render() {
         return (
             <div className="container c-profile-container">
@@ -77,7 +82,6 @@ class Profile extends React.Component {
                         <img src={this.state.currUserPhotoUrl}/>
                         <input type="file" name="PhotoURL" className="hide form-control" />
                         <h2>{this.state.currUserFullName}</h2>
-
                     </div>
                     {
                         this.state.currUserAddress && 
@@ -129,7 +133,9 @@ class Profile extends React.Component {
                         </div>
                     }
                     <input type="button" className="c-edit-button" onClick={(event) => this.enableEditForm(event)} value="Edit"/>
-                    <input type="submit" className="c-edit-button hide" value="Submit" onClick={(e) => this.handleSubmit(e)} />
+                    <input type="submit" className="c-edit-button hide" value="Save Changes" onClick={(e) => this.handleSubmit(e)} />
+                    <Button className="c-profile-log-out" onClick={(e) => this.logOut(e)}>Log Out </Button>
+
                 </form>
             </div>
         )

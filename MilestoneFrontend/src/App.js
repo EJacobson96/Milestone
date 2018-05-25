@@ -7,7 +7,6 @@ import MediaQuery from 'react-responsive';
 /////////////////////////////////////////
 /// Standard Components
 import NavBar from './components/NavBar';
-import DesktopNav from './components/desktop/DesktopNav';
 import LoginForm from './components/login/LoginForm';
 import Main from './components/Main';
 
@@ -76,22 +75,12 @@ class App extends Component {
 		return (
 			<div className="App">
 				<div>
-				    <MediaQuery query="(min-device-width: 769px)">
-					    {
-							isLoggedIn &&
-							<DesktopNav 
-								userController={this.getUserController()}
-							/>
-						}
-					</MediaQuery>
-					<MediaQuery query="(max-device-width: 768px)">
-						{
-							isLoggedIn &&
-							<NavBar 
-								userController={this.getUserController()}
-							/>
-						}
-					</MediaQuery>
+					{
+						isLoggedIn &&
+						<NavBar 
+							userController={this.getUserController()}
+						/>
+					}
 				</div>
 
 				<div className="l-main">
