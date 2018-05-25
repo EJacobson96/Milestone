@@ -26,7 +26,11 @@ class ResourceCategory extends Component {
 
     componentWillReceiveProps(nextProps) {
         console.log(nextProps);
-        if (nextProps.match.params.id !== this.props.match.params.id) {
+        if (this.props.resources && this.props.resources.length > 0) {
+            this.setState({
+                resources: this.props.resources,
+            })
+        } else if (nextProps.match.params.id !== this.props.match.params.id) {
             this.props.goalController.getSpecificResource(nextProps.match.params.id)
             .then((data) => {
                 this.setState({

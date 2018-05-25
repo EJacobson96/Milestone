@@ -32,8 +32,8 @@
 
 @media(min-width: 769px) {
     .c-participant-card-wrapper {
-        flex-basis: 41%;
-        margin: 20px 4.5%;
+        flex-basis: 27%;
+        margin: 20px 0 0 4%;
         color: black;
     }
 
@@ -41,7 +41,7 @@
         width: 85%;
     }
     .c-participant-card-image {
-        margin-left: 4em;
+        margin-left: 2em;
     }
 
     .c-participant-card {

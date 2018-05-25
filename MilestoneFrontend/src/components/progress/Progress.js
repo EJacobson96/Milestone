@@ -45,42 +45,39 @@ class Progress extends React.Component {
 		};
 
 		this.handleProviderSearch = this.handleProviderSearch.bind(this);
-		// this.getResources = this.getResources.bind(this);
 	}
 
 	componentDidMount() {
-		// this.getResources()
-		// .then((data) => {
-		// 	this.setState({
-		// 		ResourceCategories: data
-		// 	})
-		// 	console.log(data);
-		// })
-
 	}
 
     handleProviderSearch(search) {
         if (this.props.location.pathname.includes("/provider")) {
 			this.props.getConnections(search);
-        } else {
+        } else if (this.props.location.pathname === "/progress/resources/categories") {
 			this.props.getResources(search);
+		} else {
+			let url = this.props.location.pathname.length;
+			let id = this.props.location.pathname.substring(31, url);
+			let resourceCategory = this.props.resourceCategories.filter((category) => {
+				return category.id === id
+			})
+			console.log(resourceCategory);
+			var resourceFilter;
+			if (resourceCategory[0]) {
+				resourceFilter = resourceCategory[0].resources.filter((resource) => {
+					return resource.resourceName.toLowerCase().includes(search.toLowerCase().trim()) 
+								|| resource.title.toLowerCase().includes(search.toLowerCase().trim())
+				})
+			}
+
+			console.log(resourceFilter);
+			this.setState({
+				filteredResources: resourceFilter,
+			})
 		}
 	}
 
-	// getResources() {
-    //     return Axios.get(
-    //         'https://api.milestoneapp.org/resources?id=' + this.props.currUser.id
-    //         )
-    //         .then(response => {
-    //             return response.data;
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // }
-
 	render() {
-		console.log(this.props);
 		const isParticipant = this.props.isParticipant;
 		const isServiceProvider = this.props.isServiceProvider;
 		const heading = (heading, navFilter, switchFunc) => 	<ProgressHeading
@@ -245,6 +242,7 @@ class Progress extends React.Component {
 									/>
 									<ResourceCategory 
 										goalController ={ this.props.goalController }
+										resources = { this.state.filteredResources }
 									/>
 								</div>
 							)} />
