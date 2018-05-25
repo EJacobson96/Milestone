@@ -2,8 +2,6 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
 
-import UserController from '../controllers/UserController';
-
 import '../css/Profile.css';
 
 class Profile extends React.Component {
@@ -16,10 +14,11 @@ class Profile extends React.Component {
     }
 
     enableEditForm(event) {
+        event.target.classList.remove('show');
         event.target.className += ' hide';
 
         document.querySelector('input[type=submit]').className += ' show';
-        document.querySelector('input[type=file]').className += ' show';
+        // document.querySelector('input[type=file]').className += ' show';
 
         document.querySelectorAll('input[type=text]').forEach((input) => {
             input.disabled = false;
@@ -34,26 +33,35 @@ class Profile extends React.Component {
         })
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        UserController.getUser().then((user) => {
-            console.log(user)
-            this.setState({
-                currUserPhotoUrl: user.photoURL,
-                currUserFullName: user.fullName,
-                currUserAddress: user.address,
-                currUserDob: user.dob,
-                currUserEmail: user.email,
-                currUserPhone: user.phone,
-                currUserOrganization: user.organization,
-            }, () => {
-                this.props.history.push("/profile");
-            });
+    handleSubmit(event) {
+        event.preventDefault();
+        console.log(event);
+        event.target.classList.remove('show');
+        event.target.className += ' hide';
+        document.querySelector('input[type=button]').className += ' show';
+        document.querySelectorAll('input[type=text]').forEach((input) => {
+            input.disabled = true;
         })
+        console.log(this.state);
+        // this.props.userController.updateUser()
+        // .then((data) => {
+        //     this.setState({
+        //         currUserPhotoUrl: user.photoURL,
+        //         currUserFullName: user.fullName,
+        //         currUserAddress: user.address,
+        //         currUserDob: user.dob,
+        //         currUserEmail: user.email,
+        //         currUserPhone: user.phone,
+        //         currUserOrganization: user.organization,
+        //     }, () => {
+        //         this.props.history.push("/profile");
+        //     });
+        // })
     }
     
     componentDidMount() {
-        UserController.getUser().then((user) => {
+        this.props.userController.getUser()
+        .then((user) => {
             console.log(user)
             this.setState({
                 currUserPhotoUrl: user.photoURL,
@@ -97,6 +105,20 @@ class Profile extends React.Component {
                             <input type="text" name="" className="form-control" value={this.state.currUserDob} onChange={(event) => this.handleInputChange(event, 'currUserDob')} disabled />
                         </div>
                     }
+                                        {
+                        this.state.currUserFirstName &&
+                        <div>
+                            <h4>First Name</h4>
+                            <input type="text" name="" className="form-control" value={this.state.currUserFirstName} onChange={(event) => this.handleInputChange(event, 'currUserFirstName')} disabled />
+                        </div>
+                    }
+                    {
+                        this.state.currUserLastName &&
+                        <div>
+                            <h4>Last Name</h4>
+                            <input type="text" name="" className="form-control" value={this.state.currUserLastName} onChange={(event) => this.handleInputChange(event, 'currUserLastName')} disabled />
+                        </div>
+                    }
                     {
                         this.state.currUserEmail && 
                         <div>
@@ -116,20 +138,6 @@ class Profile extends React.Component {
                         <div>
                             <h4>Organization</h4>
                             <input type="text" name="" className="form-control" value={this.state.currUserOrganization} onChange={(event) => this.handleInputChange(event, 'currUserOrganization')} disabled />
-                        </div>
-                    }
-                    {
-                        this.state.currUserFirstName &&
-                        <div>
-                            <h4>First Name</h4>
-                            <input type="text" name="" className="form-control" value={this.state.currUserFirstName} onChange={(event) => this.handleInputChange(event, 'currUserFirstName')} disabled />
-                        </div>
-                    }
-                    {
-                        this.state.currUserLastName &&
-                        <div>
-                            <h4>Last Name</h4>
-                            <input type="text" name="" className="form-control" value={this.state.currUserLastName} onChange={(event) => this.handleInputChange(event, 'currUserLastName')} disabled />
                         </div>
                     }
                     <input type="button" className="c-edit-button" onClick={(event) => this.enableEditForm(event)} value="Edit"/>

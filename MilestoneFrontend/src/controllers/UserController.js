@@ -86,7 +86,6 @@ var UserController = {
     },
 
     updateUserRequests: function (id, requests) {
-        // console.log(id);
         return Axios.patch(
             'https://api.milestoneapp.org/requests?id=' + id,
             {
@@ -94,6 +93,25 @@ var UserController = {
                 //     'Authorization' : localStorage.getItem('Authorization')
                 // }
                 PendingRequests: requests
+            })
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        
+    },
+
+    updateUser: function (id, updates) {
+        // console.log(id);
+        return Axios.patch(
+            'https://api.milestoneapp.org/requests?id=' + id,
+            {
+                // headers: {
+                //     'Authorization' : localStorage.getItem('Authorization')
+                // }
+                // PendingRequests: requests
             })
             .then(response => {
                 return response.data;
