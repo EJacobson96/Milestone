@@ -224,7 +224,7 @@ class Progress extends React.Component {
 								<div>
 									<ParticipantHeading 
 										user={ this.props.user } 
-										resources={true}
+										isResourceCategories={true}
 										handleSearch={ (search) => this.handleProviderSearch(search) }
 									/>
 									<ResourceCategories 
@@ -239,7 +239,7 @@ class Progress extends React.Component {
 								<div>
 									<ParticipantHeading 
 										user={ this.props.user } 
-										resources={true}
+										isResources={true}
 										handleSearch={ (search) => this.handleProviderSearch(search) }
 									/>
 									<ResourceCategory />

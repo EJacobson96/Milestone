@@ -10,6 +10,11 @@
     border: 1px solid #ccc;
     box-shadow: 0 0 15px rgba(0,0,0,0.25);
     margin: 15px 0;
+    position: relative;
+}
+
+.resourceDropdown {
+    transform: translate3d(120px, 20px, -20px) !important;
 }
 
 .c-resource-title {
@@ -28,6 +33,22 @@
     border-bottom-right-radius: 8px;
 }
 
+#newResource .modal-dialog {
+    -webkit-transform: translate(0,-50%);
+    -o-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    top: 50%;
+    margin: 0 auto;
+}
+
+.c-resource-dots {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    width: 5px;
+    cursor: pointer;
+}
+
 @media(min-width: 769px) {
     .c-resources-container {
         flex-direction: row;
@@ -36,5 +57,8 @@
     }
     .c-resource {
         margin: 15px 1.65%;
+    }
+    .resourceDropdown {
+        transform: translate3d(155px, 20px, -20px) !important;
     }
 }

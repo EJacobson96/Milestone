@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Axios from 'axios';
 
+import threeDotImg from '../../img/task3dot.png';
 import '../../css/progress/ResourceCategories.css';
 
 class ResourceCategories extends Component {
@@ -27,7 +28,8 @@ class ResourceCategories extends Component {
                 
             })
             .then(() => {
-                this.getResources();
+                this.props.getResources();
+
             }) 
             .catch(error => {
                 console.log(error);
@@ -46,14 +48,18 @@ class ResourceCategories extends Component {
             <div className="c-resource-category-container">
                 {
                     this.props.resourceCategories.map((category) => {
-                        return <Link to={`/progress/resources/categories/${category.id}`}  key={category.id} className="c-resource-category-link">
-                            <div className="c-resource-category">
-                                <p>{category.title}</p>
+                        return <div key={category.id} className="c-resource-category">
+                                    <img className="c-category-dots" src={threeDotImg} id={category.id} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
+                                <div class="dropdown-menu categoryDropdown" aria-labelledby={category.id}>
+                                    <a class="dropdown-item" href="#">Delete</a>
+                                </div>
+                                <Link to={`/progress/resources/categories/${category.id}`} className="c-category-link">
+                                    <p>{category.title}</p>
+                                </Link>
                             </div>
-                        </Link>
                     })
                 }
-                <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal fade" id="newResourceCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">

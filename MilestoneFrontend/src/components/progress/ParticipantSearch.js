@@ -42,8 +42,14 @@ class ParticipantSearch extends React.Component {
 						<Glyphicon glyph="search" /> 
 					</Button>
 					{
-						this.props.resources &&
-						<Button className="btn c-participant-button c-participant-plus" data-toggle="modal" data-target="#exampleModal">
+						this.props.isResources &&
+						<Button className="btn c-participant-button c-participant-plus" data-toggle="modal" data-target="#newResource">
+							<Glyphicon glyph="plus" /> 
+						</Button>
+					}
+					{
+						this.props.isResourceCategories &&
+						<Button className="btn c-participant-button c-participant-plus" data-toggle="modal" data-target="#newResourceCategory">
 							<Glyphicon glyph="plus" /> 
 						</Button>
 					}
