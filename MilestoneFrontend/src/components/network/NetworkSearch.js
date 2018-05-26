@@ -58,7 +58,7 @@ class NetworkSearch extends Component {
 					}
 				</form>
 			</div>
-        );
+        ); 
     }
 }
 
