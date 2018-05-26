@@ -54,6 +54,7 @@ class Main extends Component {
                 )} />
                 <Route path='/profile' render={(props) => (
                     <Profile 
+                        logOut={(e) => this.props.logOut(e) }
                         userController= { this.props.userController }
                     />
                 )} />

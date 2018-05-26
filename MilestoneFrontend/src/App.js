@@ -35,6 +35,8 @@ class App extends Component {
 		this.getUserController = this.getUserController.bind(this);
 		this.getMessagecontroller = this.getMessagecontroller.bind(this);
 		this.getGoalController = this.getGoalController.bind(this);
+		this.logIn = this.logIn.bind(this);
+		this.logOut = this.logOut.bind(this);
 	}
 
 	getUserController() {
@@ -60,6 +62,13 @@ class App extends Component {
 			})
 		}
 	}
+
+	logOut() {
+		this.getUserController().logOut()
+		this.setState({
+			userLoggedIn: false,
+		})
+	}
 	
 	componentDidMount() {
 		if (localStorage.getItem('Authorization')) {
@@ -78,6 +87,7 @@ class App extends Component {
 					{
 						isLoggedIn &&
 						<NavBar 
+							logOut={(e) => this.logOut(e) }
 							userController={this.getUserController()}
 						/>
 					}
@@ -89,10 +99,12 @@ class App extends Component {
 							<LoginForm
 								logIn={(e) => this.logIn(e)}
 								userLoggedIn = { this.state.userLoggedIn }
+								userController={ this.getUserController() }
 							/>
 						)} />
 						<Route path ='/' render={(props) => (
 							<Main 
+								logOut={(e) => this.logOut(e) }
 								currUser={ this.state.currUser }
 								messageController = { this.getMessagecontroller() }
 								userController = { this.getUserController() }

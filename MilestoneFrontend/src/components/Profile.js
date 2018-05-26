@@ -48,15 +48,15 @@ class Profile extends React.Component {
                                                 this.state.currUserLastName, this.state.currUserPhone)
         .then((data) => {
             console.log(data);
-            // this.setState({
-            //     currUserPhotoUrl: data.photoURL,
-            //     currUserFullName: data.fullName,
-            //     currUserAddress: data.address,
-            //     currUserDob: data.dob,
-            //     currUserEmail: data.email,
-            //     currUserPhone: data.phone,
-            //     currUserOrganization: data.organization,
-            // })
+            this.setState({
+                currUserPhotoUrl: data.photoURL,
+                currUserFullName: data.fullName,
+                currUserAddress: data.address,
+                currUserDob: data.dob,
+                currUserEmail: data.email,
+                currUserPhone: data.phone,
+                currUserOrganization: data.organization,
+            })
         })
         // , () => {
         //     this.props.history.push("/profile");
@@ -81,11 +81,6 @@ class Profile extends React.Component {
             }) 
         })
     }
-
-    logOut(e) {
-        this.props.userController.logOut();
-        this.props.history.push('/login');
-      }
 
     render() {
         return (
@@ -147,7 +142,7 @@ class Profile extends React.Component {
                     }
                     <input type="button" className="c-edit-button" onClick={(event) => this.enableEditForm(event)} value="Edit"/>
                     <input type="submit" className="c-edit-button hide" value="Save Changes" onClick={(e) => this.handleSubmit(e)} />
-                    <Button className="c-profile-log-out" onClick={(e) => this.logOut(e)}>Log Out </Button>
+                    <Button className="c-profile-log-out" onClick={(e) => this.props.logOut(e)}>Log Out </Button>
 
                 </form>
             </div>

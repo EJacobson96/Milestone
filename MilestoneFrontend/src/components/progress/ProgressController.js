@@ -76,6 +76,7 @@ class ProgressController extends Component {
         // console.log(goal);
         if (this.state.isServiceProvider) {
             goal.UserID = this.state.participantUserId;
+            console.log(this.state);
             this.props.userController.getContact(goal.UserID)
             .then((data) => {
                 var notifications = data.notifications;

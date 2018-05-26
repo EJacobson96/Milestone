@@ -2,7 +2,7 @@
 /// Pre-baked Components
 import React from 'react';
 import { Glyphicon, Button, Badge } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Axios from 'axios';
 import Notification from './Notification.js';
 import MediaQuery from 'react-responsive';
@@ -29,7 +29,8 @@ class NavBar extends React.Component {
         this.setUserData();
         websocket.addEventListener("message", function(event) { 
           var data = JSON.parse(event.data);
-          if (this.state.currUser && data.payload.id == this.state.currUser.id) {
+          console.log(data);
+          if (this.state.user && data.payload.id == this.state.user.id) {
               this.setUserData();
           }
         }.bind(this)); 
@@ -72,11 +73,6 @@ class NavBar extends React.Component {
               user: data,
             })
           });
-      }
-    
-      logOut(e) {
-        this.props.userController.logOut();
-        this.props.history.push('/login');
       }
 
     render() {
@@ -167,7 +163,7 @@ class NavBar extends React.Component {
                                     <div className="dropdown-menu">
                                         <Link className="dropdown-item" to="/profile">Profile</Link>
                                         <div className="dropdown-divider"></div>
-                                        <button className="dropdown-item" onClick={(e) => this.logOut(e)}>Log Out</button>
+                                        <button className="dropdown-item" onClick={() => this.props.logOut()}>Log Out</button>
                                     </div>
                                 </div>
                             </div>
@@ -180,4 +176,4 @@ class NavBar extends React.Component {
     }
 }
 
-export default NavBar;
+export default withRouter(NavBar);

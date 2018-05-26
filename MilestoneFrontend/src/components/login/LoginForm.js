@@ -56,28 +56,13 @@ class LoginForm extends Component {
 
     attemptLogIn(e) {
         e.preventDefault();
-
-        Axios.post(
-            'https://api.milestoneapp.org/sessions', 
-            {
-                "Email": this.state.userEmail,
-                "Password": this.state.userPassword
-            })
-            .then(response => {
-                console.log(response.headers);
-                localStorage.setItem('Authorization', response.headers.authorization);
-                return response.data;
-            })
-            .then(data => {
-                this.setState({
-                    userData: data
-                });
-                this.props.logIn();
-            })
-            .catch(error => {
-                console.log(error);
-            }
-        );
+        this.props.userController.logIn(this.state.userEmail, this.state.userPassword)
+        .then((data) => {
+            this.setState({
+                userData: data
+            });
+            this.props.logIn();
+        })
     }
   
     render() {
