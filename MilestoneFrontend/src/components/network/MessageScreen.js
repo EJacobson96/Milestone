@@ -7,12 +7,15 @@ import Axios from 'axios'
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/MessageScreen.css';
+import '../../css/network/MessageScreen.css';
 
 /////////////////////////////////////////
 /// Code
+
+//initialize websocket that listens for any new changes
 const websocket = new WebSocket("wss://api.milestoneapp.org/ws");
 
+//displays all messages from a message thread
 class MessageScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -36,6 +39,7 @@ class MessageScreen extends React.Component {
                 })
             })
         } 
+        //re-renders page when a message is sent using websockets
         this.scrollToBottom();
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
@@ -62,6 +66,7 @@ class MessageScreen extends React.Component {
         }
     }
 
+    //scrolls to bottom of message feed
     scrollToBottom = () => {
         this.messagesEnd.scrollIntoView({ behavior: "smooth" });
       }
@@ -86,6 +91,8 @@ class MessageScreen extends React.Component {
             })
     }
 
+    //posts a new notification for all users that just received a message in order to refresh
+    //their page to see live message updates
     postNotification(conversation, message) {
         for (let i = 0; i < conversation.members.length; i++) {
             if (conversation.members[i].id !== this.state.currUser.id) {
@@ -111,6 +118,7 @@ class MessageScreen extends React.Component {
         }
     }
 
+    //posts a new message
     handleSubmit(e) {
         if (e) {
             e.preventDefault();

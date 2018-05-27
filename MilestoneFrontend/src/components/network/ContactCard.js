@@ -13,7 +13,7 @@ import HeaderBar from '../ux/HeaderBar';
 /// Images & Styles
 import message from '../../img/messagebubble.png';
 import phone from '../../img/phoneicon.png';
-import '../../css/ContactCard.css';
+import '../../css/network/ContactCard.css';
 
 /////////////////////////////////////////
 /// Code

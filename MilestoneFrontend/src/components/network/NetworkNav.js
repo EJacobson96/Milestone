@@ -9,16 +9,16 @@ import { Link, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/NetworkNav.css';
+import '../../css/network/NetworkNav.css';
 
 /////////////////////////////////////////
 /// Code
 
+//handles switching between the people and messages nav elements
 class NetworkNav extends Component {
     constructor(props) {
         super(props);
     }
-    
 
     componentDidMount() {
         var links = document.querySelectorAll(".c-network-nav a");

@@ -7,13 +7,16 @@ import { withRouter, Link } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/ContactsList.css';
+import '../../css/network/ContactsList.css';
 
 /////////////////////////////////////////
 /// Code
 
+//displays a user's list of connections, when a connection is selected, their name
+//is added to a new message thread
 function ContactsList(props) {
 
+    //grabs all connections for a message thread based on the params
     function getQuery() {
         var searchQuery = props.location.pathname;
         if (searchQuery.includes('contacts')) {

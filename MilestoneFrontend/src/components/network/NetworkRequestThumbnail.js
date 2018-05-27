@@ -7,27 +7,24 @@ import { Link } from 'react-router-dom';
 /////////////////////////////////////////
 /// Images & Styles
 import fakeuser from '../../img/fakeuser.png';
-import '../../css/Contacts.css';
-import '../../css/NetworkRequestThumbnail.css';
+import '../../css/network/NetworkRequestThumbnail.css';
 
 /////////////////////////////////////////
 /// Code
 
+//displays all the pending connection requests for the current user
 class NetworkRequestThumbnail extends React.Component {
     constructor(props) {
         super(props);
-    
 	}
 	
 	componentDidMount() {
-		if (this.props.id) {
-			this.props.userController.getContact(this.props.id)
-			.then((data) => {
-				this.setState({
-					user: data
-				})
+		this.props.userController.getContact(this.props.id)
+		.then((data) => {
+			this.setState({
+				user: data
 			})
-		}
+		})
 	}
 
     render() {
@@ -44,7 +41,7 @@ class NetworkRequestThumbnail extends React.Component {
 			>
 				<div className="c-network-request-thumbnail">
 					<div className="c-network-request-thumbnail__user-img">
-						<img src={ fakeuser } alt=''/>
+						<img src={ this.state.user.photoURL } alt=''/>
 					</div>
 					<div className="c-network-request-thumbnail__details">
 						<p className="c-network-request-thumbnail__details__full-name">

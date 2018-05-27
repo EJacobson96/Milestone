@@ -14,11 +14,12 @@ import HeaderBar from '../ux/HeaderBar';
 /////////////////////////////////////////
 /// Images & Styles
 
-import '../../css/NewMessage.css';
+import '../../css/network/NewMessage.css';
 
 /////////////////////////////////////////
 /// Code
 
+//handles creating a new message thread
 class NewMessage extends Component {
     constructor(props) {
         super(props);
@@ -30,6 +31,7 @@ class NewMessage extends Component {
         };
 	}
 
+    //when this component is mounted, renders message thread based off of query params
 	componentDidMount() {
         var searchQuery = this.props.location.pathname;
         searchQuery = searchQuery.substring(22, searchQuery.length)
@@ -41,6 +43,7 @@ class NewMessage extends Component {
             searchQuery: searchQuery
         });
     }
+
 
     componentWillReceiveProps(nextProps) {
         var searchQuery = nextProps.location.pathname;
@@ -54,6 +57,8 @@ class NewMessage extends Component {
         })
     }
 
+    //gets the user id's from the query params and finds the corresponding users,
+    //then appends those users name to search input
     appendToSearch(search) {
         var input = document.getElementById('newMessageSearch');
         var searchQuery = search.trim().split(" ");
@@ -79,6 +84,8 @@ class NewMessage extends Component {
         return newSearchQuery;
     }
 
+    //checks to see if there are existing conversations with user's specified in the input,
+    //otherwise creates a new message thread with user's specified in the input
     displayConversations(search) {
         var names = search.trim().split(" ");
         var filteredConversations = [];
@@ -128,6 +135,7 @@ class NewMessage extends Component {
         });
     }
 
+    //handles creating a new conversation thread
     handleSubmit(e) {
         e.preventDefault();
         var users = this.state.newConversation;
@@ -163,6 +171,7 @@ class NewMessage extends Component {
         }
     }
 
+    //clears all users from the search input
     clearInput(e) {
         e.preventDefault();
         var input = document.getElementById('newMessageSearch');

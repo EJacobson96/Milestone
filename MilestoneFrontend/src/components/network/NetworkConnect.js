@@ -7,19 +7,19 @@ import Contacts from './Contacts.js';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/NetworkConnect.css';
+import '../../css/network/NetworkConnect.css';
 import users from '../../img/users.png';
 
 /////////////////////////////////////////
 /// Code
 
+//allows users to search for new connections
 class NetworkConnect extends React.Component {
     constructor(props) {
         super(props);
-
-        this.handleSearch = this.handleSearch.bind(this);
     }
 
+    //searches for new connections based on search input
     handleSearch(e) {
         e.preventDefault();
         var input = document.getElementById('networkConnectionSearch');
