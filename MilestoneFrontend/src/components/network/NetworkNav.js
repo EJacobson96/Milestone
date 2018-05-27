@@ -9,29 +9,13 @@ import { Link, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/NetworkNav.css';
+import '../../css/network/NetworkNav.css';
 
 /////////////////////////////////////////
 /// Code
 
+//handles switching between the people and messages nav elements
 class NetworkNav extends Component {
-    constructor(props) {
-        super(props);
-    
-        this.state = {
-		};
-		
-        this.renderMessages = this.renderMessages.bind(this);
-        this.renderContacts = this.renderContacts.bind(this);
-    }
-    
-    renderMessages(e) {
-		this.props.renderMessages(e);
-    }
-
-    renderContacts(e) {
-		this.props.renderContacts(e);
-    }
 
     componentDidMount() {
         var links = document.querySelectorAll(".c-network-nav a");
@@ -61,10 +45,10 @@ class NetworkNav extends Component {
         return (
 			<ul className="c-network-nav">
 				<li role="presentation" className="c-network-nav__link">
-					<Link to="/network/messages" className="" onClick={(e) => this.renderMessages(e)}>Messages</Link>
+					<Link to="/network/messages" onClick={(e) => this.props.renderMessages(e)}>Messages</Link>
 				</li>
 				<li role="presentation" className="c-network-nav__link">
-					<Link to="/network/contacts" className="" onClick={(e) => this.renderContacts(e)}>People</Link>
+					<Link to="/network/contacts" onClick={(e) => this.props.renderContacts(e)}>People</Link>
 				</li>
 			</ul>
         );

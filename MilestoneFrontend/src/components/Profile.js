@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import '../css/Profile.css';
 
+//displays a user's profile screen
 class Profile extends React.Component {
     constructor(props) {
         super(props);
@@ -13,19 +14,18 @@ class Profile extends React.Component {
         }
     }
 
+    //allows users to edit form
     enableEditForm(event) {
         event.target.classList.remove('show');
         event.target.className += ' hide';
-
         document.querySelector('input[type=submit]').className += ' show';
-        // document.querySelector('input[type=file]').className += ' show';
-
         document.querySelectorAll('input[type=text]').forEach((input) => {
             input.disabled = false;
         })
 
     }
 
+    //changes state based on user input
     handleInputChange(event, key) {
         this.setState({
             ...this.state,
@@ -33,6 +33,7 @@ class Profile extends React.Component {
         })
     }
 
+    //updates user with user input from form
     handleSubmit(event) {
         event.preventDefault();
         event.target.classList.remove('show');
@@ -43,6 +44,17 @@ class Profile extends React.Component {
         })
         this.props.userController.updateUser(this.state.userID, this.state.currUserEmail, this.state.currUserFirstName, 
                                                 this.state.currUserLastName, this.state.currUserPhone)
+        .then((data) => {
+            this.setState({
+                currUserPhotoUrl: data.photoURL,
+                currUserFullName: data.fullName,
+                currUserAddress: data.address,
+                currUserDob: data.dob,
+                currUserEmail: data.email,
+                currUserPhone: data.phone,
+                currUserOrganization: data.organization,
+            })
+        })
     }
     
     componentDidMount() {
@@ -63,17 +75,12 @@ class Profile extends React.Component {
         })
     }
 
-    logOut(e) {
-        this.props.userController.logOut();
-        this.props.history.push('/login');
-      }
-
     render() {
         return (
             <div className="container c-profile-container">
                 <form className="c-profile">
                     <div>
-                        <img src={this.state.currUserPhotoUrl}/>
+                        <img src={this.state.currUserPhotoUrl} alt="user logged in"/>
                         <input type="file" name="PhotoURL" className="hide form-control" />
                         <h2>{this.state.currUserFullName}</h2>
                     </div>
@@ -96,7 +103,7 @@ class Profile extends React.Component {
                         </div>
                     <input type="button" className="c-edit-button" onClick={(event) => this.enableEditForm(event)} value="Edit"/>
                     <input type="submit" className="c-edit-button hide" value="Save Changes" onClick={(e) => this.handleSubmit(e)} />
-                    <Button className="c-profile-log-out" onClick={(e) => this.logOut(e)}>Log Out </Button>
+                    <Button className="c-profile-log-out" onClick={(e) => this.props.logOut(e)}>Log Out </Button>
 
                 </form>
             </div>

@@ -143,6 +143,24 @@ var UserController = {
         );
     },
 
+    logIn: function (email, password) {
+        return Axios.post(
+            'https://api.milestoneapp.org/sessions', 
+            {
+                "Email": email,
+                "Password": password
+            })
+            .then(response => {
+                console.log(response.headers);
+                localStorage.setItem('Authorization', response.headers.authorization);
+                return response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            }
+        );
+    },
+
     logOut: function () {
         Axios.delete(
             'https://api.milestoneapp.org/sessions/mine',
@@ -152,12 +170,7 @@ var UserController = {
                 }
             })
             .then(response => {
-
                 localStorage.removeItem('Authorization', response.headers.authorization);
-                // if (response.status < 300) {
-                //     localStorage.setItem('Authorization', response.headers("Authorization"));
-                // }
-                // console.log(response);
                 return response.data;
             })
             .catch(error => {

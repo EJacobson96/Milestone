@@ -2,7 +2,6 @@
 /// Pre-baked Components & Packages
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import MediaQuery from 'react-responsive';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -28,27 +27,32 @@ class App extends Component {
     
         this.state = {
 			userLoggedIn: false,
-			// userLoggedIn: true,
-			sideBarOpen: false,
 			navBarDisplay: false
 		};
 		this.getUserController = this.getUserController.bind(this);
 		this.getMessagecontroller = this.getMessagecontroller.bind(this);
 		this.getGoalController = this.getGoalController.bind(this);
+		this.logIn = this.logIn.bind(this);
+		this.logOut = this.logOut.bind(this);
 	}
 
+	//controller that handles fetching data related to users
 	getUserController() {
 		return UserController;
 	}
 
+	//controller that handles fetching data related to messaging
 	getMessagecontroller() {
 		return MessageController;
 	}
 
+	//controller that handles fetching data related to goals
 	getGoalController() {
 		return GoalController;
 	}
 
+	//checks to see if authorization token is in local storage 
+	//and sets user to be logged in based off the token
 	logIn() {
 		if (localStorage.getItem('Authorization')) {
 			this.setState({
@@ -60,7 +64,16 @@ class App extends Component {
 			})
 		}
 	}
+
+	//clears authorization token from local storage and logs user out
+	logOut() {
+		this.getUserController().logOut()
+		this.setState({
+			userLoggedIn: false,
+		})
+	}
 	
+	//checks if authorization token exists and keeps user logged in if so
 	componentDidMount() {
 		if (localStorage.getItem('Authorization')) {
 			this.setState({
@@ -70,7 +83,6 @@ class App extends Component {
 	}
 	
 	render() {
-		const displaySideBar = this.state.menuOpen;
 		const isLoggedIn = this.state.userLoggedIn;
 		return (
 			<div className="App">
@@ -78,6 +90,7 @@ class App extends Component {
 					{
 						isLoggedIn &&
 						<NavBar 
+							logOut={(e) => this.logOut(e) }
 							userController={this.getUserController()}
 						/>
 					}
@@ -89,10 +102,12 @@ class App extends Component {
 							<LoginForm
 								logIn={(e) => this.logIn(e)}
 								userLoggedIn = { this.state.userLoggedIn }
+								userController={ this.getUserController() }
 							/>
 						)} />
 						<Route path ='/' render={(props) => (
 							<Main 
+								logOut={(e) => this.logOut(e) }
 								currUser={ this.state.currUser }
 								messageController = { this.getMessagecontroller() }
 								userController = { this.getUserController() }

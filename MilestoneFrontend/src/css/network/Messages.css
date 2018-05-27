@@ -1,0 +1,110 @@
+.l-conversations .c-contact-card-link-wrapper:last-child .c-conversation-card {
+    border-bottom: 1px solid #9C9B9B;
+}
+
+.c-conversation-card {
+    border-top: 1px solid #9C9B9B;
+    padding: 1em 0 1em 0;
+    display: flex;
+    background-color: white;
+}
+
+.c-conversation-card__user-img {
+    max-width: 200px;
+    margin-left: .6em;
+    flex-basis: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.c-conversation-card__user-img img {
+    width: 60%;
+    border-radius: 50%;
+}
+
+.c-conversation-card__details {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+}
+
+.c-conversation-card-body {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-top: .3em;
+    white-space: nowrap;
+}
+
+.c-conversation-card__details__name-and-date {
+    display: flex;
+    align-items: baseline;
+}
+
+.c-conversation-card__details__name {
+    font-family: Arial;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 65%;
+}
+
+.c-messages-count {
+    margin-left: 1em;
+    padding: 11px 0;
+    margin: 0 0 0 1em;
+    text-align: left;
+    font-size: 2.3vh;
+}
+
+.c-conversation-card__details__date {
+    float: right;
+    clear: both;
+    font-size: 16px;
+    margin-left: auto;
+}
+
+.c-no-conversations {
+    font-size: .8em;
+    margin-top: .3em;
+    padding: 0;
+}
+
+@media(min-width: 769px) {
+    .l-conversations {
+        flex: 1;
+        height: 73.5vh;
+        overflow-y: scroll;
+        background-color: white;
+        border: 1px solid #808080;
+    }
+    .c-conversation-card {
+        border-top: 1px solid #808080;
+    }
+    .c-messages-container {
+        border-right: 1px solid #808080;
+    }
+    .c-messages-header-wrapper {
+        border-bottom: 1px solid #808080 !important;
+        border-right: 1px solid #808080;
+    }
+    .c-messages-count {
+        text-align: center;
+        margin: 0;
+    }
+    .selectedMessage {
+        background-color: rgba(200, 200, 200, .6);
+    }
+    .c-message-count-border {
+        border-bottom: none;
+        border-bottom: 1px solid 808080;
+        margin-left: 1em;
+        padding: 11px 0;
+        margin: 0;
+        text-align: center;
+        font-size: 2.3vh;
+    }
+}

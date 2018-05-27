@@ -7,19 +7,16 @@ import Contacts from './Contacts.js';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/NetworkConnect.css';
+import '../../css/network/NetworkConnect.css';
 import users from '../../img/users.png';
 
 /////////////////////////////////////////
 /// Code
 
+//allows users to search for new connections
 class NetworkConnect extends React.Component {
-    constructor(props) {
-        super(props);
 
-        this.handleSearch = this.handleSearch.bind(this);
-    }
-
+    //searches for new connections based on search input
     handleSearch(e) {
         e.preventDefault();
         var input = document.getElementById('networkConnectionSearch');
@@ -40,11 +37,12 @@ class NetworkConnect extends React.Component {
     }
     render() {
         var content = <div>
-                        <img className="c-connection-placeholder" src={users} />
+                        <img className="c-connection-placeholder" src={users} alt="three people icon"/>
                         <h3 className="c-connection-placeholder-text">Look for new connections!</h3>
                       </div>
         if (this.state && this.state.users && this.state.users.length !== 0) {
-            content = <Contacts isDesktopInvitation={this.props.isDesktopInvitation} showContacts={true} showRequests={false} content={this.state.users} currUser={this.props.currUser} />
+            content = <Contacts isDesktopInvitation={this.props.isDesktopInvitation} showContacts={true} 
+                            userController= { this.props.userController } showRequests={false} content={this.state.users} currUser={this.props.currUser} />
         }
         return (
             <div className="newInvitation">

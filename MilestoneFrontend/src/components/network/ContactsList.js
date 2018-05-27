@@ -2,33 +2,22 @@
 /// Pre-baked Components
 import React from 'react';
 
-import Axios from 'axios';
 import { withRouter, Link } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
-import '../../css/ContactsList.css';
-import fakeuser from '../../img/fakeuser.png';
+import '../../css/network/ContactsList.css';
 
 /////////////////////////////////////////
 /// Code
 
-class ContactsList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+//displays a user's list of connections, when a connection is selected, their name
+//is added to a new message thread
+function ContactsList(props) {
 
-    componentDidMount() {
-        this.props.userController.getUserConnections('', this.props.user.id)
-        .then(data => {
-            this.setState({
-                contacts: data
-            });
-        })
-    }
-
-    getQuery() {
-        var searchQuery = this.props.location.pathname;
+    //grabs all connections for a message thread based on the params
+    function getQuery() {
+        var searchQuery = props.location.pathname;
         if (searchQuery.includes('contacts')) {
             searchQuery = searchQuery.substring(31, searchQuery.length)
         } else {
@@ -37,43 +26,32 @@ class ContactsList extends React.Component {
         return searchQuery;
     }
 
-    render() {
-        var contactList;
-        if (this.state && this.state.contacts) {
-            contactList = this.state.contacts.map((contact) => {
-                var query =  this.getQuery();
-                return (
-                    <Link 
-                        to={{
-                            pathname: '/network/messages/new/' + query +  ' ' + contact.id,
-                        }}
-                        className='c-contact-card-list-link-wrapper' 
-                        key={ contact.id }
-                    >
-                        <div className="c-contact-card" key={ contact.id } >
-                            <div className="c-contact-card__user-img">
-                                <img src={fakeuser} alt=''/>
-                            </div>
-                            <div className="c-contact-card__details">
-                                <span className="c-contact-card__details__full-name">
-                                    { contact.fullName }
-                                </span>
-                            </div>
-                        </div>
-                    </Link>
-                );
-            })
-        }
+    var contactList = props.contacts.map((contact) => {
+        var query = getQuery();
         return (
-            <div className="c-contact-list">
-                <h3 className="c-contact-list-header">Contacts</h3>
-                <div className="l-contacts">
-                    {contactList}
+            <Link 
+                to={{
+                    pathname: '/network/messages/new/' + query +  ' ' + contact.id,
+                }}
+                className='c-contact-card-list-link-wrapper' 
+                key={ contact.id }
+            >
+                <div className="c-contact-card c-contact-list-card" key={ contact.id } >
+                    <div className="c-contact-card__details">
+                        <h4>{ contact.fullName }</h4>
+                    </div>
                 </div>
-            </div>
+            </Link>
         );
-
-    }
+    })
+    return (
+        <div className="c-contact-list">
+            <h3 className="c-contact-list-header">Contacts</h3>
+            <div className="l-contacts">
+                {contactList}
+            </div>
+        </div>
+    );
 }
 
 export default withRouter(ContactsList);

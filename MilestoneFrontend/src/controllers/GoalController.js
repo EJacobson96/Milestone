@@ -1,6 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from '../App'; //import our component
 import Axios from 'axios';
 
 // Controller object for fetching data

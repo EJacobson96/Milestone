@@ -5,18 +5,30 @@ import { Link, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
-import fakeuser from '../../img/fakeuser.png';
-import '../../css/Contacts.css';
+import '../../css/network/Contacts.css';
 
 /////////////////////////////////////////
 /// Code
 
+//displays all of the contact cards
 class ContactThumbnail extends React.Component {
     constructor(props) {
-        super(props);
-    }
+		super(props);
+		this.state = {
+			userPhoto: '' 
+		}
+	}
 
-    render() {
+	componentDidMount() {
+		this.props.userController.getContact(this.props.id)
+		.then((data) => {
+			this.setState({
+				userPhoto: data.photoURL
+			})
+		})
+	}
+
+	render() {
 		return (
 			<Link 
 				to={{
@@ -27,7 +39,7 @@ class ContactThumbnail extends React.Component {
 			>
 				<div className={"c-contact-card " + this.props.className} key={ this.props.id } >
 					<div className="c-contact-card__user-img">
-						<img src={fakeuser} alt=''/>
+						<img src={ this.state.userPhoto } alt=''/>
 					</div>
 					<div className="c-contact-card__details">
 						<span className="c-contact-card__details__full-name">
@@ -37,7 +49,7 @@ class ContactThumbnail extends React.Component {
 				</div>
 			</Link>
 		);
-	} 
+	}
 }
 
 export default withRouter(ContactThumbnail);

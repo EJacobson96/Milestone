@@ -1,0 +1,72 @@
+.l-network-content .container {
+	display: flex;
+	flex-direction: column;
+	/* margin: auto; */
+}
+
+.l-network-content input {
+	flex: 1;
+}
+
+.l-network-content {
+	padding-top: 8vh;
+	align-self: flex-start;
+}
+
+.l-network-content .c-network-button {
+	flex-basis: 40px;
+}
+
+.plus {
+	margin: 0 .7em;
+}
+
+@media(max-width: 768px) {
+    .l-network-content .container {
+		margin: 0;
+		padding: 0;
+		height: 100vh;
+	}
+	.l-network-content {
+		flex: 1;
+	}
+}
+
+@media(min-width: 769px) {
+    .l-network-content .container {
+		margin: default;
+		padding: default;
+		height: 100%;
+	}
+	.l-network-content {
+		flex: 1;
+		height: 100vh;
+	}
+	.l-network-content > div {
+		height: 100%;
+	}
+	.networkSearch {
+		align-self: flex-start;
+	}
+
+	.messageConversation, .desktopContacts {
+		display: flex;
+		width: 100%;
+		margin: 15px auto;
+		box-shadow: 0 0 15px rgba(0,0,0,0.25);
+		border-radius: 4px;
+	}
+	.contactsNewMessage, .connectContacts {
+		display: flex;
+		width: 100%;
+		margin: auto;
+		box-shadow: 0 0 15px rgba(0,0,0,0.25);
+		border-radius: 4px;
+	}
+	.l-network-content .c-network-button {
+		flex-basis: unset;
+	}
+	.l-network-content input {
+		flex: unset;
+	}
+}

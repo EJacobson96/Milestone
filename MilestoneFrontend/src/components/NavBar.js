@@ -1,9 +1,8 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
-import { Glyphicon, Button, Badge } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import Axios from 'axios';
+import { Button, Badge } from 'react-bootstrap';
+import { Link, withRouter } from 'react-router-dom';
 import Notification from './Notification.js';
 import MediaQuery from 'react-responsive';
 
@@ -14,8 +13,10 @@ import '../css/NavBar.css';
 
 /////////////////////////////////////////
 /// Code
+//initalizes websocket to update nav bar when any changes have been made
 const websocket = new WebSocket("wss://api.milestoneapp.org/ws");
 
+//displays main nav bar
 class NavBar extends React.Component {
     constructor(props) {
         super(props);
@@ -27,57 +28,55 @@ class NavBar extends React.Component {
 
     componentDidMount() {
         this.setUserData();
+        //updates nav bar for network and notification alerts
         websocket.addEventListener("message", function(event) { 
           var data = JSON.parse(event.data);
-          if (this.state.currUser && data.payload.id == this.state.currUser.id) {
+          if (this.state.user && data.payload.id === this.state.user.id) {
               this.setUserData();
           }
         }.bind(this)); 
       }
     
-      setUserData() {
+    setUserData() {
         this.props.userController.getUser()
         .then((data) => {
-          this.setState({
-            user: data,
-          })
+            this.setState({
+                    user: data,
+            })
         })
-      }
+    }
     
-      clearNetwork() {
-        let notifications = this.state.user.notifications;
-        for (let i = 0; i < notifications.length; i++) {
-          if (notifications[i].contentType === "message") {
+    //clears alert bell when user clicks on network
+    clearNetwork() {
+    let notifications = this.state.user.notifications;
+    for (let i = 0; i < notifications.length; i++) {
+        if (notifications[i].contentType === "message") {
             notifications[i].read = true;
-          }
+        }
+    }
+    this.props.userController.postNotification(notifications, this.state.user.id)
+        .then((data) => {
+        this.setState({
+            user: data,
+        })
+        });
+    }
+    
+    //clears notification bell when user clicks on notifications
+    clearNotifications() {
+    let notifications = this.state.user.notifications;
+        for (let i = 0; i < notifications.length; i++) {
+        if (notifications[i].contentType === "connection" || notifications[i].contentType === "goal") {
+            notifications[i].read = true;
+        }
         }
         this.props.userController.postNotification(notifications, this.state.user.id)
-          .then((data) => {
+        .then((data) => {
             this.setState({
-              user: data,
+            user: data,
             })
-          });
-      }
-    
-      clearNotifications() {
-        let notifications = this.state.user.notifications;
-        for (let i = 0; i < notifications.length; i++) {
-          if (notifications[i].contentType === "connection" || notifications[i].contentType === "goal") {
-            notifications[i].read = true;
-          }
-        }
-        this.props.userController.postNotification(notifications, this.state.user.id)
-          .then((data) => {
-            this.setState({
-              user: data,
-            })
-          });
-      }
-    
-      logOut(e) {
-        this.props.userController.logOut();
-        this.props.history.push('/login');
-      }
+        });
+    }
 
     render() {
         var notifications = 0;
@@ -87,10 +86,11 @@ class NavBar extends React.Component {
         var notificationComponent;
         if (this.state && this.state.user) {
             for (let i = 0; i < this.state.user.notifications.length; i++) {
-                if (this.state.user.notifications[i].read == false) {
-                    if (this.state.user.notifications[i].contentType == "connection" || this.state.user.notifications[i].contentType == "goal") {
+                if (this.state.user.notifications[i].read === false) {
+                    if (this.state.user.notifications[i].contentType === "connection" || 
+                                this.state.user.notifications[i].contentType === "goal") {
                         notifications += 1;
-                    } else if (this.state.user.notifications[i].contentType == "message") {
+                    } else if (this.state.user.notifications[i].contentType === "message") {
                         networkAlerts += 1;
                     }
                 }
@@ -167,7 +167,7 @@ class NavBar extends React.Component {
                                     <div className="dropdown-menu">
                                         <Link className="dropdown-item" to="/profile">Profile</Link>
                                         <div className="dropdown-divider"></div>
-                                        <button className="dropdown-item" onClick={(e) => this.logOut(e)}>Log Out</button>
+                                        <button className="dropdown-item" onClick={() => this.props.logOut()}>Log Out</button>
                                     </div>
                                 </div>
                             </div>
@@ -180,4 +180,4 @@ class NavBar extends React.Component {
     }
 }
 
-export default NavBar;
+export default withRouter(NavBar);

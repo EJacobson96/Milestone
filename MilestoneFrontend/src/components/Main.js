@@ -1,70 +1,58 @@
 /////////////////////////////////////////
 /// Dev Notes
-/*
- *
- */
 
 /////////////////////////////////////////
 /// Pre-baked Components
-import React, { Component } from 'react';
+import React from 'react';
 import { Redirect, Switch, Route } from 'react-router-dom';
-import MediaQuery from 'react-responsive';
 
 /////////////////////////////////////////
 /// Standard Components
 import Network from './network/Network';
 import Notification from './Notification';
 import ProgressController from './progress/ProgressController';
-import Placeholder from './Placeholder';
 import Profile from './Profile';
 /////////////////////////////////////////
 /// Images & Styles
-import '../css/LoginForm.css';
 
 /////////////////////////////////////////
 /// Code
 
-class Main extends Component {
-
-    render() {
-        return this.props.userLoggedIn ? (
+//handles main navbar routing
+function Main(props) {
+        return props.userLoggedIn ? (
+            
             <Switch>
-                <Route path='/network' render={(props) => (
+                <Route path='/network' render={() => (
                     <Network 
-                        messageController = { this.props.messageController }
-                        userController = { this.props.userController }
+                        messageController = { props.messageController }
+                        userController = { props.userController }
                     />
                 )} />
-                <Route path='/calendar' render={(props) => (
-                    <Placeholder />
-                )} />
-                <Route path='/progress' render={(props) => (
+                <Route path='/progress' render={() => (
                     <ProgressController 
-                        goalController= { this.props.goalController }
-                        userController = { this.props.userController }
+                        goalController= { props.goalController }
+                        userController = { props.userController }
                     />
                 )} />
-                <Route path='/requests' render={(props) => (
-                    <Placeholder />
-                )} />
-                <Route path='/notifications' render={(props) => (
+                <Route path='/notifications' render={() => (
                     <Notification 
-                        userController = { this.props.userController }
+                        userController = { props.userController }
                      />
                 )} />
-                <Route path='/profile' render={(props) => (
+                <Route path='/profile' render={() => (
                     <Profile 
-                        userController= { this.props.userController }
+                        logOut={(e) => props.logOut(e) }
+                        userController= { props.userController }
                     />
                 )} />
-                <Route exact path="/" render={(props) => (
+                <Route exact path="/" render={() => (
                     <Redirect to="/progress" />
                 )} />
             </Switch>
         ) : (
             <Redirect to="/login" />
         );
-    } 
 }
   
 export default Main;

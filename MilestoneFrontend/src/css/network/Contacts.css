@@ -1,0 +1,95 @@
+/**  Bootstrap Overrides  **/
+
+/* .container-fluid {
+    padding-top: .2em;
+} */
+
+/**  Layout  **/
+
+.l-contacts {
+    background-color: white;
+}
+
+/**  Components  **/
+.l-contacts .c-contact-card-link-wrapper:last-child .c-contact-card {
+    border-bottom: 1px solid #9C9B9B;
+}
+
+.l-contacts .c-network-request-thumbnail-link-wrapper:last-child .c-network-request-thumbnail {
+    border-bottom: 1px solid #9C9B9B;
+}
+
+.c-contact-card {
+    display: flex;
+    border-top: 1px solid #9C9B9B;
+    align-items: center;
+    padding: 1em 0 1em 0;
+    background-color: white;
+}
+
+.c-contacts-count {
+    margin-left: 1em;
+    font-size: 2.3vh;
+}
+
+.c-contact-card__user-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .6em;
+    flex-basis: 18%;
+    max-width: 200px;
+}
+
+.c-contact-card__user-img img {
+    width: 75%;
+    border-radius: 50%;
+}
+
+.c-contact-card__link {
+    color: black;
+}
+
+.c-contact-card__link:hover, .c-contact-card__link:active {
+    color: black;
+    text-decoration: none;
+}
+
+.c-contact-card__details__full-name {
+    font-family: Arial;
+    padding-left: 1em;
+    font-weight: 500;
+    font-size: 2.5vh;
+}
+
+.c-contact-card-link-wrapper {
+    text-decoration: none;
+    color: black;
+}
+    
+@media(min-width: 769px) {
+    .contacts {
+        flex-basis: 30%;
+        height: 73.5vh;
+        overflow: scroll;
+        background-color: white;
+        border: 1px solid #9C9B9B;
+    }
+    .l-contacts .c-contact-card-link-wrapper:first-of-type .c-contact-card{
+        border-top: 1px solid #9C9B9B;
+    }
+    .c-contact-card {
+        display: flex;
+        border-top: 1px solid #9C9B9B;
+        align-items: center;
+        padding: 1em 0 1em 0;
+        background-color: white;
+    }
+    .c-contacts-count {
+        margin-left: 1em;
+        font-size: 2.3vh;
+    }
+    .c-contact-card-link-wrapper:hover {
+        color: black;
+    }
+}

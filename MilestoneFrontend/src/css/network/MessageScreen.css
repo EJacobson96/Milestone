@@ -1,0 +1,101 @@
+.c-messages-screen-header {
+    margin: 0 auto;
+    padding: .5em 0;
+    font-size: 1.5em;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 50%;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.c-messages-header-wrapper {
+    /* border-bottom: 2px solid #808080; */
+    top: 8vh;
+    position: fixed;
+    background-color: #EBECED;
+    width: 100%;
+}
+
+.c-messages-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: scroll;
+    padding-top: 11vh;
+    padding-bottom: 3.5em;
+    width: 100%;
+}
+
+.c-messages-my-message {
+    margin: 1.3em .5em 0 1.3em;
+    color: white;
+    background-color: #73C9B1;
+    border-radius: 20px;
+    padding: .5em 1em;
+    font-weight: 300;
+    display: inline-block;
+    align-self: flex-end;
+}
+
+.c-messages-not-my-message {
+    margin: 1em .5em 0 1em;
+    color: black;
+    background-color: white;
+    border-radius: 50px;
+    padding: .5em 1em;
+    font-weight: 300;
+    display: inline-block;
+    align-self: flex-start;
+}
+
+.c-messages-input-group .glyphicon {
+    font-size: 1.3em;
+}
+
+.c-messages-input-group .input-group-addon {
+    background-color: white;
+}
+
+.c-messages-input-form {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+}
+
+@media(min-width: 769px) {
+    .c-messages-screen-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 70%;
+        height: 73.5vh;
+        border-top: 1px solid #9C9B9B;
+        box-sizing: border-box;
+    }
+    .c-messages-container {
+        padding-top: 0;
+    }
+    .c-messages-my-message {
+       display: inline-block;
+    }
+    .c-messages-input-form {
+        position: sticky;
+        border: 1px solid #808080;
+        border-top: none;
+        border-left: none;
+    }
+    .c-messages-header-wrapper {
+        position: sticky;
+    }
+    .messageInput, .input-group-addon {
+        border-radius: 0 !important;
+    }
+}
+
+@media(max-width: 768px) {
+    .c-messages-header-wrapper {
+        border-bottom: 1px solid #9C9B9B;
+    }
+}
