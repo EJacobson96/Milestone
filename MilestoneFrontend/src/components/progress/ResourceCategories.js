@@ -5,13 +5,10 @@ import Axios from 'axios';
 import threeDotImg from '../../img/task3dot.png';
 import '../../css/progress/ResourceCategories.css';
 
+
 class ResourceCategories extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            resourceCategories: []
-        }
     }
 
     handleFormSubmit(event) {
@@ -46,17 +43,20 @@ class ResourceCategories extends Component {
         })
     }
 
-    componentDidMount() {
-        this.setState({
-            resourceCategories: this.props.resourceCategories
-        })
+    alphabetize(arr) {
+        //Sorts this.props.resourceCategories alphabetically
+        return arr.sort(function(a, b) {
+            var textA = a.title.toLowerCase();
+            var textB = b.title.toLowerCase();
+            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        });
     }
 
     render() {
         return (
             <div className="c-resource-category-container">
                 {
-                    this.props.resourceCategories.map((category) => {
+                    this.alphabetize(this.props.resourceCategories).map((category) => {
                         return <div key={category.id} className="c-resource-category">
                                     <img className="c-category-dots" src={threeDotImg} id={category.id} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
                                 <div className="dropdown-menu categoryDropdown" aria-labelledby={category.id}>

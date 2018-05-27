@@ -69,7 +69,7 @@ input.c-modal-button {
     .c-resource-category {
         margin: 10px 1.65%;
         flex: unset;
-        flex-basis: 21%;
+        flex-basis: 21.7%;
     }
     .categoryDropdown {
         transform: translate3d(55px, 30px, -20px) !important;
