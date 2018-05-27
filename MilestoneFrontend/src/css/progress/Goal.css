@@ -92,7 +92,7 @@
 @media (min-width: 769px) {
 	.c-goal {
 		/* display: flex; */
-		flex-basis: 352.5px;
+		flex-basis: 29.25%;
 		box-sizing: border-box;
 		height: 225px;
 		align-items: center;

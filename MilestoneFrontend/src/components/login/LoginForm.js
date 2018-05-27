@@ -23,13 +23,44 @@ function LoginForm(props) {
 
     function attemptLogIn(e) {
         e.preventDefault();
-        let email = document.getElementById("formHorizontalEmail").value;
-        let password = document.getElementById("formHorizontalPassword").value;
-        props.userController.logIn(email, password)
+        //Select form inputs and labels
+        var password = document.querySelector('input[type=password]');
+        var email = document.querySelector('input[type=email]');
+        var inputs = document.getElementsByTagName('input');
+        var warnings = document.getElementsByClassName('validationWarning');
+        //Form validation
+        for(var i = 0; i < inputs.length; i++) {
+            if(inputs[i].value === '' && !inputs[i].classList.contains('invalid')) {
+                //If input is empty
+                inputs[i].classList.add('invalid');
+                warnings[i].classList.add('show');
+                warnings[i].classList.remove('hide');
+                //Hide password length warning label
+                warnings[2].classList.remove('show')
+                warnings[2].classList.add('hide')
+            } else if(inputs[i].classList.contains('invalid') && inputs[i].value !== '') {
+                //If input was empty and know is not
+                inputs[i].classList.remove('invalid');
+                warnings[i].classList.remove('show');
+                warnings[i].classList.add('hide');
+                //Hide password length warning label
+                warnings[2].classList.remove('show')
+                warnings[2].classList.add('hide')
+            }
+        }
+        if(password.value.length > 0 && password.value.length < 6) {
+            //If password length is less than 6 charcters
+            warnings[2].classList.add('show');
+            warnings[2].classList.remove('hide');
+            warnings[1].classList.add('hide');
+            warnings[1].classList.remove('show');
+        }
+        props.userController.logIn(email.value, password.value)
         .then((data) => {
             props.logIn();
         })
     }
+
 
     return props.userLoggedIn ? (
         <Redirect to={{
@@ -51,8 +82,10 @@ function LoginForm(props) {
                                 <FormControl 
                                     type="email" 
                                     placeholder="Email" 
-                                    className="c-login-form__input" 
+                                    className="c-login-form__input"
+                                    required
                                 />
+                                <label className="validationWarning hide">Please provide an email</label>
                             </Col>
                         </FormGroup>
 
@@ -65,13 +98,16 @@ function LoginForm(props) {
                                     type="password" 
                                     placeholder="Password" 
                                     className="c-login-form__input" 
+                                    required
                                 />
+                                <label className="validationWarning hide">Please provide a password</label>
+                                <label className="validationWarning hide">Password must be at least 6 characters long</label>
                             </Col>
                         </FormGroup>
 
                         <FormGroup>
                             <Col sm={12}>
-                                <button className="c-login-form__btn" type="submit" onClick={(e) => attemptLogIn(e)} >Sign in</button>
+                                <button className="c-login-form__btn" type="submit" onClick={(e) => attemptLogIn(e)}>Sign in</button>
                             </Col>
                         </FormGroup>
                     </Form>
@@ -79,7 +115,7 @@ function LoginForm(props) {
             </div>
             <footer className="c-login-form__footer"><img className="c-login-form__footer__logo" src={logo} alt="Milestone Logo"/>Milestone &copy;2018</footer>
         </div>
-    );
+        );
 }
   
 export default LoginForm;

@@ -114,6 +114,7 @@ var UserController = {
                 FirstName: firstName,
                 LastName: lastName,
                 Phone: phoneNum,
+                FullName: `${firstName} ${lastName}`
             })
             .then(response => {
                 return response.data;
