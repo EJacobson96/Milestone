@@ -56,29 +56,39 @@ class LoginForm extends Component {
 
     attemptLogIn(e) {
         e.preventDefault();
+
+        //Select form inputs and labels
         var password = document.querySelector('input[type=password]');
         var inputs = document.getElementsByTagName('input');
         var warnings = document.getElementsByClassName('validationWarning');
+
+        //Form validation
         for(var i = 0; i < inputs.length; i++) {
             if(inputs[i].value === '' && !inputs[i].classList.contains('invalid')) {
+                //If input is empty
+
                 inputs[i].classList.add('invalid');
                 warnings[i].classList.add('show');
                 warnings[i].classList.remove('hide');
 
+                //Hide password length warning label
                 warnings[2].classList.remove('show')
                 warnings[2].classList.add('hide')
 
             } else if(inputs[i].classList.contains('invalid') && inputs[i].value !== '') {
+                //If input was empty and know is not
+
                 inputs[i].classList.remove('invalid');
                 warnings[i].classList.remove('show');
                 warnings[i].classList.add('hide');
 
+                //Hide password length warning label
                 warnings[2].classList.remove('show')
                 warnings[2].classList.add('hide')
             }
         }
         if(password.value.length > 0 && password.value.length < 6) {
-            password.classList.add('invalid');
+            //If password length is less than 6 charcters
             warnings[2].classList.add('show');
             warnings[2].classList.remove('hide');
             warnings[1].classList.add('hide');
