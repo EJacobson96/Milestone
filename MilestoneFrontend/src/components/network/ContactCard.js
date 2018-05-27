@@ -13,12 +13,12 @@ import HeaderBar from '../ux/HeaderBar';
 /// Images & Styles
 import message from '../../img/messagebubble.png';
 import phone from '../../img/phoneicon.png';
-import fakeuser from '../../img/fakeuser.png';
 import '../../css/ContactCard.css';
 
 /////////////////////////////////////////
 /// Code
 
+//handles functionality for sending, accepting and denying connection requests with a contact
 class ContactCard extends React.Component {
     constructor(props) {
         super(props);
@@ -47,6 +47,8 @@ class ContactCard extends React.Component {
         })
     }
 
+
+    //set the current user and current profile
     setUserData(contactInfo) {
         this.props.userController.getUser()
             .then(data => {
@@ -57,6 +59,7 @@ class ContactCard extends React.Component {
             })
     }
 
+    //updates all user's requests
     setUserRequests(message, currentUser, currUserRequests, otherUserID, otherUserRequests) {
         this.props.userController.updateUserRequests(currentUser.id, currUserRequests)
         .then(data => {
@@ -78,6 +81,7 @@ class ContactCard extends React.Component {
         })
     }
 
+    //adds a new invite request from current user to specified contact
     sendInvite() {
         var currUserRequests = this.state.currUser.pendingRequests;
         var otherUserRequests = this.state.contactInfo.pendingRequests;
@@ -99,6 +103,8 @@ class ContactCard extends React.Component {
             currUserRequests, this.state.contactInfo.id, otherUserRequests);
     }
 
+
+    //handles accepting a new connection
     approveRequest() {
         var userConnections = this.state.currUser.connections;
         var otherConnections = this.state.contactInfo.connections;
@@ -127,6 +133,7 @@ class ContactCard extends React.Component {
             })
     }
 
+    //removes the quests when they've either been denied or accepted
     removeRequests(message) {
         var currUserRequests;
         var otherUserRequests;
@@ -139,6 +146,7 @@ class ContactCard extends React.Component {
         this.setUserRequests(message, this.state.currUser, currUserRequests, this.state.contactInfo.id, otherUserRequests);
     }
 
+    //notifies when a connection was sent or has been accepted
     postNotification(currentUser, creatorID, message, contentType, route, user) {
         var notifications = [];
         var receiver;
@@ -163,6 +171,7 @@ class ContactCard extends React.Component {
         }
     }
 
+    //checks to see if there is a current pending request with a contact
     pendingRequest(contactID) {
         if (this.state.currUser) {
             var requests = this.state.currUser.pendingRequests;
@@ -177,6 +186,7 @@ class ContactCard extends React.Component {
         }
     }
 
+    //checks to see if the current user is already connected with the contact
     isConnected(contactID) {
         if (this.state.currUser) {
             var connections = this.state.currUser.connections;
@@ -189,6 +199,7 @@ class ContactCard extends React.Component {
         }
     }
 
+    //redirects user to messaging so they can send contact a message
     handleMessaging(e) {
         e.preventDefault();
         console.log(this.props.messageContent)
@@ -227,7 +238,7 @@ class ContactCard extends React.Component {
 
                 contactUser = <div className='c-contact-profile__contact-icons'>
                                 <div className='c-contact-profile__contact-icons__phone'>
-                                    <a href="tel:5555555555"><img src={phone} alt="phone icon"/></a>
+                                    <a href={"tel:" + phoneNum}><img src={phone} alt="phone icon"/></a>
                                 </div>
                                 <div className='c-contact-profile__contact-icons__msg'> 
                                     <Link to="" className="c-profile-messaging-button" onClick={ (e) => { this.handleMessaging(e) } }>
@@ -258,17 +269,14 @@ class ContactCard extends React.Component {
                     <div>
                         {name}          
                         <div className="c-contact-profile__profile-img">
-                            <img src={fakeuser} alt="User Avatar"/>
+                            <img src={this.state.contactInfo.photoURL} alt="User Avatar"/>
                         </div>
                         <div className="c-contact-invite">
                             {contactUser}
                         </div>
                         <div className='c-contact-profile__profile-info'>
                             <p className='c-contact-profile__field-label'><strong>Email: </strong>{ email }</p>
-                            {/* <h5>Description: </h5> */}
-                            <p>
-                                <strong>Phone Number: </strong>{phoneNum}
-                            </p>
+                            <p><strong>Phone Number: </strong>{phoneNum}</p>
                         </div>
                     </div>
                 }

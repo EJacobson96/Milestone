@@ -32,7 +32,6 @@ class Messages extends React.Component {
             if (this.props.renderSearch) {
                 var networkSearch = <NetworkSearch 
                     id="networkSearch"
-                    contentType={this.props.contentType}
                     handleSearch={this.props.handleSearch}
                 />
             }

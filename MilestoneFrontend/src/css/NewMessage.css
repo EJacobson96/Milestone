@@ -3,6 +3,10 @@
 	margin: .6em 1em;
 }
 
+.c-new-message__search-wrapper #newMessageSearch {
+	flex: 1;
+}
+
 .c-new-message-button {
 	margin: 0 0 0 .5em;
 }

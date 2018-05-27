@@ -28,7 +28,6 @@ class App extends Component {
     
         this.state = {
 			userLoggedIn: false,
-			// userLoggedIn: true,
 			sideBarOpen: false,
 			navBarDisplay: false
 		};
@@ -39,18 +38,23 @@ class App extends Component {
 		this.logOut = this.logOut.bind(this);
 	}
 
+	//controller that handles fetching data related to users
 	getUserController() {
 		return UserController;
 	}
 
+	//controller that handles fetching data related to messaging
 	getMessagecontroller() {
 		return MessageController;
 	}
 
+	//controller that handles fetching data related to goals
 	getGoalController() {
 		return GoalController;
 	}
 
+	//checks to see if authorization token is in local storage 
+	//and sets user to be logged in based off the token
 	logIn() {
 		if (localStorage.getItem('Authorization')) {
 			this.setState({
@@ -63,6 +67,7 @@ class App extends Component {
 		}
 	}
 
+	//clears authorization token from local storage and logs user out
 	logOut() {
 		this.getUserController().logOut()
 		this.setState({
@@ -70,6 +75,7 @@ class App extends Component {
 		})
 	}
 	
+	//checks if authorization token exists and keeps user logged in if so
 	componentDidMount() {
 		if (localStorage.getItem('Authorization')) {
 			this.setState({

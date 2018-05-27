@@ -21,7 +21,6 @@ import ContactsList from './ContactsList';
 /// Images & Styles
 import '../../css/Network.css';
 
-
 /////////////////////////////////////////
 /// Code
 const websocket = new WebSocket("wss://api.milestoneapp.org/ws");
@@ -32,9 +31,7 @@ class Network extends Component {
         this.state = {
             messageContent: [],
             contactsContent: [],
-            contentType: 'loading',
             search: '',
-            showSearchAndNav: true,
         };
         this.handleSearch = this.handleSearch.bind(this);
     }
@@ -48,10 +45,6 @@ class Network extends Component {
             }
         }.bind(this));  
     }
-
-    // componentWillReceiveProps() {
-    //     this.setUserData();
-    // }
 
     setUserData() {
         this.props.userController.getUser()
@@ -73,7 +66,6 @@ class Network extends Component {
             .then(data => {
                 this.setState({
                     messageContent: data,
-                    contentType: 'messages'
                 }, () => {
                     if (this.props.location.pathname === "/Network/Messages/Conversation/:id" && data[0]) {
                         this.props.history.push("/Network/Messages/Conversation/:id" + data[0].id)
@@ -92,16 +84,14 @@ class Network extends Component {
             })
     }
 
+    //re-renders all messages when switching between nav elements
     renderMessages(e) {
-        this.setState({
-            contentType: 'messages',
-        })
+        this.handleSearch("");
     }
 
+    //re-renders all contacts when switching between nav elements
     renderContacts(e) {
-        this.setState({
-            contentType: 'contacts',
-        })
+        this.handleSearch("");
     }
 
     handleSearch(search) {
@@ -124,7 +114,6 @@ class Network extends Component {
                 renderMessages={(e) => this.renderMessages(e)}
             />
             <NetworkSearch className="networkSearch"
-                contentType={this.state.contentType}
                 handleSearch={(e) => this.handleSearch(e)}
             />
         </div>;
@@ -137,6 +126,7 @@ class Network extends Component {
                             <ContactsList
                                 user={this.state.currUser}
                                 userController={this.props.userController}
+                                contacts= { this.state.contactsContent }
                             />
                         )} />
                         <Route path='/network/messages/new/' render={(props) => (
@@ -155,6 +145,7 @@ class Network extends Component {
                                             <ContactsList
                                                 user={this.state.currUser}
                                                 userController={this.props.userController}
+                                                contacts= { this.state.contactsContent }
                                             />
                                             <NewMessage
                                                 isDesktop={true}
@@ -188,7 +179,6 @@ class Network extends Component {
                                                 content={this.state.messageContent} 
                                                 firstMessage={firstMessage} 
                                                 renderSearch={ true }
-                                                contentType={this.state.contentType}
                                                 handleSearch={(e) => this.handleSearch(e)}
                                             />
                                             <MessageScreen className="c-messagescreen-component"
@@ -234,7 +224,6 @@ class Network extends Component {
                                                 currUser={this.state.currUser}
                                                 userController={this.props.userController}
                                                 renderSearch={ true }
-                                                contentType={this.state.contentType}
                                                 handleSearch={(e) => this.handleSearch(e)}
                                             />
                                             <ContactCard

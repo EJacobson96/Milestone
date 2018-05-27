@@ -1,9 +1,9 @@
 .l-conversations .c-contact-card-link-wrapper:last-child .c-conversation-card {
-    border-bottom: 1px solid #808080;
+    border-bottom: 1px solid #9C9B9B;
 }
 
 .c-conversation-card {
-    border-top: 1px solid #808080;
+    border-top: 1px solid #9C9B9B;
     padding: 1em 0 1em 0;
     display: flex;
     background-color: white;

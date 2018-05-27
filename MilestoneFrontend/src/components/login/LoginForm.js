@@ -1,18 +1,12 @@
 /////////////////////////////////////////
 /// Dev Notes
-/*
- *  This component is large, and could probably be refactored into a couple
- *  smaller componenents. ~Iean
- */
 
 /////////////////////////////////////////
 /// Pre-baked Components
-import React, { Component } from 'react';
+import React from 'react';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import { Form, Col } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
-import Axios from 'axios';
-
+import { Redirect } from 'react-router-dom';
 /////////////////////////////////////////
 /// Standard Components
 
@@ -24,103 +18,68 @@ import '../../css/LoginForm.css';
 /////////////////////////////////////////
 /// Code
 
-class LoginForm extends Component {
-    constructor(props) {
-        super(props);
-    
-        this.handleEmail = this.handleEmail.bind(this);
-        this.handlePassword = this.handlePassword.bind(this);
-        this.attemptLogIn = this.attemptLogIn.bind(this);
-    
-        this.state = {
-            userLoggedIn: null,
-            userEmail: '',
-            userPassword: '',
-            userData: {}
-        };
-    }
+//handles logging users in
+function LoginForm(props) {
 
-    componentWillMount(props) {
-        this.setState({
-            userLoggedIn: this.props.userLoggedIn
-        });
-    }
-
-    handleEmail(e) {
-      this.setState({ userEmail: e.target.value });
-    }
-  
-    handlePassword(e) {
-      this.setState({ userPassword: e.target.value });
-    }
-
-    attemptLogIn(e) {
+    function attemptLogIn(e) {
         e.preventDefault();
-        this.props.userController.logIn(this.state.userEmail, this.state.userPassword)
+        let email = document.getElementById("formHorizontalEmail").value;
+        let password = document.getElementById("formHorizontalPassword").value;
+        props.userController.logIn(email, password)
         .then((data) => {
-            this.setState({
-                userData: data
-            });
-            this.props.logIn();
+            props.logIn();
         })
     }
-  
-    render() {
-        return this.props.userLoggedIn ? (
-            <Redirect to={{
-                pathname: '/'
-            }}/>
-        ) : (
-            <div className="c-login">
-                <h1 className="c-login-header">
-                    Milestone
-                </h1>
-                <div className="l-login">
-                    <div className="l-login__content">
-                        <Form horizontal className="c-login-form">
-                            <FormGroup controlId="formHorizontalEmail">
-                                <Col componentClass={ControlLabel} sm={12} className="c-login-form__label">
-                                    Email
-                                </Col>
-                                <Col sm={12}>
-                                    <FormControl 
-                                        type="email" 
-                                        value={this.state.userEmail} 
-                                        placeholder="Email" 
-                                        onChange={(e) => this.handleEmail(e)} 
-                                        className="c-login-form__input" 
-                                    />
-                                </Col>
-                            </FormGroup>
 
-                            <FormGroup controlId="formHorizontalPassword">
-                                <Col componentClass={ControlLabel} sm={12} className="c-login-form__label">
-                                    Password
-                                </Col>
-                                <Col sm={12}>
-                                    <FormControl 
-                                        type="password" 
-                                        value={this.state.userPassword} 
-                                        placeholder="Password" 
-                                        onChange={(e) => this.handlePassword(e)} 
-                                        className="c-login-form__input" 
-                                    />
-                                </Col>
-                            </FormGroup>
+    return props.userLoggedIn ? (
+        <Redirect to={{
+            pathname: '/'
+        }}/>
+    ) : (
+        <div className="c-login">
+            <h1 className="c-login-header">
+                Milestone
+            </h1>
+            <div className="l-login">
+                <div className="l-login__content">
+                    <Form horizontal className="c-login-form">
+                        <FormGroup controlId="formHorizontalEmail">
+                            <Col componentClass={ControlLabel} sm={12} className="c-login-form__label">
+                                Email
+                            </Col>
+                            <Col sm={12}>
+                                <FormControl 
+                                    type="email" 
+                                    placeholder="Email" 
+                                    className="c-login-form__input" 
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup>
-                                <Col sm={12}>
-                                    <button className="c-login-form__btn" type="submit" onClick={(e) => this.attemptLogIn(e)} >Sign in</button>
-                                </Col>
-                            </FormGroup>
-                            <Link to="#" className="c-login-form__forgot-password">Forgot your password?</Link>
-                        </Form>
-                    </div>
+                        <FormGroup controlId="formHorizontalPassword">
+                            <Col componentClass={ControlLabel} sm={12} className="c-login-form__label">
+                                Password
+                            </Col>
+                            <Col sm={12}>
+                                <FormControl 
+                                    type="password" 
+                                    placeholder="Password" 
+                                    className="c-login-form__input" 
+                                />
+                            </Col>
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Col sm={12}>
+                                <button className="c-login-form__btn" type="submit" onClick={(e) => attemptLogIn(e)} >Sign in</button>
+                            </Col>
+                        </FormGroup>
+                    </Form>
                 </div>
-                <footer className="c-login-form__footer"><img className="c-login-form__footer__logo" src={logo} alt="Milestone Logo"/>Milestone &copy;2018</footer>
             </div>
-        );
-    }
+            <footer className="c-login-form__footer"><img className="c-login-form__footer__logo" src={logo} alt="Milestone Logo"/>Milestone &copy;2018</footer>
+        </div>
+    );
 }
   
 export default LoginForm;

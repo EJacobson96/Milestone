@@ -33,7 +33,6 @@ class NewMessage extends Component {
 	componentDidMount() {
         var searchQuery = this.props.location.pathname;
         searchQuery = searchQuery.substring(22, searchQuery.length)
-        console.log(searchQuery);
         var newSearchQuery = this.appendToSearch(searchQuery);
         this.displayConversations(searchQuery);
         this.setState({
@@ -43,17 +42,16 @@ class NewMessage extends Component {
         });
     }
 
-    componentWillReceiveProps() {
-        var searchQuery = this.props.location.pathname;
+    componentWillReceiveProps(nextProps) {
+        var searchQuery = nextProps.location.pathname;
         searchQuery = searchQuery.substring(22, searchQuery.length)
-        console.log(searchQuery);
         var newSearchQuery = this.appendToSearch(searchQuery);
         this.displayConversations(searchQuery);
         this.setState({
-            connections: this.props.user.connections,
-            messageContent: this.props.messageContent,
+            connections: nextProps.user.connections,
+            messageContent: nextProps.messageContent,
             searchQuery: searchQuery
-        });
+        })
     }
 
     appendToSearch(search) {

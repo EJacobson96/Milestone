@@ -58,9 +58,6 @@ class Profile extends React.Component {
                 currUserOrganization: data.organization,
             })
         })
-        // , () => {
-        //     this.props.history.push("/profile");
-        // });
     }
     
     componentDidMount() {

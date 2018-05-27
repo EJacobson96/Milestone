@@ -69,6 +69,7 @@ class ProgressController extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props);
         this.getCurrentUser();
     }
 
