@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import '../css/Profile.css';
 
+//displays a user's profile screen
 class Profile extends React.Component {
     constructor(props) {
         super(props);
@@ -13,19 +14,18 @@ class Profile extends React.Component {
         }
     }
 
+    //allows users to edit form
     enableEditForm(event) {
         event.target.classList.remove('show');
         event.target.className += ' hide';
-
         document.querySelector('input[type=submit]').className += ' show';
-        // document.querySelector('input[type=file]').className += ' show';
-
         document.querySelectorAll('input[type=text]').forEach((input) => {
             input.disabled = false;
         })
 
     }
 
+    //changes state based on user input
     handleInputChange(event, key) {
         this.setState({
             ...this.state,
@@ -33,21 +33,18 @@ class Profile extends React.Component {
         })
     }
 
+    //updates user with user input from form
     handleSubmit(event) {
         event.preventDefault();
-        console.log(event);
         event.target.classList.remove('show');
         event.target.className += ' hide';
         document.querySelector('input[type=button]').className += ' show';
         document.querySelectorAll('input[type=text]').forEach((input) => {
             input.disabled = true;
         })
-        console.log(this.state);
-        console.log(this.props);
         this.props.userController.updateUser(this.state.userID, this.state.currUserEmail, this.state.currUserFirstName, 
                                                 this.state.currUserLastName, this.state.currUserPhone)
         .then((data) => {
-            console.log(data);
             this.setState({
                 currUserPhotoUrl: data.photoURL,
                 currUserFullName: data.fullName,
@@ -63,7 +60,6 @@ class Profile extends React.Component {
     componentDidMount() {
         this.props.userController.getUser()
         .then((user) => {
-            console.log(user)
             this.setState({
                 userID: user.id,
                 currUserPhotoUrl: user.photoURL,
@@ -84,7 +80,7 @@ class Profile extends React.Component {
             <div className="container c-profile-container">
                 <form className="c-profile">
                     <div>
-                        <img src={this.state.currUserPhotoUrl}/>
+                        <img src={this.state.currUserPhotoUrl} alt="user logged in"/>
                         <input type="file" name="PhotoURL" className="hide form-control" />
                         <h2>{this.state.currUserFullName}</h2>
                     </div>

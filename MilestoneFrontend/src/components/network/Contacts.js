@@ -21,9 +21,7 @@ function Contacts(props) {
     displayConnectionsCount, 
     displayConnections, 
     numRequests, 
-    displayRequests,
-    firstContact,
-    search;
+    displayRequests;
     if (props.renderSearch) {
         var networkSearch = <NetworkSearch 
             id="networkSearch"
@@ -32,7 +30,7 @@ function Contacts(props) {
         />
     }
     //displays current amount of pending connections requests
-    if(props.currUser.pendingRequests.length > 0 && props.showRequests) { 
+    if (props.currUser.pendingRequests.length > 0 && props.showRequests) { 
         var count = 0;
         for (let i = 0; i < props.currUser.pendingRequests.length; i++) {
             if (props.currUser.pendingRequests[i].type === "received") {
@@ -49,20 +47,23 @@ function Contacts(props) {
     }
     //displays all of a user's pending connectiong requests
     if (props.showRequests) {
-        var count = 0;
+        var requestCount = 0;
         requests = props.currUser.pendingRequests.map((request) => {
-            count++;
+            requestCount++;
             if (request.type === "received") {
                 return (
                     <NetworkRequestThumbnail 
                         path = { '/network/contacts/profile/:id' + request.sender }
                         id = { request.sender }
-                        key = { count }
+                        key = { requestCount }
                         userController={props.userController}
                     />
                 );
             }
-        })
+            return (
+                <p></p>
+            );
+        });
     }
     connections = props.content.map((connection, i) => {
         return (
@@ -72,7 +73,7 @@ function Contacts(props) {
                 key={ connection.id }
                 fullName={ connection.fullName }
                 userController={props.userController}
-                className = {props.match.params.id == ":id" + connection.id && ' selectedMessage '} 
+                className = {props.match.params.id === ":id" + connection.id && ' selectedMessage '} 
             />
         );
     });

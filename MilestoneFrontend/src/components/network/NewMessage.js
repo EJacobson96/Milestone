@@ -35,7 +35,7 @@ class NewMessage extends Component {
 	componentDidMount() {
         var searchQuery = this.props.location.pathname;
         searchQuery = searchQuery.substring(22, searchQuery.length)
-        var newSearchQuery = this.appendToSearch(searchQuery);
+        this.appendToSearch(searchQuery);
         this.displayConversations(searchQuery);
         this.setState({
             connections: this.props.user.connections,
@@ -48,7 +48,7 @@ class NewMessage extends Component {
     componentWillReceiveProps(nextProps) {
         var searchQuery = nextProps.location.pathname;
         searchQuery = searchQuery.substring(22, searchQuery.length)
-        var newSearchQuery = this.appendToSearch(searchQuery);
+        this.appendToSearch(searchQuery);
         this.displayConversations(searchQuery);
         this.setState({
             connections: nextProps.user.connections,
@@ -64,9 +64,9 @@ class NewMessage extends Component {
         var searchQuery = search.trim().split(" ");
         var newSearchQuery = "";
         if (searchQuery.length > 0 && searchQuery[0]) {
-            for (var i = 0; i < searchQuery.length; i++) {
+            for (let i = 0; i < searchQuery.length; i++) {
                 var userFullName;
-                for (var j = 0; j < this.props.user.connections.length; j++) {
+                for (let j = 0; j < this.props.user.connections.length; j++) {
                     if (this.props.user.connections[j].id === searchQuery[i].trim()) {
                         userFullName = this.props.user.connections[j].fullName;
                     }
@@ -93,9 +93,9 @@ class NewMessage extends Component {
         var existingConversation = false;
         var newMembers = [];
         if (names.length > 0 && names[0]) {
-            for (var i = 0; i < conversations.length; i++) {
-                for (var j = 0; j < names.length; j++) {
-                    for (var k = 0; k < conversations[i].members.length; k++) {
+            for (let i = 0; i < conversations.length; i++) {
+                for (let j = 0; j < names.length; j++) {
+                    for (let k = 0; k < conversations[i].members.length; k++) {
                         if (conversations[i].members[k].id === names[j] && j === names.length - 1) {
                             if (names.length === conversations[i].members.length - 1) {
                                 existingConversation = true;
@@ -112,8 +112,8 @@ class NewMessage extends Component {
             }
         }
         if (!existingConversation && names[0] !== "" && this.props.user.connections) {
-            for (var i = 0; i < names.length; i++) {
-                for (var j = 0; j < this.props.user.connections.length; j++) {
+            for (let i = 0; i < names.length; i++) {
+                for (let j = 0; j < this.props.user.connections.length; j++) {
                     var connections = this.props.user.connections;
                     if (connections[j].id === names[i].trim() && names[i] !== "") {
                         var addConnection = {
@@ -181,7 +181,6 @@ class NewMessage extends Component {
             newConversation: [],
             searchQuery: "",
         }, () => {
-            console.log(this.props)
             this.props.history.push('/network/messages/new/');
             this.props.location.pathname = '/network/messages/new/';
         });

@@ -1,7 +1,7 @@
 /////////////////////////////////////////
 /// Dev Notes
 
-import React, { Component } from 'react';
+import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { Glyphicon, Button } from 'react-bootstrap';
 

@@ -16,11 +16,9 @@ import NetworkSearch from './NetworkSearch';
 //displays the messages screen, handles search and renders message threads
 function Messages(props) {
     var conversations;
-    var displayConversations;
     var messagesCount;
     var time;
     var firstMessage;
-    var search;
     if (props.renderSearch) {
         var networkSearch = <NetworkSearch 
             id="networkSearch"
@@ -39,10 +37,9 @@ function Messages(props) {
         }
         var members = "";
         for (let i = 0; i < conversation.members.length; i++) {
-            let memberLength = conversation.members.length;
-            if (conversation.members[i].id != props.currUser.id && members != "") {
+            if (conversation.members[i].id !== props.currUser.id && members !== "") {
                 members += ", " + conversation.members[i].fullName;
-            } else if (conversation.members[i].id != props.currUser.id) {
+            } else if (conversation.members[i].id !== props.currUser.id) {
                 members += conversation.members[i].fullName;
             }
         }
@@ -71,9 +68,9 @@ function Messages(props) {
                 className='c-contact-card-link-wrapper'  
                 key={conversation.id}
             >
-                <div className={`c-conversation-card ${firstMessage} ${props.match.params.id == ":id" + conversation.id && 'selectedMessage'}`} key={conversation.id} >
+                <div className={`c-conversation-card ${firstMessage} ${props.match.params.id === ":id" + conversation.id && 'selectedMessage'}`} key={conversation.id} >
                     <div className="c-conversation-card__user-img">
-                        <img src={fakeuser} alt="User Avatar"/>
+                        <img src={fakeuser} alt="user from message thread"/>
                     </div>
                     <div className="c-conversation-card__details">
                         <div className="c-conversation-card__details__name-and-date">

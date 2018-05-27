@@ -22,10 +22,9 @@ function NewMessageThumbnail(props) {
         }
         memberNames = "";
         for (let i = 0; i < props.members.length; i++) {
-            let memberLength = props.members.length;
-            if (props.members[i].id != props.currUser.id && memberNames != "") {
+            if (props.members[i].id !== props.currUser.id && memberNames !== "") {
                 memberNames += ", " + props.members[i].fullName;
-            } else if (props.members[i].id != props.currUser.id) {
+            } else if (props.members[i].id !== props.currUser.id) {
                 memberNames += props.members[i].fullName;
             }
         }

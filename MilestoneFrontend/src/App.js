@@ -2,7 +2,6 @@
 /// Pre-baked Components & Packages
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import MediaQuery from 'react-responsive';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -28,7 +27,6 @@ class App extends Component {
     
         this.state = {
 			userLoggedIn: false,
-			sideBarOpen: false,
 			navBarDisplay: false
 		};
 		this.getUserController = this.getUserController.bind(this);
@@ -85,7 +83,6 @@ class App extends Component {
 	}
 	
 	render() {
-		const displaySideBar = this.state.menuOpen;
 		const isLoggedIn = this.state.userLoggedIn;
 		return (
 			<div className="App">

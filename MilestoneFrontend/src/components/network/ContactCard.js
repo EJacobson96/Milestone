@@ -20,16 +20,12 @@ import '../../css/network/ContactCard.css';
 
 //handles functionality for sending, accepting and denying connection requests with a contact
 class ContactCard extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
         var id = this.props.match.params.id.substring(3, this.props.match.params.id.length)
         if (id !== "") {
             this.setContactData(id);
         }
-        console.log(this.props.match);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -124,10 +120,8 @@ class ContactCard extends React.Component {
         });
         this.props.userController.addConnection(this.state.currUser.id, userConnections)
             .then(data => {
-                console.log("Adding connection: " + data)
                 this.props.userController.addConnection(this.state.contactInfo.id, otherConnections)
                 .then(data => {
-                    console.log("Adding connection: " + data + "removing connection");
                     this.removeRequests(this.state.currUser.fullName + " has accepted your invitiation to connect.");
                 })
             })
@@ -166,7 +160,6 @@ class ContactCard extends React.Component {
         if (receiver) {
             this.props.userController.postNotification(notifications, receiver)
             .then(data => {
-                console.log(data);
             })
         }
     }
@@ -202,13 +195,12 @@ class ContactCard extends React.Component {
     //redirects user to messaging so they can send contact a message
     handleMessaging(e) {
         e.preventDefault();
-        console.log(this.props.messageContent)
         let conversations = this.props.messageContent;
         let existing = false;
         let conversationID;
         for (let i = 0; i < conversations.length; i++) {
             for (let j = 0; j < conversations[i].members.length; j++) {
-                if (conversations[i].members[j].id == this.state.contactInfo.id) {
+                if (conversations[i].members[j].id === this.state.contactInfo.id) {
                     existing = true;
                     conversationID = conversations[i].id;
                 }

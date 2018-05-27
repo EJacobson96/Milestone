@@ -3,7 +3,6 @@
 import React from 'react';
 import { FormControl, FormGroup, Glyphicon } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import Axios from 'axios'
 
 /////////////////////////////////////////
 /// Images & Styles
@@ -43,7 +42,7 @@ class MessageScreen extends React.Component {
         this.scrollToBottom();
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
-            if (this.state.currUser && data.payload.id == this.state.currUser.id) {
+            if (this.state.currUser && data.payload.id === this.state.currUser.id) {
                 this.renderConversations();
             }
         }.bind(this));  
@@ -107,11 +106,9 @@ class MessageScreen extends React.Component {
                         ContentType: "message",
                         ContentRoute: "/network/messages/conversation/:id" + conversation.id,
                     }
-                    console.log(newNotification);
                     notifications.push(newNotification);
                     this.props.userController.postNotification(notifications, data.id)
                     .then((data) => {
-                        console.log(data);
                     })
                 });
             }
@@ -146,7 +143,6 @@ class MessageScreen extends React.Component {
         if (this.state && this.state.conversation) {
             conversation = this.state.conversation;
             for (var i = 0; i < conversation.members.length; i++) {
-                let memberLength = conversation.members.length;
                 if (conversation.members[i].id !== this.state.currUser.id && members !== "") {
                     members += ", " + conversation.members[i].fullName;
                 } else if (conversation.members[i].id !== this.state.currUser.id) {

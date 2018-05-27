@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
-import fakeuser from '../../img/fakeuser.png';
 import '../../css/network/NetworkRequestThumbnail.css';
 
 /////////////////////////////////////////
@@ -14,9 +13,6 @@ import '../../css/network/NetworkRequestThumbnail.css';
 
 //displays all the pending connection requests for the current user
 class NetworkRequestThumbnail extends React.Component {
-    constructor(props) {
-        super(props);
-	}
 	
 	componentDidMount() {
 		this.props.userController.getContact(this.props.id)

@@ -5,7 +5,6 @@ import { Link, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Images & Styles
-import fakeuser from '../../img/fakeuser.png';
 import '../../css/network/Contacts.css';
 
 /////////////////////////////////////////

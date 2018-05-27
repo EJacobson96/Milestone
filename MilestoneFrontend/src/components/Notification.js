@@ -12,11 +12,8 @@ import fakeuser from '../img/fakeuser.png';
 /////////////////////////////////////////
 /// Code
 
+//displays all of a user's notifications
 class Notification extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
 
     componentDidMount() {
         this.setUserData();
@@ -25,13 +22,13 @@ class Notification extends React.Component {
       setUserData() {
         this.props.userController.getUser()
         .then((data) => {
-            console.log(data);
           this.setState({
             user: data,
           })
         })
       }
 
+    //displays last 5 notifications in a dropdown
     getLast5() {
         var notifications = [];
         for (let i = this.state.user.notifications.length - 1; i >= 0; i--) {
@@ -49,7 +46,6 @@ class Notification extends React.Component {
         var notifications;
         if (this.state && this.state.user) {
             var count = 0;
-            var numOfNotifications = this.state.user.notifications.length;
             notifications = (this.props.isDropdown ? this.getLast5().reverse() : 
                     this.state.user.notifications).slice(0).reverse().map((notification) => {
                 if (notification.contentType !== "message" && notification.contentType !== "new message") {
@@ -63,7 +59,8 @@ class Notification extends React.Component {
                     switch (notification.read) {
                         case true:
                             read = "c-notification-card-read"
-                        case false: 
+                            break;
+                        default:
                             read = "c-notification-card-not-read"
                     }
                     time = notification.timeSent;
@@ -101,7 +98,9 @@ class Notification extends React.Component {
                             </div>
                         </Link>
                     );
-                }
+                } return (
+                    <p></p>
+                )
             });
         }
         return (

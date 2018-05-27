@@ -2,7 +2,6 @@
 /// Pre-baked Components
 import React from 'react';
 
-import Axios from 'axios';
 import { withRouter, Link } from 'react-router-dom';
 
 /////////////////////////////////////////

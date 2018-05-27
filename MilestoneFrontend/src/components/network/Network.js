@@ -46,7 +46,7 @@ class Network extends Component {
         //listens for any new updates and refreshes the page
         websocket.addEventListener("message", function(event) { 
             var data = JSON.parse(event.data);
-            if (this.state.currUser && data.payload.id == this.state.currUser.id) {
+            if (this.state.currUser && data.payload.id === this.state.currUser.id) {
                 this.setUserData();
             }
         }.bind(this));  
@@ -55,7 +55,6 @@ class Network extends Component {
     setUserData() {
         this.props.userController.getUser()
             .then(data => {
-                console.log(data);
                 this.setState({
                     currUser: data,
                 }, () => {
