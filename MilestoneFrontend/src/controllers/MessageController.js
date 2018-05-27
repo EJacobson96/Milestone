@@ -6,9 +6,9 @@ var MessageController = {
         return Axios.get(
             'https://api.milestoneapp.org/conversations?id=' + id + '&q=' + search,
             {
-                // headers: {
-                //     'Authorization' : localStorage.getItem('Authorization')
-                // }    
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                }    
             })
             .then(response => {
                 return response.data;
@@ -23,9 +23,9 @@ var MessageController = {
         return Axios.get(
             'https://api.milestoneapp.org/conversations/?id=' + id, 
             {
-                // headers: {
-                //     'Authorization' : localStorage.getItem('Authorization')
-                // }    
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                }    
             })
             .then(response => {
                 return response.data;
@@ -61,9 +61,9 @@ var MessageController = {
         return Axios.post(
             'https://api.milestoneapp.org/messages?id=' + userID, 
             {
-                // headers: {
-                //     'Authorization' : localStorage.getItem('Authorization')
-                // }  
+                headers: {
+                    'Authorization' : localStorage.getItem('Authorization')
+                },
                 id: conversationID,
                 TextBody: input 
             })
