@@ -25,11 +25,7 @@
     padding: .8em 0 .8em 0;
 }
 
-.c-notification-card-read {
-    background-color: white;
-}
-
-.c-notification-card-not-read {
+.c-notification-card-background {
     background-color: rgba(253, 120, 109, .5);
 }
 

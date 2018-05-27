@@ -38,9 +38,6 @@ class Goals extends React.Component {
             this.props.getCurrentGoals(id);
         } 
     }
-    
-    // componentWillReceiveProps(nextProps) {
-    // }
 
     render() {
         let goals;

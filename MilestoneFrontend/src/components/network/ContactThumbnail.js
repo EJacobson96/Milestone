@@ -22,9 +22,11 @@ class ContactThumbnail extends React.Component {
 	componentDidMount() {
 		this.props.userController.getContact(this.props.id)
 		.then((data) => {
-			this.setState({
-				userPhoto: data.photoURL
-			})
+			if (data) {
+				this.setState({
+					userPhoto: data.photoURL
+				})
+			}
 		})
 	}
 

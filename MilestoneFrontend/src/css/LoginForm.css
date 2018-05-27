@@ -102,7 +102,7 @@
 	}
 	.l-login {
 		max-width: 400px;
-		margin: auto;
+		margin: 5em auto 0;
 	}
 	.l-login__content {
 		display: flex;

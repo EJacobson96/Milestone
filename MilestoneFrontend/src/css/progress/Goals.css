@@ -11,6 +11,8 @@
 
 @media (min-width: 769px) {
 	.c-goals {
+		overflow-y: scroll;
+		max-height: 60vh;
 		display: flex;
 		flex-wrap: wrap;
 		box-sizing: border-box;

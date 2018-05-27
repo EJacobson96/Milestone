@@ -51,17 +51,9 @@ class Notification extends React.Component {
                 if (notification.contentType !== "message" && notification.contentType !== "new message") {
                     var body;
                     var time;
-                    var read;
                     count++;
                     if (notification.contentType) {
                         body = notification.body;
-                    }
-                    switch (notification.read) {
-                        case true:
-                            read = "c-notification-card-read"
-                            break;
-                        default:
-                            read = "c-notification-card-not-read"
                     }
                     time = notification.timeSent;
                     if (moment(time).calendar().startsWith('Today')) {
@@ -87,7 +79,7 @@ class Notification extends React.Component {
                         className='c-notification-card-link-wrapper' 
                         key={count}
                         >
-                            <div className={"c-notification-card " + read}>
+                            <div className="c-notification-card c-notification-card-background">
                                 <div className="c-notification-user-avatar">
                                     <img src={fakeuser} alt="User Avatar" />
                                 </div>

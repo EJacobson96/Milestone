@@ -81,6 +81,7 @@ class Profile extends React.Component {
                 <form className="c-profile">
                     <div>
                         <img src={this.state.currUserPhotoUrl} alt="user logged in"/>
+                        <p className="gravatar-link">Upload a photo to <a target="_blank" href="http://en.gravatar.com/">Gravatar</a> to change your profile photo.</p>
                         <input type="file" name="PhotoURL" className="hide form-control" />
                         <h2>{this.state.currUserFullName}</h2>
                     </div>
@@ -104,7 +105,6 @@ class Profile extends React.Component {
                     <input type="button" className="c-edit-button" onClick={(event) => this.enableEditForm(event)} value="Edit"/>
                     <input type="submit" className="c-edit-button hide" value="Save Changes" onClick={(e) => this.handleSubmit(e)} />
                     <Button className="c-profile-log-out" onClick={(e) => this.props.logOut(e)}>Log Out </Button>
-
                 </form>
             </div>
         )
