@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+//Represents the status of a user
 type Status struct {
 	AccountStatus string    `json:"accountStatus"`
 	InvitedOn     time.Time `json:"invitedOn"`

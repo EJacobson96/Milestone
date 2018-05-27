@@ -26,7 +26,7 @@ func NewMongoStore(sess *mgo.Session, dbName string, collectionName string) *Mon
 	}
 }
 
-//GetGoals gets all the goals in the database for a give user
+//GetGoals gets all the goals in the database for a given user
 func (s *MongoStore) GetGoals(userID bson.ObjectId) ([]*Goal, error) {
 	goals := []*Goal{}
 	filteredGoals := []*Goal{}

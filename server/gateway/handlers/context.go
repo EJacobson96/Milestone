@@ -5,6 +5,7 @@ import (
 	"github.com/EJacobson96/Milestone/server/gateway/sessions"
 )
 
+//wraps multiple entities that the handlers can access when they are called
 type HandlerContext struct {
 	Notifier      Notifier
 	SigningKey    string

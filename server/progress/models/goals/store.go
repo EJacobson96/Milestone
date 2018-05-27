@@ -8,7 +8,7 @@ type Store interface {
 	//GetGoals gets all the goals in the database for a given user
 	GetGoals(userID bson.ObjectId) ([]*Goal, error)
 
-	//GetRsources gets all the resources in the database for a given user
+	//GetResources gets all the resources in the database for a given user
 	GetResources(userID bson.ObjectId) ([]*ResourceCategory, error)
 
 	//GetSpecificGoal takes in a goalID and returns the goal associated with that id
@@ -23,7 +23,7 @@ type Store interface {
 	//InsertResource inserts a new resource in the database
 	InsertResource(newResource *NewResourceCategory) (*ResourceCategory, error)
 
-	//UpdateGoal updates a goal with new data
+	//UpdateGoal updates a goal with new goal in the database
 	UpdateGoal(update *UpdateGoal, goalID bson.ObjectId) (*Goal, error)
 
 	//UpdateResource updates a goal with new data

@@ -7,6 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+//Message represents a message in the database
 type Message struct {
 	ID             bson.ObjectId `json:"id" bson:"_id"`
 	ConversationID bson.ObjectId `json:"conversationID"`
@@ -15,11 +16,13 @@ type Message struct {
 	CreatedAt      time.Time     `json:"createdAt"`
 }
 
+//NewMessage represents a message before it is converted to a message and inserted into the database
 type NewMessage struct {
 	ConversationID bson.ObjectId `json:"id" bson:"_id"`
 	TextBody       string        `json:"textBody"`
 }
 
+//Validate validates a new message
 func (nm *NewMessage) Validate() error {
 	if len(nm.TextBody) == 0 {
 		return errors.New("error: no message in textbody")
@@ -30,6 +33,7 @@ func (nm *NewMessage) Validate() error {
 	return nil
 }
 
+//ToMessage converts a NewMessage to a Message
 func (nm *NewMessage) ToMessage(userID bson.ObjectId) (*Message, error) {
 	return &Message{
 		ConversationID: nm.ConversationID,

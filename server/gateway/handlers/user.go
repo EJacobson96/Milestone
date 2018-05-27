@@ -8,27 +8,35 @@ import (
 	"strings"
 
 	"github.com/EJacobson96/Milestone/server/gateway/models/users"
-	"github.com/EJacobson96/Milestone/server/gateway/sessions"
 	"gopkg.in/mgo.v2/bson"
 )
 
-//handles searching for a participant based on user input
+//ParticipantHandler handles searching for a participant based on user input
 func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Request) {
+	//authenticates the client
+	_, err := c.authenticateUser(w, r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
 	switch r.Method {
 	case "GET":
 		participants := []*users.User{}
 		query := r.URL.Query().Get("q")
+		//returns all the current users stored in the mongo db collection
 		allUsers, err := c.UsersStore.GetAllUsers()
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error grabbing users from database: %v", err), http.StatusInternalServerError)
 			return
 		}
+		//filters out users based on the query passed in params
 		for _, user := range allUsers {
 			if strings.ToLower(user.AccountType) == "participant" &&
 				strings.Contains(strings.ToLower(user.GetFullName()), strings.TrimSpace(strings.ToLower(query))) {
 				participants = append(participants, user)
 			}
 		}
+		//encodes the users back to the client
 		err = json.NewEncoder(w).Encode(participants)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
@@ -39,24 +47,20 @@ func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-//handles finding all connections for a given user and sorts them alphebetically based on fullname
+//UserConnectionsHandler handles finding all connections for a given user and sorts them alphebetically based on fullname
 func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.Request) {
-	// sessionState := &SessionState{}
-	// sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-	// if err != nil {
-	// 	http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
-	// 	return
-	// }
+	//authenticates the client
+	_, err := c.authenticateUser(w, r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
 	switch r.Method {
 	case "GET":
-		// err = c.SessionsStore.Save(sessionID, sessionState)
-		// if err != nil {
-		// 	http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
-		// 	return
-		// }
 		connections := []*users.ShortUser{}
 		query := r.URL.Query().Get("q")
 		userID := r.URL.Query().Get("id")
+		//gets a specific user based on the id params
 		user, err := c.UsersStore.GetByID(bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error finding user: %v", err), http.StatusBadRequest)
@@ -85,11 +89,13 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 			return
 		}
 		userID := r.URL.Query().Get("id")
+		//gets user based on the id params and updates their list of connection using updated list
 		connections, err := c.UsersStore.UpdateConnections(update, bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error adding connection: %v", err), http.StatusInternalServerError)
 			return
 		}
+		//encodes list of connections back to client
 		err = json.NewEncoder(w).Encode(connections)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
@@ -101,8 +107,14 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 	}
 }
 
-//handles searching for a service provider based on user input
+//ServiceProviderHandler handles searching for a service provider based on user input
 func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.Request) {
+	//authenticates the client
+	_, err := c.authenticateUser(w, r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
 	switch r.Method {
 	case "GET":
 		query := r.URL.Query().Get("q")
@@ -119,6 +131,7 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 				serviceProviders = append(serviceProviders, user)
 			}
 		}
+		//encodes list of service providers back to client
 		err = json.NewEncoder(w).Encode(serviceProviders)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding users to JSON: %v", err), http.StatusInternalServerError)
@@ -129,26 +142,24 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 	}
 }
 
+//SpecificContactHandler handles getting specific connection for a user
 func (c *HandlerContext) SpecificContactHandler(w http.ResponseWriter, r *http.Request) {
-	sessionState := &SessionState{}
-	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+	//authenticates the client
+	_, err := c.authenticateUser(w, r)
 	if err != nil {
-		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
 	switch r.Method {
 	case "GET":
-		err = c.SessionsStore.Save(sessionID, sessionState)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
-			return
-		}
 		contactID := r.URL.Query().Get("id")
+		//gets the user based on the id params
 		contact, err := c.UsersStore.GetByID(bson.ObjectIdHex(contactID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting user: %v", err), http.StatusInternalServerError)
 			return
 		}
+		//encodes the user back to the client
 		err = json.NewEncoder(w).Encode(contact)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding user to JSON: %v", err), http.StatusInternalServerError)
@@ -160,13 +171,14 @@ func (c *HandlerContext) SpecificContactHandler(w http.ResponseWriter, r *http.R
 	}
 }
 
+//NotificationsHandler handles updating a user's notifcations and notifying the client using websockets
 func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Request) {
-	// sessionState := &SessionState{}
-	// sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-	// if err != nil {
-	// 	http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
-	// 	return
-	// }
+	//authenticates the client
+	_, err := c.authenticateUser(w, r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
 	switch r.Method {
 	case "PATCH":
 		update := &users.UpdateNotifications{}
@@ -177,15 +189,18 @@ func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Req
 			http.Error(w, fmt.Sprintf("error decoding notification: %v", err), http.StatusInternalServerError)
 			return
 		}
+		//updates the user based on the id params using the updates notifications list passed in body
 		notificationsList, err := c.UsersStore.UpdateNotifications(update, bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error adding notification: %v", err), http.StatusInternalServerError)
 		}
+		//encodes notifcation list back to client
 		err = json.NewEncoder(w).Encode(notificationsList)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error encoding notification to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
+		//notifies the client with any changes
 		notificationPayload := struct {
 			Payload *users.User `json:"payload"`
 		}{
@@ -203,13 +218,14 @@ func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Req
 	}
 }
 
+//RequestsHandler handles updating a user's requests and notifying the client with new changes
 func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request) {
-	// sessionState := &SessionState{}
-	// sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-	// if err != nil {
-	// 	http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
-	// 	return
-	// }
+	//authenticates the client
+	_, err := c.authenticateUser(w, r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
 	switch r.Method {
 	case "PATCH":
 		update := &users.UpdateRequests{}
@@ -219,6 +235,7 @@ func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error decoding request: %v", err), http.StatusInternalServerError)
 		}
+		//updates the user based on the id params using the update requests list
 		requestsList, err := c.UsersStore.UpdateRequests(update, bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error updating request: %v", err), http.StatusInternalServerError)
@@ -229,6 +246,7 @@ func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request)
 			http.Error(w, fmt.Sprintf("error encoding request to JSON: %v", err), http.StatusInternalServerError)
 			return
 		}
+		//notifies the client with any new changes to a user's requests list
 		requestPayload := struct {
 			Payload *users.User `json:"payload"`
 		}{
