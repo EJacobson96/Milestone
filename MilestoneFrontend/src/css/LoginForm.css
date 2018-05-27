@@ -78,6 +78,16 @@
 	margin-bottom: .5em;
 }
 
+.invalid {
+	border: red 2px solid;
+}
+.validationWarning {
+	font-size: 14px;
+	color: red;
+	font-weight: 400;
+	margin-top: 5px;
+}
+
 /**  Currently Unused **/
 
 /* .ms-login-btn-wrapper {

@@ -5,6 +5,7 @@ import Axios from 'axios';
 import threeDotImg from '../../img/task3dot.png';
 import '../../css/progress/ResourceCategories.css';
 
+
 class ResourceCategories extends Component {
     constructor(props) {
         super(props);
@@ -43,6 +44,7 @@ class ResourceCategories extends Component {
     }
 
     alphabetize(arr) {
+        //Sorts this.props.resourceCategories alphabetically
         return arr.sort(function(a, b) {
             var textA = a.title.toLowerCase();
             var textB = b.title.toLowerCase();
