@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+//Task represents a task in the database
 type Task struct {
 	ID          string      `json:"id" bson:"_id"`
 	GoalID      string      `json:"goalID"`
@@ -39,6 +40,7 @@ type Resource struct {
 	URL   string `json:"url"`
 }
 
+//Validate validates a new task
 func (nt *NewTask) Validate() error {
 	if len(nt.GoalID) == 0 {
 		return errors.New("Error: no goal found")
@@ -50,6 +52,7 @@ func (nt *NewTask) Validate() error {
 	return nil
 }
 
+//ToTask converts a new task to a task
 func (nt *NewTask) ToTask() *Task {
 	return &Task{
 		// ID:          bson.NewObjectId(),

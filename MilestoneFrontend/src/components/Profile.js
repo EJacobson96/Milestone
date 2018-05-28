@@ -45,15 +45,17 @@ class Profile extends React.Component {
         this.props.userController.updateUser(this.state.userID, this.state.currUserEmail, this.state.currUserFirstName, 
                                                 this.state.currUserLastName, this.state.currUserPhone)
         .then((data) => {
-            this.setState({
-                currUserPhotoUrl: data.photoURL,
-                currUserFullName: data.fullName,
-                currUserAddress: data.address,
-                currUserDob: data.dob,
-                currUserEmail: data.email,
-                currUserPhone: data.phone,
-                currUserOrganization: data.organization,
-            })
+            if (data) {
+                this.setState({
+                    currUserPhotoUrl: data.photoURL,
+                    currUserFullName: data.fullName,
+                    currUserAddress: data.address,
+                    currUserDob: data.dob,
+                    currUserEmail: data.email,
+                    currUserPhone: data.phone,
+                    currUserOrganization: data.organization,
+                })
+            }
         })
     }
     

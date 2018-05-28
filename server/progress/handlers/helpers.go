@@ -1,11 +1,14 @@
 package handlers
 
 import (
+	"errors"
+	"net/http"
 	"strings"
 
 	"github.com/EJacobson96/Milestone/server/progress/models/goals"
 )
 
+//FilterGoals filters goals based on a tasks title and description using the given query
 func FilterGoals(userGoals []*goals.Goal, query string) []*goals.Goal {
 	filteredGoals := []*goals.Goal{}
 	for _, goal := range userGoals {
@@ -27,4 +30,14 @@ func FilterGoals(userGoals []*goals.Goal, query string) []*goals.Goal {
 		}
 	}
 	return filteredGoals
+}
+
+//authenticateUser checks to make sure the "X-User" header was set in the gateway
+func authenticateUser(r *http.Request) error {
+	jsonUser := r.Header.Get("X-User")
+	if len(jsonUser) == 0 {
+		return errors.New("no X-User header set")
+	}
+
+	return nil
 }

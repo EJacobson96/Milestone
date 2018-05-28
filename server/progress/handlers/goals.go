@@ -9,17 +9,20 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+//GoalHandler handles getting, creating and updating goals
 func (c *HandlerContext) GoalHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		userID := r.URL.Query().Get("id")
 		query := r.URL.Query().Get("q")
 		filteredGoals := []*goals.Goal{}
+		//gets all goals for a user based on the id params
 		goals, err := c.GoalsStore.GetGoals(bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting goals from database: %v", err), http.StatusBadRequest)
 			return
 		}
+		//filters goals based on the query params
 		filteredGoals = FilterGoals(goals, query)
 		err = json.NewEncoder(w).Encode(filteredGoals)
 		if err != nil {
@@ -34,6 +37,7 @@ func (c *HandlerContext) GoalHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, fmt.Sprintf("error decoding goal: %v", err), http.StatusInternalServerError)
 			return
 		}
+		//inserts a new goal into the database
 		goal, err := c.GoalsStore.InsertGoal(newGoal)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error inserting goal into database: %v", err), http.StatusBadRequest)
@@ -52,6 +56,7 @@ func (c *HandlerContext) GoalHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error decoding goal: %v", err), http.StatusInternalServerError)
 		}
+		//updates a goal using the id passed in params using the updates in the response body
 		goal, err := c.GoalsStore.UpdateGoal(update, bson.ObjectIdHex(goalID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error updating goal: %v", err), http.StatusInternalServerError)
@@ -65,6 +70,7 @@ func (c *HandlerContext) GoalHandler(w http.ResponseWriter, r *http.Request) {
 	case "DELETE":
 		goalID := r.URL.Query().Get("id")
 		goal := &goals.Goal{}
+		//deletes a goal from the database using the id params
 		goal, err := c.GoalsStore.DeleteGoal(bson.ObjectIdHex(goalID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error deleting goal from database: %v", err), http.StatusBadRequest)
@@ -81,10 +87,12 @@ func (c *HandlerContext) GoalHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//SpecificGoalHandler handles getting a specific goal
 func (c *HandlerContext) SpecificGoalHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		goalID := r.URL.Query().Get("id")
+		//gets a specific goal based on the id params
 		goal, err := c.GoalsStore.GetSpecificGoal(bson.ObjectIdHex(goalID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting goal from database: %v", err), http.StatusBadRequest)
@@ -101,10 +109,12 @@ func (c *HandlerContext) SpecificGoalHandler(w http.ResponseWriter, r *http.Requ
 	}
 }
 
+//ResourceHandler handles getting, creating and updating resources in the database
 func (c *HandlerContext) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		userID := r.URL.Query().Get("id")
+		//returns all resources for a user based on the id params
 		resources, err := c.ResourceStore.GetResources(bson.ObjectIdHex(userID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting resources from database: %v", err), http.StatusBadRequest)
@@ -123,6 +133,7 @@ func (c *HandlerContext) ResourceHandler(w http.ResponseWriter, r *http.Request)
 			http.Error(w, fmt.Sprintf("error decoding resource category: %v", err), http.StatusInternalServerError)
 			return
 		}
+		//inserts a new resource category into the database
 		resourceCategory, err := c.ResourceStore.InsertResource(newResourceCategory)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error inserting resource category into database: %v", err), http.StatusBadRequest)
@@ -141,6 +152,7 @@ func (c *HandlerContext) ResourceHandler(w http.ResponseWriter, r *http.Request)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error decoding resource category: %v", err), http.StatusInternalServerError)
 		}
+		//updates a resource category based on the id params using the updated resource category
 		resource, err := c.ResourceStore.UpdateResource(update, bson.ObjectIdHex(resourceID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error updating resource category: %v", err), http.StatusInternalServerError)
@@ -154,6 +166,7 @@ func (c *HandlerContext) ResourceHandler(w http.ResponseWriter, r *http.Request)
 	case "DELETE":
 		resourceID := r.URL.Query().Get("id")
 		resource := &goals.ResourceCategory{}
+		//deletes resource category from the databased using the id params
 		resource, err := c.ResourceStore.DeleteResource(bson.ObjectIdHex(resourceID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error deleting resource category from database: %v", err), http.StatusBadRequest)
@@ -170,10 +183,12 @@ func (c *HandlerContext) ResourceHandler(w http.ResponseWriter, r *http.Request)
 	}
 }
 
+//SpecificResourceHandler handles getting a specific resource category
 func (c *HandlerContext) SpecificResourceHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		resourceID := r.URL.Query().Get("id")
+		//gets a resoruce category using the id params
 		resource, err := c.ResourceStore.GetSpecificResource(bson.ObjectIdHex(resourceID))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("error getting resource category from database: %v", err), http.StatusBadRequest)

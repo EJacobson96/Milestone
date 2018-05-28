@@ -6,6 +6,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+//ResourceCategory represents a resource category in the database
 type ResourceCategory struct {
 	ID        bson.ObjectId `json:"id" bson:"_id"`
 	UserID    bson.ObjectId `json:"userID"`
@@ -29,6 +30,7 @@ type UpdateResourceCategory struct {
 	Resources []*Entity `json:"resources"`
 }
 
+//Validate validates a new resource category
 func (nr *NewResourceCategory) Validate() error {
 	if len(nr.Title) == 0 {
 		return errors.New("Error: no title set")
@@ -38,6 +40,7 @@ func (nr *NewResourceCategory) Validate() error {
 	return nil
 }
 
+//ToResourceCategory converts a new resource category to a resource category
 func (nr *NewResourceCategory) ToResourceCategory() *ResourceCategory {
 	return &ResourceCategory{
 		ID:     bson.NewObjectId(),

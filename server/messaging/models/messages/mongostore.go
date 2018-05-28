@@ -39,7 +39,7 @@ func (s *MongoStore) GetByID(id bson.ObjectId) (*Conversation, error) {
 	return conversation, nil
 }
 
-//Get every single conversation for a user
+//GetConversations returns every conversation based on the given userID
 func (s *MongoStore) GetConversations(userID bson.ObjectId) ([]*Conversation, error) {
 	conversations := []*Conversation{}
 	filteredConversations := []*Conversation{}
@@ -48,6 +48,7 @@ func (s *MongoStore) GetConversations(userID bson.ObjectId) ([]*Conversation, er
 	if err != nil {
 		return nil, fmt.Errorf("error finding conversations: %v", err)
 	}
+	//filters for conversations based on the given userID
 	for _, conversation := range conversations {
 		for i := 0; i < len(conversation.Members); i++ {
 			member := conversation.Members[i]
@@ -60,13 +61,15 @@ func (s *MongoStore) GetConversations(userID bson.ObjectId) ([]*Conversation, er
 	return filteredConversations, nil
 }
 
-//InsertMessage insert a new message into the database and returns it
+//InsertMessage inserts new message into the database and returns the conversation
 func (s *MongoStore) InsertMessage(newMessage *NewMessage, userID bson.ObjectId) (*Conversation, error) {
 	conversation := &Conversation{}
+	//validates the new message
 	err := newMessage.Validate()
 	if err != nil {
 		return nil, fmt.Errorf("error validating new message: %v", err)
 	}
+	//converts the newmessage to a message
 	message, err := newMessage.ToMessage(userID)
 	if err != nil {
 		return nil, fmt.Errorf("error converting new message: %v", err)
@@ -75,6 +78,7 @@ func (s *MongoStore) InsertMessage(newMessage *NewMessage, userID bson.ObjectId)
 	if err := col.FindId(message.ConversationID).One(&conversation); err != nil {
 		return nil, fmt.Errorf("error finding conversation: %v", err)
 	}
+	//checks to make sure the given userID is in the conversation
 	checkMember := false
 	for _, member := range conversation.Members {
 		if member.ID == userID {
@@ -86,6 +90,7 @@ func (s *MongoStore) InsertMessage(newMessage *NewMessage, userID bson.ObjectId)
 	}
 	message.ID = bson.NewObjectId()
 	conversation.LastMessage = time.Now()
+	//adds new message to the conversation
 	conversation.Messages = append(conversation.Messages, message)
 	if err = col.UpdateId(conversation.ID, conversation); err != nil {
 		return nil, fmt.Errorf("error inserting new message: %v", err)
@@ -93,7 +98,7 @@ func (s *MongoStore) InsertMessage(newMessage *NewMessage, userID bson.ObjectId)
 	return conversation, nil
 }
 
-//InsertConversation inserts a new conversation into the database and returns it
+//InsertConversation inserts a new conversation in the database and returns it
 func (s *MongoStore) InsertConversation(newConversation *NewConversation, userID bson.ObjectId) (*Conversation, error) {
 	conversationID := bson.NewObjectId()
 	newConversation.Message.ConversationID = conversationID
@@ -101,14 +106,17 @@ func (s *MongoStore) InsertConversation(newConversation *NewConversation, userID
 	if err != nil {
 		return nil, fmt.Errorf("error validating messaging: %v", err)
 	}
+	//validates the first message in a conversation
 	err = newConversation.Message.Validate()
 	if err != nil {
 		return nil, fmt.Errorf("error validating new message: %v", err)
 	}
+	//convers the first new message to a message
 	message, err := newConversation.Message.ToMessage(userID)
 	if err != nil {
 		return nil, fmt.Errorf("error converting message: %v", err)
 	}
+	//converts the new conversation to a conversations
 	conversation, err := newConversation.ToConversation()
 	if err != nil {
 		return nil, fmt.Errorf("error converting new conversation: %v", err)
@@ -116,6 +124,7 @@ func (s *MongoStore) InsertConversation(newConversation *NewConversation, userID
 	message.ID = bson.NewObjectId()
 	message.ConversationID = conversationID
 	conversation.ID = conversationID
+	//adds the message to the conversation
 	conversation.Messages = append(conversation.Messages, message)
 	col := s.session.DB(s.dbname).C(s.colname)
 	err = col.Insert(&conversation)

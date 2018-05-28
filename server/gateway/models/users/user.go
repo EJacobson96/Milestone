@@ -43,6 +43,7 @@ type User struct {
 	Address         *Address        `json:"address"`
 }
 
+//ShortUser represents a short version of a user's information in the database
 type ShortUser struct {
 	ID        string `json:"id" bson:"_id"`
 	Email     string `json:"email"`
@@ -51,6 +52,7 @@ type ShortUser struct {
 	FullName  string `json:"fullName"`
 }
 
+//Notifcation represents a notification sent to a user
 type Notification struct {
 	Sender       string    `json:"sender"`
 	TimeSent     time.Time `json:"timeSent"`
@@ -60,6 +62,7 @@ type Notification struct {
 	ContentRoute string    `json:"contentRoute"`
 }
 
+//Request represents requests that gets sent to users
 type Request struct {
 	Sender      string    `json:"sender"`
 	TimeSent    time.Time `json:"timeSent"`
@@ -78,14 +81,17 @@ type UpdateUser struct {
 	// Image     bytes.Buffer `json:"image"`
 }
 
+//UpdateRequests handles updating a user's requests list
 type UpdateRequests struct {
 	PendingRequests []*Request `json:"pendingRequests"`
 }
 
+//UpdateConnections handles updating a user's connections list
 type UpdateConnections struct {
 	Connections []*ShortUser `json:"connections"`
 }
 
+//UpdateNotifications handles updating a user's notifications list
 type UpdateNotifications struct {
 	Notifications []*Notification `json:"notifications"`
 }
@@ -200,14 +206,3 @@ func (u *User) Authenticate(password string) error {
 	}
 	return nil
 }
-
-//ApplyUpdates applies the updates to the user. An error
-//is returned if the updates are invalid
-// func (u *User) ApplyUpdates(updates *Updates) error {
-// 	if len(updates.FirstName) == 0 || len(updates.LastName) == 0 {
-// 		return fmt.Errorf("FirstName must be non-zero-length")
-// 	}
-// 	u.FirstName = updates.FirstName
-// 	u.LastName = updates.LastName
-// 	return nil
-// }

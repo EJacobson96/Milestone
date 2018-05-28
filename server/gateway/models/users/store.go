@@ -24,8 +24,7 @@ type Store interface {
 	//GetByUserName returns the User with the given Username
 	GetByUserName(username string) (*User, error)
 
-	//Insert converts the NewUser to a User, inserts
-	//it into the database, and returns it
+	//Insert converts the NewUser to a User, inserts it into the database, and returns it
 	Insert(newUser *NewUser) (*User, error)
 
 	//Update applies updates to the given user ID
@@ -36,9 +35,6 @@ type Store interface {
 
 	//AddNotification adds a notification for a user and returns it
 	UpdateNotifications(updates *UpdateNotifications, userID bson.ObjectId) (*User, error)
-
-	//AddConnection adds a connection for a user and returns the connection list
-	// AddConnection(userID bson.ObjectId, connection *User) ([]*User, error)
 
 	//UpdateRequests adds a request for a user and returns it
 	UpdateRequests(updates *UpdateRequests, userID bson.ObjectId) (*User, error)

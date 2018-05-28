@@ -7,6 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+//Goal represents a goal in the database
 type Goal struct {
 	ID               bson.ObjectId   `json:"id" bson:"_id"`
 	UserID           bson.ObjectId   `json:"userID"`
@@ -31,6 +32,7 @@ type NewGoal struct {
 	DueDate          time.Time       `json:"dueDate"`
 }
 
+//UpdateGoal is used to the update the fields of a Goal
 type UpdateGoal struct {
 	Title     string    `json:"title"`
 	Category  string    `json:"category"`
@@ -40,6 +42,7 @@ type UpdateGoal struct {
 	Completed bool      `json:"completed"`
 }
 
+//Validate validates a new goal
 func (ng *NewGoal) Validate() error {
 	if len(ng.UserID) == 0 {
 		return errors.New("Error: no user found")
@@ -53,6 +56,7 @@ func (ng *NewGoal) Validate() error {
 	return nil
 }
 
+//ToGoal converts a new goal to a goal
 func (ng *NewGoal) ToGoal() *Goal {
 	return &Goal{
 		ID:               bson.NewObjectId(),

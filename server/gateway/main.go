@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,6 +9,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/EJacobson96/Milestone/server/gateway/middleware"
 
 	"github.com/EJacobson96/Milestone/server/gateway/handlers"
 
@@ -21,32 +22,14 @@ import (
 	"github.com/go-redis/redis"
 )
 
-func GetCurrentUser(r *http.Request, c handlers.HandlerContext) *users.User {
-	sessionState := &handlers.SessionState{}
-	_, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-	if err != nil {
-		return nil
-	}
-	return sessionState.User
-}
-
-func NewServiceProxy(addrs []string, c handlers.HandlerContext) *httputil.ReverseProxy {
+//NewServiceProxy directs requests to be more scalable
+func NewServiceProxy(addrs []string) *httputil.ReverseProxy {
 	nextIndex := 0
 	mx := sync.Mutex{}
 	return &httputil.ReverseProxy{
 		Director: func(r *http.Request) {
 			//modify the request to indicate
 			//remote host
-			user := GetCurrentUser(r, c)
-			if user == nil {
-				r.Header.Del("X-User")
-			}
-			userJSON, err := json.Marshal(user)
-			if err != nil {
-				log.Printf("error marshaling user: %v", err)
-			}
-			r.Header.Add("X-User", string(userJSON))
-
 			mx.Lock()
 			r.URL.Host = addrs[nextIndex%len(addrs)]
 			nextIndex++
@@ -87,20 +70,22 @@ func main() {
 		log.Fatal("DBADDR")
 	}
 
+	//redis handles session storage
 	client := redis.NewClient(&redis.Options{
 		Addr:     reddisADDR,
 		Password: "",
 		DB:       0,
 	})
-
-	redisStore := sessions.NewRedisStore(client, time.Duration(30)*time.Minute)
+	redisStore := sessions.NewRedisStore(client, 2*time.Hour)
 	session, err := mgo.Dial(dbADDR)
 	if err != nil {
 		log.Fatal("error dialing database")
 	}
+
+	//creates a new mongstore with a "user" collection
 	mongoStore := users.NewMongoStore(session, "db", "users")
 	notifier := handlers.NewNotifier()
-	context := handlers.HandlerContext{
+	context := &handlers.HandlerContext{
 		SigningKey:    sessionKey,
 		SessionsStore: redisStore,
 		UsersStore:    mongoStore,
@@ -118,22 +103,21 @@ func main() {
 	mux.HandleFunc("/contact/", context.SpecificContactHandler)         //handles getting a specific contact based on id
 	mux.HandleFunc("/notifications", context.NotificationsHandler)      //handles posting new notifications
 	mux.HandleFunc("/requests", context.RequestsHandler)                //handles all user requests
-	mux.Handle("/ws", handlers.NewWebSocketsHandler(notifier))
+	mux.Handle("/ws", handlers.NewWebSocketsHandler(notifier))          //websockets
 
 	//messaging microservice
-	mux.Handle("/conversations", NewServiceProxy(splitMessagesSvcAddrs, context))  //handles returning all conversations for a user and creating new conversation
-	mux.Handle("/conversations/", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles getting a specific conversation based on id
-	mux.Handle("/messages", NewServiceProxy(splitMessagesSvcAddrs, context))       //handles inserting new message into a conversation
-	mux.Handle("/member", NewServiceProxy(splitMessagesSvcAddrs, context))         //handles removing a member from a conversation
-	// mux.Handle("/search/conversations", NewServiceProxy(splitMessagesSvcAddrs, context)) //handles searching through conversations
+	mux.Handle("/conversations", NewServiceProxy(splitMessagesSvcAddrs))
+	mux.Handle("/conversations/", NewServiceProxy(splitMessagesSvcAddrs))
+	mux.Handle("/messages", NewServiceProxy(splitMessagesSvcAddrs))
+	mux.Handle("/member", NewServiceProxy(splitMessagesSvcAddrs))
 
 	//progress microservice
-	mux.Handle("/goals", NewServiceProxy(splitGoalsSvcAddrs, context))      //handles getting goals, inserting goals, updating and deleting goals
-	mux.Handle("/goals/", NewServiceProxy(splitGoalsSvcAddrs, context))     //handles getting a specific goal
-	mux.Handle("/resources", NewServiceProxy(splitGoalsSvcAddrs, context))  //handles getting resources, inserting resoures, updating and deleting resources
-	mux.Handle("/resources/", NewServiceProxy(splitGoalsSvcAddrs, context)) //handles getting a specific resource
+	mux.Handle("/goals", NewServiceProxy(splitGoalsSvcAddrs))
+	mux.Handle("/goals/", NewServiceProxy(splitGoalsSvcAddrs))
+	mux.Handle("/resources", NewServiceProxy(splitGoalsSvcAddrs))
+	mux.Handle("/resources/", NewServiceProxy(splitGoalsSvcAddrs))
 
-	corsMux := handlers.NewCORSHandler(mux)
+	corsMux := middleware.NewCORSHandler(mux)
 
 	fmt.Printf("server is listening at http://%s\n", addr)
 	log.Fatal(http.ListenAndServeTLS(addr, tlsCertPath, tlsKeyPath, corsMux))

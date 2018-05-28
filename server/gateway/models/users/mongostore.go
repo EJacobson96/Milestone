@@ -26,7 +26,7 @@ func NewMongoStore(sess *mgo.Session, dbName string, collectionName string) *Mon
 	}
 }
 
-//Get every single user
+//GetAllUsers returns every single user
 func (s *MongoStore) GetAllUsers() ([]*User, error) {
 	users := []*User{}
 	col := s.session.DB(s.dbname).C(s.colname)
@@ -70,26 +70,7 @@ func (s *MongoStore) GetByUserName(username string) (*User, error) {
 	return user, nil
 }
 
-// func (s *MongoStore) AddConnection(userID bson.ObjectId, newConnection *User) ([]*User, error) {
-// 	user := &User{}
-// 	col := s.session.DB(s.dbname).C(s.colname)
-// 	err := col.FindId(userID).One(&user)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error finding user: %v", err)
-// 	}
-// 	for _, connection := range user.Connections {
-// 		if connection == newConnection {
-// 			return nil, errors.New("connection already exists")
-// 		}
-// 	}
-// 	user.Connections = append(user.Connections, newConnection)
-// 	_, err = col.UpsertId(userID, bson.M{"$addToSet": bson.M{"connections": newConnection}})
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error inserting new connection: %v", err)
-// 	}
-// 	return user.Connections, nil
-// }
-
+//UpdateConnections adds a connection for a user and returns the connection list
 func (s *MongoStore) UpdateConnections(update *UpdateConnections, userID bson.ObjectId) (*User, error) {
 	user := &User{}
 	change := mgo.Change{
@@ -107,6 +88,7 @@ func (s *MongoStore) UpdateConnections(update *UpdateConnections, userID bson.Ob
 	return user, nil
 }
 
+//AddNotification adds a notification for a user and returns it
 func (s *MongoStore) UpdateNotifications(update *UpdateNotifications, userID bson.ObjectId) (*User, error) {
 	user := &User{}
 	change := mgo.Change{
@@ -124,6 +106,7 @@ func (s *MongoStore) UpdateNotifications(update *UpdateNotifications, userID bso
 	return user, nil
 }
 
+//UpdateRequests adds a request for a user and returns it
 func (s *MongoStore) UpdateRequests(update *UpdateRequests, userID bson.ObjectId) (*User, error) {
 	user := &User{}
 	change := mgo.Change{
@@ -159,8 +142,7 @@ func (s *MongoStore) UpdateUser(userID bson.ObjectId, updates *UpdateUser) (*Use
 	return user, nil
 }
 
-//Insert converts the NewUser to a User, inserts
-//it into the database, and returns it
+//Insert converts the NewUser to a User, inserts it into the database, and returns it
 func (s *MongoStore) Insert(newUser *NewUser) (*User, error) {
 	user, err := newUser.ToUser()
 	if err != nil {
