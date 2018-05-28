@@ -1,7 +1,7 @@
 /////////////////////////////////////////
 /// Pre-baked Components & Packages
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, withRouter, Route, Switch } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -83,6 +83,7 @@ class App extends Component {
 	}
 	
 	render() {
+		console.log(this.props)
 		const isLoggedIn = this.state.userLoggedIn;
 		return (
 			<div className="App">
@@ -122,4 +123,4 @@ class App extends Component {
 	}
 }
 
-export default App;
+export default withRouter(App);

@@ -18,6 +18,7 @@ function Messages(props) {
     var conversations;
     var messagesCount;
     var time;
+    var userImg;
     var firstMessage;
     if (props.renderSearch) {
         var networkSearch = <NetworkSearch 
@@ -69,9 +70,6 @@ function Messages(props) {
                 key={conversation.id}
             >
                 <div className={`c-conversation-card ${firstMessage} ${props.match.params.id === ":id" + conversation.id && 'selectedMessage'}`} key={conversation.id} >
-                    <div className="c-conversation-card__user-img">
-                        <img src={fakeuser} alt="user from message thread"/>
-                    </div>
                     <div className="c-conversation-card__details">
                         <div className="c-conversation-card__details__name-and-date">
                             <span className="c-conversation-card__details__name">{members}</span>

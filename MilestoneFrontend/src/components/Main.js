@@ -4,7 +4,7 @@
 /////////////////////////////////////////
 /// Pre-baked Components
 import React from 'react';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import { Redirect, Switch, Route, withRouter } from 'react-router-dom';
 
 /////////////////////////////////////////
 /// Standard Components
@@ -20,8 +20,9 @@ import Profile from './Profile';
 
 //handles main navbar routing
 function Main(props) {
+        console.log(props)
         return props.userLoggedIn ? (
-            
+
             <Switch>
                 <Route path='/network' render={() => (
                     <Network 
@@ -46,7 +47,7 @@ function Main(props) {
                         userController= { props.userController }
                     />
                 )} />
-                <Route exact path="/" render={() => (
+                <Route path="/" render={() => (
                     <Redirect to="/progress" />
                 )} />
             </Switch>
@@ -55,4 +56,4 @@ function Main(props) {
         );
 }
   
-export default Main;
+export default withRouter(Main);

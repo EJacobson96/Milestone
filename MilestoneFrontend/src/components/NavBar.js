@@ -63,7 +63,7 @@ class NavBar extends React.Component {
     }
     
     //clears notification bell when user clicks on notifications
-    clearNotifications() {
+    clearNotifications(e) {
         if (this.state.user) {
             let notifications = this.state.user.notifications;
             for (let i = 0; i < notifications.length; i++) {
@@ -74,7 +74,7 @@ class NavBar extends React.Component {
             this.props.userController.postNotification(notifications, this.state.user.id)
             .then((data) => {
                 this.setState({
-                user: data,
+                    user: data,
                 })
             });
         }
@@ -152,7 +152,6 @@ class NavBar extends React.Component {
                                         aria-haspopup="true" aria-expanded="false" onClick={(e) => this.clearNotifications(e)}>
                                         <i className="fas fa-bell"></i>
                                     {displayNotifications}
-                                    
                                     </Button>
                                     <div className="dropdown-menu p-4">
                                     {notificationComponent}
