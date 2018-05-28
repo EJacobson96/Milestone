@@ -90,9 +90,7 @@ class Notification extends React.Component {
                             </div>
                         </Link>
                     );
-                } return (
-                    <p></p>
-                )
+                } 
             });
         }
         return (
