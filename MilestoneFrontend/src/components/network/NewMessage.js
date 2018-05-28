@@ -63,23 +63,25 @@ class NewMessage extends Component {
         var input = document.getElementById('newMessageSearch');
         var searchQuery = search.trim().split(" ");
         var newSearchQuery = "";
-        if (searchQuery.length > 0 && searchQuery[0]) {
-            for (let i = 0; i < searchQuery.length; i++) {
-                var userFullName;
-                for (let j = 0; j < this.props.user.connections.length; j++) {
-                    if (this.props.user.connections[j].id === searchQuery[i].trim()) {
-                        userFullName = this.props.user.connections[j].fullName;
+        if (this.props.user) {
+            if (searchQuery.length > 0 && searchQuery[0]) {
+                for (let i = 0; i < searchQuery.length; i++) {
+                    var userFullName;
+                    for (let j = 0; j < this.props.user.connections.length; j++) {
+                        if (this.props.user.connections[j].id === searchQuery[i].trim()) {
+                            userFullName = this.props.user.connections[j].fullName;
+                        }
+                    }
+                    if (i === 0) {
+                        newSearchQuery += userFullName;
+                    } else {
+                        newSearchQuery += ", " + userFullName;
                     }
                 }
-                if (i === 0) {
-                    newSearchQuery += userFullName;
-                } else {
-                    newSearchQuery += ", " + userFullName;
-                }
             }
-        }
-        if (newSearchQuery) {
-            input.value = newSearchQuery;
+            if (newSearchQuery) {
+                input.value = newSearchQuery;
+            }
         }
         return newSearchQuery;
     }

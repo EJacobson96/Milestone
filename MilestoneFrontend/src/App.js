@@ -83,13 +83,12 @@ class App extends Component {
 	}
 	
 	render() {
-		console.log(this.props)
 		const isLoggedIn = this.state.userLoggedIn;
 		return (
 			<div className="App">
 				<div>
 					{
-						isLoggedIn &&
+						localStorage.getItem('Authorization') &&
 						<NavBar 
 							logOut={(e) => this.logOut(e) }
 							userController={this.getUserController()}

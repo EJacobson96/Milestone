@@ -20,8 +20,7 @@ import Profile from './Profile';
 
 //handles main navbar routing
 function Main(props) {
-        console.log(props)
-        return props.userLoggedIn ? (
+        return localStorage.getItem('Authorization') ? (
 
             <Switch>
                 <Route path='/network' render={() => (

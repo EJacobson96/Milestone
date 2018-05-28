@@ -30,7 +30,7 @@ function Contacts(props) {
         />
     }
     //displays current amount of pending connections requests
-    if (props.currUser.pendingRequests.length > 0 && props.showRequests) { 
+    if (props.currUser && props.currUser.pendingRequests.length > 0 && props.showRequests) { 
         var count = 0;
         for (let i = 0; i < props.currUser.pendingRequests.length; i++) {
             if (props.currUser.pendingRequests[i].type === "received") {
@@ -46,7 +46,7 @@ function Contacts(props) {
                                 </h4>;
     }
     //displays all of a user's pending connectiong requests
-    if (props.showRequests) {
+    if (props.showRequests && props.currUser) {
         var requestCount = 0;
         requests = props.currUser.pendingRequests.map((request) => {
             requestCount++;
