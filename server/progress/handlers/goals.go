@@ -11,12 +11,6 @@ import (
 
 //GoalHandler handles getting, creating and updating goals
 func (c *HandlerContext) GoalHandler(w http.ResponseWriter, r *http.Request) {
-	//check to see if the current user is authenticated
-	err := authenticateUser(r)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error authenticating user: %v", err), http.StatusInternalServerError)
-		return
-	}
 	switch r.Method {
 	case "GET":
 		userID := r.URL.Query().Get("id")
@@ -95,12 +89,6 @@ func (c *HandlerContext) GoalHandler(w http.ResponseWriter, r *http.Request) {
 
 //SpecificGoalHandler handles getting a specific goal
 func (c *HandlerContext) SpecificGoalHandler(w http.ResponseWriter, r *http.Request) {
-	//check to see if the current user is authenticated
-	err := authenticateUser(r)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error authenticating user: %v", err), http.StatusInternalServerError)
-		return
-	}
 	switch r.Method {
 	case "GET":
 		goalID := r.URL.Query().Get("id")
@@ -123,12 +111,6 @@ func (c *HandlerContext) SpecificGoalHandler(w http.ResponseWriter, r *http.Requ
 
 //ResourceHandler handles getting, creating and updating resources in the database
 func (c *HandlerContext) ResourceHandler(w http.ResponseWriter, r *http.Request) {
-	//check to see if the current user is authenticated
-	err := authenticateUser(r)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error authenticating user: %v", err), http.StatusInternalServerError)
-		return
-	}
 	switch r.Method {
 	case "GET":
 		userID := r.URL.Query().Get("id")
@@ -203,12 +185,6 @@ func (c *HandlerContext) ResourceHandler(w http.ResponseWriter, r *http.Request)
 
 //SpecificResourceHandler handles getting a specific resource category
 func (c *HandlerContext) SpecificResourceHandler(w http.ResponseWriter, r *http.Request) {
-	//check to see if the current user is authenticated
-	err := authenticateUser(r)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error authenticating user: %v", err), http.StatusInternalServerError)
-		return
-	}
 	switch r.Method {
 	case "GET":
 		resourceID := r.URL.Query().Get("id")

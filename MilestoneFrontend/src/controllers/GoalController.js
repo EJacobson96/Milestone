@@ -4,12 +4,7 @@ import Axios from 'axios';
 var GoalController = {
     getGoals: function (id, search) {
         return Axios.get(
-            'https://api.milestoneapp.org/goals?id=' + id + '&q=' + search,
-            {
-                headers: {
-                    'Authorization': localStorage.getItem('Authorization')
-                }
-            })
+            'https://api.milestoneapp.org/goals?id=' + id + '&q=' + search)
             .then(response => {
                 return response.data;
             })
@@ -21,12 +16,7 @@ var GoalController = {
 
     getResources: function (id) {
         return Axios.get(
-            'https://api.milestoneapp.org/resources?id=' + id,
-            {
-                headers: {
-                    'Authorization': localStorage.getItem('Authorization')
-                }
-            })
+            'https://api.milestoneapp.org/resources?id=' + id)
             .then(response => {
                 return response.data;
             })
@@ -38,12 +28,7 @@ var GoalController = {
 
     getSpecificGoal: function (id) {
         return Axios.get(
-            'https://api.milestoneapp.org/goals/?id=' + id,
-            {
-                headers: {
-                    'Authorization': localStorage.getItem('Authorization')
-                }
-            })
+            'https://api.milestoneapp.org/goals/?id=' + id)
             .then(response => {
                 return response.data;
             })
@@ -55,12 +40,7 @@ var GoalController = {
 
     getSpecificResource: function (id) {
         return Axios.get(
-            'https://api.milestoneapp.org/resources/?id=' + id,
-            {
-                headers: {
-                    'Authorization': localStorage.getItem('Authorization')
-                }
-            })
+            'https://api.milestoneapp.org/resources/?id=' + id)
             .then(response => {
                 return response.data;
             })
@@ -72,12 +52,8 @@ var GoalController = {
 
     addGoal: function (goal) {
         return Axios.post(
-            'https://api.milestoneapp.org/goals', 
-            {
-                headers: {
-                    'Authorization': localStorage.getItem('Authorization')
-                }, goal
-            })
+            'https://api.milestoneapp.org/goals',
+            goal)
             .then(response => {
                 return response.data;
             })
@@ -90,11 +66,7 @@ var GoalController = {
     updateGoal: function (targetGoalId, currGoal) {
         return Axios.patch(
             'https://api.milestoneapp.org/goals?id=' + targetGoalId,
-            {
-                headers: {
-                    'Authorization': localStorage.getItem('Authorization')
-                }, currGoal
-            })
+            currGoal)
             .then(response => {
                 return response.data;
             })
@@ -106,12 +78,7 @@ var GoalController = {
 
     deleteResourceCategory: function (resourceID) {
         return Axios.delete(
-            'https://api.milestoneapp.org/resources?id=' + resourceID,
-            {
-                headers: {
-                    'Authorization': localStorage.getItem('Authorization')
-                }
-            })
+            'https://api.milestoneapp.org/resources?id=' + resourceID)
             .then(response => {
                 return response.data;
             })

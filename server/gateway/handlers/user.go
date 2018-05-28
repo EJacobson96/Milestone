@@ -13,12 +13,6 @@ import (
 
 //ParticipantHandler handles searching for a participant based on user input
 func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Request) {
-	//authenticates the client
-	_, err := c.authenticateUser(w, r)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
-	}
 	switch r.Method {
 	case "GET":
 		participants := []*users.User{}
@@ -49,12 +43,6 @@ func (c *HandlerContext) ParticipantHandler(w http.ResponseWriter, r *http.Reque
 
 //UserConnectionsHandler handles finding all connections for a given user and sorts them alphebetically based on fullname
 func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.Request) {
-	//authenticates the client
-	_, err := c.authenticateUser(w, r)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
-	}
 	switch r.Method {
 	case "GET":
 		connections := []*users.ShortUser{}
@@ -109,12 +97,6 @@ func (c *HandlerContext) UserConnectionsHandler(w http.ResponseWriter, r *http.R
 
 //ServiceProviderHandler handles searching for a service provider based on user input
 func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.Request) {
-	//authenticates the client
-	_, err := c.authenticateUser(w, r)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
-	}
 	switch r.Method {
 	case "GET":
 		query := r.URL.Query().Get("q")
@@ -144,12 +126,6 @@ func (c *HandlerContext) ServiceProviderHandler(w http.ResponseWriter, r *http.R
 
 //SpecificContactHandler handles getting specific connection for a user
 func (c *HandlerContext) SpecificContactHandler(w http.ResponseWriter, r *http.Request) {
-	//authenticates the client
-	_, err := c.authenticateUser(w, r)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
-	}
 	switch r.Method {
 	case "GET":
 		contactID := r.URL.Query().Get("id")
@@ -173,12 +149,6 @@ func (c *HandlerContext) SpecificContactHandler(w http.ResponseWriter, r *http.R
 
 //NotificationsHandler handles updating a user's notifcations and notifying the client using websockets
 func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Request) {
-	//authenticates the client
-	_, err := c.authenticateUser(w, r)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
-	}
 	switch r.Method {
 	case "PATCH":
 		update := &users.UpdateNotifications{}
@@ -220,12 +190,6 @@ func (c *HandlerContext) NotificationsHandler(w http.ResponseWriter, r *http.Req
 
 //RequestsHandler handles updating a user's requests and notifying the client with new changes
 func (c *HandlerContext) RequestsHandler(w http.ResponseWriter, r *http.Request) {
-	//authenticates the client
-	_, err := c.authenticateUser(w, r)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
-	}
 	switch r.Method {
 	case "PATCH":
 		update := &users.UpdateRequests{}

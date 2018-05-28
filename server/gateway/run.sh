@@ -6,11 +6,23 @@ export NETWORK=milestonenetwork
 #pull updated container image to the droplet
 docker pull ejacobson96/milestoneapi
 #removes any existing instances running called milestoneapi
-docker rm -f milestoneapi
 # docker rm -f milestone-redis
 # docker rm -f milestone-mongo
-docker rm -f messagingService
-docker rm -f goalService
+
+if [ "$(docker ps -aq --filter name=milestoneapi)" ]; then
+    echo "Removing the milestone api container..."
+    docker rm -f milestoneapi
+fi
+
+if [ "$(docker ps -aq --filter name=messagingService)" ]; then
+    echo "Removing the messaging service container..."
+    docker rm -f messagingService
+fi
+
+if [ "$(docker ps -aq --filter name=goalService)" ]; then
+    echo "Removing the goal service container..."
+    docker rm -f goalService
+fi
 
 # Remove dangling images
 if [ "$(docker images -q -f dangling=true)" ]; then

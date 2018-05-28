@@ -4,12 +4,7 @@ import Axios from 'axios';
 var MessageController = {
     getMessages: function (search, id) {
         return Axios.get(
-            'https://api.milestoneapp.org/conversations?id=' + id + '&q=' + search,
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
+            'https://api.milestoneapp.org/conversations?id=' + id + '&q=' + search)
             .then(response => {
                 return response.data;
             })
@@ -21,12 +16,7 @@ var MessageController = {
 
     getSpecificConversation: function (id) {
         return Axios.get(
-            'https://api.milestoneapp.org/conversations/?id=' + id, 
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
+            'https://api.milestoneapp.org/conversations/?id=' + id)
             .then(response => {
                 return response.data;
             })
@@ -40,9 +30,6 @@ var MessageController = {
         return Axios.post(
             'https://api.milestoneapp.org/conversations?id=' + id, 
             {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
                 Message: {
                     TextBody: message
                 },
@@ -61,9 +48,6 @@ var MessageController = {
         return Axios.post(
             'https://api.milestoneapp.org/messages?id=' + userID, 
             {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
                 id: conversationID,
                 TextBody: input 
             })

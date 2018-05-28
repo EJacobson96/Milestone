@@ -22,7 +22,7 @@ class NavBar extends React.Component {
         super(props);
         
         this.state = {
-            value: ''
+            
         };
     }
 
@@ -48,34 +48,36 @@ class NavBar extends React.Component {
     
     //clears alert bell when user clicks on network
     clearNetwork() {
-    let notifications = this.state.user.notifications;
-    for (let i = 0; i < notifications.length; i++) {
-        if (notifications[i].contentType === "message") {
-            notifications[i].read = true;
+        let notifications = this.state.user.notifications;
+        for (let i = 0; i < notifications.length; i++) {
+            if (notifications[i].contentType === "message") {
+                notifications[i].read = true;
+            }
         }
-    }
-    this.props.userController.postNotification(notifications, this.state.user.id)
-        .then((data) => {
-        this.setState({
-            user: data,
-        })
-        });
+        this.props.userController.postNotification(notifications, this.state.user.id)
+            .then((data) => {
+                this.setState({
+                    user: data,
+                })
+            });
     }
     
     //clears notification bell when user clicks on notifications
     clearNotifications() {
-    let notifications = this.state.user.notifications;
-        for (let i = 0; i < notifications.length; i++) {
-        if (notifications[i].contentType === "connection" || notifications[i].contentType === "goal") {
-            notifications[i].read = true;
+        if (this.state.user) {
+            let notifications = this.state.user.notifications;
+            for (let i = 0; i < notifications.length; i++) {
+                if (notifications[i].contentType === "connection" || notifications[i].contentType === "goal") {
+                    notifications[i].read = true;
+                }
+            }
+            this.props.userController.postNotification(notifications, this.state.user.id)
+            .then((data) => {
+                this.setState({
+                user: data,
+                })
+            });
         }
-        }
-        this.props.userController.postNotification(notifications, this.state.user.id)
-        .then((data) => {
-            this.setState({
-            user: data,
-            })
-        });
     }
 
     render() {

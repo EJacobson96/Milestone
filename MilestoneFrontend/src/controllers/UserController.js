@@ -52,12 +52,7 @@ var UserController = {
 
     searchForConnections: function (userType, searchQuery) {
         return Axios.get(
-            'https://api.milestoneapp.org/' + userType + '?q=' + searchQuery,  
-            {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                }    
-            })
+            'https://api.milestoneapp.org/' + userType + '?q=' + searchQuery)
             .then(response => {
                 return response.data;
             })
@@ -71,9 +66,6 @@ var UserController = {
         return Axios.patch(
             'https://api.milestoneapp.org/connections?id=' + id, 
             {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
                 Connections: connections
             })
             .then(response => {
@@ -89,9 +81,6 @@ var UserController = {
         return Axios.patch(
             'https://api.milestoneapp.org/requests?id=' + id,
             {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
                 PendingRequests: requests
             })
             .then(response => {
@@ -107,9 +96,6 @@ var UserController = {
         return Axios.patch(
             'https://api.milestoneapp.org/users/me?id=' + id,
             {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
                 Email: email,
                 FirstName: firstName,
                 LastName: lastName,
@@ -129,9 +115,6 @@ var UserController = {
         return Axios.patch(
             'https://api.milestoneapp.org/notifications?id=' + id,
             {
-                headers: {
-                    'Authorization' : localStorage.getItem('Authorization')
-                },
                 Notifications: notifications
             })
             .then(response => {

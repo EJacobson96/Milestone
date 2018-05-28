@@ -106,16 +106,16 @@ func main() {
 	mux.Handle("/ws", handlers.NewWebSocketsHandler(notifier))          //websockets
 
 	//messaging microservice
-	mux.Handle("/conversations", middleware.NewAuth(NewServiceProxy(splitMessagesSvcAddrs), context))
-	mux.Handle("/conversations/", middleware.NewAuth(NewServiceProxy(splitMessagesSvcAddrs), context))
-	mux.Handle("/messages", middleware.NewAuth(NewServiceProxy(splitMessagesSvcAddrs), context))
-	mux.Handle("/member", middleware.NewAuth(NewServiceProxy(splitMessagesSvcAddrs), context))
+	mux.Handle("/conversations", NewServiceProxy(splitMessagesSvcAddrs))
+	mux.Handle("/conversations/", NewServiceProxy(splitMessagesSvcAddrs))
+	mux.Handle("/messages", NewServiceProxy(splitMessagesSvcAddrs))
+	mux.Handle("/member", NewServiceProxy(splitMessagesSvcAddrs))
 
 	//progress microservice
-	mux.Handle("/goals", middleware.NewAuth(NewServiceProxy(splitGoalsSvcAddrs), context))
-	mux.Handle("/goals/", middleware.NewAuth(NewServiceProxy(splitGoalsSvcAddrs), context))
-	mux.Handle("/resources", middleware.NewAuth(NewServiceProxy(splitGoalsSvcAddrs), context))
-	mux.Handle("/resources/", middleware.NewAuth(NewServiceProxy(splitGoalsSvcAddrs), context))
+	mux.Handle("/goals", NewServiceProxy(splitGoalsSvcAddrs))
+	mux.Handle("/goals/", NewServiceProxy(splitGoalsSvcAddrs))
+	mux.Handle("/resources", NewServiceProxy(splitGoalsSvcAddrs))
+	mux.Handle("/resources/", NewServiceProxy(splitGoalsSvcAddrs))
 
 	corsMux := middleware.NewCORSHandler(mux)
 

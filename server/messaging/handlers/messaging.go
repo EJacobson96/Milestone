@@ -12,12 +12,6 @@ import (
 
 //ConversationHandler handles getting conversations for a user and creation of a new conversation
 func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r *http.Request) {
-	//check to see if the current user is authenticated
-	err := authenticateUser(r)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error authenticating user: %v", err), http.StatusInternalServerError)
-		return
-	}
 	switch r.Method {
 	case "GET":
 		userID := r.URL.Query().Get("id")
@@ -61,12 +55,6 @@ func (c *HandlerContext) ConversationHandler(w http.ResponseWriter, r *http.Requ
 
 //SpecificConversationHandler handles getting a specific conversation thread
 func (c *HandlerContext) SpecificConversationHandler(w http.ResponseWriter, r *http.Request) {
-	//check to see if the current user is authenticated
-	err := authenticateUser(r)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error authenticating user: %v", err), http.StatusInternalServerError)
-		return
-	}
 	switch r.Method {
 	case "GET":
 		conversationID := r.URL.Query().Get("id")
@@ -89,12 +77,6 @@ func (c *HandlerContext) SpecificConversationHandler(w http.ResponseWriter, r *h
 
 //MessagesHandler handles posting a new message to a conversation
 func (c *HandlerContext) MessagesHandler(w http.ResponseWriter, r *http.Request) {
-	//check to see if the current user is authenticated
-	err := authenticateUser(r)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error authenticating user: %v", err), http.StatusInternalServerError)
-		return
-	}
 	switch r.Method {
 	case "POST":
 		userID := r.URL.Query().Get("id")
