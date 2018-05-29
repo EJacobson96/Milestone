@@ -70,6 +70,8 @@ class App extends Component {
 		this.getUserController().logOut()
 		this.setState({
 			userLoggedIn: false,
+		}, () => {
+			this.props.history.push("/login");
 		})
 	}
 	
@@ -88,7 +90,7 @@ class App extends Component {
 			<div className="App">
 				<div>
 					{
-						localStorage.getItem('Authorization') &&
+						localStorage.getItem('Authorization') && this.state.userLoggedIn &&
 						<NavBar 
 							logOut={(e) => this.logOut(e) }
 							userController={this.getUserController()}
