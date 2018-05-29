@@ -126,6 +126,11 @@
     .navLink:hover {
         color: #9C9B9B;
     }
+
+    .navLink:focus {
+        color: #9C9B9B;
+        text-decoration: none;
+    }
     
     i {
         display: block;

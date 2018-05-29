@@ -25,7 +25,6 @@ class ResourceCategory extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (this.props.resources && this.props.resources.length > 0) {
             this.setState({
                 resources: this.props.resources,
