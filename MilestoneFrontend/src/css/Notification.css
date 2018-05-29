@@ -39,7 +39,7 @@
 
 .c-notification-details {
     display: flex;
-    width: 80%;
+    width: 85%;
 }
 
 .c-notfication-details-body {
@@ -47,7 +47,8 @@
     /* white-space: nowrap; */
     overflow: hidden;
     width: 70%;
-    margin-right: .5em;
+    margin-right: 2em;
+    margin-left: 2em;
 }
 
 .c-notification-user-avatar img {
@@ -69,5 +70,6 @@
     .c-notfication-details-body {
         flex: 1;
         width: unset;
+        /* text-align: center; */
     }
 }

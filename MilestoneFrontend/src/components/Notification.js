@@ -80,9 +80,6 @@ class Notification extends React.Component {
                         key={count}
                         >
                             <div className="c-notification-card c-notification-card-background">
-                                <div className="c-notification-user-avatar">
-                                    <img src={fakeuser} alt="User Avatar" />
-                                </div>
                                 <div className="c-notification-details">
                                     <p className="c-notfication-details-body">{body}</p>
                                     <p>{time}</p>

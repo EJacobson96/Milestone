@@ -46,9 +46,6 @@ class ParticipantCard extends React.Component {
         return (
             <Link to={"/progress/provider/participants/goals/:id" + this.props.id} onClick={ () => this.props.getCurrentGoals(this.props.id) } className="c-participant-card-wrapper">
                 <div className="c-participant-card">
-                    <div className="c-participant-card-image">
-                        <img src={ fakeuser } alt=''/>
-                    </div>
                     <div className="c-name-goals-tasks">
                         <h3 className="c-participant-card-name">{ this.props.fullName }</h3>
                         {showGoals}
