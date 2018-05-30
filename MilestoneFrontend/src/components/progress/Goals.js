@@ -39,11 +39,21 @@ class Goals extends React.Component {
         } 
     }
 
+    filterGoals(goals) {
+        if (this.props.currUser.accountType === "service provider") {
+            goals = goals.filter((goal) => {
+                return goal.serviceProviders.includes(this.props.currUser.id)
+            })
+        }
+        return goals;
+    }
+
     render() {
         let goals;
         if (this.props.allGoals) {
             let isCompletedFilter = this.props.navFilter === "completed";
-            let filteredGoals = this.props.allGoals.filter((goal) => goal.completed === isCompletedFilter);
+            let filteredGoals = this.filterGoals(this.props.allGoals);
+            filteredGoals = filteredGoals.filter((goal) => goal.completed === isCompletedFilter);
             goals = filteredGoals.map((goal) => {
                 return (
                     <Goal
