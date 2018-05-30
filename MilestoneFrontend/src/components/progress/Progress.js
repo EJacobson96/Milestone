@@ -197,6 +197,7 @@ class Progress extends React.Component {
 								<div>
 									{heading('Goals', this.props.goalNavFilter, this.props.switchGoalNavFilter)}
 									<Goals
+										currUser={ this.props.currUser }
 										allGoals={ this.props.allGoals }
 										navFilter={ this.props.goalNavFilter }
 										goals={ this.props.allGoals }
@@ -344,6 +345,7 @@ class Progress extends React.Component {
 									{ heading(participantName, this.props.goalNavFilter, this.props.switchGoalNavFilter) }
 									<Goals
 										allGoals={ this.props.allGoals }
+										currUser={ this.props.currUser }
 										navFilter={ this.props.goalNavFilter }
 										goals={ this.props.allGoals }
 										getCurrentGoals={ this.props.getCurrentGoals }
