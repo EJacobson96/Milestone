@@ -70,20 +70,20 @@ func (c *HandlerContext) UsersHandler(w http.ResponseWriter, r *http.Request) {
 
 //UsersMeHandler gets the current user logged in and patches user data
 func (c *HandlerContext) UsersMeHandler(w http.ResponseWriter, r *http.Request) {
-	sessionState := &SessionState{}
-	//get the session state
-	sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
-		return
-	}
-	err = c.SessionsStore.Save(sessionID, sessionState)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
-		return
-	}
 	switch r.Method {
 	case "GET":
+		sessionState := &SessionState{}
+		//get the session state
+		sessionID, err := sessions.GetState(r, c.SigningKey, c.SessionsStore, sessionState)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error getting state: %v", err), http.StatusUnauthorized)
+			return
+		}
+		err = c.SessionsStore.Save(sessionID, sessionState)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("error saving session state: %v", err), http.StatusInternalServerError)
+			return
+		}
 		//returns the current user
 		currentUser, err := c.UsersStore.GetByID(sessionState.User.ID)
 		if err != nil {
