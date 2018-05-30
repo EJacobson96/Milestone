@@ -40,9 +40,11 @@ class Goals extends React.Component {
     }
 
     filterGoals(goals) {
-        goals = goals.filter((goal) => {
-            return goal.serviceProviders.includes(this.props.currUser.id)
-        })
+        if (this.props.currUser.accountType === "service provider") {
+            goals = goals.filter((goal) => {
+                return goal.serviceProviders.includes(this.props.currUser.id)
+            })
+        }
         return goals;
     }
 
