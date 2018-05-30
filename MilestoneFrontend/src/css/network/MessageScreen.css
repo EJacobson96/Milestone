@@ -29,6 +29,7 @@
 }
 
 .c-messages-my-message {
+    max-width: 60%;
     margin: 1.3em .5em 0 1.3em;
     color: white;
     background-color: #73C9B1;
@@ -40,6 +41,7 @@
 }
 
 .c-messages-not-my-message {
+    max-width: 60%;
     margin: 1em .5em 0 1em;
     color: black;
     background-color: white;
