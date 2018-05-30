@@ -15,7 +15,6 @@ class ContactThumbnail extends React.Component {
     constructor(props) {
 		super(props);
 		this.state = {
-			userPhoto: '' 
 		}
 	}
 
@@ -31,6 +30,10 @@ class ContactThumbnail extends React.Component {
 	}
 
 	render() {
+		var userImg;
+		if (this.state.userPhoto) {
+			userImg = this.state.userPhoto;
+		}
 		return (
 			<Link 
 				to={{
@@ -41,7 +44,7 @@ class ContactThumbnail extends React.Component {
 			>
 				<div className={"c-contact-card " + this.props.className} key={ this.props.id } >
 					<div className="c-contact-card__user-img">
-						<img src={ this.state.userPhoto } alt=''/>
+						<img src={ userImg } alt=''/>
 					</div>
 					<div className="c-contact-card__details">
 						<span className="c-contact-card__details__full-name">

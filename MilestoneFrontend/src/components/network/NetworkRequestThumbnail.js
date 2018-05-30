@@ -25,8 +25,10 @@ class NetworkRequestThumbnail extends React.Component {
 
     render() {
 		var fullName;
+		var userImg;
 		if (this.state && this.state.user) {
 			fullName = this.state.user.fullName
+			userImg = this.state.user.photoURL
 		}
 		return (
 			<Link 
@@ -37,7 +39,7 @@ class NetworkRequestThumbnail extends React.Component {
 			>
 				<div className="c-network-request-thumbnail">
 					<div className="c-network-request-thumbnail__user-img">
-						<img src={ this.state.user.photoURL } alt=''/>
+						<img src={ userImg } alt=''/>
 					</div>
 					<div className="c-network-request-thumbnail__details">
 						<p className="c-network-request-thumbnail__details__full-name">

@@ -85,7 +85,7 @@
 }
 
 .c-request-profile__button--pending {
-    background-color: #FD786D;
+    background-color: #73C9B1;
     color: white;
     padding: .5em 1em;
     border-radius: 4px;
@@ -94,7 +94,7 @@
 .c-request-profile__button--approve {
     padding: .5em 1.5em;
     margin-right: .5em;
-    background-color: #FD786D;
+    background-color: #73C9B1;
     color: white;
 }
 
