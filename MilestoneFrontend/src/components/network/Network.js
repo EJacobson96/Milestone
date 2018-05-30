@@ -72,8 +72,8 @@ class Network extends Component {
                 this.setState({
                     messageContent: data,
                 }, () => {
-                    if (this.props.location.pathname === "/Network/Messages/Conversation/:id" && data[0]) {
-                        this.props.history.push("/Network/Messages/Conversation/:id" + data[0].id)
+                    if (this.props.location.pathname === "/network/messages/conversation/:id" && data[0]) {
+                        this.props.history.push("/network/messages/conversation/:id" + data[0].id)
                     }
                 });
             })
@@ -180,6 +180,7 @@ class Network extends Component {
                                     />
                                     <div className="messageConversation">
                                         <Messages className="c-messages-component" 
+                                            userController={this.props.userController}
                                             currUser={this.state.currUser} 
                                             content={this.state.messageContent} 
                                             firstMessage={firstMessage} 
@@ -200,7 +201,11 @@ class Network extends Component {
                             <MediaQuery query="(max-width: 768px)">
                                 <div>
                                     {topNav}
-                                    <Messages currUser={this.state.currUser} content={this.state.messageContent} />
+                                    <Messages 
+                                        currUser={this.state.currUser} 
+                                        content={this.state.messageContent} 
+                                        userController={this.props.userController}
+                                    />
                                 </div>
                             </MediaQuery>
                             <MediaQuery query="(min-width: 769px)">

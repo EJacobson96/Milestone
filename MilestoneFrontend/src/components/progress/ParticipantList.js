@@ -33,6 +33,7 @@ class ParticipantList extends React.Component {
 
     getConnectionGoals() {
         var userGoals = {};
+        var userImages = {};
         var connections = this.props.connections;
         for (let i = 0; i < connections.length; i++) {
             Axios.get(
@@ -51,13 +52,31 @@ class ParticipantList extends React.Component {
                 }
             );  
         }
+        for (let i = 0; i < connections.length; i++) {
+            Axios.get(
+                'https://api.milestoneapp.org/contact/?id=' + connections[i].id)
+                .then(response => {
+                    return response.data;
+                })
+                .then(data => {
+                    userImages['' + connections[i].id] = data.photoURL;
+                    this.setState({
+                        images: userImages
+                    })
+                })
+                .catch(error => {
+                    console.log(error);
+                }
+            );  
+        }
     }
 
     render() {
         let connectionList;
         let goalCount;
         let taskCount;
-        if (this.state.goals) {
+        let userImg;
+        if (this.state.goals && this.state.images) {
             connectionList = this.props.connections.map((connection) => {
                 taskCount = 0;
                 if (this.state.goals[connection.id]) {
@@ -65,6 +84,9 @@ class ParticipantList extends React.Component {
                     for (let i = 0; i < this.state.goals[connection.id].length; i++) {
                         taskCount += this.state.goals[connection.id][i].tasks.length;
                     }
+                }
+                if (this.state.images[connection.id]) {
+                    userImg = this.state.images[connection.id];
                 }
 
                 return (
@@ -74,6 +96,7 @@ class ParticipantList extends React.Component {
                         fullName={ connection.fullName }
                         goalCount={ goalCount }
                         taskCount = { taskCount }
+                        userImg = { userImg }
                         getCurrentGoals={ (id) => this.props.getCurrentGoals(id) }
                     />
                 )

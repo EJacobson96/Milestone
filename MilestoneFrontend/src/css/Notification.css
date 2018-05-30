@@ -39,16 +39,14 @@
 
 .c-notification-details {
     display: flex;
-    width: 85%;
+    width: 83%;
 }
 
 .c-notfication-details-body {
     text-overflow: ellipsis;
     /* white-space: nowrap; */
     overflow: hidden;
-    width: 70%;
-    margin-right: 2em;
-    margin-left: 2em;
+    width: 80%;
 }
 
 .c-notification-user-avatar img {
@@ -61,12 +59,15 @@
         max-width: 700px;
         margin: 0 auto;
     }
+
     .c-notification-card {
         height: 50px;
     }
+
     .c-notification-user-avatar {
         max-width: 50px;
     }
+
     .c-notfication-details-body {
         flex: 1;
         width: unset;

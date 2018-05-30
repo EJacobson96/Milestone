@@ -3,13 +3,16 @@
     flex: 1;
     border-top: 1px solid #9C9B9B;
     align-items: center;
-	padding: 1.5em 1em 1.5em 0;
     background-color: white;
-    text-align: center;
 }
 
 .c-participant-list .c-participant-card-wrapper:last-child .c-participant-card {
     border-bottom: 1px solid #9C9B9B;
+}
+
+.c-particpant-card-body-container {
+    display: flex;
+    justify-content: center;
 }
 
 .c-participant-card-image {
@@ -42,7 +45,7 @@
     }
 
     .c-participant-card-image img {
-        width: 85%;
+        width: 100%;
     }
     .c-participant-card-image {
         margin-left: 2em;
@@ -60,6 +63,6 @@
 
 @media(min-width: 969px) {
     .c-participant-card-image {
-        margin: 0 1.5em 0;
+        margin: 0 1em 0 1.6em;
     }
 }

@@ -20,11 +20,27 @@ class Notification extends React.Component {
       }
     
       setUserData() {
+        var userImages = {};
+        var notifications;
         this.props.userController.getUser()
         .then((data) => {
+            notifications = data.notifications;
+            console.log(notifications);
           this.setState({
             user: data,
-          })
+          }, () => {
+              if (notifications) {
+                for (let i = 0; i < notifications.length; i++) {
+                    this.props.userController.getContact(notifications[i].sender)
+                    .then((data) => {
+                        userImages['' + notifications[i].sender] = data.photoURL;
+                        this.setState({
+                            images: userImages
+                        })
+                    })
+                }
+              }
+            })
         })
       }
 
@@ -44,14 +60,16 @@ class Notification extends React.Component {
 
     render() {
         var notifications;
-        if (this.state && this.state.user) {
+        if (this.state && this.state.user && this.state.images) {
             var count = 0;
+            var userImg;
             notifications = (this.props.isDropdown ? this.getLast5().reverse() : 
                     this.state.user.notifications).slice(0).reverse().map((notification) => {
                 if (notification.contentType !== "message" && notification.contentType !== "new message") {
                     var body;
                     var time;
                     count++;
+                    userImg = this.state.images[notification.sender];
                     if (notification.contentType) {
                         body = notification.body;
                     }
@@ -80,6 +98,9 @@ class Notification extends React.Component {
                         key={count}
                         >
                             <div className="c-notification-card c-notification-card-background">
+                                <div className="c-notification-user-avatar">
+                                    <img src={userImg} alt="User Avatar" />
+                                </div>
                                 <div className="c-notification-details">
                                     <p className="c-notfication-details-body">{body}</p>
                                     <p>{time}</p>
