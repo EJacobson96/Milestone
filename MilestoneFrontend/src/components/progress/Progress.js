@@ -229,6 +229,7 @@ class Progress extends React.Component {
 										handleSearch={ (search) => this.handleProviderSearch(search) }
 									/>
 									<ParticipantList 
+										currUser={ this.props.currUser }
 										connections={ this.props.connections }
 										getCurrentGoals={ (id) => this.props.getCurrentGoals(id) }
 									/>

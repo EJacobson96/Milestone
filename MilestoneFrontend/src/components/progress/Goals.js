@@ -41,7 +41,6 @@ class Goals extends React.Component {
 
     filterGoals(goals) {
         goals = goals.filter((goal) => {
-            console.log(goal.serviceProviders.includes(this.props.currUser.id));
             return goal.serviceProviders.includes(this.props.currUser.id)
         })
         return goals;

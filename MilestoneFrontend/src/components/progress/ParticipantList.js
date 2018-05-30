@@ -71,18 +71,28 @@ class ParticipantList extends React.Component {
         }
     }
 
+    filterGoals(goals, id) {
+        goals = goals.filter((goal) => {
+            return goal.serviceProviders.includes(id)
+        })
+        return goals;
+    }
+
+
     render() {
         let connectionList;
         let goalCount;
         let taskCount;
         let userImg;
+        var userGoals;
         if (this.state.goals && this.state.images) {
             connectionList = this.props.connections.map((connection) => {
                 taskCount = 0;
                 if (this.state.goals[connection.id]) {
-                    goalCount = this.state.goals[connection.id].length;
-                    for (let i = 0; i < this.state.goals[connection.id].length; i++) {
-                        taskCount += this.state.goals[connection.id][i].tasks.length;
+                    userGoals = this.filterGoals(this.state.goals[connection.id], this.props.currUser.id);
+                    goalCount = userGoals.length;
+                    for (let i = 0; i < userGoals.length; i++) {
+                        taskCount += userGoals[i].tasks.length;
                     }
                 }
                 if (this.state.images[connection.id]) {
