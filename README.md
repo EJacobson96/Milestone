@@ -17,16 +17,17 @@ Milestone is a responsive web application, meaning it can run on mobile or deskt
 The current build of Milestone can be found [here][2]. For more information, see [here][3].
 
 ## Core Technologies
+* **HTTPS Support**: We encrypted all communication between our web client and server by using Transport Layer Security (TLS), specifically using certificates from [Let's Encrypt][17]. 
 * **Front end**: Milestone's user interface was built using React.js, specifically React 16.2 via [Create React App][4] and [NPM][5] (Node Package Manager). React was chosen as an ideal solution due to its ability to create a responsive web application with large amounts of functionality without being reliant on any single platform, only a relatively modern web browser. As our users are young adults with mobile devices and case managers with access to desktop machines, a React-based web app should be accessible to our entire user base. [Create React App][4] was chosen as a boilerplate for Milestone due to to its ability to package and maintain a large web application with very little fuss and maintenance. This allows for someone to quickly set up a development environment for Milestone, allowing us to pass our codebase to the City of Seattle with little overhead. Milestone's front end also takes advantage of the following supplemental Node.js packages:
 	* [React Bootstrap][6]: In order to facilitate the rapid creation of many UI components, an existing UI framework was chosen in the form of [Bootstrap][7]. [React Bootstrap] is a React-friendly implementation of [Bootstrap][7]. While many of Milestone's components still had to be built from scratch, [React Bootstrap][6] saved us time by enabling us to focus on building new components and not having to build basic forms, inputs and dropdowns.
 	* [React Router][11]: React Router is an immensely powerful framework for managing URLs and paths within large web applications built in React. Milestone uses React Router extensively across all features.
 	* [Font Awesome][8]: To save us time when designing and rapidly prototyping, Font Awesome was chosen as an established and useful library of icons to use in Milestone's front end.
 	* [Axios][9]: Axios is a powerful and straightforward promise-based HTTP client which helped us manage the large amount of HTTP requests necessary for Milestone's operation.
 	* [Moment.js][10]: Moment is a powerful JavaScript plug-in for manipulating and displaying dates and times in different clean and user-readable formats. Milestone takes advantage of Moment.js when working with dates and times in both messaging and goal planning.
-* Back end:
-	* Go
-	* MongoDB
-	* Docker
+* **Back end**: Milestone's api server and database was built using Go and MongoDB. The api server was being hosted using [DigitalOcean][15] during the span of this project due to it being the cheaper alternative to Amazon Web Services(AWS).
+	* [Go][13]: Go(golang) combines the performance of fully-compiled languages like with the ease and safety of garbage-collected languages like Java, while offering a sparse and simple syntax like Python. The accompanying tools and IDE plug-ins provide a fluid and consistent coding experience, while also encouraging best practices like automated testing.
+	* [MongoDB][14]: Distributed document-oriented DBMSs have become a popular alternative to relational DBMSs, as they allow you to change your schema easily over time, and distribute your data amongst multiple machines in a cluster. Instead of storing data in tables with rows and columns, these DBMSs store flexible "documents" that contain whatever data you want. 
+	* [Docker][12]: At its core, Docker is a technology for running application software in isolated, secure, and reusable containers. A container is like a VM, but much lighter-weight, as it can share the underlying operating system (OS).
 
 ## Front End Testing & Development.
 Milestone’s front-end is built with react.js, specifically [Create React App][4]. If you would like to test Milestone locally or work on development, follow these instructions:
@@ -42,7 +43,7 @@ You're ready to go! To learn more about [Create React App][4], follow the link o
 * `npm run eject` : Removes this tool an copies build dependencies, configuration files and scripts into the app directory. If you do this, you can’t go back! BE EXTREMELY CAREFUL! This is _not_ recommended!
 
 ## Back End Testing & Development.
-* Milestone’s back end... `// TO-DO`
+* Milestone’s back end is built using Go(golang). You can access the api server endpoints using [Postman][16] for testing. Also, included in the backend code are bash scripts used for SSH-ing into any VM in the cloud and deploying the api server to whichever cloud service being used for hosting.
 
 ## Contributors & Contact
 * Iean Drew
@@ -70,3 +71,9 @@ You're ready to go! To learn more about [Create React App][4], follow the link o
 [9]: https://github.com/axios/axios						"Axios"
 [10]: https://momentjs.com/								"Moment.js"
 [11]: https://github.com/ReactTraining/react-router		"React Router"
+[12]: https://www.docker.com/							"Docker"
+[13]: https://golang.org/ 								"Go"
+[14]: https://www.mongodb.com/							"MongoDB"
+[15]: https://www.digitalocean.com/						"Digital Ocean"
+[16]: https://www.getpostman.com/						"Postman"
+[17]: https://letsencrypt.org/							"Let's Encrypt"
