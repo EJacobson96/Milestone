@@ -26,6 +26,8 @@ import WideDatepicker from './WideDatepicker';
 /////////////////////////////////////////
 /// Code
 
+// A specialized input component for the creation of a new task. A sub-component of
+// NewTask.js. 
 class NewTaskInput extends React.Component {
 	constructor (props) {
 		super(props);
@@ -39,6 +41,9 @@ class NewTaskInput extends React.Component {
 		this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
 	}
 
+	// Handles the management of data when a user changes the new task's due date. Stores
+	// the new date in this component's state and passes the new date to the parent
+	// NewTask component.
 	handleDateChange(date) {
 		this.setState({
 		  	dueDate: date
@@ -47,6 +52,9 @@ class NewTaskInput extends React.Component {
 		this.props.handleDateChange(date);
 	}	
 
+	// Handles the management of data when a user changes the new task's title. Stores
+	// the new date in this component's state and passes the new title to the parent
+	// NewTask component.
 	handleTitleChange(e) {
 		this.setState({
 			taskTitle: e.target.value
@@ -55,6 +63,9 @@ class NewTaskInput extends React.Component {
 		this.props.handleTitleChange(e.target.value);
 	}	
 
+	// Handles the management of data when a user changes the new task's description. Stores
+	// the new date in this component's state and passes the new description to the parent
+	// NewTask component.
 	handleDescriptionChange(e) {
 		this.setState({
 			taskDescription: e.target.value

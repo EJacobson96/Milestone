@@ -16,6 +16,9 @@ import '../../css/progress/ProgressSearch.css';
 /////////////////////////////////////////
 /// Code
 
+// A multipurpose search component for searching through a participant's tasks or goals. 
+// Passes whatever the search query is upwards to the handleSearch function that
+// was passed to this component as a prop.
 function ProgressSearch(props) {
     return (
         <div className="c-progress-form">

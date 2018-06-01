@@ -36,6 +36,10 @@ import '../../css/progress/Progress.css';
 /// Code
 
 
+// Progress.js is a display component that works in conjunction with ProgressController.js.
+// ProgressController handles most of the state management, api calls and data manipulation, while
+// the Progress component accepts the current state as props and routes data to the necessary components
+// via ReactRouter based on the current URL, and the current user type (participant or service provider).
 class Progress extends React.Component {
     constructor(props) {
         super(props);
@@ -51,6 +55,9 @@ class Progress extends React.Component {
 	componentDidMount() {
 	}
 
+	// A helper function for determining which search to perform when logged in as a service provider.
+	// Determines which search to perform based on URL parameters, then passes the given search parameter
+	// as string up to the appropriate ProgressController function.
     handleProviderSearch(search) {
         if (this.props.location.pathname.includes("/provider")) {
 			this.props.getConnections(search);
@@ -62,7 +69,6 @@ class Progress extends React.Component {
 			let resourceCategory = this.props.resourceCategories.filter((category) => {
 				return category.id === id
 			})
-			console.log(resourceCategory);
 			var resourceFilter;
 			if (resourceCategory[0]) {
 				resourceFilter = resourceCategory[0].resources.filter((resource) => {
@@ -71,7 +77,6 @@ class Progress extends React.Component {
 				})
 			}
 
-			console.log(resourceFilter);
 			this.setState({
 				filteredResources: resourceFilter,
 			})
@@ -79,8 +84,10 @@ class Progress extends React.Component {
 	}
 
 	render() {
+		// To determine which Switch component to render.
 		const isParticipant = this.props.isParticipant;
 		const isServiceProvider = this.props.isServiceProvider;
+		// A packaged ProgressHeading component with some props prefilled.
 		const heading = (heading, navFilter, switchFunc) => 	<ProgressHeading
 																	heading = { heading }
 																	handleSearch={ (e) => this.props.handleSearch(e) }
@@ -89,6 +96,8 @@ class Progress extends React.Component {
 																	addBtnLink={ this.props.addBtnLink }
 																/>
 
+		// Finds the current participant being viewed's full name based on their stored userId.
+		// Used if the current user is a service provider.
 		let participantName = "";
 		if (isServiceProvider) {
 			if (this.props.participantUserId) {
@@ -99,8 +108,12 @@ class Progress extends React.Component {
 			}
 		}
 
+		// Progress.js renders one of two completely different Switches with different routes
+		// dependent on whether the current user is a participant or service provider. While this
+		// leads to some repeated code, this seperation of concerns leads to a better organization of
+		// passed props, and a more secure cutoff of privileges from one user type to another.
 		if(isParticipant !== null || isServiceProvider !== null) {
-			if (isParticipant) {
+			if (isParticipant) { // If the user is a participant, render this switch.
 				return (
 					<div className='l-progress-content container'>
 						<Switch>
@@ -218,7 +231,7 @@ class Progress extends React.Component {
 					</div>
 				);
 	
-			} else if (isServiceProvider) { // User is Service Provider
+			} else if (isServiceProvider) { // If the usser is a service provider, render this switch.
 				return (
 					<div className='l-progress-content container'>
 						<Switch>
@@ -389,7 +402,7 @@ class Progress extends React.Component {
 					</div>
 				);
 			}
-		} else {
+		} else { // If something has gone wrong, render nothing for safety.
 			return null;
 		}
 	}

@@ -13,6 +13,10 @@ import '../../css/progress/ProgressNav.css';
 
 /////////////////////////////////////////
 /// Code
+
+// A stateless component for displaying a reusable tabbed navigation bar for the Goals and
+// UpcomingTasks component. Accepts a currently selected filter prop ('inProgress' or 'completed'),
+// as well as a function for switching that filter as a prop.
 function ProgressNav(props) {
 	var inProgressClassName;
 	var completedClassName;

@@ -11,6 +11,8 @@ import fakeuser from '../../img/fakeuser.png';
 /////////////////////////////////////////
 /// Code
 
+// A component for displaying an overview of a current participant and the status of their
+// goals and tasks to be utilized by a logged in service provider.
 class ParticipantCard extends React.Component {
     constructor(props) {
         super(props);

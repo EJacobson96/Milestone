@@ -14,6 +14,8 @@ import '../../css/ParticipantSearch.css';
 /////////////////////////////////////////
 /// Code
 
+// A component for searching through connected participants as a logged in service
+// provider. 
 class ParticipantSearch extends React.Component {
     constructor(props) {
         super(props);
@@ -23,6 +25,8 @@ class ParticipantSearch extends React.Component {
 		};
 	}
 
+	// Handles the initiation of a search by the user. Retrieves the current search
+	// query, clears the search input and passes the query upwards to the appropriate controller.
     handleSearch(e) {
 		if (e) {
 			e.preventDefault();

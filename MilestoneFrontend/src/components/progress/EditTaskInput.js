@@ -21,11 +21,11 @@ import WideDatepicker from './WideDatepicker';
 /////////////////////////////////////////
 /// Images & Styles
 
-// import '../../css/progress/editGoal.css';
-
 /////////////////////////////////////////
 /// Code
 
+// A collection of input fields specifically made for editing an existing task. Works
+// as a sub-component of EditTask.js.
 class EditTaskInput extends React.Component {
 	constructor (props) {
 		super(props);
@@ -40,6 +40,8 @@ class EditTaskInput extends React.Component {
 		this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
 	}
 
+	// Handles the date being changed by DatePicker component. Updates this component's state,
+	// and passes the new date up to a parent component. 
 	handleDateChange(date) {
 		this.setState({
 		  	dueDate: date
@@ -48,6 +50,8 @@ class EditTaskInput extends React.Component {
 		this.props.handleDateChange(date);
 	}	
 
+	// Handles the task title being changed. Updates this component's state,
+	// and passes the new date up to a parent component. 
 	handleTitleChange(e) {
 		this.setState({
 			taskTitle: e.target.value
@@ -55,7 +59,9 @@ class EditTaskInput extends React.Component {
 
 		this.props.handleTitleChange(e.target.value);
 	}	
-
+	
+	// Handles the task description being changed by DatePicker component. Updates this component's state,
+	// and passes the new date up to a parent component. 
 	handleDescriptionChange(e) {
 		this.setState({
 			taskDescription: e.target.value

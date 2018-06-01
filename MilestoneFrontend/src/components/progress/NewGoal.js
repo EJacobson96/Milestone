@@ -31,6 +31,8 @@ import '../../css/progress/NewGoal.css';
 /////////////////////////////////////////
 /// Code
 
+// A component for displaying and managing the inputs necessary for the creation
+// of a new goal on behalf of a participant.
 class NewGoal extends React.Component {
 	constructor (props) {
 		super(props);
@@ -52,6 +54,10 @@ class NewGoal extends React.Component {
 		this.props.refreshUser();
 	}
 
+	// Constructs the new goal from information stored from props and state, then
+	// passes the new goal object upwards towards ProgressController for storing the
+	// new goal on the server. If the current user is a service provider, the goal
+	// is marked as approved automatically.
 	addGoal() {
 		let goal = {
 			UserID: this.props.currUser.id,
@@ -70,6 +76,11 @@ class NewGoal extends React.Component {
 		this.props.addGoal(goal);
 	}
 
+	// Handles the selection of service providers to be attached to the goal by
+	// the user. Adds the service provider based on the 'id' parameter, and
+	// Both removes or adds the service provider based on the 'selected'
+	// parameter. Only available to users of the type participant. Works in 
+	// conjunction with the ServiceProviderSelector.js component.
 	handleServiceProviderSelection(id, selected) {
 		let newArray = this.state.selectedProviders;
 		if (selected) {
@@ -86,24 +97,31 @@ class NewGoal extends React.Component {
 		}
 	}
 
+	// Handles storing the goal's title in state on user input.
 	handleGoalNameChange(e) {
 		this.setState({
 			goalName: e.target.value
 		});
 	}
 
+	// Handles storing the goal's due date in state on user input.
+	// Currently deprecated.
 	handleDateChange(date) {
 		this.setState({
 		  	dueDate: date
 		});
 	}		
 
+	// Handles storing the goal's title in state on user input.
+	// Currently deprecated.
 	handleTitleChange(title) {
 		this.setState({
 			goalTitle: title
 		});
 	}
 
+	// Handles storing the goal's description in state on user input.
+	// Currently deprecated.
 	handleDescriptionChange(description) {
 		this.setState({
 			goalDescription: description

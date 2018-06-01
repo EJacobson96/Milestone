@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-// Controller object for fetching data
+// Controller object for fetching data regarding goals for Milestone's 'Progress' functionality
 var GoalController = {
     getGoals: function (id, search) {
         return Axios.get(

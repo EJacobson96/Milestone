@@ -20,8 +20,12 @@ import Task from './Task';
 import '../../css/progress/UpcomingTasks.css';
 
 /////////////////////////////////////////
-// /// Code
+/// Code
 
+// A component for displaying all tasks attached to current goal. To ensure that
+// all information regarding the goal is as up to date as possible, this component
+// retrieves live data at the moment of creation based on the goal's id retrieved
+// from the current URL.
 class UpcomingTasks extends React.Component {
     constructor(props) {
         super(props);
@@ -72,12 +76,14 @@ class UpcomingTasks extends React.Component {
 		let tasks;
 		let isComplete = this.props.navFilter === "completed" ? true : false;
 		let targetGoal = {title:''};
+		// Ensures that all necessary data is available
 		if (this.state.currGoal && targetGoalId) { // add else to get id from path
 			if (this.props.goals.length > 0) {
 				targetGoal = this.props.goals.filter(goal => goal.id === targetGoalId)[0];
 			} else {
 				targetGoal = this.state.currGoal;
 			}
+			// Filters task based on the current nav filter ('inProgress' vs 'complete')
 			const filteredTasks = targetGoal.tasks.filter((task) => task.completed === isComplete);
 			tasks = filteredTasks.map((task) => {
 				return (

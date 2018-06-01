@@ -23,6 +23,8 @@ import Goal from './Goal';
 /////////////////////////////////////////
 /// Code
 
+// A component for displaying the results of a search query on a specific participant's goals.
+// Similar to the Goals.js component, 
 class ProgressSearchResults extends React.Component {
     constructor(props) {
         super(props);

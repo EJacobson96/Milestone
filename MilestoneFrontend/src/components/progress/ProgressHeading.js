@@ -15,6 +15,9 @@ import '../../css/progress/Progress.css';
 /////////////////////////////////////////
 /// Code
 
+// A container component for managing and displaying a heading for several sections of
+// Milestone's 'Progress' feature. Displays a heading, as well as a tabbed navigation bar
+// via ProgressNav and a multipurpose search component via ProgressSearch.
 const ProgressHeading = (props) => {
 	return (
 		<div>

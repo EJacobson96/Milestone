@@ -23,6 +23,8 @@ import threeDotImg from '../../img/task3dot.png';
 /////////////////////////////////////////
 /// Code
 
+// A custom implementation of React Bootstrap's dropdown menu for manipulating a goal
+// (marking the goal as approved, complete, or editing the goal).
 class CustomToggle extends React.Component {
 	constructor(props, context) {
 		super(props, context);
@@ -44,7 +46,8 @@ class CustomToggle extends React.Component {
 	  	);
 	}
 }
-  
+
+// Another part of the custom implementation.
 class CustomMenu extends React.Component {
 	constructor(props, context) {
 	  	super(props, context);
@@ -84,6 +87,7 @@ class CustomMenu extends React.Component {
 	}
 }
   
+// Displays the implementation.
 class GoalDropdown extends React.Component {
 	constructor(props, context) {
 		super(props, context);

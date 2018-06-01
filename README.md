@@ -24,10 +24,11 @@ The current build of Milestone can be found [here][2]. For more information, see
 	* [Font Awesome][8]: To save us time when designing and rapidly prototyping, Font Awesome was chosen as an established and useful library of icons to use in Milestone's front end.
 	* [Axios][9]: Axios is a powerful and straightforward promise-based HTTP client which helped us manage the large amount of HTTP requests necessary for Milestone's operation.
 	* [Moment.js][10]: Moment is a powerful JavaScript plug-in for manipulating and displaying dates and times in different clean and user-readable formats. Milestone takes advantage of Moment.js when working with dates and times in both messaging and goal planning.
-* **Back end**: Milestone's api server and database was built using Go and MongoDB. The api server was being hosted using [DigitalOcean][15] during the span of this project due to it being the cheaper alternative to Amazon Web Services(AWS).
+	* [React Datepicker][18]: React Datepicker is a simple yet powerful component for selecting a date from a calendar to be used by another component. Importantly, React Datepicker can be customized to suit an application's needs, something Milestone takes advantage of.
+* **Back end**: Milestone's api server and database was built using Go and MongoDB. The api server was being hosted using [DigitalOcean][15] during the span of this project due to it being the cheaper alternative to Amazon Web Services (AWS).
 	* [Go][13]: Go(golang) combines the performance of fully-compiled languages like with the ease and safety of garbage-collected languages like Java, while offering a sparse and simple syntax like Python. The accompanying tools and IDE plug-ins provide a fluid and consistent coding experience, while also encouraging best practices like automated testing.
 	* [MongoDB][14]: Distributed document-oriented DBMSs have become a popular alternative to relational DBMSs, as they allow you to change your schema easily over time, and distribute your data amongst multiple machines in a cluster. Instead of storing data in tables with rows and columns, these DBMSs store flexible "documents" that contain whatever data you want. 
-	* [Docker][12]: At its core, Docker is a technology for running application software in isolated, secure, and reusable containers. A container is like a VM, but much lighter-weight, as it can share the underlying operating system (OS).
+	* [Docker][12]: At its core, Docker is a technology for running application software in isolated, secure, and reusable containers. A container is like a VM but with much less overhead, as it can share the underlying operating system (OS).
 
 ## Front End Testing & Development.
 Milestone’s front-end is built with react.js, specifically [Create React App][4]. If you would like to test Milestone locally or work on development, follow these instructions:
@@ -57,7 +58,7 @@ You're ready to go! To learn more about [Create React App][4], follow the link o
 	* LinkedIn: https://www.linkedin.com/in/nancy-tran-99bb61132/
 * Yuliya Labaz
 	* Email: yuliya94@uw.edu
-	* LinkedIn: `//TO-DO`
+	* LinkedIn: https://www.linkedin.com/in/yuliyakrav/
 
 
 [1]: https://www.seattle.gov/innovation-performance 	"Innovation & Performance Team"
@@ -77,3 +78,4 @@ You're ready to go! To learn more about [Create React App][4], follow the link o
 [15]: https://www.digitalocean.com/						"Digital Ocean"
 [16]: https://www.getpostman.com/						"Postman"
 [17]: https://letsencrypt.org/							"Let's Encrypt"
+[18]: https://github.com/Hacker0x01/react-datepicker	"React Datepicker"

@@ -13,15 +13,6 @@ import Axios from 'axios';
 	 * //TODO: 
      *      + A "No Results Found" message upon an empty search. [low priority]
      *      + A "No goals yet!" message upon opening a empty goal category. [low priority]
-     *      + Any necessary adjustments for desktop components. [IN PROGRESS]
-     *      + Three-dot dropdown menu on each goal w/ 'Delete', 'Rename' & 'Mark complete' [REQUIRES ROUTE]
-     *          - Finished for tasks, needs route for goals
-     *          - Maybe make it so finished tasks can be 'unfinished'?
-     *      + Show who resources came from.
-     *      + Show who comments came from.
-     *      + Two way goal approval. [REQUIRES ROUTE?]
-     *          - Includes 'pending' message on both goals & tasks, and maybe a pending tab.
-     *          - Remove goals/tasks if either side denies?
 	 */
 
 /////////////////////////////////////////
@@ -34,6 +25,16 @@ import Progress from './Progress';
 /////////////////////////////////////////
 /// Code
 
+// This very large container component is intended to act as the primary controller for
+// as much of the functionality present in Milestone's 'Progress' feature as possible.
+// Any component within 'Progress' passes data and functionality upwards to ProgressController
+// for manipulation and storage to the extent that it's possible to do so. This includes
+// UI manipulation and most HTTP calls to Milestone's backend. Most necessary state is also
+// stored in this controller in order to keep all sub-components as lean as possible. Please
+// see the comments on each method for additional information. ProgressController works in conjunction
+// with the goalController object (see /src/controller/GoalController.js) in order to send api calls
+// to Milestone's back end services. the GoalController is passed as a prop to ProgressController from
+// main.js.
 class ProgressController extends Component {
     constructor(props) {
         super(props);
@@ -44,6 +45,29 @@ class ProgressController extends Component {
             msLocalStore = JSON.parse(localStorage.getItem('msLocalStore'));
         }
 
+        // ProgressController stores a lot of state. The summary is as follows:
+        // currUser: the current user's user data.
+        // isParticipant: a boolean to store whether the current user is a participant.
+        // isServiceProvider: a boolean to store whether the current user is a service provider.
+        // participantUserId: a string for storing the currently viewed participant's userId when
+        // working as a service provider.
+        // connections: an array of the current user's connections.
+        // msLocalStore: an object of information to be kept in sync with and stored in
+        // a matching string stored in localStorage.
+        // heading: a string for storing the currently displayed component's heading, to be 
+        // utilized by ProgressHeading.
+        // currentNavFilter: the current filter for any displayed goals ('inProgress' or 'completed').
+        // currentTaskNavFilter: the current filter for any displays tasks ('inProgress' or
+        // 'completed').
+        // currentGoalId: the id of the goal currently being manipulaed.
+        // addBtnLink: the link to be attached to the '+' button being utilized in the
+        // the currently displayed component.
+        // allGoalData: all goal data for the participant currently being viewed.
+        // goalData: the set of goals filtered by the current nav filter. Mostly deprecated.
+        // activeGoalData: the goals marked as 'active' for the participant currently being viewed. Mostly deprecated.
+        // completedGoalData: the goals marked as 'completed' for the participant currently being view.
+        // Mostly deprecated.
+        // searchResults: an array storing the search results of whichever search function was last utilized.
         this.state = {
             currUser: [],
             isParticipant: null,
@@ -73,11 +97,13 @@ class ProgressController extends Component {
         this.getCurrentUser();
     }
 
+    // A function which accepts a goal object passed from a sub-component of ProgressController
+    // that utilizes the goalController object to pass the new new goal to the server and the
+    // userController object to post a new notification to the appropriate user. Acts differently
+    // based on whether the current user is a service provider or participant.
     addGoal(goal) {
-        // console.log(goal);
         if (this.state.isServiceProvider) {
             goal.UserID = this.state.participantUserId;
-            console.log(this.state);
             this.props.userController.getContact(goal.UserID)
             .then((data) => {
                 var notifications = data.notifications;
@@ -124,8 +150,14 @@ class ProgressController extends Component {
         });
     }
 
+    // A function which accepts the necessary string to create a new task object passed from a 
+    // sub-component of ProgressController, that utilizes the goalController object to pass the 
+    // new new task to the server and the userController object to post a new notification to the 
+    // appropriate user. Acts differently based on whether the current user is a service provider 
+    // or participant.
     addTask(title, date, description, targetGoalId) {
         let isActive = this.state.isServiceProvider ? true : false;
+        // Create the new task from parameters.
         let newTask = {
             GoalID: targetGoalId.toString(),
             CreatorID: this.state.currUser.id.toString(),
@@ -135,6 +167,7 @@ class ProgressController extends Component {
             completed: false,
             active: isActive
         }
+        // Adds the due date to the task, if applicable.
         if (date) {
             newTask["dueDate"] = date
         }
@@ -197,6 +230,10 @@ class ProgressController extends Component {
         });
     }
 
+    // A function which accepts a comment string, taskId string and goal object passed from
+    // a sub-component of ProgressController in order to update a given task with the new comment,
+    // update the necessary goal and pass the data as a patch request to the server through
+    // the goalController object.
     addTaskComment(comment, taskId, goal) {
         // Get a copy of the current Goal Category
         let currGoal = goal;
@@ -238,6 +275,10 @@ class ProgressController extends Component {
         });
     }
 
+    // A function which accepts a resource name string, resource URL string, taskId string 
+    // and goal object passed from a sub-component of ProgressController in order to update 
+    // a given task with the new resource, update the necessary goal and pass the data as a 
+    // patch request to the server through the goalController object.
     addTaskResource(resourceName, resourceUrl, taskId, goal) {
         console.log(resourceName + ' ' + resourceUrl + ' for ' + taskId);
         // Get a copy of the current Goal
@@ -278,6 +319,8 @@ class ProgressController extends Component {
         });
     }
 
+    // A function which accepts a goalId and targetHeading string in order to update the
+    // ProgressController's state as to which goal is currently being manipulated.
     changeGoalFocus(e, targetCategoryId, targetHeading) {
         this.setState({
             currentGoalId: targetCategoryId,
@@ -286,6 +329,8 @@ class ProgressController extends Component {
         });
     }
 
+    // A helper function from the public domain courtesy of MIT for generating UUID's via
+    // JavaScript on the client side. Used when creating a new task to ensure a unique taskId.
     generateUUID() { // Public Domain/MIT
         var d = new Date().getTime();
         if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
@@ -297,7 +342,10 @@ class ProgressController extends Component {
             return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
         });
     }
-	
+    
+    // A function to retrieve all connections attached to current user. Accepts a
+    // a search parameter of type string to filter connections based on a search
+    // query.
 	getConnections(search) {
         this.props.userController.getUserConnections(search, this.state.currUser.id)
         .then((data) => {
@@ -307,6 +355,10 @@ class ProgressController extends Component {
         });
     }
     
+    // A function to retrieve all resources attached to the current user of type
+    // service provider in order to be manipulated via the resources function for
+    // service providers. Accepts a search parameter of type string to filter 
+    // resouces based on a search query.
     getResources(search) {
         console.log(this.state)
         this.props.goalController.getResources(this.state.currUser.id)
@@ -328,10 +380,18 @@ class ProgressController extends Component {
         })
     }
 
+    // A function which accepts a resource id to be passed to the goalController object
+    // in order to delete a specific resourceCategory from the server.
     deleteResourceCategory(id) {
         return this.props.goalController.deleteResourceCategory(id)
     }
 
+    // A function to get or refresh all data about the current user and update
+    // ProgressController and all of its sub-component's state. If the current user
+    // is a participant, this function will then call getCurrentGoals in order to refresh
+    // all of the user's current goals; if current user is a service provider, then
+    // the function will make calls to getConnections and getResources in order to refresh
+    // the current user's list of connections and current resources.
     getCurrentUser() {
         this.props.userController.getUser()
         .then((data) => {
@@ -351,6 +411,10 @@ class ProgressController extends Component {
         });
     }
 
+    // A function which accepts a user id to pass to the goalController object
+    // in order to update ProgressController and all children's state with that
+    // user's most recent goals, as well as update the current participantId if
+    // the current user is a service provider.
     getCurrentGoals(id) {
         this.props.goalController.getGoals(id, "")
         .then((data) => {
@@ -362,6 +426,9 @@ class ProgressController extends Component {
         });
     }
 
+    // A function which accepts a specific goalId to pass to the goalController
+    // object in order to update ProgressController and all children's state with
+    // a refresh of the given goal's owner's goals.
     getSpecificGoal(goalId) {
         this.props.goalController.getSpecificGoal(goalId)
         .then((data) => {
@@ -372,11 +439,17 @@ class ProgressController extends Component {
         });
     }
 
+    // A function to navigate to the EditTask component with a given parameter
+    // taskId of type string.
     editTask(taskId) {
         // console.log('edit ' + taskId);
         this.props.history.push('/progress/goals/edittask/:id' + taskId);
     }
 
+    // Handles the search of a specific participant's goals by acquiring the search
+    // query from the current element with id 'progressSearch' and passing that query
+    // along with the current participantUserId from state to the goalController object.
+    // Also clears the search input and navigates the user to the search results.
     handleSearch(e) {
         e.preventDefault();
         let input = document.getElementById('progressSearch');
@@ -396,8 +469,12 @@ class ProgressController extends Component {
 
     }
 
+    // Accepts a parameter goalId of type string, then searches the current
+    // state's allGoalData object for the specific goal to mark active and passes
+    // the updated goal to the goalController object. Afterwards, this function makes
+    // a call to getCurrentUser in order to refresh the displayed goals.
     markGoalActive(goalId) { 
-        console.log('Mark ' + goalId + ' active');
+        // console.log('Mark ' + goalId + ' active');
         // Get a copy of the current Goal
         let currGoal = this.state.allGoalData
             .filter((goal) => goal.id === goalId)[0];
@@ -412,6 +489,10 @@ class ProgressController extends Component {
         });
     }
 
+    // Accepts a parameter goalId of type string, then searches the current
+    // state's allGoalData object for the specific goal to mark complete or incomplete and passes
+    // the updated goal to the goalController object. Afterwards, this function makes
+    // a call to getCurrentUser in order to refresh the displayed goals.
     markGoalComplete(goalId) {
         console.log('Mark ' + goalId + ' complete');
         // Get a copy of the current Goal
@@ -428,6 +509,10 @@ class ProgressController extends Component {
         });
     }
 
+    // Accepts a parameter taskId of type string and a goal object, then finds the
+    // specific task within the goal, updates the task's active status and passes
+    // the updated goal to the goalController object. Afterwards, this function makes
+    // a call to getCurrentUser in order to refresh the displayed tasks.
     markTaskActive(taskId, goal) {
         console.log('mark ' + taskId + ' active');
         // Get a copy of the current Goal Category
@@ -460,6 +545,10 @@ class ProgressController extends Component {
         });
     }
 
+    // Accepts a parameter taskId of type string and a goal object, then finds the
+    // specific task within the goal, updates the task's complete status and passes
+    // the updated goal to the goalController object. Afterwards, this function makes
+    // a call to getCurrentUser in order to refresh the displayed tasks.
     markTaskComplete(taskId, goal) {
         console.log('mark ' + taskId + ' complete');
         // Get a copy of the current Goal Category
@@ -492,6 +581,8 @@ class ProgressController extends Component {
         });
     }
 
+    // Accepts an object containing a user's goal data, then sorts the current goals by completed status
+    // and saves the sorted goals in state.
     sortGoals(goalData) {
         let activeGoalData = goalData.filter((goal) => goal.completed === false);
         let completedGoalData = goalData.filter((goal) => goal.completed === true);
@@ -510,6 +601,8 @@ class ProgressController extends Component {
         }
     }
 
+    // Updates the current navigation filter for currently displays goals and saves the new filter
+    // to state and localStorage. Accepts a targetNavFilter parameter of type string.
 	switchGoalNavFilter(e, targetNavFilter) {
         let newMsLocalStore = this.updateAndGetLocalStore('prog_CurrNavFilter', targetNavFilter);
         this.setState({
@@ -527,12 +620,15 @@ class ProgressController extends Component {
         }
     }
 
+    // Updates the current task navigation filter based on a targetNavFilter of type string
+    // by saving the given filter to state.
     switchTaskNavFilter(e, targetNavFilter) {
         this.setState({
             currentTaskNavFilter: targetNavFilter
         });
     }
 
+    // A helper function for updating local storage with a given key and val parameter.
     updateAndGetLocalStore(key, val) {
         var newMsLocalStore = localStorage.getItem('msLocalStore');
         if (!newMsLocalStore) {
@@ -546,6 +642,11 @@ class ProgressController extends Component {
         return newMsLocalStore;
     }
 
+    // Accepts a goal object the passes that goal object with its own id to the
+    // goalController object in order to update the given goal with any new data
+    // that may be contained within. Afterwards, a call to getCurrentUser is made
+    // to refresh any goals, and the user is navigated back to a list of the current
+    // participant's goals.
     updateGoal(goal) {
         this.props.goalController.updateGoal(goal.id, goal)
         .then((data) => {
@@ -554,6 +655,10 @@ class ProgressController extends Component {
         });
     }
 
+    // Accepts a series of strings necessary to construct a task object and a goal object,
+    // then works with the goalController object to update the given goal and the necessary
+    // task within with the new data given. After, the user is navigated back to the task and
+    // the current user's data is refreshed via getCurrentUser.
     updateTask(title, date, description, targetGoalId, targetTaskId, goal) {
         // Find goal and get task to update
         // let currGoalCat = this.state.goalData
@@ -590,6 +695,9 @@ class ProgressController extends Component {
     }
 
     render() {
+        // ProgressController does not display any HTML itself, rather it organizes the various pieces of
+        // state and passes all necessary data and functions to the Progress.js component, which further routes,
+        // filters and displays the necessary componenents.
         var addBtnLink = this.state.addBtnLink;
         if (this.props.location.pathname.endsWith('progress/goals') || 
             this.props.location.pathname.endsWith('progress/goals/') ||
@@ -654,7 +762,7 @@ class ProgressController extends Component {
                     </div>
                 )} />
             )
-        } else {
+        } else { // If there is an error leading to a lack of state or user data, nothing is displayed.
             return <p></p>
         }
     }

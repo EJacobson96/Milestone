@@ -17,26 +17,39 @@ import '../../css/progress/Goal.css';
 /////////////////////////////////////////
 /// Code
 
+// A stateless component for rendering a participant's specific goal.
 const Goal = (props) => {
 
+    // Passes the current goal's id upwards to ProgressController to initiate
+    // editing of the specific goal. Triggered on user selecting the 'Edit Goal'
+    // option from a goal's dropdown menu.
     function editGoal() {
 		props.editTask(props.goalId);
 	}
 
+    // Passes the current goal's id upwards to ProgressController to initiate
+    // marking a specific goal as active (approved). Triggered on user selecting 
+    // the 'Edit Goal' option from a goal's dropdown menu. Available only to
+    // service provider users.
 	function markGoalActive() {
 		props.markGoalActive(props.goalId);
 	}
 
+    // Passes the current goal's id upwards to ProgressController to initiate
+    // marking the specific goal complete. Triggered on user selecting the 'Edit Goal'
+    // option from a goal's dropdown menu.
 	function markGoalComplete() {
 		props.markGoalComplete(props.goalId);
     }
     
+    // Sets up the link to view the goal's tasks.
     var linkToGoalId;
     if (props.location.pathname.includes('provider') || props.isServiceProvider) {
         linkToGoalId = '/progress/provider/participants/goals/tasks/:id' + props.goalId;
     } else {
         linkToGoalId = '/progress/goals/:id' + props.goalId;
     }
+    // Sets up the count of the goal's active vs. pending tasks.
     let numActiveTasks = 0;
     let numPendingTasks = 0;
     let numTotalTasksShown = 0;

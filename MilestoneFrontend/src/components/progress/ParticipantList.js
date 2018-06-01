@@ -12,6 +12,8 @@ import ParticipantCard from './ParticipantCard';
 /////////////////////////////////////////
 /// Code
 
+// A component for displaying a list of connected participant overviews in the form of
+// ParticipantCard componenents, meant for logged in service providers.
 class ParticipantList extends React.Component {
     constructor(props) {
         super(props);
@@ -31,6 +33,9 @@ class ParticipantList extends React.Component {
         }
     }
 
+    // Gets the goals for all participants connected to the the currently logged in
+    // service provider, then stores those goals in this components state. Also
+    // retrieves each connections gravatar photo URL.
     getConnectionGoals() {
         var userGoals = {};
         var userImages = {};
@@ -71,6 +76,8 @@ class ParticipantList extends React.Component {
         }
     }
 
+    // Filters connected participant's goals based on whether the currently logged
+    // in service provider is connected to each goal.
     filterGoals(goals, id) {
         goals = goals.filter((goal) => {
             return goal.serviceProviders.includes(id)

@@ -21,6 +21,9 @@ import '../../css/progress/WideDatepicker.css';
 /////////////////////////////////////////
 /// Code
 
+// A custom implementation of a display component to be used by react-datepicker, which itself is used in
+// NewTaskInput and EditTaskInput. Makes the DatePicker component larger using custom CSS to make the
+// process of selecting a date easier.
 class WideDatepicker extends React.Component {
 	constructor (props) {
 		super(props);
