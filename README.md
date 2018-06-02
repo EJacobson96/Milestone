@@ -46,6 +46,9 @@ You're ready to go! To learn more about [Create React App][4], follow the link o
 ## Back End Testing & Development.
 * Milestone’s back end is built using Go(golang). You can access the api server endpoints using [Postman][16] for testing. Also, included in the backend code are bash scripts used for SSH-ing into any VM in the cloud and deploying the api server to whichever cloud service being used for hosting.
 
+## Future plans
+Milestone is a prototype developed for the [Innovation & Performance Team][1], and at this point is entirely their property. This repository will be transferred to their ownership at some point in the coming months, and will act as a basis for any of the team's future plans for the development or deployment of Milestone.
+
 ## Contributors & Contact
 * Iean Drew
 	* Email: ieand@uw.edu
