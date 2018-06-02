@@ -15,6 +15,8 @@ import ParticipantSearch from './ParticipantSearch';
 /////////////////////////////////////////
 /// Code
 
+// A container component for logged in service providers. Handles and displays both 
+// the navbar and search component.
 class ParticipantHeading extends React.Component {
     constructor(props) {
         super(props);

@@ -1,10 +1,21 @@
+/////////////////////////////////////////
+/// Package imports
+
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Axios from 'axios';
 
+/////////////////////////////////////////
+/// Images & Styles
+
 import threeDotImg from '../../img/task3dot.png';
 import '../../css/progress/ResourceCategory.css';
 
+/////////////////////////////////////////
+/// Code
+
+// A component which displays a selected Resource category for a logged
+// in service provider.
 class ResourceCategory extends Component {
     constructor(props) {
         super(props);
@@ -40,6 +51,7 @@ class ResourceCategory extends Component {
         }
     }
 
+    // Handles the creation of a new resource on user input.
     handleFormSubmit(event) {
         event.preventDefault();
         let titleInput = document.getElementById("titleInput");
@@ -74,6 +86,8 @@ class ResourceCategory extends Component {
             });
     }
 
+    // Handles the deletion of a specific resource identified by the 'id' parameter
+    // on user input.
     deleteResource(e, id) {
         e.preventDefault();
         let resources = this.state.resources.filter((resource) => {

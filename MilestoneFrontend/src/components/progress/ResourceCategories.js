@@ -1,16 +1,27 @@
+/////////////////////////////////////////
+/// Package imports
+
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Axios from 'axios';
 
+/////////////////////////////////////////
+/// Images & Styles
+
 import threeDotImg from '../../img/task3dot.png';
 import '../../css/progress/ResourceCategories.css';
 
+/////////////////////////////////////////
+/// Code
 
+// A component for displaying different categories for holding resource objects,
+// to be managed by a logged in service provider.
 class ResourceCategories extends Component {
     constructor(props) {
         super(props);
     }
 
+    // Handles the creation of a new resource category on user input.
     handleFormSubmit(event) {
         event.preventDefault();
         let input = document.getElementById("titleInput");
@@ -34,6 +45,7 @@ class ResourceCategories extends Component {
             });
     }
 
+    // Handles the deletion of a resource category on user input.
     deleteResourceCategory(e, id) {
         e.preventDefault();
         console.log(this.props);
@@ -43,8 +55,8 @@ class ResourceCategories extends Component {
         })
     }
 
+    // Sorts this.props.resourceCategories alphabetically
     alphabetize(arr) {
-        //Sorts this.props.resourceCategories alphabetically
         return arr.sort(function(a, b) {
             var textA = a.title.toLowerCase();
             var textB = b.title.toLowerCase();

@@ -28,20 +28,32 @@ import commentBubble from '../../img/comment.png';
 /////////////////////////////////////////
 /// Code
 
+// A UI component for displaying an existing task. Accepts both the current task and
+// the current goal the task is attached to as props. Displays links to the task's 
+// attached comments and resources via the TaskComments.js and TaskResources.js components.
 const Task = (props) => {
 
+	// Passes the current task's id upwards to ProgressController to initiate the editing
+	// of the current task.
 	function editTask() {
 		props.editTask(props.task.id);
 	}
 
+	// Passes the current task's id upwards to ProgressController to initiate 
+	// marking the current task as complete.
 	function markTaskComplete() {
 		props.markTaskComplete(props.task.id, props.goal);
 	}
 
+	// Passes the current task's id as well as the current goal upwards to 
+	// ProgressController to initiate marking the current task as active (approved). 
+	// Applicable only to service provider users.
 	function markTaskActive() {
 		props.markTaskActive(props.task.id, props.goal);
 	}
 
+	// Sets up the task's header. Displays the task's due date if it exists; otherwise
+	// displays the task's parent goal name.
 	let dueDateSpan;
 	if (props.task.dueDate != '0001-01-01T00:00:00Z') {
 		let dueDate = <Moment format='MM/DD/YY'>{ props.task.dueDate }</Moment>
@@ -49,6 +61,7 @@ const Task = (props) => {
 	} else {
 		dueDateSpan = <span className='c-task__due-date'>{ props.goal.title }</span>
 	}
+	// Sets up a string to display the current number of comments attached to the task.
 	let numComments = "NO COMMENTS";
 	if (props.task.comments !== null && props.task.comments !== undefined) {
 		if (props.task.comments.length > 0) {
@@ -58,6 +71,7 @@ const Task = (props) => {
 			}
 		}
 	}
+	// Sets up a string to display the current number of resources attached to the task.
 	let numResources = "NO RESOURCES";
 	if (props.task.resources !== null && props.task.resources !== undefined) {
 		if (props.task.resources.length > 0) {
@@ -67,6 +81,7 @@ const Task = (props) => {
 			}
 		}
 	}
+	
 	return (
 		<div className='c-task'>
 				<div className='c-task__header'>

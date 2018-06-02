@@ -28,6 +28,7 @@ import '../../css/progress/NewTask.css';
 /////////////////////////////////////////
 /// Code
 
+// A component for the creation of a new task attached to a participant's existing goal.
 class NewTask extends React.Component {
 	constructor (props) {
 		super(props);
@@ -42,23 +43,33 @@ class NewTask extends React.Component {
 		this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
 	}
 
+	// A helper method for when the user selects the 'cancel' button. Replaces the current page
+	// in the user's browser history then navigates back one page, to ensure that if a user
+	// then goes back once more it will not return to this component and appear to paradoxically
+	// go 'forward'.
 	goBack() {
 		this.props.history.replace('/progress/goals/:id' + this.props.location.pathname.split(':id')[1]);
 		this.props.history.goBack()
 	}
 
+	// Handles setting the component's state on the user selecting a due date for the task.
+	// Works in conjunction with the NewTaskInput component.
 	handleDateChange(date) {
 		this.setState({
 		  	dueDate: date
 		});
 	}		
 
+	// Handles setting the component's state on the user changing the title of the new task.
+	// Works in conjunction with the NewTaskInput component.
 	handleTitleChange(title) {
 		this.setState({
 			taskTitle: title
 		});
 	}
 
+	// Handles settings the component's state on the user changing the description of the new
+	// task. Works in conjunction with the NewTaskInput component.
 	handleDescriptionChange(description) {
 		this.setState({
 			taskDescription: description

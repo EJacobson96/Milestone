@@ -23,6 +23,9 @@ import threeDotImg from '../../img/task3dot.png';
 /////////////////////////////////////////
 /// Code
 
+// A custom implementation of React Bootstrap's dropdown menu for manipulating a task
+// (marking the task as approved, complete, or editing the task). CustomToggle is a
+// specific menu item.
 class CustomToggle extends React.Component {
 	constructor(props, context) {
 		super(props, context);
@@ -30,6 +33,7 @@ class CustomToggle extends React.Component {
 		this.handleClick = this.handleClick.bind(this);
 	}
   
+	// Handles when a specific dropdown meny item is clicked.
 	handleClick(e) {
 		e.preventDefault();
 	
@@ -44,7 +48,8 @@ class CustomToggle extends React.Component {
 	  	);
 	}
 }
-  
+
+// The parent menu to each CustomToggle.
 class CustomMenu extends React.Component {
 	constructor(props, context) {
 	  	super(props, context);
@@ -83,7 +88,9 @@ class CustomMenu extends React.Component {
 		);
 	}
 }
-  
+
+// The implementation of the whole dropdown, containing the CustomMenu as well
+// as each custom MenuItem.
 class TaskDropdown extends React.Component {
 	constructor(props, context) {
 		super(props, context);

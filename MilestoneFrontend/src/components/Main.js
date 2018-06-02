@@ -18,7 +18,8 @@ import Profile from './Profile';
 /////////////////////////////////////////
 /// Code
 
-//handles main navbar routing
+// This component handles routing from the main navbar between the different major
+// functions of Milestone.
 function Main(props) {
         return localStorage.getItem('Authorization') ? (
 

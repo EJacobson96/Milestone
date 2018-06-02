@@ -1,4 +1,4 @@
-# Style Guidelines for Milestone's Frontend
+# Style Guidelines for Milestone's Frontend Development
 
 ## Design (CSS)
  * General CSS guidelines:
@@ -15,7 +15,7 @@
 	* Q: "Woah... those CSS class names are super ugly and long..."
 		* A: You are absolutely right. They're also very noticable and readable, which is kinda the point. The page is what needs to be pretty, not our code :)
 	* Q: "Okay... so what am I supposed to do about elements with grandchildren or great-grandchildren?"
-		* A: That shit can get out of hand. Read the second link above. Essentially, BEM is for readability and debugging; you don't have to follow the `parent__child__grandchild...` structure super strictly, just as much as it helps to make sense of things (and would help SOMEONE ELSE make sense of things).
+		* A: That stuff can get out of hand. Read the second link above. Essentially, BEM is for readability and debugging; you don't have to follow the `parent__child__grandchild...` structure super strictly, just as much as it helps to make sense of things (and would help SOMEONE ELSE make sense of things).
 	* Q: "What if I just need to style one tiny random thing?"
 		* Then don't worry about it, just give it a one word class name or whatever is easiest. BEM is for big complicated things that can get difficult to track as they grow bigger. If it's one tiny thing, do whatever is easiest.
  * Put comments in the CSS if need be. Again, WebPack will minify it out later.
@@ -28,7 +28,7 @@
  * Put a space after the opening bracket and before the closing bracket of any JSX expression, before and after arrow syntax... just space things out. Readability is king.
 	* Good: `{ (e) => fakeFunc(e) }`
 	* Bad: `{(e)=>fakeFunc(e)}`
- * When possible, use single quotes (messy right now, needs to be cleaned up).
+ * When possible, use double quotes for things you would classify as the formal type `string` to be displayed, and single quotes for everything else (e.g. ids).
  * If an element has more than three props, line break and space the props out.
 	* Good: 
 	```

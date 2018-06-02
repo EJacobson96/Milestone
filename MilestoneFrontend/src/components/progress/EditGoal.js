@@ -27,6 +27,8 @@ import '../../css/progress/EditGoal.css';
 /////////////////////////////////////////
 /// Code
 
+// Handles functionality for editing an existing goal. Similar to NewGoal.js, 
+// with some key differences.
 class EditGoal extends React.Component {
 	constructor (props) {
 		super(props);
@@ -65,6 +67,8 @@ class EditGoal extends React.Component {
 		}
 	}
 
+	// Retrieves the new Goal data from state, then passes it up to ProgressController
+	// to be sent to the server.
 	editGoal() {
 		let goal = this.state.currGoal;
 		goal.Title = this.state.goalName;
@@ -73,6 +77,8 @@ class EditGoal extends React.Component {
 		this.props.editGoal(goal);
 	}
 
+	// Handles updating the component's state (and subsequently the UI) when selecting
+	// or deselecting service provider's as a participant.
 	handleServiceProviderSelection(id, selected) {
 		let newArray = this.state.selectedProviders;
 		if (selected) {
@@ -89,6 +95,7 @@ class EditGoal extends React.Component {
 		}
 	}
 
+	// Handles updating the component's state with any changes made to the goal's title.
 	handleGoalNameChange(e) {
 		this.setState({
 			goalName: e.target.value

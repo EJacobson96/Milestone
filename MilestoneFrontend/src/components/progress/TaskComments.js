@@ -25,6 +25,8 @@ import fakeuser from '../../img/fakeuser.png';
 /////////////////////////////////////////
 /// Code
 
+// A component for displaying and adding comments attached to a current task. Acts
+// as a sub-component of Task.js.
 class TaskComments extends React.Component {
 	constructor (props) {
 		super(props);
@@ -38,12 +40,18 @@ class TaskComments extends React.Component {
 		// this.props.refreshUser();
 	}
 
+	// Handles storing the current user input in state when the user is typing
+	// a comment to be added to the task.
 	handleCommentChange(e) {
 		this.setState({
 			commentValue: e.target.value
 		});
 	}
 
+	// Handles the submission of a new comment to be attached to the task. Passes
+	// the currently stored input from state and the current task's id from props
+	// upwards to ProgressController to be stored on the server, then clears
+	// the comment input field.
 	handleCommentSubmit(e) {
 		e.preventDefault();
 		if (this.state.commentValue !== "") {

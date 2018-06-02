@@ -25,6 +25,8 @@ import fakeuser from '../../img/fakeuser.png';
 /////////////////////////////////////////
 /// Code
 
+// A component for displaying and adding comments attached to a current task. Acts
+// as a sub-component of Task.js.
 class TaskResources extends React.Component {
 	constructor (props) {
 		super(props);
@@ -41,18 +43,26 @@ class TaskResources extends React.Component {
 		// this.props.refreshUser();
 	}
 
+	// Handles storing the current user input for the new resource's title 
+	// in state when the user is adding a resource to the task.
 	handleResourceTitleChange(e) {
 		this.setState({
 			resourceTitle: e.target.value
 		});
 	}
 
+	// Handles storing the current user input for the new resource's url 
+	// in state when the user is adding a resource to the task.
 	handleResourceUrlChange(e) {
 		this.setState({
 			resourceUrl: e.target.value
 		});
 	}
 
+	// Handles submitting the new resource to be attached to the task. Passes the new resource
+	// information from state as well as the current task's from props upwards to ProgressController
+	// to be stored on the server, as well as clears the user inputs. If a given resource does not
+	// begin with the string 'http://', that is added to the url string.
 	handleResourceSubmit(e) {
 		if (e) {
 			e.preventDefault();
@@ -71,6 +81,8 @@ class TaskResources extends React.Component {
 		this.toggleAddResourceInput();
 	}
 
+	// Toggles the display of the 'add resource' input and stores that information
+	// in this component's state.
 	toggleAddResourceInput() {
 		const toggle = !this.state.showAddResourceInput;
 		this.setState({

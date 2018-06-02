@@ -28,6 +28,8 @@ import '../../css/progress/EditTask.css';
 /////////////////////////////////////////
 /// Code
 
+// Handles functionality for editing an existing task. Similar to NewGoal.js, 
+// with some key differences.
 class EditTask extends React.Component {
 	constructor (props) {
 		super(props);
@@ -61,23 +63,30 @@ class EditTask extends React.Component {
 		this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
 	}
 
+	// A helper method for when the user selects the 'cancel' button. Replaces the current page
+	// in the user's browser history then navigates back one page, to ensure that if a user
+	// then goes back once more it will not return to this component and appear to paradoxically
+	// go 'forward'.
 	goBack() {
 		this.props.history.replace('/progress/goals/:id' + this.props.location.pathname.split(':id')[1]);
 		this.props.history.goBack()
 	}
 
+	// Updates the component's currently stored date for updating the task.
 	handleDateChange(date) {
 		this.setState({
 		  	dueDate: date
 		});
 	}		
 
+	// Updates the component's currently stored title for updating the task.
 	handleTitleChange(title) {
 		this.setState({
 			goalTitle: title
 		});
 	}
 
+	// Updates the component's currently stored description for updating the task.
 	handleDescriptionChange(description) {
 		this.setState({
 			goalDescription: description

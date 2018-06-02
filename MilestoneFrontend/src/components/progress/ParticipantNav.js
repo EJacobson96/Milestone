@@ -13,6 +13,10 @@ import '../../css/ParticipantNav.css';
 
 /////////////////////////////////////////
 /// Code
+
+// A component for displaying a tabbed navigation bar for logged in service providers.
+// Offers two tabs: a list of connected participants, and a list of resources to be
+// managed by the service provider.
 class ParticipantNav extends Component {
     constructor(props) {
         super(props);
